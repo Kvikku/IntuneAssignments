@@ -28,403 +28,598 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.panelTenantInfo = new System.Windows.Forms.Panel();
-            this.SignIn = new System.Windows.Forms.Button();
-            this.lblTenantID = new System.Windows.Forms.Label();
-            this.lblTenantInfo = new System.Windows.Forms.Label();
-            this.lblSignedInUser = new System.Windows.Forms.Label();
-            this.testBtn = new System.Windows.Forms.Button();
-            this.dtgDisplayAppRightClick = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.assignmentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clbAppAssignments = new System.Windows.Forms.CheckedListBox();
-            this.cmsRemoveItems = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pnlSearchApp = new System.Windows.Forms.Panel();
-            this.dtgDisplayApp = new System.Windows.Forms.DataGridView();
-            this.AppName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Platform = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AppID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtboxSearchApp = new System.Windows.Forms.TextBox();
-            this.btnSearchApp = new System.Windows.Forms.Button();
-            this.btnAllGroups = new System.Windows.Forms.Button();
-            this.pnlSelectApps = new System.Windows.Forms.Panel();
-            this.pnlSearchGroup = new System.Windows.Forms.Panel();
-            this.dtgDisplayGroup = new System.Windows.Forms.DataGridView();
-            this.GroupName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GroupID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnSearchGroup = new System.Windows.Forms.Button();
-            this.txtboxSearchGroup = new System.Windows.Forms.TextBox();
-            this.btnListAllGroups = new System.Windows.Forms.Button();
-            this.pnlSelectGroup = new System.Windows.Forms.Panel();
-            this.clbGroupAssignment = new System.Windows.Forms.CheckedListBox();
-            this.cmsRemoveApps = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.removeSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removeAllToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.panelTenantInfo.SuspendLayout();
-            this.dtgDisplayAppRightClick.SuspendLayout();
-            this.cmsRemoveItems.SuspendLayout();
-            this.pnlSearchApp.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dtgDisplayApp)).BeginInit();
-            this.pnlSelectApps.SuspendLayout();
-            this.pnlSearchGroup.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dtgDisplayGroup)).BeginInit();
-            this.pnlSelectGroup.SuspendLayout();
-            this.cmsRemoveApps.SuspendLayout();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            panelTenantInfo = new Panel();
+            SignIn = new Button();
+            lblTenantID = new Label();
+            lblTenantInfo = new Label();
+            lblSignedInUser = new Label();
+            testBtn = new Button();
+            dtgDisplayAppRightClick = new ContextMenuStrip(components);
+            assignmentsToolStripMenuItem = new ToolStripMenuItem();
+            clbAppAssignments = new CheckedListBox();
+            cmsRemoveApps = new ContextMenuStrip(components);
+            removeSelectedToolStripMenuItem = new ToolStripMenuItem();
+            removeAllToolStripMenuItem1 = new ToolStripMenuItem();
+            cmsRemoveItems = new ContextMenuStrip(components);
+            removeToolStripMenuItem = new ToolStripMenuItem();
+            removeAllToolStripMenuItem = new ToolStripMenuItem();
+            pnlSearchApp = new Panel();
+            dtgDisplayApp = new DataGridView();
+            AppName = new DataGridViewTextBoxColumn();
+            Platform = new DataGridViewTextBoxColumn();
+            AppID = new DataGridViewTextBoxColumn();
+            txtboxSearchApp = new TextBox();
+            btnSearchApp = new Button();
+            btnAllGroups = new Button();
+            pnlSelectApps = new Panel();
+            pnlSearchGroup = new Panel();
+            dtgDisplayGroup = new DataGridView();
+            GroupName = new DataGridViewTextBoxColumn();
+            GroupID = new DataGridViewTextBoxColumn();
+            btnSearchGroup = new Button();
+            txtboxSearchGroup = new TextBox();
+            btnListAllGroups = new Button();
+            pnlSelectGroup = new Panel();
+            clbGroupAssignment = new CheckedListBox();
+            pnlIntent = new Panel();
+            lblIntentChoice = new Label();
+            rbtnUninstall = new RadioButton();
+            rbtnRequired = new RadioButton();
+            rbtnAvailable = new RadioButton();
+            pictureBox1 = new PictureBox();
+            btnSummarize = new Button();
+            btnReset = new Button();
+            panelSummary = new Panel();
+            btnDeployAssignments = new Button();
+            rtbSummarizeIntent = new RichTextBox();
+            rtbSummarizeGroups = new RichTextBox();
+            rtbSummarizeApps = new RichTextBox();
+            lblSummarizeIntent = new Label();
+            lblSummarizeGroups = new Label();
+            lblSummarizeApps = new Label();
+            progressBar1 = new ProgressBar();
+            panelTenantInfo.SuspendLayout();
+            dtgDisplayAppRightClick.SuspendLayout();
+            cmsRemoveApps.SuspendLayout();
+            cmsRemoveItems.SuspendLayout();
+            pnlSearchApp.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgDisplayApp).BeginInit();
+            pnlSelectApps.SuspendLayout();
+            pnlSearchGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).BeginInit();
+            pnlSelectGroup.SuspendLayout();
+            pnlIntent.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panelSummary.SuspendLayout();
+            SuspendLayout();
             // 
             // panelTenantInfo
             // 
-            this.panelTenantInfo.Controls.Add(this.SignIn);
-            this.panelTenantInfo.Controls.Add(this.lblTenantID);
-            this.panelTenantInfo.Controls.Add(this.lblTenantInfo);
-            this.panelTenantInfo.Controls.Add(this.lblSignedInUser);
-            this.panelTenantInfo.Location = new System.Drawing.Point(788, 12);
-            this.panelTenantInfo.Name = "panelTenantInfo";
-            this.panelTenantInfo.Size = new System.Drawing.Size(309, 183);
-            this.panelTenantInfo.TabIndex = 0;
+            panelTenantInfo.Controls.Add(SignIn);
+            panelTenantInfo.Controls.Add(lblTenantID);
+            panelTenantInfo.Controls.Add(lblTenantInfo);
+            panelTenantInfo.Controls.Add(lblSignedInUser);
+            panelTenantInfo.Location = new Point(874, 2);
+            panelTenantInfo.Name = "panelTenantInfo";
+            panelTenantInfo.Size = new Size(160, 165);
+            panelTenantInfo.TabIndex = 0;
             // 
             // SignIn
             // 
-            this.SignIn.Location = new System.Drawing.Point(180, 139);
-            this.SignIn.Name = "SignIn";
-            this.SignIn.Size = new System.Drawing.Size(126, 41);
-            this.SignIn.TabIndex = 1;
-            this.SignIn.Text = "Sign in";
-            this.SignIn.UseVisualStyleBackColor = true;
-            this.SignIn.Click += new System.EventHandler(this.button2_Click);
+            SignIn.Location = new Point(12, 103);
+            SignIn.Name = "SignIn";
+            SignIn.Size = new Size(126, 41);
+            SignIn.TabIndex = 1;
+            SignIn.Text = "Sign in";
+            SignIn.UseVisualStyleBackColor = true;
+            SignIn.Click += button2_Click;
             // 
             // lblTenantID
             // 
-            this.lblTenantID.AutoSize = true;
-            this.lblTenantID.ForeColor = System.Drawing.Color.Salmon;
-            this.lblTenantID.Location = new System.Drawing.Point(12, 74);
-            this.lblTenantID.Name = "lblTenantID";
-            this.lblTenantID.Size = new System.Drawing.Size(62, 15);
-            this.lblTenantID.TabIndex = 3;
-            this.lblTenantID.Text = "TENANTID";
+            lblTenantID.AutoSize = true;
+            lblTenantID.ForeColor = Color.Salmon;
+            lblTenantID.Location = new Point(12, 74);
+            lblTenantID.Name = "lblTenantID";
+            lblTenantID.Size = new Size(62, 15);
+            lblTenantID.TabIndex = 3;
+            lblTenantID.Text = "TENANTID";
             // 
             // lblTenantInfo
             // 
-            this.lblTenantInfo.AutoSize = true;
-            this.lblTenantInfo.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTenantInfo.ForeColor = System.Drawing.Color.Salmon;
-            this.lblTenantInfo.Location = new System.Drawing.Point(12, 13);
-            this.lblTenantInfo.Name = "lblTenantInfo";
-            this.lblTenantInfo.Size = new System.Drawing.Size(113, 25);
-            this.lblTenantInfo.TabIndex = 2;
-            this.lblTenantInfo.Text = "Tenant info";
+            lblTenantInfo.AutoSize = true;
+            lblTenantInfo.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lblTenantInfo.ForeColor = Color.Salmon;
+            lblTenantInfo.Location = new Point(12, 13);
+            lblTenantInfo.Name = "lblTenantInfo";
+            lblTenantInfo.Size = new Size(113, 25);
+            lblTenantInfo.TabIndex = 2;
+            lblTenantInfo.Text = "Tenant info";
             // 
             // lblSignedInUser
             // 
-            this.lblSignedInUser.AutoSize = true;
-            this.lblSignedInUser.ForeColor = System.Drawing.Color.Salmon;
-            this.lblSignedInUser.Location = new System.Drawing.Point(12, 48);
-            this.lblSignedInUser.Name = "lblSignedInUser";
-            this.lblSignedInUser.Size = new System.Drawing.Size(92, 15);
-            this.lblSignedInUser.TabIndex = 1;
-            this.lblSignedInUser.Text = "SIGNED IN USER";
+            lblSignedInUser.AutoSize = true;
+            lblSignedInUser.ForeColor = Color.Salmon;
+            lblSignedInUser.Location = new Point(12, 48);
+            lblSignedInUser.Name = "lblSignedInUser";
+            lblSignedInUser.Size = new Size(92, 15);
+            lblSignedInUser.TabIndex = 1;
+            lblSignedInUser.Text = "SIGNED IN USER";
             // 
             // testBtn
             // 
-            this.testBtn.Location = new System.Drawing.Point(964, 744);
-            this.testBtn.Name = "testBtn";
-            this.testBtn.Size = new System.Drawing.Size(126, 49);
-            this.testBtn.TabIndex = 2;
-            this.testBtn.Text = "Test Button";
-            this.testBtn.UseVisualStyleBackColor = true;
-            this.testBtn.Click += new System.EventHandler(this.testBtn_Click);
+            testBtn.Location = new Point(775, 16);
+            testBtn.Name = "testBtn";
+            testBtn.Size = new Size(79, 41);
+            testBtn.TabIndex = 2;
+            testBtn.Text = "Test Button";
+            testBtn.UseVisualStyleBackColor = true;
+            testBtn.Click += testBtn_Click;
             // 
             // dtgDisplayAppRightClick
             // 
-            this.dtgDisplayAppRightClick.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.assignmentsToolStripMenuItem});
-            this.dtgDisplayAppRightClick.Name = "dtgDisplayAppRightClick";
-            this.dtgDisplayAppRightClick.Size = new System.Drawing.Size(143, 26);
+            dtgDisplayAppRightClick.Items.AddRange(new ToolStripItem[] { assignmentsToolStripMenuItem });
+            dtgDisplayAppRightClick.Name = "dtgDisplayAppRightClick";
+            dtgDisplayAppRightClick.Size = new Size(143, 26);
             // 
             // assignmentsToolStripMenuItem
             // 
-            this.assignmentsToolStripMenuItem.Name = "assignmentsToolStripMenuItem";
-            this.assignmentsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
-            this.assignmentsToolStripMenuItem.Text = "Assignments";
+            assignmentsToolStripMenuItem.Name = "assignmentsToolStripMenuItem";
+            assignmentsToolStripMenuItem.Size = new Size(142, 22);
+            assignmentsToolStripMenuItem.Text = "Assignments";
             // 
             // clbAppAssignments
             // 
-            this.clbAppAssignments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.clbAppAssignments.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(51)))), ((int)(((byte)(73)))));
-            this.clbAppAssignments.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.clbAppAssignments.CheckOnClick = true;
-            this.clbAppAssignments.ContextMenuStrip = this.cmsRemoveApps;
-            this.clbAppAssignments.ForeColor = System.Drawing.Color.Salmon;
-            this.clbAppAssignments.FormattingEnabled = true;
-            this.clbAppAssignments.Items.AddRange(new object[] {
-            "App 1",
-            "App 2",
-            "App 3"});
-            this.clbAppAssignments.Location = new System.Drawing.Point(12, 13);
-            this.clbAppAssignments.Name = "clbAppAssignments";
-            this.clbAppAssignments.Size = new System.Drawing.Size(253, 234);
-            this.clbAppAssignments.TabIndex = 0;
-            this.clbAppAssignments.MouseClick += new System.Windows.Forms.MouseEventHandler(this.clbAppAssignments_MouseClick);
-            // 
-            // cmsRemoveItems
-            // 
-            this.cmsRemoveItems.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.removeToolStripMenuItem,
-            this.removeAllToolStripMenuItem});
-            this.cmsRemoveItems.Name = "contextMenuStrip1";
-            this.cmsRemoveItems.Size = new System.Drawing.Size(164, 48);
-            // 
-            // removeToolStripMenuItem
-            // 
-            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.removeToolStripMenuItem.Text = "Remove selected";
-            this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
-            // 
-            // removeAllToolStripMenuItem
-            // 
-            this.removeAllToolStripMenuItem.Name = "removeAllToolStripMenuItem";
-            this.removeAllToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.removeAllToolStripMenuItem.Text = "Remove all";
-            this.removeAllToolStripMenuItem.Click += new System.EventHandler(this.removeAllToolStripMenuItem_Click);
-            // 
-            // pnlSearchApp
-            // 
-            this.pnlSearchApp.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pnlSearchApp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlSearchApp.Controls.Add(this.dtgDisplayApp);
-            this.pnlSearchApp.Controls.Add(this.txtboxSearchApp);
-            this.pnlSearchApp.Controls.Add(this.btnSearchApp);
-            this.pnlSearchApp.Controls.Add(this.btnAllGroups);
-            this.pnlSearchApp.Location = new System.Drawing.Point(12, 12);
-            this.pnlSearchApp.Name = "pnlSearchApp";
-            this.pnlSearchApp.Size = new System.Drawing.Size(470, 287);
-            this.pnlSearchApp.TabIndex = 9;
-            // 
-            // dtgDisplayApp
-            // 
-            this.dtgDisplayApp.AllowUserToAddRows = false;
-            this.dtgDisplayApp.AllowUserToDeleteRows = false;
-            this.dtgDisplayApp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgDisplayApp.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.AppName,
-            this.Platform,
-            this.AppID});
-            this.dtgDisplayApp.ContextMenuStrip = this.dtgDisplayAppRightClick;
-            this.dtgDisplayApp.Location = new System.Drawing.Point(19, 42);
-            this.dtgDisplayApp.Name = "dtgDisplayApp";
-            this.dtgDisplayApp.RowTemplate.Height = 25;
-            this.dtgDisplayApp.Size = new System.Drawing.Size(446, 234);
-            this.dtgDisplayApp.TabIndex = 10;
-            this.dtgDisplayApp.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgDisplayApp_CellDoubleClick);
-            // 
-            // AppName
-            // 
-            this.AppName.HeaderText = "App name";
-            this.AppName.Name = "AppName";
-            this.AppName.Width = 200;
-            // 
-            // Platform
-            // 
-            this.Platform.HeaderText = "Platform";
-            this.Platform.Name = "Platform";
-            // 
-            // AppID
-            // 
-            this.AppID.HeaderText = "ID";
-            this.AppID.Name = "AppID";
-            // 
-            // txtboxSearchApp
-            // 
-            this.txtboxSearchApp.Location = new System.Drawing.Point(19, 13);
-            this.txtboxSearchApp.Name = "txtboxSearchApp";
-            this.txtboxSearchApp.Size = new System.Drawing.Size(142, 23);
-            this.txtboxSearchApp.TabIndex = 11;
-            // 
-            // btnSearchApp
-            // 
-            this.btnSearchApp.Location = new System.Drawing.Point(167, 6);
-            this.btnSearchApp.Name = "btnSearchApp";
-            this.btnSearchApp.Size = new System.Drawing.Size(119, 30);
-            this.btnSearchApp.TabIndex = 12;
-            this.btnSearchApp.Text = "Search";
-            this.btnSearchApp.UseVisualStyleBackColor = true;
-            // 
-            // btnAllGroups
-            // 
-            this.btnAllGroups.Location = new System.Drawing.Point(292, 6);
-            this.btnAllGroups.Name = "btnAllGroups";
-            this.btnAllGroups.Size = new System.Drawing.Size(124, 30);
-            this.btnAllGroups.TabIndex = 9;
-            this.btnAllGroups.Text = "List all apps";
-            this.btnAllGroups.UseVisualStyleBackColor = true;
-            this.btnAllGroups.Click += new System.EventHandler(this.btnAllGroups_Click);
-            // 
-            // pnlSelectApps
-            // 
-            this.pnlSelectApps.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlSelectApps.Controls.Add(this.clbAppAssignments);
-            this.pnlSelectApps.Location = new System.Drawing.Point(488, 12);
-            this.pnlSelectApps.Name = "pnlSelectApps";
-            this.pnlSelectApps.Size = new System.Drawing.Size(281, 287);
-            this.pnlSelectApps.TabIndex = 10;
-            // 
-            // pnlSearchGroup
-            // 
-            this.pnlSearchGroup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlSearchGroup.Controls.Add(this.dtgDisplayGroup);
-            this.pnlSearchGroup.Controls.Add(this.btnSearchGroup);
-            this.pnlSearchGroup.Controls.Add(this.txtboxSearchGroup);
-            this.pnlSearchGroup.Controls.Add(this.btnListAllGroups);
-            this.pnlSearchGroup.Location = new System.Drawing.Point(12, 305);
-            this.pnlSearchGroup.Name = "pnlSearchGroup";
-            this.pnlSearchGroup.Size = new System.Drawing.Size(470, 287);
-            this.pnlSearchGroup.TabIndex = 11;
-            // 
-            // dtgDisplayGroup
-            // 
-            this.dtgDisplayGroup.AllowUserToAddRows = false;
-            this.dtgDisplayGroup.AllowUserToDeleteRows = false;
-            this.dtgDisplayGroup.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgDisplayGroup.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.GroupName,
-            this.GroupID});
-            this.dtgDisplayGroup.ContextMenuStrip = this.dtgDisplayAppRightClick;
-            this.dtgDisplayGroup.Location = new System.Drawing.Point(19, 41);
-            this.dtgDisplayGroup.Name = "dtgDisplayGroup";
-            this.dtgDisplayGroup.RowTemplate.Height = 25;
-            this.dtgDisplayGroup.Size = new System.Drawing.Size(446, 234);
-            this.dtgDisplayGroup.TabIndex = 14;
-            // 
-            // GroupName
-            // 
-            this.GroupName.HeaderText = "Group name";
-            this.GroupName.Name = "GroupName";
-            this.GroupName.Width = 200;
-            // 
-            // GroupID
-            // 
-            this.GroupID.HeaderText = "ID";
-            this.GroupID.Name = "GroupID";
-            this.GroupID.Width = 200;
-            // 
-            // btnSearchGroup
-            // 
-            this.btnSearchGroup.Location = new System.Drawing.Point(167, 5);
-            this.btnSearchGroup.Name = "btnSearchGroup";
-            this.btnSearchGroup.Size = new System.Drawing.Size(119, 30);
-            this.btnSearchGroup.TabIndex = 15;
-            this.btnSearchGroup.Text = "Search";
-            this.btnSearchGroup.UseVisualStyleBackColor = true;
-            this.btnSearchGroup.Click += new System.EventHandler(this.btnSearchGroup_Click);
-            // 
-            // txtboxSearchGroup
-            // 
-            this.txtboxSearchGroup.Location = new System.Drawing.Point(19, 12);
-            this.txtboxSearchGroup.Name = "txtboxSearchGroup";
-            this.txtboxSearchGroup.Size = new System.Drawing.Size(142, 23);
-            this.txtboxSearchGroup.TabIndex = 13;
-            // 
-            // btnListAllGroups
-            // 
-            this.btnListAllGroups.Location = new System.Drawing.Point(292, 5);
-            this.btnListAllGroups.Name = "btnListAllGroups";
-            this.btnListAllGroups.Size = new System.Drawing.Size(124, 30);
-            this.btnListAllGroups.TabIndex = 13;
-            this.btnListAllGroups.Text = "List all groups";
-            this.btnListAllGroups.UseVisualStyleBackColor = true;
-            this.btnListAllGroups.Click += new System.EventHandler(this.btnListAllGroups_Click);
-            // 
-            // pnlSelectGroup
-            // 
-            this.pnlSelectGroup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlSelectGroup.Controls.Add(this.clbGroupAssignment);
-            this.pnlSelectGroup.Location = new System.Drawing.Point(488, 305);
-            this.pnlSelectGroup.Name = "pnlSelectGroup";
-            this.pnlSelectGroup.Size = new System.Drawing.Size(281, 287);
-            this.pnlSelectGroup.TabIndex = 11;
-            // 
-            // clbGroupAssignment
-            // 
-            this.clbGroupAssignment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.clbGroupAssignment.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(51)))), ((int)(((byte)(73)))));
-            this.clbGroupAssignment.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.clbGroupAssignment.CheckOnClick = true;
-            this.clbGroupAssignment.ContextMenuStrip = this.cmsRemoveItems;
-            this.clbGroupAssignment.ForeColor = System.Drawing.Color.Salmon;
-            this.clbGroupAssignment.FormattingEnabled = true;
-            this.clbGroupAssignment.Items.AddRange(new object[] {
-            "Group 1",
-            "Group 2",
-            "Group 3",
-            "Group 4",
-            "Group 5"});
-            this.clbGroupAssignment.Location = new System.Drawing.Point(12, 13);
-            this.clbGroupAssignment.Name = "clbGroupAssignment";
-            this.clbGroupAssignment.Size = new System.Drawing.Size(253, 216);
-            this.clbGroupAssignment.TabIndex = 0;
-            this.clbGroupAssignment.MouseClick += new System.Windows.Forms.MouseEventHandler(this.clbGroupAssignment_MouseClick);
+            clbAppAssignments.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            clbAppAssignments.BackColor = Color.FromArgb(46, 51, 73);
+            clbAppAssignments.BorderStyle = BorderStyle.None;
+            clbAppAssignments.CheckOnClick = true;
+            clbAppAssignments.ContextMenuStrip = cmsRemoveApps;
+            clbAppAssignments.ForeColor = Color.Salmon;
+            clbAppAssignments.FormattingEnabled = true;
+            clbAppAssignments.Items.AddRange(new object[] { "App 1", "App 2", "App 3" });
+            clbAppAssignments.Location = new Point(12, 13);
+            clbAppAssignments.Name = "clbAppAssignments";
+            clbAppAssignments.Size = new Size(253, 234);
+            clbAppAssignments.TabIndex = 0;
+            clbAppAssignments.MouseClick += clbAppAssignments_MouseClick;
             // 
             // cmsRemoveApps
             // 
-            this.cmsRemoveApps.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.removeSelectedToolStripMenuItem,
-            this.removeAllToolStripMenuItem1});
-            this.cmsRemoveApps.Name = "cmsRemoveApps";
-            this.cmsRemoveApps.Size = new System.Drawing.Size(164, 48);
+            cmsRemoveApps.Items.AddRange(new ToolStripItem[] { removeSelectedToolStripMenuItem, removeAllToolStripMenuItem1 });
+            cmsRemoveApps.Name = "cmsRemoveApps";
+            cmsRemoveApps.Size = new Size(164, 48);
             // 
             // removeSelectedToolStripMenuItem
             // 
-            this.removeSelectedToolStripMenuItem.Name = "removeSelectedToolStripMenuItem";
-            this.removeSelectedToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.removeSelectedToolStripMenuItem.Text = "Remove selected";
-            this.removeSelectedToolStripMenuItem.Click += new System.EventHandler(this.removeSelectedToolStripMenuItem_Click);
+            removeSelectedToolStripMenuItem.Name = "removeSelectedToolStripMenuItem";
+            removeSelectedToolStripMenuItem.Size = new Size(163, 22);
+            removeSelectedToolStripMenuItem.Text = "Remove selected";
+            removeSelectedToolStripMenuItem.Click += removeSelectedToolStripMenuItem_Click;
             // 
             // removeAllToolStripMenuItem1
             // 
-            this.removeAllToolStripMenuItem1.Name = "removeAllToolStripMenuItem1";
-            this.removeAllToolStripMenuItem1.Size = new System.Drawing.Size(163, 22);
-            this.removeAllToolStripMenuItem1.Text = "Remove all";
-            this.removeAllToolStripMenuItem1.Click += new System.EventHandler(this.removeAllToolStripMenuItem1_Click);
+            removeAllToolStripMenuItem1.Name = "removeAllToolStripMenuItem1";
+            removeAllToolStripMenuItem1.Size = new Size(163, 22);
+            removeAllToolStripMenuItem1.Text = "Remove all";
+            removeAllToolStripMenuItem1.Click += removeAllToolStripMenuItem1_Click;
+            // 
+            // cmsRemoveItems
+            // 
+            cmsRemoveItems.Items.AddRange(new ToolStripItem[] { removeToolStripMenuItem, removeAllToolStripMenuItem });
+            cmsRemoveItems.Name = "contextMenuStrip1";
+            cmsRemoveItems.Size = new Size(164, 48);
+            // 
+            // removeToolStripMenuItem
+            // 
+            removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            removeToolStripMenuItem.Size = new Size(163, 22);
+            removeToolStripMenuItem.Text = "Remove selected";
+            removeToolStripMenuItem.Click += removeToolStripMenuItem_Click;
+            // 
+            // removeAllToolStripMenuItem
+            // 
+            removeAllToolStripMenuItem.Name = "removeAllToolStripMenuItem";
+            removeAllToolStripMenuItem.Size = new Size(163, 22);
+            removeAllToolStripMenuItem.Text = "Remove all";
+            removeAllToolStripMenuItem.Click += removeAllToolStripMenuItem_Click;
+            // 
+            // pnlSearchApp
+            // 
+            pnlSearchApp.Anchor = AnchorStyles.None;
+            pnlSearchApp.BorderStyle = BorderStyle.FixedSingle;
+            pnlSearchApp.Controls.Add(dtgDisplayApp);
+            pnlSearchApp.Controls.Add(txtboxSearchApp);
+            pnlSearchApp.Controls.Add(btnSearchApp);
+            pnlSearchApp.Controls.Add(btnAllGroups);
+            pnlSearchApp.Location = new Point(12, 12);
+            pnlSearchApp.Name = "pnlSearchApp";
+            pnlSearchApp.Size = new Size(470, 287);
+            pnlSearchApp.TabIndex = 9;
+            // 
+            // dtgDisplayApp
+            // 
+            dtgDisplayApp.AllowUserToAddRows = false;
+            dtgDisplayApp.AllowUserToDeleteRows = false;
+            dtgDisplayApp.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dtgDisplayApp.Columns.AddRange(new DataGridViewColumn[] { AppName, Platform, AppID });
+            dtgDisplayApp.ContextMenuStrip = dtgDisplayAppRightClick;
+            dtgDisplayApp.Location = new Point(19, 42);
+            dtgDisplayApp.Name = "dtgDisplayApp";
+            dtgDisplayApp.RowTemplate.Height = 25;
+            dtgDisplayApp.Size = new Size(446, 234);
+            dtgDisplayApp.TabIndex = 10;
+            dtgDisplayApp.CellDoubleClick += dtgDisplayApp_CellDoubleClick;
+            // 
+            // AppName
+            // 
+            AppName.HeaderText = "App name";
+            AppName.Name = "AppName";
+            AppName.Width = 200;
+            // 
+            // Platform
+            // 
+            Platform.HeaderText = "Platform";
+            Platform.Name = "Platform";
+            // 
+            // AppID
+            // 
+            AppID.HeaderText = "ID";
+            AppID.Name = "AppID";
+            // 
+            // txtboxSearchApp
+            // 
+            txtboxSearchApp.Location = new Point(19, 13);
+            txtboxSearchApp.Name = "txtboxSearchApp";
+            txtboxSearchApp.Size = new Size(142, 23);
+            txtboxSearchApp.TabIndex = 11;
+            // 
+            // btnSearchApp
+            // 
+            btnSearchApp.Location = new Point(167, 6);
+            btnSearchApp.Name = "btnSearchApp";
+            btnSearchApp.Size = new Size(119, 30);
+            btnSearchApp.TabIndex = 12;
+            btnSearchApp.Text = "Search";
+            btnSearchApp.UseVisualStyleBackColor = true;
+            // 
+            // btnAllGroups
+            // 
+            btnAllGroups.Location = new Point(292, 6);
+            btnAllGroups.Name = "btnAllGroups";
+            btnAllGroups.Size = new Size(124, 30);
+            btnAllGroups.TabIndex = 9;
+            btnAllGroups.Text = "List all apps";
+            btnAllGroups.UseVisualStyleBackColor = true;
+            btnAllGroups.Click += btnAllGroups_Click;
+            // 
+            // pnlSelectApps
+            // 
+            pnlSelectApps.BorderStyle = BorderStyle.FixedSingle;
+            pnlSelectApps.Controls.Add(clbAppAssignments);
+            pnlSelectApps.Location = new Point(488, 12);
+            pnlSelectApps.Name = "pnlSelectApps";
+            pnlSelectApps.Size = new Size(281, 287);
+            pnlSelectApps.TabIndex = 10;
+            // 
+            // pnlSearchGroup
+            // 
+            pnlSearchGroup.BorderStyle = BorderStyle.FixedSingle;
+            pnlSearchGroup.Controls.Add(dtgDisplayGroup);
+            pnlSearchGroup.Controls.Add(btnSearchGroup);
+            pnlSearchGroup.Controls.Add(txtboxSearchGroup);
+            pnlSearchGroup.Controls.Add(btnListAllGroups);
+            pnlSearchGroup.Location = new Point(12, 305);
+            pnlSearchGroup.Name = "pnlSearchGroup";
+            pnlSearchGroup.Size = new Size(470, 287);
+            pnlSearchGroup.TabIndex = 11;
+            // 
+            // dtgDisplayGroup
+            // 
+            dtgDisplayGroup.AllowUserToAddRows = false;
+            dtgDisplayGroup.AllowUserToDeleteRows = false;
+            dtgDisplayGroup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dtgDisplayGroup.Columns.AddRange(new DataGridViewColumn[] { GroupName, GroupID });
+            dtgDisplayGroup.ContextMenuStrip = dtgDisplayAppRightClick;
+            dtgDisplayGroup.Location = new Point(19, 41);
+            dtgDisplayGroup.Name = "dtgDisplayGroup";
+            dtgDisplayGroup.RowTemplate.Height = 25;
+            dtgDisplayGroup.Size = new Size(446, 234);
+            dtgDisplayGroup.TabIndex = 14;
+            dtgDisplayGroup.CellDoubleClick += dtgDisplayGroup_CellDoubleClick;
+            // 
+            // GroupName
+            // 
+            GroupName.HeaderText = "Group name";
+            GroupName.Name = "GroupName";
+            GroupName.Width = 200;
+            // 
+            // GroupID
+            // 
+            GroupID.HeaderText = "ID";
+            GroupID.Name = "GroupID";
+            GroupID.Width = 200;
+            // 
+            // btnSearchGroup
+            // 
+            btnSearchGroup.Location = new Point(167, 5);
+            btnSearchGroup.Name = "btnSearchGroup";
+            btnSearchGroup.Size = new Size(119, 30);
+            btnSearchGroup.TabIndex = 15;
+            btnSearchGroup.Text = "Search";
+            btnSearchGroup.UseVisualStyleBackColor = true;
+            btnSearchGroup.Click += btnSearchGroup_Click;
+            // 
+            // txtboxSearchGroup
+            // 
+            txtboxSearchGroup.Location = new Point(19, 12);
+            txtboxSearchGroup.Name = "txtboxSearchGroup";
+            txtboxSearchGroup.Size = new Size(142, 23);
+            txtboxSearchGroup.TabIndex = 13;
+            // 
+            // btnListAllGroups
+            // 
+            btnListAllGroups.Location = new Point(292, 5);
+            btnListAllGroups.Name = "btnListAllGroups";
+            btnListAllGroups.Size = new Size(124, 30);
+            btnListAllGroups.TabIndex = 13;
+            btnListAllGroups.Text = "List all groups";
+            btnListAllGroups.UseVisualStyleBackColor = true;
+            btnListAllGroups.Click += btnListAllGroups_Click;
+            // 
+            // pnlSelectGroup
+            // 
+            pnlSelectGroup.BorderStyle = BorderStyle.FixedSingle;
+            pnlSelectGroup.Controls.Add(clbGroupAssignment);
+            pnlSelectGroup.Location = new Point(488, 305);
+            pnlSelectGroup.Name = "pnlSelectGroup";
+            pnlSelectGroup.Size = new Size(281, 287);
+            pnlSelectGroup.TabIndex = 11;
+            // 
+            // clbGroupAssignment
+            // 
+            clbGroupAssignment.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            clbGroupAssignment.BackColor = Color.FromArgb(46, 51, 73);
+            clbGroupAssignment.BorderStyle = BorderStyle.None;
+            clbGroupAssignment.CheckOnClick = true;
+            clbGroupAssignment.ContextMenuStrip = cmsRemoveItems;
+            clbGroupAssignment.ForeColor = Color.Salmon;
+            clbGroupAssignment.FormattingEnabled = true;
+            clbGroupAssignment.Items.AddRange(new object[] { "Group 1", "Group 2", "Group 3", "Group 4", "Group 5" });
+            clbGroupAssignment.Location = new Point(12, 13);
+            clbGroupAssignment.Name = "clbGroupAssignment";
+            clbGroupAssignment.Size = new Size(253, 216);
+            clbGroupAssignment.TabIndex = 0;
+            clbGroupAssignment.MouseClick += clbGroupAssignment_MouseClick;
+            // 
+            // pnlIntent
+            // 
+            pnlIntent.Controls.Add(lblIntentChoice);
+            pnlIntent.Controls.Add(rbtnUninstall);
+            pnlIntent.Controls.Add(rbtnRequired);
+            pnlIntent.Controls.Add(rbtnAvailable);
+            pnlIntent.Location = new Point(12, 598);
+            pnlIntent.Name = "pnlIntent";
+            pnlIntent.Size = new Size(470, 195);
+            pnlIntent.TabIndex = 12;
+            // 
+            // lblIntentChoice
+            // 
+            lblIntentChoice.AutoSize = true;
+            lblIntentChoice.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            lblIntentChoice.ForeColor = Color.Salmon;
+            lblIntentChoice.Location = new Point(20, 13);
+            lblIntentChoice.Name = "lblIntentChoice";
+            lblIntentChoice.Size = new Size(274, 30);
+            lblIntentChoice.TabIndex = 3;
+            lblIntentChoice.Text = "Choose deployment intent";
+            // 
+            // rbtnUninstall
+            // 
+            rbtnUninstall.AutoSize = true;
+            rbtnUninstall.ForeColor = Color.Salmon;
+            rbtnUninstall.Location = new Point(20, 96);
+            rbtnUninstall.Name = "rbtnUninstall";
+            rbtnUninstall.Size = new Size(71, 19);
+            rbtnUninstall.TabIndex = 2;
+            rbtnUninstall.TabStop = true;
+            rbtnUninstall.Text = "Uninstall";
+            rbtnUninstall.UseVisualStyleBackColor = true;
+            // 
+            // rbtnRequired
+            // 
+            rbtnRequired.AutoSize = true;
+            rbtnRequired.ForeColor = Color.Salmon;
+            rbtnRequired.Location = new Point(20, 71);
+            rbtnRequired.Name = "rbtnRequired";
+            rbtnRequired.Size = new Size(72, 19);
+            rbtnRequired.TabIndex = 1;
+            rbtnRequired.TabStop = true;
+            rbtnRequired.Text = "Required";
+            rbtnRequired.UseVisualStyleBackColor = true;
+            // 
+            // rbtnAvailable
+            // 
+            rbtnAvailable.AutoSize = true;
+            rbtnAvailable.ForeColor = Color.Salmon;
+            rbtnAvailable.Location = new Point(20, 46);
+            rbtnAvailable.Name = "rbtnAvailable";
+            rbtnAvailable.Size = new Size(73, 19);
+            rbtnAvailable.TabIndex = 0;
+            rbtnAvailable.TabStop = true;
+            rbtnAvailable.Text = "Available";
+            rbtnAvailable.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackgroundImage = Properties.Resources._16671574911586787867_64;
+            pictureBox1.Location = new Point(1040, 2);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(66, 65);
+            pictureBox1.TabIndex = 13;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
+            // 
+            // btnSummarize
+            // 
+            btnSummarize.FlatAppearance.BorderColor = Color.White;
+            btnSummarize.Location = new Point(775, 244);
+            btnSummarize.Name = "btnSummarize";
+            btnSummarize.Size = new Size(111, 55);
+            btnSummarize.TabIndex = 14;
+            btnSummarize.Text = "Summarize";
+            btnSummarize.UseVisualStyleBackColor = true;
+            btnSummarize.Click += btnSummarize_Click;
+            // 
+            // btnReset
+            // 
+            btnReset.Location = new Point(892, 244);
+            btnReset.Name = "btnReset";
+            btnReset.Size = new Size(111, 55);
+            btnReset.TabIndex = 15;
+            btnReset.Text = "Reset";
+            btnReset.UseVisualStyleBackColor = true;
+            btnReset.Click += btnReset_Click;
+            // 
+            // panelSummary
+            // 
+            panelSummary.Controls.Add(progressBar1);
+            panelSummary.Controls.Add(btnDeployAssignments);
+            panelSummary.Controls.Add(rtbSummarizeIntent);
+            panelSummary.Controls.Add(rtbSummarizeGroups);
+            panelSummary.Controls.Add(rtbSummarizeApps);
+            panelSummary.Controls.Add(lblSummarizeIntent);
+            panelSummary.Controls.Add(lblSummarizeGroups);
+            panelSummary.Controls.Add(lblSummarizeApps);
+            panelSummary.Location = new Point(775, 305);
+            panelSummary.Name = "panelSummary";
+            panelSummary.Size = new Size(322, 488);
+            panelSummary.TabIndex = 16;
+            // 
+            // btnDeployAssignments
+            // 
+            btnDeployAssignments.Location = new Point(99, 389);
+            btnDeployAssignments.Name = "btnDeployAssignments";
+            btnDeployAssignments.Size = new Size(124, 39);
+            btnDeployAssignments.TabIndex = 17;
+            btnDeployAssignments.Text = "Deploy";
+            btnDeployAssignments.UseVisualStyleBackColor = true;
+            btnDeployAssignments.Click += btnDeployAssignments_Click;
+            // 
+            // rtbSummarizeIntent
+            // 
+            rtbSummarizeIntent.BackColor = Color.FromArgb(46, 51, 73);
+            rtbSummarizeIntent.BorderStyle = BorderStyle.None;
+            rtbSummarizeIntent.ForeColor = Color.Salmon;
+            rtbSummarizeIntent.Location = new Point(4, 339);
+            rtbSummarizeIntent.Name = "rtbSummarizeIntent";
+            rtbSummarizeIntent.Size = new Size(255, 44);
+            rtbSummarizeIntent.TabIndex = 19;
+            rtbSummarizeIntent.Text = "";
+            // 
+            // rtbSummarizeGroups
+            // 
+            rtbSummarizeGroups.BackColor = Color.FromArgb(46, 51, 73);
+            rtbSummarizeGroups.BorderStyle = BorderStyle.None;
+            rtbSummarizeGroups.ForeColor = Color.Salmon;
+            rtbSummarizeGroups.Location = new Point(4, 182);
+            rtbSummarizeGroups.Name = "rtbSummarizeGroups";
+            rtbSummarizeGroups.Size = new Size(255, 105);
+            rtbSummarizeGroups.TabIndex = 18;
+            rtbSummarizeGroups.Text = "";
+            // 
+            // rtbSummarizeApps
+            // 
+            rtbSummarizeApps.BackColor = Color.FromArgb(46, 51, 73);
+            rtbSummarizeApps.BorderStyle = BorderStyle.None;
+            rtbSummarizeApps.ForeColor = Color.Salmon;
+            rtbSummarizeApps.Location = new Point(4, 35);
+            rtbSummarizeApps.Name = "rtbSummarizeApps";
+            rtbSummarizeApps.Size = new Size(255, 105);
+            rtbSummarizeApps.TabIndex = 17;
+            rtbSummarizeApps.Text = "";
+            // 
+            // lblSummarizeIntent
+            // 
+            lblSummarizeIntent.AutoSize = true;
+            lblSummarizeIntent.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSummarizeIntent.ForeColor = Color.Salmon;
+            lblSummarizeIntent.Location = new Point(4, 306);
+            lblSummarizeIntent.Name = "lblSummarizeIntent";
+            lblSummarizeIntent.Size = new Size(26, 18);
+            lblSummarizeIntent.TabIndex = 2;
+            lblSummarizeIntent.Text = "as";
+            // 
+            // lblSummarizeGroups
+            // 
+            lblSummarizeGroups.AutoSize = true;
+            lblSummarizeGroups.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSummarizeGroups.ForeColor = Color.Salmon;
+            lblSummarizeGroups.Location = new Point(4, 159);
+            lblSummarizeGroups.Name = "lblSummarizeGroups";
+            lblSummarizeGroups.Size = new Size(304, 18);
+            lblSummarizeGroups.TabIndex = 1;
+            lblSummarizeGroups.Text = "will be assigned to the following groups";
+            // 
+            // lblSummarizeApps
+            // 
+            lblSummarizeApps.AutoSize = true;
+            lblSummarizeApps.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSummarizeApps.ForeColor = Color.Salmon;
+            lblSummarizeApps.Location = new Point(4, 14);
+            lblSummarizeApps.Name = "lblSummarizeApps";
+            lblSummarizeApps.Size = new Size(149, 18);
+            lblSummarizeApps.TabIndex = 0;
+            lblSummarizeApps.Text = "The following apps";
+            // 
+            // progressBar1
+            // 
+            progressBar1.Location = new Point(35, 434);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(243, 28);
+            progressBar1.TabIndex = 17;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(51)))), ((int)(((byte)(73)))));
-            this.ClientSize = new System.Drawing.Size(1109, 893);
-            this.Controls.Add(this.pnlSelectGroup);
-            this.Controls.Add(this.pnlSearchGroup);
-            this.Controls.Add(this.pnlSelectApps);
-            this.Controls.Add(this.pnlSearchApp);
-            this.Controls.Add(this.testBtn);
-            this.Controls.Add(this.panelTenantInfo);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Name = "Form1";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.panelTenantInfo.ResumeLayout(false);
-            this.panelTenantInfo.PerformLayout();
-            this.dtgDisplayAppRightClick.ResumeLayout(false);
-            this.cmsRemoveItems.ResumeLayout(false);
-            this.pnlSearchApp.ResumeLayout(false);
-            this.pnlSearchApp.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dtgDisplayApp)).EndInit();
-            this.pnlSelectApps.ResumeLayout(false);
-            this.pnlSearchGroup.ResumeLayout(false);
-            this.pnlSearchGroup.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dtgDisplayGroup)).EndInit();
-            this.pnlSelectGroup.ResumeLayout(false);
-            this.cmsRemoveApps.ResumeLayout(false);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(46, 51, 73);
+            ClientSize = new Size(1109, 893);
+            Controls.Add(testBtn);
+            Controls.Add(panelSummary);
+            Controls.Add(btnReset);
+            Controls.Add(btnSummarize);
+            Controls.Add(pictureBox1);
+            Controls.Add(pnlIntent);
+            Controls.Add(pnlSelectGroup);
+            Controls.Add(pnlSearchGroup);
+            Controls.Add(pnlSelectApps);
+            Controls.Add(pnlSearchApp);
+            Controls.Add(panelTenantInfo);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            Name = "Form1";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Form1";
+            Load += Form1_Load;
+            panelTenantInfo.ResumeLayout(false);
+            panelTenantInfo.PerformLayout();
+            dtgDisplayAppRightClick.ResumeLayout(false);
+            cmsRemoveApps.ResumeLayout(false);
+            cmsRemoveItems.ResumeLayout(false);
+            pnlSearchApp.ResumeLayout(false);
+            pnlSearchApp.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgDisplayApp).EndInit();
+            pnlSelectApps.ResumeLayout(false);
+            pnlSearchGroup.ResumeLayout(false);
+            pnlSearchGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).EndInit();
+            pnlSelectGroup.ResumeLayout(false);
+            pnlIntent.ResumeLayout(false);
+            pnlIntent.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panelSummary.ResumeLayout(false);
+            panelSummary.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
@@ -462,5 +657,22 @@
         private ContextMenuStrip cmsRemoveApps;
         private ToolStripMenuItem removeSelectedToolStripMenuItem;
         private ToolStripMenuItem removeAllToolStripMenuItem1;
+        private Panel pnlIntent;
+        private RadioButton rbtnUninstall;
+        private RadioButton rbtnRequired;
+        private RadioButton rbtnAvailable;
+        private Label lblIntentChoice;
+        private PictureBox pictureBox1;
+        private Button btnSummarize;
+        private Button btnReset;
+        private Panel panelSummary;
+        private Label lblSummarizeIntent;
+        private Label lblSummarizeGroups;
+        private Label lblSummarizeApps;
+        private RichTextBox rtbSummarizeApps;
+        private RichTextBox rtbSummarizeIntent;
+        private RichTextBox rtbSummarizeGroups;
+        private Button btnDeployAssignments;
+        private ProgressBar progressBar1;
     }
 }

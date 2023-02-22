@@ -34,6 +34,7 @@ using System.Windows.Forms;
 
 // Multiple assignments:
 // Panel with radio buttons? drop down menus?
+// On application launch - Prompt user to log in
 
 
 
@@ -66,12 +67,27 @@ namespace IntuneAssignments
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
-
+            // Hides the login panel during application launch
+            HidePanel(panelTenantInfo);
 
 
         }
 
+
+        ////////////////////////////////////////// Classes ///////////////////////////////////////////////////////////////////
+
+
+        public class MobileAppInfo
+        {
+            public string Id { get; set; }
+            public string DisplayName { get; set; }
+        }
+
+        public class GroupInfo
+        {
+            public string Id { get; set; }
+            public string DisplayName { get; set; }
+        }
 
 
 
@@ -171,6 +187,10 @@ namespace IntuneAssignments
                 throw;
             }
         }
+
+
+        /// ////////////////////////////////////// Configuration ///////////////////////////////////////////////////
+
 
         public async void updateTenantInfo()
         {
@@ -304,12 +324,12 @@ namespace IntuneAssignments
             // Create a graph service client object
             var graphClient = GetGraphClient();
 
-            var groups =  graphClient.Groups
+            var groups = graphClient.Groups
                 .Request()
                 .GetAsync();
 
 
-            List<Group> listAllGroups = new List<Group>(); 
+            List<Group> listAllGroups = new List<Group>();
             listAllGroups.AddRange(groups.Result);
 
             foreach (var group in listAllGroups)
@@ -356,7 +376,7 @@ namespace IntuneAssignments
             List<Group> groups = new List<Group>();
             groups.AddRange(allGroups.Result);
 
-            foreach ( var group in groups)
+            foreach (var group in groups)
             {
                 dtgDisplayGroup.Rows.Add(group.DisplayName, group.Id);
                 //clbGroupAssignment.Items.Add(group.DisplayName);
@@ -400,7 +420,7 @@ namespace IntuneAssignments
 
             else if (numberOfAppsFound >= 1)
 
-               {
+            {
 
                 // Loop through the list
                 foreach (var app in searchResult)
@@ -450,12 +470,266 @@ namespace IntuneAssignments
 
                     // Finally add displayname and platform for each app into the datagridview
                     dtgDisplayApp.Rows.Add(app.DisplayName, platform, app.Id);
-                    
+
 
                 }
 
             }
 
+        }
+        public void HidePanel(Panel panel)
+        {
+
+            if (panel.Visible == true)
+            {
+                panel.Visible = false;
+
+
+            }
+            else if (panel.Visible == false)
+            {
+                panel.Visible = true;
+            }
+
+
+        }
+
+        public void SummarizeAssignments()
+        {
+
+            foreach (object apps in clbAppAssignments.Items)
+            {
+                rtbSummarizeApps.AppendText(apps.ToString() + "\n");
+            }
+
+            foreach (object groups in clbGroupAssignment.Items)
+            {
+                rtbSummarizeGroups.AppendText(groups.ToString() + "\n");
+            }
+
+            if (rbtnAvailable.Checked)
+            {
+                rtbSummarizeIntent.Clear();
+                rtbSummarizeIntent.AppendText(rbtnAvailable.Text);
+
+            }
+
+            else if (rbtnRequired.Checked)
+            {
+                rtbSummarizeIntent.Clear();
+                rtbSummarizeIntent.AppendText(rbtnRequired.Text);
+
+            }
+            else if (rbtnUninstall.Checked)
+            {
+                rtbSummarizeIntent.Clear();
+                rtbSummarizeIntent.AppendText(rbtnUninstall.Text);
+            }
+            else
+            {
+                MessageBox.Show("Please select an intent for the deployment");
+            }
+        }
+
+        public void ClearSummary()
+        {
+            foreach (Control control in panelSummary.Controls)
+
+            {
+                if (!(control is Label) && !(control is Button))
+                {
+
+                    control.Text = string.Empty;
+
+                }
+            }
+        }
+
+
+
+        async Task AddAppAssignment()
+        {
+
+            // Flow
+            // Foreach app in checkedlistbox app - > add assignment from checkedlistbox group with checkedlistbox intent
+
+            // Info needed:
+
+            // App ID
+            // Group ID
+            // Intent
+
+            // Create a graph service client object
+            var graphClient = GetGraphClient();
+
+            // Sets the scope of the progress bar
+            int processedAppCount = 0;
+            int numberOfApps = clbAppAssignments.Items.Count;
+            progressBar1.Maximum = numberOfApps;
+
+            InstallIntent intent;
+            if (!Enum.TryParse(rtbSummarizeIntent.Text, out intent))
+            {
+                throw new ArgumentException("Invalid InstallIntent value.");
+            }
+
+
+            var mobileApps = await GetAllMobileAppsAsync();
+            var Groups = await SearchAndGetAllGroupsAsync();
+
+
+            foreach (var app in clbAppAssignments.Items)
+            {
+                var mobileAppID = GetAppIdByName(mobileApps, app.ToString());
+
+                // This is the app ID for each app in the checked list box
+                // Use this for assignment purposes
+
+
+                // Testing only:
+                // MessageBox.Show(mobileAppID.ToString());
+
+                foreach (var group in clbGroupAssignment.Items)
+                {
+                    var groupID = GetGroupIdByName(Groups, group.ToString());
+                    // This is the app ID for each group in the checked list box
+                    // Use this for assignment purposes
+
+
+                    // Testing only:
+                    // MessageBox.Show(groupID.ToString());
+
+
+                    var target = new GroupAssignmentTarget
+                    {
+                        GroupId = groupID,
+                    };
+
+                    var newAssignment = new MobileAppAssignment();
+                    {
+                        newAssignment.Target = target;
+                        newAssignment.Intent = intent;
+                    }
+
+
+
+
+                    await graphClient.DeviceAppManagement
+                        .MobileApps[mobileAppID]
+                        .Assignments
+                        .Request()
+                        .AddAsync(newAssignment);
+
+                    processedAppCount++;
+                    progressBar1.Value = processedAppCount;
+
+
+
+                }
+
+
+
+
+            }
+
+
+        }
+
+
+
+        public async Task<List<MobileAppInfo>> GetAllMobileAppsAsync()
+        {
+
+            // Retrieves all mobile apps and saves them in a list for further use and processing
+
+
+            var mobileApps = new List<MobileAppInfo>();
+
+            var graphServiceClient = GetGraphClient();
+
+            var mobileAppPage = await graphServiceClient.DeviceAppManagement.MobileApps.Request().GetAsync();
+
+            do
+            {
+                foreach (var mobileApp in mobileAppPage)
+                {
+                    var mobileAppInfo = new MobileAppInfo
+                    {
+                        Id = mobileApp.Id,
+                        DisplayName = mobileApp.DisplayName
+                    };
+                    mobileApps.Add(mobileAppInfo);
+                }
+
+                if (mobileAppPage.NextPageRequest != null)
+                {
+                    mobileAppPage = await mobileAppPage.NextPageRequest.GetAsync();
+                }
+                else
+                {
+                    mobileAppPage = null;
+                }
+            } while (mobileAppPage != null);
+
+            return mobileApps;
+        }
+
+        public async Task<List<GroupInfo>> SearchAndGetAllGroupsAsync(string query = null)
+        {
+
+            var groups = new List<GroupInfo>();
+            var graphServiceClient = GetGraphClient();
+            var groupPage = await graphServiceClient.Groups.Request().Filter(query).GetAsync();
+
+            do
+            {
+                foreach (var group in groupPage)
+                {
+                    var groupInfo = new GroupInfo
+                    {
+                        Id = group.Id,
+                        DisplayName = group.DisplayName
+                    };
+                    groups.Add(groupInfo);
+                }
+
+                if (groupPage.NextPageRequest != null)
+                {
+                    groupPage = await groupPage.NextPageRequest.GetAsync();
+                }
+                else
+                {
+                    groupPage = null;
+                }
+            } while (groupPage != null);
+
+            return groups;
+        }
+
+        public string GetAppIdByName(List<MobileAppInfo> mobileApps, string appName)
+        {
+
+            // Searches through the list of app and retrieves the ID
+
+            var mobileApp = mobileApps.FirstOrDefault(x => x.DisplayName.Equals(appName, StringComparison.OrdinalIgnoreCase));
+            if (mobileApp == null)
+            {
+                throw new Exception($"Mobile app '{appName}' not found.");
+            }
+
+            return mobileApp.Id;
+        }
+
+        public string GetGroupIdByName(List<GroupInfo> groups, string groupName)
+        {
+            // Searches through the list of groups and retrieves the ID
+            var group = groups.FirstOrDefault(x => x.DisplayName.Equals(groupName, StringComparison.OrdinalIgnoreCase));
+            if (group == null)
+            {
+                throw new Exception($"Group '{groupName}' not found.");
+            }
+
+            return group.Id;
         }
 
 
@@ -483,7 +757,7 @@ namespace IntuneAssignments
 
         }
 
-        
+
 
 
         /////////////////////////////////////////// BUTTONS ////////////////////////////////////////////////////////////////////////
@@ -495,10 +769,10 @@ namespace IntuneAssignments
             // Authenticates to MS Graph
             // Requires user to log in with admin account and password
             // Generates an access token which is used when making API calls
-            
+
             // TODO 
             // Rename button click event to reflect updated name of the button
-            
+
             await authMSAL();
 
             updateTenantInfo();
@@ -507,7 +781,13 @@ namespace IntuneAssignments
 
         private async void testBtn_Click(object sender, EventArgs e)
         {
-            
+            var groups = await SearchAndGetAllGroupsAsync();
+            foreach (var group in groups)
+            {
+                MessageBox.Show($"Group ID: {group.Id}, Display Name: {group.DisplayName}");
+            }
+
+
         }
 
         private void btnSearchApp_Click(object sender, EventArgs e)
@@ -548,11 +828,11 @@ namespace IntuneAssignments
             {
                 int index = clbGroupAssignment.IndexFromPoint(e.Location);
                 if (index >= 0 && clbGroupAssignment.GetItemChecked(index))
-                { 
+                {
                     clbGroupAssignment.SelectedIndex = index;
                     clbGroupAssignment.ContextMenuStrip.Show(clbGroupAssignment, e.Location);
-                
-                
+
+
                 }
             }
         }
@@ -609,5 +889,39 @@ namespace IntuneAssignments
         {
             clbAppAssignments.Items.Clear();
         }
+
+        private void dtgDisplayGroup_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            if (e.RowIndex >= 0) // Check if a valid row was clicked
+            {
+                var value = dtgDisplayGroup.Rows[e.RowIndex].Cells[0].Value; // Get the value of the leftmost cell
+                if (value != null)
+                {
+                    clbGroupAssignment.Items.Add(value); // Add the value to the CheckedListBox
+                }
+            }
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            HidePanel(panelTenantInfo);
+        }
+
+        private void btnSummarize_Click(object sender, EventArgs e)
+        {
+            SummarizeAssignments();
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            ClearSummary();
+        }
+
+        private void btnDeployAssignments_Click(object sender, EventArgs e)
+        {
+            AddAppAssignment();
+        }
     }
-    }
+}
