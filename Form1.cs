@@ -32,9 +32,14 @@ using System.Windows.Forms;
 // Fix try catch and check for if the session is authentictated properly. handle errors
 // Select multiple apps, add assignments
 
+
+// Assingment options (End User Notifications, Availability, Deadline)
+// Different needs for each app type (VPP, Win32, MGP, etc)
+// Drop down menu to select each type?
 // Multiple assignments:
 // Panel with radio buttons? drop down menus?
 // On application launch - Prompt user to log in
+// Progress bar
 
 
 
@@ -63,16 +68,29 @@ namespace IntuneAssignments
         "Directory.Read.All"};
         string GraphEndpoint = "https://graph.microsoft.com/v1.0";
         string accessToken = "";
+        public static string GraphAccessToken { get; set; }
+        public static Point Form1Location { get; set; }
 
 
-        private void Form1_Load(object sender, EventArgs e)
+        public void Form1_Load(object sender, EventArgs e)
         {
             // Hides the login panel during application launch
             HidePanel(panelTenantInfo);
 
 
+
         }
 
+        private void showViewAssignment()
+        {
+            // Switches to View Assignment-form, and keeps the location of this form
+
+            Form1Location = Location;
+            this.Hide();
+            ViewAssignment viewAssignment = new ViewAssignment(this);
+            viewAssignment.Show();
+
+        }
 
         ////////////////////////////////////////// Classes ///////////////////////////////////////////////////////////////////
 
@@ -155,6 +173,7 @@ namespace IntuneAssignments
 
                 accessToken = result.AccessToken;
 
+                GraphAccessToken = accessToken;
 
             }
             catch (Exception errorMsg)
@@ -164,6 +183,7 @@ namespace IntuneAssignments
             }
         }
 
+        // Deprecated
         public GraphServiceClient GetGraphClient()
         {
             // Creates a reusable graph service client object
@@ -189,13 +209,37 @@ namespace IntuneAssignments
         }
 
 
+        public GraphServiceClient NewGetGraphClient(string SharedAccessToken)
+        {
+            try
+            {
+                return new GraphServiceClient(
+                new DelegateAuthenticationProvider(
+                    (requestMessage) =>
+                    {
+                        requestMessage.Headers.Authorization =
+                            new AuthenticationHeaderValue("bearer", SharedAccessToken);
+
+                        return Task.FromResult(0);
+                    }));
+            }
+            catch (Exception errorMsg)
+            {
+                MessageBox.Show(errorMsg.Message);
+
+                throw;
+            }
+        }
+
+
+
         /// ////////////////////////////////////// Configuration ///////////////////////////////////////////////////
 
 
         public async void updateTenantInfo()
         {
             // Create a graph service client object
-            var graphClient = GetGraphClient();
+            var graphClient = NewGetGraphClient(GraphAccessToken);
 
 
             // Make a call to Microsoft Graph
@@ -224,7 +268,7 @@ namespace IntuneAssignments
 
         }
 
-        private void ClearDataGridView(DataGridView dataGridView)
+        public void ClearDataGridView(DataGridView dataGridView)
         {
             // Clear all the rows in the DataGridView control
             while (dataGridView.Rows.Count > 0)
@@ -248,7 +292,7 @@ namespace IntuneAssignments
             ClearCheckedListBox(clbAppAssignments);
 
             // Create a graph service client object
-            var graphClient = GetGraphClient();
+            var graphClient = NewGetGraphClient(GraphAccessToken);
 
             // Make a call to Microsoft Graph
             var allApplications = graphClient.DeviceAppManagement.MobileApps
@@ -280,6 +324,7 @@ namespace IntuneAssignments
                 {
                     appOS = app.ODataType?.ToString();
                 }
+
 
 
                 // Convert Odata.type string to human known platform
@@ -322,7 +367,7 @@ namespace IntuneAssignments
             ClearCheckedListBox(clbGroupAssignment);
 
             // Create a graph service client object
-            var graphClient = GetGraphClient();
+            var graphClient = NewGetGraphClient(GraphAccessToken);
 
             var groups = graphClient.Groups
                 .Request()
@@ -346,7 +391,7 @@ namespace IntuneAssignments
 
 
             // Create a graph service client object
-            var graphClient = GetGraphClient();
+            var graphClient = NewGetGraphClient(GraphAccessToken);
 
 
             // Construct group query
@@ -391,7 +436,7 @@ namespace IntuneAssignments
 
 
             // Create a graph service client object
-            var graphClient = GetGraphClient();
+            var graphClient = NewGetGraphClient(GraphAccessToken);
 
             // Make a call to Microsoft Graph
             var allApplications = graphClient.DeviceAppManagement.MobileApps
@@ -549,6 +594,8 @@ namespace IntuneAssignments
 
         async Task AddAppAssignment()
         {
+            // Reset the progress bar
+            progressBar1.Value = 0;
 
             // Flow
             // Foreach app in checkedlistbox app - > add assignment from checkedlistbox group with checkedlistbox intent
@@ -560,12 +607,20 @@ namespace IntuneAssignments
             // Intent
 
             // Create a graph service client object
-            var graphClient = GetGraphClient();
+            var graphClient = NewGetGraphClient(GraphAccessToken);
 
             // Sets the scope of the progress bar
-            int processedAppCount = 0;
+
+            // 
+
             int numberOfApps = clbAppAssignments.Items.Count;
-            progressBar1.Maximum = numberOfApps;
+            int numberOfGroups = clbGroupAssignment.Items.Count;
+
+            int progressBarMaxValue = numberOfApps * numberOfGroups;
+
+            progressBar1.Maximum = progressBarMaxValue;
+
+
 
             InstallIntent intent;
             if (!Enum.TryParse(rtbSummarizeIntent.Text, out intent))
@@ -578,6 +633,7 @@ namespace IntuneAssignments
             var Groups = await SearchAndGetAllGroupsAsync();
 
 
+            // Loop through all apps in the checked listbox
             foreach (var app in clbAppAssignments.Items)
             {
                 var mobileAppID = GetAppIdByName(mobileApps, app.ToString());
@@ -589,6 +645,7 @@ namespace IntuneAssignments
                 // Testing only:
                 // MessageBox.Show(mobileAppID.ToString());
 
+                // Loop through all groups in the checked listbox
                 foreach (var group in clbGroupAssignment.Items)
                 {
                     var groupID = GetGroupIdByName(Groups, group.ToString());
@@ -611,17 +668,27 @@ namespace IntuneAssignments
                         newAssignment.Intent = intent;
                     }
 
+                    try
+                    {
+                        await graphClient.DeviceAppManagement
+                            .MobileApps[mobileAppID]
+                            .Assignments
+                            .Request()
+                            .AddAsync(newAssignment);
 
+                        rtbDeploymentSummary.AppendText("Adding group " + group + " to " + app + " as " + intent + "\n");
+                        rtbDeploymentSummary.AppendText("\n");
 
+                        progressBar1.Value++;
 
-                    await graphClient.DeviceAppManagement
-                        .MobileApps[mobileAppID]
-                        .Assignments
-                        .Request()
-                        .AddAsync(newAssignment);
+                        
 
-                    processedAppCount++;
-                    progressBar1.Value = processedAppCount;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error adding assignment for {app.ToString()} and {group.ToString()}: {ex.Message}");
+                    }
+
 
 
 
@@ -645,7 +712,7 @@ namespace IntuneAssignments
 
             var mobileApps = new List<MobileAppInfo>();
 
-            var graphServiceClient = GetGraphClient();
+            var graphServiceClient = NewGetGraphClient(GraphAccessToken);
 
             var mobileAppPage = await graphServiceClient.DeviceAppManagement.MobileApps.Request().GetAsync();
 
@@ -678,7 +745,7 @@ namespace IntuneAssignments
         {
 
             var groups = new List<GroupInfo>();
-            var graphServiceClient = GetGraphClient();
+            var graphServiceClient = NewGetGraphClient(GraphAccessToken);
             var groupPage = await graphServiceClient.Groups.Request().Filter(query).GetAsync();
 
             do
@@ -732,7 +799,25 @@ namespace IntuneAssignments
             return group.Id;
         }
 
+        public string getAppIdFromDtg(DataGridView datagridview, int columnIndex)
+        {
+            // Retrieve the value of the column specified by index
 
+            if (datagridview.SelectedCells.Count > 0 && datagridview.SelectedCells[0].RowIndex != -1)
+            {
+                // Get the value of the specified cell in the clicked row
+                var value = datagridview.Rows[datagridview.SelectedCells[0].RowIndex].Cells[columnIndex].Value;
+
+                // Return the value as a string
+                return value?.ToString(); // Use null-conditional operator to avoid null reference exception
+            }
+            else
+            {
+                // No cell is selected, return null or empty string as appropriate
+                return null; // or return string.Empty;
+            }
+
+        }
 
 
         /////////////////////////////////////////// Key presses ////////////////////////////////////////////////////////////////////////
@@ -923,5 +1008,13 @@ namespace IntuneAssignments
         {
             AddAppAssignment();
         }
+
+        private void pbView_Click(object sender, EventArgs e)
+        {
+
+            showViewAssignment();
+
+        }
+
     }
 }

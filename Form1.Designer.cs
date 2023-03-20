@@ -71,6 +71,8 @@
             btnSummarize = new Button();
             btnReset = new Button();
             panelSummary = new Panel();
+            rtbDeploymentSummary = new RichTextBox();
+            progressBar1 = new ProgressBar();
             btnDeployAssignments = new Button();
             rtbSummarizeIntent = new RichTextBox();
             rtbSummarizeGroups = new RichTextBox();
@@ -78,7 +80,7 @@
             lblSummarizeIntent = new Label();
             lblSummarizeGroups = new Label();
             lblSummarizeApps = new Label();
-            progressBar1 = new ProgressBar();
+            pbView = new PictureBox();
             panelTenantInfo.SuspendLayout();
             dtgDisplayAppRightClick.SuspendLayout();
             cmsRemoveApps.SuspendLayout();
@@ -92,6 +94,7 @@
             pnlIntent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panelSummary.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbView).BeginInit();
             SuspendLayout();
             // 
             // panelTenantInfo
@@ -463,9 +466,9 @@
             // btnSummarize
             // 
             btnSummarize.FlatAppearance.BorderColor = Color.White;
-            btnSummarize.Location = new Point(775, 244);
+            btnSummarize.Location = new Point(775, 190);
             btnSummarize.Name = "btnSummarize";
-            btnSummarize.Size = new Size(111, 55);
+            btnSummarize.Size = new Size(79, 38);
             btnSummarize.TabIndex = 14;
             btnSummarize.Text = "Summarize";
             btnSummarize.UseVisualStyleBackColor = true;
@@ -473,9 +476,9 @@
             // 
             // btnReset
             // 
-            btnReset.Location = new Point(892, 244);
+            btnReset.Location = new Point(860, 190);
             btnReset.Name = "btnReset";
-            btnReset.Size = new Size(111, 55);
+            btnReset.Size = new Size(79, 38);
             btnReset.TabIndex = 15;
             btnReset.Text = "Reset";
             btnReset.UseVisualStyleBackColor = true;
@@ -483,6 +486,7 @@
             // 
             // panelSummary
             // 
+            panelSummary.Controls.Add(rtbDeploymentSummary);
             panelSummary.Controls.Add(progressBar1);
             panelSummary.Controls.Add(btnDeployAssignments);
             panelSummary.Controls.Add(rtbSummarizeIntent);
@@ -491,14 +495,32 @@
             panelSummary.Controls.Add(lblSummarizeIntent);
             panelSummary.Controls.Add(lblSummarizeGroups);
             panelSummary.Controls.Add(lblSummarizeApps);
-            panelSummary.Location = new Point(775, 305);
+            panelSummary.Location = new Point(775, 234);
             panelSummary.Name = "panelSummary";
-            panelSummary.Size = new Size(322, 488);
+            panelSummary.Size = new Size(322, 647);
             panelSummary.TabIndex = 16;
+            // 
+            // rtbDeploymentSummary
+            // 
+            rtbDeploymentSummary.BackColor = Color.FromArgb(46, 51, 73);
+            rtbDeploymentSummary.BorderStyle = BorderStyle.None;
+            rtbDeploymentSummary.ForeColor = Color.Salmon;
+            rtbDeploymentSummary.Location = new Point(16, 450);
+            rtbDeploymentSummary.Name = "rtbDeploymentSummary";
+            rtbDeploymentSummary.Size = new Size(292, 184);
+            rtbDeploymentSummary.TabIndex = 20;
+            rtbDeploymentSummary.Text = "";
+            // 
+            // progressBar1
+            // 
+            progressBar1.Location = new Point(16, 416);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(292, 28);
+            progressBar1.TabIndex = 17;
             // 
             // btnDeployAssignments
             // 
-            btnDeployAssignments.Location = new Point(99, 389);
+            btnDeployAssignments.Location = new Point(104, 371);
             btnDeployAssignments.Name = "btnDeployAssignments";
             btnDeployAssignments.Size = new Size(124, 39);
             btnDeployAssignments.TabIndex = 17;
@@ -513,7 +535,7 @@
             rtbSummarizeIntent.ForeColor = Color.Salmon;
             rtbSummarizeIntent.Location = new Point(4, 339);
             rtbSummarizeIntent.Name = "rtbSummarizeIntent";
-            rtbSummarizeIntent.Size = new Size(255, 44);
+            rtbSummarizeIntent.Size = new Size(255, 26);
             rtbSummarizeIntent.TabIndex = 19;
             rtbSummarizeIntent.Text = "";
             // 
@@ -572,12 +594,15 @@
             lblSummarizeApps.TabIndex = 0;
             lblSummarizeApps.Text = "The following apps";
             // 
-            // progressBar1
+            // pbView
             // 
-            progressBar1.Location = new Point(35, 434);
-            progressBar1.Name = "progressBar1";
-            progressBar1.Size = new Size(243, 28);
-            progressBar1.TabIndex = 17;
+            pbView.Image = Properties.Resources._3271932871579761116_48;
+            pbView.Location = new Point(1047, 73);
+            pbView.Name = "pbView";
+            pbView.Size = new Size(50, 55);
+            pbView.TabIndex = 17;
+            pbView.TabStop = false;
+            pbView.Click += pbView_Click;
             // 
             // Form1
             // 
@@ -585,8 +610,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1109, 893);
+            Controls.Add(pbView);
             Controls.Add(testBtn);
-            Controls.Add(panelSummary);
             Controls.Add(btnReset);
             Controls.Add(btnSummarize);
             Controls.Add(pictureBox1);
@@ -596,6 +621,7 @@
             Controls.Add(pnlSelectApps);
             Controls.Add(pnlSearchApp);
             Controls.Add(panelTenantInfo);
+            Controls.Add(panelSummary);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
@@ -619,6 +645,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panelSummary.ResumeLayout(false);
             panelSummary.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbView).EndInit();
             ResumeLayout(false);
         }
 
@@ -674,5 +701,7 @@
         private RichTextBox rtbSummarizeGroups;
         private Button btnDeployAssignments;
         private ProgressBar progressBar1;
+        private RichTextBox rtbDeploymentSummary;
+        private PictureBox pbView;
     }
 }
