@@ -59,6 +59,7 @@ namespace IntuneAssignments
 
         // Global variables //
 
+        bool sideBarExpandTimer = true;
         int col = -1;
         int row = -1;
         string clientID = "f67679c6-4a23-42d8-84c6-bb3f9cf1f1c0";
@@ -75,7 +76,8 @@ namespace IntuneAssignments
         public void Form1_Load(object sender, EventArgs e)
         {
             // Hides the login panel during application launch
-            HidePanel(panelTenantInfo);
+            //HidePanel(panelTenantInfo);
+            //HidePanel(menuPanel);
 
 
 
@@ -186,6 +188,8 @@ namespace IntuneAssignments
         // Deprecated
         public GraphServiceClient GetGraphClient()
         {
+            // Deprecated
+
             // Creates a reusable graph service client object
             // Requires authentication to already be done
             try
@@ -681,7 +685,7 @@ namespace IntuneAssignments
 
                         progressBar1.Value++;
 
-                        
+
 
                     }
                     catch (Exception ex)
@@ -843,6 +847,42 @@ namespace IntuneAssignments
         }
 
 
+        //////////////////////////////////////////// TIMERS /////////////////////////////////////////////////////////////////////
+
+
+
+        private void sideBarTimer_Tick(object sender, EventArgs e)
+        {
+
+
+
+            if (sideBarExpandTimer)
+            {
+                // if menubar is expanded -> Minimize
+                menuPanel.Width -= 10;
+
+
+                if (menuPanel.Width == menuPanel.MinimumSize.Width)
+                {
+                    sideBarExpandTimer = false;
+                    sideBarTimer.Stop();
+                }
+            }
+
+            else
+            {
+                menuPanel.Width += 10;
+                if (menuPanel.Width == menuPanel.MaximumSize.Width)
+                {
+                    sideBarExpandTimer = true;
+                    sideBarTimer.Stop();
+                }
+            }
+        }
+
+
+
+
 
 
         /////////////////////////////////////////// BUTTONS ////////////////////////////////////////////////////////////////////////
@@ -991,7 +1031,11 @@ namespace IntuneAssignments
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            HidePanel(panelTenantInfo);
+            //HidePanel(panelTenantInfo);
+            //HidePanel(menuPanel);
+
+            sideBarTimer.Start();
+
         }
 
         private void btnSummarize_Click(object sender, EventArgs e)
@@ -1015,6 +1059,7 @@ namespace IntuneAssignments
             showViewAssignment();
 
         }
+
 
     }
 }
