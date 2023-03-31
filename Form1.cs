@@ -43,6 +43,12 @@ using System.Windows.Forms;
 
 
 
+// last action:
+
+// Delete selected assignment - Not finished
+
+
+
 
 namespace IntuneAssignments
 {
@@ -114,6 +120,8 @@ namespace IntuneAssignments
         // Methods //
 
         ////////////////////////////////////////////// Authentication ///////////////////////////////////////////////
+
+
 
 
 

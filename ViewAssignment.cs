@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -36,6 +37,11 @@ namespace IntuneAssignments
                     _form1.Location.X + (_form1.Width - Width) / 2,
                     _form1.Location.Y + (_form1.Height - Height) / 2);
             }
+
+            // Removes dummy text in labels when launching the app
+            UpdateLabel(lblAppID, "");
+            UpdateLabel(lblAppName, "");
+
         }
 
         private void ViewAssignment_Load(object sender, EventArgs e)
@@ -263,12 +269,14 @@ namespace IntuneAssignments
             // Take app ID from datagridview
             // This is the Application ID for which we query assignments
             var value = _form1.getAppIdFromDtg(dtgDisplayApp, 2);
-
+            var appname = _form1.getAppIdFromDtg(dtgDisplayApp, 0);
 
             // Create an object of form1 to use it's methods   
             Form1 form1 = new Form1();
 
 
+            UpdateLabel(lblAppID, value);
+            UpdateLabel(lblAppName, appname);
 
 
             // Authenticate to Graph
@@ -308,13 +316,14 @@ namespace IntuneAssignments
                         .Filter("ID eq '" + id + "'")
                         .Select(u => new
                         {
-                            u.DisplayName
+                            u.DisplayName,
+                            u.Id
                         })
                         .GetAsync();
 
                     foreach (var group in findGroupName)
                     {
-                        dtgGroupAssignment.Rows.Add(group.DisplayName, assignment.Intent);
+                        dtgGroupAssignment.Rows.Add(group.DisplayName, assignment.Intent, group.Id);
                     }
 
 
@@ -335,15 +344,86 @@ namespace IntuneAssignments
 
             GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
 
-            // Information needed
-            // App ID
-            // Assignment ID for each group for each app
-            // for assignment ID - use lists and create relationship between group displayname and assignment ID. Useful
+
+            // Convert value og lblappid.text to mobile app ID
+            var appID = lblAppID.Text;
 
 
-            await client.DeviceAppManagement.MobileApps["SOME ID"].Assignments["assignment ID"].Request().DeleteAsync();
+            // Query graph for assignment ID for a given app
+            var allAssignments = client.DeviceAppManagement.MobileApps[appID].Assignments
+                .Request()
+                .Select("id,intent")
+                .GetAsync();
+
+            List<MobileAppAssignment> assignmentsList = new List<MobileAppAssignment>();
+            assignmentsList.AddRange(allAssignments.Result);
+
+            foreach (var assignment in assignmentsList)
+            {
+                //MessageBox.Show(assignment.Id + " " + assignment.Intent);
+
+                await client.DeviceAppManagement.MobileApps[appID].Assignments[assignment.Id].Request().DeleteAsync();
+            }
+
+
+
+
         }
 
+
+        public async void deleteSelectedAppAssignment(DataGridView dataGridView)
+        {
+            
+
+            // Create an object of form1 to use it's methods   
+            Form1 form1 = new Form1();
+
+            // Authenticate to Graph
+
+            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+
+            // Convert value og lblappid.text to mobile app ID
+            var appID = lblAppID.Text;
+
+            // Query graph for assignment ID for a given app
+            var allAssignments = client.DeviceAppManagement.MobileApps[appID].Assignments
+                .Request()
+                .Select("id,intent")
+                .GetAsync();
+
+            List<MobileAppAssignment> assignmentsList = new List<MobileAppAssignment>();
+            assignmentsList.AddRange(allAssignments.Result);
+
+
+            foreach (var assignment in assignmentsList) 
+            {
+
+                foreach (DataGridViewCell cell in dataGridView.SelectedCells)
+                {
+                    await client.DeviceAppManagement.MobileApps[appID].Assignments[assignment.Id].Request().DeleteAsync();
+                }
+
+            }
+
+
+
+
+
+        }
+
+
+        // Method to update label with a given text
+        public void UpdateLabel(System.Windows.Forms.Label label, string text)
+        {
+            if (label.InvokeRequired)
+            {
+                label.Invoke(new MethodInvoker(delegate { label.Text = text; }));
+            }
+            else
+            {
+                label.Text = text;
+            }
+        }
 
         /////////////////////////////////////////// Key presses ////////////////////////////////////////////////////////////////////////
 
@@ -383,6 +463,9 @@ namespace IntuneAssignments
             // Clear the datagridview for older results
             _form1.ClearDataGridView(dtgGroupAssignment);
 
+
+
+
             ListAllAssignedGroups();
 
         }
@@ -405,7 +488,28 @@ namespace IntuneAssignments
 
         private void tstbtn1_Click(object sender, EventArgs e)
         {
+            
+            // Show message box with warning, and if statement based on what the user clicks
 
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete all assignments for this app?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+            if (dialogResult == DialogResult.Yes)
+            {
+                // If user clicks yes, delete all assignments
+                deleteAppAssignment();
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                // If user clicks no, do nothing
+            }
+
+
+
+            
+
+
+            
+            
+            
         }
     }
 }

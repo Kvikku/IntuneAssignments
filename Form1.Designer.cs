@@ -163,13 +163,13 @@
             menuPanel.MaximumSize = new Size(287, 893);
             menuPanel.MinimumSize = new Size(102, 893);
             menuPanel.Name = "menuPanel";
-            menuPanel.Size = new Size(287, 893);
+            menuPanel.Size = new Size(102, 893);
             menuPanel.TabIndex = 18;
             // 
             // pbView
             // 
             pbView.Image = Properties.Resources._3271932871579761116_48;
-            pbView.Location = new Point(176, 203);
+            pbView.Location = new Point(11, 74);
             pbView.Name = "pbView";
             pbView.Size = new Size(67, 57);
             pbView.TabIndex = 17;
@@ -178,10 +178,10 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.BackgroundImage = Properties.Resources._16671574911586787867_64;
+            pictureBox1.BackgroundImage = Properties.Resources._15536420761558096328_48;
             pictureBox1.Location = new Point(18, 14);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(67, 68);
+            pictureBox1.Size = new Size(49, 54);
             pictureBox1.TabIndex = 13;
             pictureBox1.TabStop = false;
             pictureBox1.Click += pictureBox1_Click;
@@ -440,7 +440,7 @@
             pnlIntent.Controls.Add(rbtnAvailable);
             pnlIntent.Location = new Point(340, 598);
             pnlIntent.Name = "pnlIntent";
-            pnlIntent.Size = new Size(293, 125);
+            pnlIntent.Size = new Size(303, 125);
             pnlIntent.TabIndex = 12;
             // 
             // lblIntentChoice

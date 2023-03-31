@@ -39,12 +39,16 @@
             btnSearchApp = new Button();
             btnAllGroups = new Button();
             panel1 = new Panel();
+            lblAppID = new Label();
             pbpbClearDtgGroupAssignment = new PictureBox();
+            lblAppName = new Label();
             dtgGroupAssignment = new DataGridView();
             GroupName = new DataGridViewTextBoxColumn();
             Intent = new DataGridViewTextBoxColumn();
+            GroupID = new DataGridViewTextBoxColumn();
             pbHome = new PictureBox();
-            tstbtn1 = new Button();
+            btnDeleteAllAssignments = new Button();
+            btnDeleteSelectedAssignment = new Button();
             pnlSearchApp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbClearDtgDisplayApp).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayApp).BeginInit();
@@ -62,7 +66,7 @@
             pnlSearchApp.Controls.Add(txtboxSearchApp);
             pnlSearchApp.Controls.Add(btnSearchApp);
             pnlSearchApp.Controls.Add(btnAllGroups);
-            pnlSearchApp.Location = new Point(12, 12);
+            pnlSearchApp.Location = new Point(68, 12);
             pnlSearchApp.Name = "pnlSearchApp";
             pnlSearchApp.Size = new Size(470, 589);
             pnlSearchApp.TabIndex = 0;
@@ -150,12 +154,25 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(lblAppID);
             panel1.Controls.Add(pbpbClearDtgGroupAssignment);
+            panel1.Controls.Add(lblAppName);
             panel1.Controls.Add(dtgGroupAssignment);
-            panel1.Location = new Point(500, 12);
+            panel1.Location = new Point(556, 12);
             panel1.Name = "panel1";
             panel1.Size = new Size(470, 589);
             panel1.TabIndex = 17;
+            // 
+            // lblAppID
+            // 
+            lblAppID.AutoSize = true;
+            lblAppID.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblAppID.ForeColor = Color.Salmon;
+            lblAppID.Location = new Point(12, 43);
+            lblAppID.Name = "lblAppID";
+            lblAppID.Size = new Size(74, 21);
+            lblAppID.TabIndex = 21;
+            lblAppID.Text = "{APP ID}";
             // 
             // pbpbClearDtgGroupAssignment
             // 
@@ -167,14 +184,26 @@
             pbpbClearDtgGroupAssignment.TabStop = false;
             pbpbClearDtgGroupAssignment.Click += pbpbClearDtgGroupAssignment_Click;
             // 
+            // lblAppName
+            // 
+            lblAppName.AutoSize = true;
+            lblAppName.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblAppName.ForeColor = Color.Salmon;
+            lblAppName.Location = new Point(12, 14);
+            lblAppName.Name = "lblAppName";
+            lblAppName.Size = new Size(101, 21);
+            lblAppName.TabIndex = 20;
+            lblAppName.Text = "{APPNAME}";
+            // 
             // dtgGroupAssignment
             // 
             dtgGroupAssignment.AllowUserToAddRows = false;
             dtgGroupAssignment.AllowUserToDeleteRows = false;
             dtgGroupAssignment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dtgGroupAssignment.Columns.AddRange(new DataGridViewColumn[] { GroupName, Intent });
+            dtgGroupAssignment.Columns.AddRange(new DataGridViewColumn[] { GroupName, Intent, GroupID });
             dtgGroupAssignment.Location = new Point(12, 74);
             dtgGroupAssignment.Name = "dtgGroupAssignment";
+            dtgGroupAssignment.ReadOnly = true;
             dtgGroupAssignment.RowTemplate.Height = 25;
             dtgGroupAssignment.Size = new Size(455, 512);
             dtgGroupAssignment.TabIndex = 16;
@@ -183,32 +212,49 @@
             // 
             GroupName.HeaderText = "Group name";
             GroupName.Name = "GroupName";
+            GroupName.ReadOnly = true;
             GroupName.Width = 200;
             // 
             // Intent
             // 
             Intent.HeaderText = "Intent";
             Intent.Name = "Intent";
+            Intent.ReadOnly = true;
+            // 
+            // GroupID
+            // 
+            GroupID.HeaderText = "Group ID";
+            GroupID.Name = "GroupID";
+            GroupID.ReadOnly = true;
             // 
             // pbHome
             // 
             pbHome.Image = Properties.Resources._15536420761558096328_48;
-            pbHome.Location = new Point(1047, 12);
+            pbHome.Location = new Point(12, 12);
             pbHome.Name = "pbHome";
             pbHome.Size = new Size(50, 50);
             pbHome.TabIndex = 18;
             pbHome.TabStop = false;
             pbHome.Click += pbHome_Click;
             // 
-            // tstbtn1
+            // btnDeleteAllAssignments
             // 
-            tstbtn1.Location = new Point(234, 665);
-            tstbtn1.Name = "tstbtn1";
-            tstbtn1.Size = new Size(120, 45);
-            tstbtn1.TabIndex = 19;
-            tstbtn1.Text = "test delete";
-            tstbtn1.UseVisualStyleBackColor = true;
-            tstbtn1.Click += tstbtn1_Click;
+            btnDeleteAllAssignments.Location = new Point(723, 607);
+            btnDeleteAllAssignments.Name = "btnDeleteAllAssignments";
+            btnDeleteAllAssignments.Size = new Size(161, 45);
+            btnDeleteAllAssignments.TabIndex = 19;
+            btnDeleteAllAssignments.Text = "Delete all";
+            btnDeleteAllAssignments.UseVisualStyleBackColor = true;
+            btnDeleteAllAssignments.Click += tstbtn1_Click;
+            // 
+            // btnDeleteSelectedAssignment
+            // 
+            btnDeleteSelectedAssignment.Location = new Point(556, 607);
+            btnDeleteSelectedAssignment.Name = "btnDeleteSelectedAssignment";
+            btnDeleteSelectedAssignment.Size = new Size(161, 45);
+            btnDeleteSelectedAssignment.TabIndex = 20;
+            btnDeleteSelectedAssignment.Text = "Delete selected";
+            btnDeleteSelectedAssignment.UseVisualStyleBackColor = true;
             // 
             // ViewAssignment
             // 
@@ -216,7 +262,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1109, 893);
-            Controls.Add(tstbtn1);
+            Controls.Add(btnDeleteSelectedAssignment);
+            Controls.Add(btnDeleteAllAssignments);
             Controls.Add(pbHome);
             Controls.Add(panel1);
             Controls.Add(pnlSearchApp);
@@ -228,6 +275,7 @@
             ((System.ComponentModel.ISupportInitialize)pbClearDtgDisplayApp).EndInit();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayApp).EndInit();
             panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbpbClearDtgGroupAssignment).EndInit();
             ((System.ComponentModel.ISupportInitialize)dtgGroupAssignment).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbHome).EndInit();
@@ -243,8 +291,6 @@
         private DataGridView dtgDisplayApp;
         private Panel panel1;
         private DataGridView dtgGroupAssignment;
-        private DataGridViewTextBoxColumn GroupName;
-        private DataGridViewTextBoxColumn Intent;
         private PictureBox pbHome;
         private DataGridViewTextBoxColumn AppName;
         private DataGridViewTextBoxColumn Platform;
@@ -252,6 +298,12 @@
         private Label lblSearchApp;
         private PictureBox pbClearDtgDisplayApp;
         private PictureBox pbpbClearDtgGroupAssignment;
-        private Button tstbtn1;
+        private Button btnDeleteAllAssignments;
+        private DataGridViewTextBoxColumn GroupName;
+        private DataGridViewTextBoxColumn Intent;
+        private DataGridViewTextBoxColumn GroupID;
+        private Label lblAppID;
+        private Label lblAppName;
+        private Button btnDeleteSelectedAssignment;
     }
 }
