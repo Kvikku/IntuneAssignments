@@ -82,7 +82,6 @@
             lblSummarizeGroups = new Label();
             lblSummarizeApps = new Label();
             sideBarTimer = new System.Windows.Forms.Timer(components);
-            flowLayoutPanel2 = new FlowLayoutPanel();
             menuPanel = new Panel();
             panelTenantInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbView).BeginInit();
@@ -156,7 +155,7 @@
             // pbView
             // 
             pbView.Image = Properties.Resources._3271932871579761116_48;
-            pbView.Location = new Point(11, 74);
+            pbView.Location = new Point(11, 27);
             pbView.Name = "pbView";
             pbView.Size = new Size(67, 57);
             pbView.TabIndex = 17;
@@ -166,7 +165,7 @@
             // pictureBox1
             // 
             pictureBox1.BackgroundImage = Properties.Resources._15536420761558096328_48;
-            pictureBox1.Location = new Point(18, 14);
+            pictureBox1.Location = new Point(11, 104);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(49, 54);
             pictureBox1.TabIndex = 13;
@@ -175,7 +174,7 @@
             // 
             // testBtn
             // 
-            testBtn.Location = new Point(690, 840);
+            testBtn.Location = new Point(922, 458);
             testBtn.Name = "testBtn";
             testBtn.Size = new Size(79, 41);
             testBtn.TabIndex = 2;
@@ -253,14 +252,15 @@
             // 
             // pnlSearchApp
             // 
+            pnlSearchApp.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             pnlSearchApp.BorderStyle = BorderStyle.FixedSingle;
             pnlSearchApp.Controls.Add(dtgDisplayApp);
             pnlSearchApp.Controls.Add(txtboxSearchApp);
             pnlSearchApp.Controls.Add(btnSearchApp);
             pnlSearchApp.Controls.Add(btnAllGroups);
-            pnlSearchApp.Location = new Point(108, 0);
+            pnlSearchApp.Location = new Point(108, 12);
             pnlSearchApp.Name = "pnlSearchApp";
-            pnlSearchApp.Size = new Size(470, 287);
+            pnlSearchApp.Size = new Size(470, 286);
             pnlSearchApp.TabIndex = 9;
             // 
             // dtgDisplayApp
@@ -323,7 +323,7 @@
             // 
             pnlSelectApps.BorderStyle = BorderStyle.FixedSingle;
             pnlSelectApps.Controls.Add(clbAppAssignments);
-            pnlSelectApps.Location = new Point(816, 12);
+            pnlSelectApps.Location = new Point(584, 11);
             pnlSelectApps.Name = "pnlSelectApps";
             pnlSelectApps.Size = new Size(281, 287);
             pnlSelectApps.TabIndex = 10;
@@ -335,7 +335,7 @@
             pnlSearchGroup.Controls.Add(btnSearchGroup);
             pnlSearchGroup.Controls.Add(txtboxSearchGroup);
             pnlSearchGroup.Controls.Add(btnListAllGroups);
-            pnlSearchGroup.Location = new Point(335, 305);
+            pnlSearchGroup.Location = new Point(108, 305);
             pnlSearchGroup.Name = "pnlSearchGroup";
             pnlSearchGroup.Size = new Size(470, 287);
             pnlSearchGroup.TabIndex = 11;
@@ -397,7 +397,7 @@
             // 
             pnlSelectGroup.BorderStyle = BorderStyle.FixedSingle;
             pnlSelectGroup.Controls.Add(clbGroupAssignment);
-            pnlSelectGroup.Location = new Point(816, 305);
+            pnlSelectGroup.Location = new Point(580, 305);
             pnlSelectGroup.Name = "pnlSelectGroup";
             pnlSelectGroup.Size = new Size(281, 287);
             pnlSelectGroup.TabIndex = 11;
@@ -424,7 +424,7 @@
             pnlIntent.Controls.Add(rbtnUninstall);
             pnlIntent.Controls.Add(rbtnRequired);
             pnlIntent.Controls.Add(rbtnAvailable);
-            pnlIntent.Location = new Point(335, 598);
+            pnlIntent.Location = new Point(108, 601);
             pnlIntent.Name = "pnlIntent";
             pnlIntent.Size = new Size(303, 125);
             pnlIntent.TabIndex = 12;
@@ -510,9 +510,9 @@
             panelSummary.Controls.Add(lblSummarizeIntent);
             panelSummary.Controls.Add(lblSummarizeGroups);
             panelSummary.Controls.Add(lblSummarizeApps);
-            panelSummary.Location = new Point(775, 598);
+            panelSummary.Location = new Point(580, 598);
             panelSummary.Name = "panelSummary";
-            panelSummary.Size = new Size(322, 468);
+            panelSummary.Size = new Size(322, 334);
             panelSummary.TabIndex = 16;
             // 
             // rtbDeploymentSummary
@@ -614,19 +614,12 @@
             sideBarTimer.Interval = 10;
             sideBarTimer.Tick += sideBarTimer_Tick;
             // 
-            // flowLayoutPanel2
-            // 
-            flowLayoutPanel2.Location = new Point(191, 571);
-            flowLayoutPanel2.Name = "flowLayoutPanel2";
-            flowLayoutPanel2.Size = new Size(200, 100);
-            flowLayoutPanel2.TabIndex = 20;
-            // 
             // menuPanel
             // 
             menuPanel.BorderStyle = BorderStyle.FixedSingle;
-            menuPanel.Controls.Add(panelTenantInfo);
-            menuPanel.Controls.Add(pbView);
             menuPanel.Controls.Add(pictureBox1);
+            menuPanel.Controls.Add(pbView);
+            menuPanel.Controls.Add(panelTenantInfo);
             menuPanel.Dock = DockStyle.Left;
             menuPanel.Location = new Point(0, 0);
             menuPanel.MaximumSize = new Size(287, 893);
@@ -641,7 +634,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1109, 893);
-            Controls.Add(flowLayoutPanel2);
+            Controls.Add(panelSummary);
             Controls.Add(menuPanel);
             Controls.Add(testBtn);
             Controls.Add(pnlIntent);
@@ -649,7 +642,6 @@
             Controls.Add(pnlSearchGroup);
             Controls.Add(pnlSelectApps);
             Controls.Add(pnlSearchApp);
-            Controls.Add(panelSummary);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
@@ -733,7 +725,6 @@
         private RichTextBox rtbDeploymentSummary;
         private PictureBox pbView;
         private System.Windows.Forms.Timer sideBarTimer;
-        private FlowLayoutPanel flowLayoutPanel2;
         private Panel menuPanel;
     }
 }
