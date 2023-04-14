@@ -28,19 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
+            btnLogin = new Button();
             SuspendLayout();
+            // 
+            // btnLogin
+            // 
+            btnLogin.Location = new Point(126, 107);
+            btnLogin.Name = "btnLogin";
+            btnLogin.Size = new Size(96, 33);
+            btnLogin.TabIndex = 1;
+            btnLogin.Text = "Login to Azure";
+            btnLogin.UseVisualStyleBackColor = true;
             // 
             // LoginForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(370, 286);
+            Controls.Add(btnLogin);
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "LoginForm";
             Text = "LoginForm";
             ResumeLayout(false);
         }
 
         #endregion
+
+        private Button btnLogin;
     }
 }

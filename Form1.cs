@@ -26,12 +26,14 @@ using System.Windows.Forms;
 
 ///// Core functionality /////
 
+// Fix try catch and check for if the session is authentictated properly. handle errors
+// Handle All Users and All Devices virtual groups
+
 // OK - List all assignments with intent for an application
 // OK - Add one or more assignments with intent for an application
 // OK - Delete one or more assignments for an application
-// Fix try catch and check for if the session is authentictated properly. handle errors
 // OK - Select multiple apps, add assignments
-// Handle All Users and All Devices virtual groups
+
 
 
 // Assignment options (End User Notifications, Availability, Deadline)
@@ -42,10 +44,14 @@ using System.Windows.Forms;
 // On application launch - Prompt user to log in
 // Progress bar
 
+
+
 ///// Nice to haves /////
+
 // Warning prompts
 // Confirmations
 // Reload DTG's after changes
+
 
 
 // last action:

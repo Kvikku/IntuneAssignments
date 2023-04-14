@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             panelTenantInfo = new Panel();
             SignIn = new Button();
             lblTenantID = new Label();
@@ -155,9 +156,9 @@
             // pbView
             // 
             pbView.Image = Properties.Resources._3271932871579761116_48;
-            pbView.Location = new Point(11, 27);
+            pbView.Location = new Point(11, 74);
             pbView.Name = "pbView";
-            pbView.Size = new Size(67, 57);
+            pbView.Size = new Size(59, 57);
             pbView.TabIndex = 17;
             pbView.TabStop = false;
             pbView.Click += pbView_Click;
@@ -165,7 +166,7 @@
             // pictureBox1
             // 
             pictureBox1.BackgroundImage = Properties.Resources._15536420761558096328_48;
-            pictureBox1.Location = new Point(11, 104);
+            pictureBox1.Location = new Point(11, 14);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(49, 54);
             pictureBox1.TabIndex = 13;
@@ -174,7 +175,7 @@
             // 
             // testBtn
             // 
-            testBtn.Location = new Point(922, 458);
+            testBtn.Location = new Point(11, 839);
             testBtn.Name = "testBtn";
             testBtn.Size = new Size(79, 41);
             testBtn.TabIndex = 2;
@@ -206,7 +207,7 @@
             clbAppAssignments.Items.AddRange(new object[] { "App 1", "App 2", "App 3" });
             clbAppAssignments.Location = new Point(12, 13);
             clbAppAssignments.Name = "clbAppAssignments";
-            clbAppAssignments.Size = new Size(253, 234);
+            clbAppAssignments.Size = new Size(188, 234);
             clbAppAssignments.TabIndex = 0;
             clbAppAssignments.MouseClick += clbAppAssignments_MouseClick;
             // 
@@ -267,11 +268,18 @@
             // 
             dtgDisplayApp.AllowUserToAddRows = false;
             dtgDisplayApp.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(46, 51, 73);
+            dataGridViewCellStyle1.ForeColor = Color.Salmon;
+            dataGridViewCellStyle1.SelectionBackColor = Color.AliceBlue;
+            dataGridViewCellStyle1.SelectionForeColor = Color.Red;
+            dtgDisplayApp.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dtgDisplayApp.BackgroundColor = Color.FromArgb(46, 51, 73);
             dtgDisplayApp.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgDisplayApp.Columns.AddRange(new DataGridViewColumn[] { AppName, Platform, AppID });
             dtgDisplayApp.ContextMenuStrip = dtgDisplayAppRightClick;
             dtgDisplayApp.Location = new Point(19, 42);
             dtgDisplayApp.Name = "dtgDisplayApp";
+            dtgDisplayApp.ReadOnly = true;
             dtgDisplayApp.RowTemplate.Height = 25;
             dtgDisplayApp.Size = new Size(446, 234);
             dtgDisplayApp.TabIndex = 10;
@@ -281,42 +289,49 @@
             // 
             AppName.HeaderText = "App name";
             AppName.Name = "AppName";
+            AppName.ReadOnly = true;
             AppName.Width = 200;
             // 
             // Platform
             // 
             Platform.HeaderText = "Platform";
             Platform.Name = "Platform";
+            Platform.ReadOnly = true;
             // 
             // AppID
             // 
             AppID.HeaderText = "ID";
             AppID.Name = "AppID";
+            AppID.ReadOnly = true;
             // 
             // txtboxSearchApp
             // 
-            txtboxSearchApp.Location = new Point(19, 13);
+            txtboxSearchApp.Location = new Point(19, 9);
             txtboxSearchApp.Name = "txtboxSearchApp";
-            txtboxSearchApp.Size = new Size(142, 23);
+            txtboxSearchApp.Size = new Size(191, 23);
             txtboxSearchApp.TabIndex = 11;
             // 
             // btnSearchApp
             // 
-            btnSearchApp.Location = new Point(167, 6);
+            btnSearchApp.BackColor = Color.Salmon;
+            btnSearchApp.FlatStyle = FlatStyle.Popup;
+            btnSearchApp.Location = new Point(216, 4);
             btnSearchApp.Name = "btnSearchApp";
             btnSearchApp.Size = new Size(119, 30);
             btnSearchApp.TabIndex = 12;
             btnSearchApp.Text = "Search";
-            btnSearchApp.UseVisualStyleBackColor = true;
+            btnSearchApp.UseVisualStyleBackColor = false;
             // 
             // btnAllGroups
             // 
-            btnAllGroups.Location = new Point(292, 6);
+            btnAllGroups.BackColor = Color.Salmon;
+            btnAllGroups.FlatStyle = FlatStyle.Popup;
+            btnAllGroups.Location = new Point(341, 4);
             btnAllGroups.Name = "btnAllGroups";
             btnAllGroups.Size = new Size(124, 30);
             btnAllGroups.TabIndex = 9;
             btnAllGroups.Text = "List all apps";
-            btnAllGroups.UseVisualStyleBackColor = true;
+            btnAllGroups.UseVisualStyleBackColor = false;
             btnAllGroups.Click += btnAllGroups_Click;
             // 
             // pnlSelectApps
@@ -325,7 +340,7 @@
             pnlSelectApps.Controls.Add(clbAppAssignments);
             pnlSelectApps.Location = new Point(584, 11);
             pnlSelectApps.Name = "pnlSelectApps";
-            pnlSelectApps.Size = new Size(281, 287);
+            pnlSelectApps.Size = new Size(216, 287);
             pnlSelectApps.TabIndex = 10;
             // 
             // pnlSearchGroup
@@ -344,11 +359,13 @@
             // 
             dtgDisplayGroup.AllowUserToAddRows = false;
             dtgDisplayGroup.AllowUserToDeleteRows = false;
+            dtgDisplayGroup.BackgroundColor = Color.FromArgb(46, 51, 73);
             dtgDisplayGroup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgDisplayGroup.Columns.AddRange(new DataGridViewColumn[] { GroupName, GroupID });
             dtgDisplayGroup.ContextMenuStrip = dtgDisplayAppRightClick;
             dtgDisplayGroup.Location = new Point(19, 41);
             dtgDisplayGroup.Name = "dtgDisplayGroup";
+            dtgDisplayGroup.ReadOnly = true;
             dtgDisplayGroup.RowTemplate.Height = 25;
             dtgDisplayGroup.Size = new Size(446, 234);
             dtgDisplayGroup.TabIndex = 14;
@@ -358,39 +375,45 @@
             // 
             GroupName.HeaderText = "Group name";
             GroupName.Name = "GroupName";
+            GroupName.ReadOnly = true;
             GroupName.Width = 200;
             // 
             // GroupID
             // 
             GroupID.HeaderText = "ID";
             GroupID.Name = "GroupID";
+            GroupID.ReadOnly = true;
             GroupID.Width = 200;
             // 
             // btnSearchGroup
             // 
-            btnSearchGroup.Location = new Point(167, 5);
+            btnSearchGroup.BackColor = Color.Salmon;
+            btnSearchGroup.FlatStyle = FlatStyle.Popup;
+            btnSearchGroup.Location = new Point(216, 5);
             btnSearchGroup.Name = "btnSearchGroup";
             btnSearchGroup.Size = new Size(119, 30);
             btnSearchGroup.TabIndex = 15;
             btnSearchGroup.Text = "Search";
-            btnSearchGroup.UseVisualStyleBackColor = true;
+            btnSearchGroup.UseVisualStyleBackColor = false;
             btnSearchGroup.Click += btnSearchGroup_Click;
             // 
             // txtboxSearchGroup
             // 
             txtboxSearchGroup.Location = new Point(19, 12);
             txtboxSearchGroup.Name = "txtboxSearchGroup";
-            txtboxSearchGroup.Size = new Size(142, 23);
+            txtboxSearchGroup.Size = new Size(191, 23);
             txtboxSearchGroup.TabIndex = 13;
             // 
             // btnListAllGroups
             // 
-            btnListAllGroups.Location = new Point(292, 5);
+            btnListAllGroups.BackColor = Color.Salmon;
+            btnListAllGroups.FlatStyle = FlatStyle.Popup;
+            btnListAllGroups.Location = new Point(341, 5);
             btnListAllGroups.Name = "btnListAllGroups";
             btnListAllGroups.Size = new Size(124, 30);
             btnListAllGroups.TabIndex = 13;
             btnListAllGroups.Text = "List all groups";
-            btnListAllGroups.UseVisualStyleBackColor = true;
+            btnListAllGroups.UseVisualStyleBackColor = false;
             btnListAllGroups.Click += btnListAllGroups_Click;
             // 
             // pnlSelectGroup
@@ -399,7 +422,7 @@
             pnlSelectGroup.Controls.Add(clbGroupAssignment);
             pnlSelectGroup.Location = new Point(580, 305);
             pnlSelectGroup.Name = "pnlSelectGroup";
-            pnlSelectGroup.Size = new Size(281, 287);
+            pnlSelectGroup.Size = new Size(220, 287);
             pnlSelectGroup.TabIndex = 11;
             // 
             // clbGroupAssignment
@@ -414,7 +437,7 @@
             clbGroupAssignment.Items.AddRange(new object[] { "Group 1", "Group 2", "Group 3", "Group 4", "Group 5" });
             clbGroupAssignment.Location = new Point(12, 13);
             clbGroupAssignment.Name = "clbGroupAssignment";
-            clbGroupAssignment.Size = new Size(253, 216);
+            clbGroupAssignment.Size = new Size(192, 216);
             clbGroupAssignment.TabIndex = 0;
             clbGroupAssignment.MouseClick += clbGroupAssignment_MouseClick;
             // 
@@ -424,7 +447,7 @@
             pnlIntent.Controls.Add(rbtnUninstall);
             pnlIntent.Controls.Add(rbtnRequired);
             pnlIntent.Controls.Add(rbtnAvailable);
-            pnlIntent.Location = new Point(108, 601);
+            pnlIntent.Location = new Point(108, 598);
             pnlIntent.Name = "pnlIntent";
             pnlIntent.Size = new Size(303, 125);
             pnlIntent.TabIndex = 12;
@@ -478,23 +501,28 @@
             // 
             // btnSummarize
             // 
+            btnSummarize.BackColor = Color.Salmon;
             btnSummarize.FlatAppearance.BorderColor = Color.White;
-            btnSummarize.Location = new Point(158, 3);
+            btnSummarize.FlatStyle = FlatStyle.Popup;
+            btnSummarize.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnSummarize.Location = new Point(15, 10);
             btnSummarize.Name = "btnSummarize";
-            btnSummarize.Size = new Size(79, 38);
+            btnSummarize.Size = new Size(215, 38);
             btnSummarize.TabIndex = 14;
-            btnSummarize.Text = "Summarize";
-            btnSummarize.UseVisualStyleBackColor = true;
+            btnSummarize.Text = "Prepare deployment";
+            btnSummarize.UseVisualStyleBackColor = false;
             btnSummarize.Click += btnSummarize_Click;
             // 
             // btnReset
             // 
-            btnReset.Location = new Point(240, 3);
+            btnReset.BackColor = Color.Salmon;
+            btnReset.FlatStyle = FlatStyle.Popup;
+            btnReset.Location = new Point(295, 5);
             btnReset.Name = "btnReset";
             btnReset.Size = new Size(79, 38);
             btnReset.TabIndex = 15;
             btnReset.Text = "Reset";
-            btnReset.UseVisualStyleBackColor = true;
+            btnReset.UseVisualStyleBackColor = false;
             btnReset.Click += btnReset_Click;
             // 
             // panelSummary
@@ -510,9 +538,9 @@
             panelSummary.Controls.Add(lblSummarizeIntent);
             panelSummary.Controls.Add(lblSummarizeGroups);
             panelSummary.Controls.Add(lblSummarizeApps);
-            panelSummary.Location = new Point(580, 598);
+            panelSummary.Location = new Point(806, 12);
             panelSummary.Name = "panelSummary";
-            panelSummary.Size = new Size(322, 334);
+            panelSummary.Size = new Size(387, 580);
             panelSummary.TabIndex = 16;
             // 
             // rtbDeploymentSummary
@@ -520,27 +548,32 @@
             rtbDeploymentSummary.BackColor = Color.FromArgb(46, 51, 73);
             rtbDeploymentSummary.BorderStyle = BorderStyle.None;
             rtbDeploymentSummary.ForeColor = Color.Salmon;
-            rtbDeploymentSummary.Location = new Point(15, 339);
+            rtbDeploymentSummary.Location = new Point(15, 456);
             rtbDeploymentSummary.Name = "rtbDeploymentSummary";
-            rtbDeploymentSummary.Size = new Size(244, 113);
+            rtbDeploymentSummary.Size = new Size(359, 113);
             rtbDeploymentSummary.TabIndex = 20;
             rtbDeploymentSummary.Text = "";
             // 
             // progressBar1
             // 
-            progressBar1.Location = new Point(15, 305);
+            progressBar1.Location = new Point(15, 422);
             progressBar1.Name = "progressBar1";
             progressBar1.Size = new Size(292, 28);
             progressBar1.TabIndex = 17;
             // 
             // btnDeployAssignments
             // 
-            btnDeployAssignments.Location = new Point(88, 247);
+            btnDeployAssignments.BackColor = Color.Salmon;
+            btnDeployAssignments.FlatAppearance.BorderSize = 0;
+            btnDeployAssignments.FlatStyle = FlatStyle.Popup;
+            btnDeployAssignments.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnDeployAssignments.ForeColor = SystemColors.ControlText;
+            btnDeployAssignments.Location = new Point(15, 377);
             btnDeployAssignments.Name = "btnDeployAssignments";
-            btnDeployAssignments.Size = new Size(124, 39);
+            btnDeployAssignments.Size = new Size(292, 39);
             btnDeployAssignments.TabIndex = 17;
             btnDeployAssignments.Text = "Deploy";
-            btnDeployAssignments.UseVisualStyleBackColor = true;
+            btnDeployAssignments.UseVisualStyleBackColor = false;
             btnDeployAssignments.Click += btnDeployAssignments_Click;
             // 
             // rtbSummarizeIntent
@@ -548,9 +581,9 @@
             rtbSummarizeIntent.BackColor = Color.FromArgb(46, 51, 73);
             rtbSummarizeIntent.BorderStyle = BorderStyle.None;
             rtbSummarizeIntent.ForeColor = Color.Salmon;
-            rtbSummarizeIntent.Location = new Point(4, 204);
+            rtbSummarizeIntent.Location = new Point(15, 345);
             rtbSummarizeIntent.Name = "rtbSummarizeIntent";
-            rtbSummarizeIntent.Size = new Size(255, 26);
+            rtbSummarizeIntent.Size = new Size(359, 26);
             rtbSummarizeIntent.TabIndex = 19;
             rtbSummarizeIntent.Text = "";
             // 
@@ -559,9 +592,9 @@
             rtbSummarizeGroups.BackColor = Color.FromArgb(46, 51, 73);
             rtbSummarizeGroups.BorderStyle = BorderStyle.None;
             rtbSummarizeGroups.ForeColor = Color.Salmon;
-            rtbSummarizeGroups.Location = new Point(3, 119);
+            rtbSummarizeGroups.Location = new Point(15, 228);
             rtbSummarizeGroups.Name = "rtbSummarizeGroups";
-            rtbSummarizeGroups.Size = new Size(255, 61);
+            rtbSummarizeGroups.Size = new Size(359, 93);
             rtbSummarizeGroups.TabIndex = 18;
             rtbSummarizeGroups.Text = "";
             // 
@@ -570,9 +603,9 @@
             rtbSummarizeApps.BackColor = Color.FromArgb(46, 51, 73);
             rtbSummarizeApps.BorderStyle = BorderStyle.None;
             rtbSummarizeApps.ForeColor = Color.Salmon;
-            rtbSummarizeApps.Location = new Point(4, 33);
+            rtbSummarizeApps.Location = new Point(15, 77);
             rtbSummarizeApps.Name = "rtbSummarizeApps";
-            rtbSummarizeApps.Size = new Size(255, 62);
+            rtbSummarizeApps.Size = new Size(359, 114);
             rtbSummarizeApps.TabIndex = 17;
             rtbSummarizeApps.Text = "";
             // 
@@ -581,7 +614,7 @@
             lblSummarizeIntent.AutoSize = true;
             lblSummarizeIntent.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
             lblSummarizeIntent.ForeColor = Color.Salmon;
-            lblSummarizeIntent.Location = new Point(4, 183);
+            lblSummarizeIntent.Location = new Point(3, 324);
             lblSummarizeIntent.Name = "lblSummarizeIntent";
             lblSummarizeIntent.Size = new Size(26, 18);
             lblSummarizeIntent.TabIndex = 2;
@@ -592,7 +625,7 @@
             lblSummarizeGroups.AutoSize = true;
             lblSummarizeGroups.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
             lblSummarizeGroups.ForeColor = Color.Salmon;
-            lblSummarizeGroups.Location = new Point(3, 98);
+            lblSummarizeGroups.Location = new Point(3, 207);
             lblSummarizeGroups.Name = "lblSummarizeGroups";
             lblSummarizeGroups.Size = new Size(304, 18);
             lblSummarizeGroups.TabIndex = 1;
@@ -603,7 +636,7 @@
             lblSummarizeApps.AutoSize = true;
             lblSummarizeApps.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
             lblSummarizeApps.ForeColor = Color.Salmon;
-            lblSummarizeApps.Location = new Point(3, 12);
+            lblSummarizeApps.Location = new Point(3, 51);
             lblSummarizeApps.Name = "lblSummarizeApps";
             lblSummarizeApps.Size = new Size(149, 18);
             lblSummarizeApps.TabIndex = 0;
@@ -620,6 +653,7 @@
             menuPanel.Controls.Add(pictureBox1);
             menuPanel.Controls.Add(pbView);
             menuPanel.Controls.Add(panelTenantInfo);
+            menuPanel.Controls.Add(testBtn);
             menuPanel.Dock = DockStyle.Left;
             menuPanel.Location = new Point(0, 0);
             menuPanel.MaximumSize = new Size(287, 893);
@@ -633,10 +667,9 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
-            ClientSize = new Size(1109, 893);
+            ClientSize = new Size(1219, 893);
             Controls.Add(panelSummary);
             Controls.Add(menuPanel);
-            Controls.Add(testBtn);
             Controls.Add(pnlIntent);
             Controls.Add(pnlSelectGroup);
             Controls.Add(pnlSearchGroup);

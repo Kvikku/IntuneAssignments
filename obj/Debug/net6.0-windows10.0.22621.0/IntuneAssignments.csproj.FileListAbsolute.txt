@@ -43,3 +43,4 @@ C:\Github\IntuneAssignments\obj\Debug\net6.0-windows10.0.22621.0\IntuneAssignmen
 C:\Github\IntuneAssignments\obj\Debug\net6.0-windows10.0.22621.0\ref\IntuneAssignments.dll
 C:\Github\IntuneAssignments\obj\Debug\net6.0-windows10.0.22621.0\IntuneAssignments.Properties.Resources.resources
 C:\Github\IntuneAssignments\obj\Debug\net6.0-windows10.0.22621.0\IntuneAssignments.ViewAssignment.resources
+C:\Github\IntuneAssignments\obj\Debug\net6.0-windows10.0.22621.0\IntuneAssignments.LoginForm.resources
