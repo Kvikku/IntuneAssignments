@@ -34,7 +34,6 @@
             lblTenantID = new Label();
             lblTenantInfo = new Label();
             lblSignedInUser = new Label();
-            menuPanel = new Panel();
             pbView = new PictureBox();
             pictureBox1 = new PictureBox();
             testBtn = new Button();
@@ -83,8 +82,9 @@
             lblSummarizeGroups = new Label();
             lblSummarizeApps = new Label();
             sideBarTimer = new System.Windows.Forms.Timer(components);
+            flowLayoutPanel2 = new FlowLayoutPanel();
+            menuPanel = new Panel();
             panelTenantInfo.SuspendLayout();
-            menuPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             dtgDisplayAppRightClick.SuspendLayout();
@@ -98,6 +98,7 @@
             pnlSelectGroup.SuspendLayout();
             pnlIntent.SuspendLayout();
             panelSummary.SuspendLayout();
+            menuPanel.SuspendLayout();
             SuspendLayout();
             // 
             // panelTenantInfo
@@ -152,20 +153,6 @@
             lblSignedInUser.TabIndex = 1;
             lblSignedInUser.Text = "SIGNED IN USER";
             // 
-            // menuPanel
-            // 
-            menuPanel.Anchor = AnchorStyles.Left;
-            menuPanel.BorderStyle = BorderStyle.FixedSingle;
-            menuPanel.Controls.Add(panelTenantInfo);
-            menuPanel.Controls.Add(pbView);
-            menuPanel.Controls.Add(pictureBox1);
-            menuPanel.Location = new Point(0, 0);
-            menuPanel.MaximumSize = new Size(287, 893);
-            menuPanel.MinimumSize = new Size(102, 893);
-            menuPanel.Name = "menuPanel";
-            menuPanel.Size = new Size(102, 893);
-            menuPanel.TabIndex = 18;
-            // 
             // pbView
             // 
             pbView.Image = Properties.Resources._3271932871579761116_48;
@@ -188,7 +175,7 @@
             // 
             // testBtn
             // 
-            testBtn.Location = new Point(564, 779);
+            testBtn.Location = new Point(690, 840);
             testBtn.Name = "testBtn";
             testBtn.Size = new Size(79, 41);
             testBtn.TabIndex = 2;
@@ -266,13 +253,12 @@
             // 
             // pnlSearchApp
             // 
-            pnlSearchApp.Anchor = AnchorStyles.None;
             pnlSearchApp.BorderStyle = BorderStyle.FixedSingle;
             pnlSearchApp.Controls.Add(dtgDisplayApp);
             pnlSearchApp.Controls.Add(txtboxSearchApp);
             pnlSearchApp.Controls.Add(btnSearchApp);
             pnlSearchApp.Controls.Add(btnAllGroups);
-            pnlSearchApp.Location = new Point(335, 12);
+            pnlSearchApp.Location = new Point(108, 0);
             pnlSearchApp.Name = "pnlSearchApp";
             pnlSearchApp.Size = new Size(470, 287);
             pnlSearchApp.TabIndex = 9;
@@ -349,7 +335,7 @@
             pnlSearchGroup.Controls.Add(btnSearchGroup);
             pnlSearchGroup.Controls.Add(txtboxSearchGroup);
             pnlSearchGroup.Controls.Add(btnListAllGroups);
-            pnlSearchGroup.Location = new Point(340, 305);
+            pnlSearchGroup.Location = new Point(335, 305);
             pnlSearchGroup.Name = "pnlSearchGroup";
             pnlSearchGroup.Size = new Size(470, 287);
             pnlSearchGroup.TabIndex = 11;
@@ -438,7 +424,7 @@
             pnlIntent.Controls.Add(rbtnUninstall);
             pnlIntent.Controls.Add(rbtnRequired);
             pnlIntent.Controls.Add(rbtnAvailable);
-            pnlIntent.Location = new Point(340, 598);
+            pnlIntent.Location = new Point(335, 598);
             pnlIntent.Name = "pnlIntent";
             pnlIntent.Size = new Size(303, 125);
             pnlIntent.TabIndex = 12;
@@ -628,12 +614,34 @@
             sideBarTimer.Interval = 10;
             sideBarTimer.Tick += sideBarTimer_Tick;
             // 
+            // flowLayoutPanel2
+            // 
+            flowLayoutPanel2.Location = new Point(191, 571);
+            flowLayoutPanel2.Name = "flowLayoutPanel2";
+            flowLayoutPanel2.Size = new Size(200, 100);
+            flowLayoutPanel2.TabIndex = 20;
+            // 
+            // menuPanel
+            // 
+            menuPanel.BorderStyle = BorderStyle.FixedSingle;
+            menuPanel.Controls.Add(panelTenantInfo);
+            menuPanel.Controls.Add(pbView);
+            menuPanel.Controls.Add(pictureBox1);
+            menuPanel.Dock = DockStyle.Left;
+            menuPanel.Location = new Point(0, 0);
+            menuPanel.MaximumSize = new Size(287, 893);
+            menuPanel.MinimumSize = new Size(102, 893);
+            menuPanel.Name = "menuPanel";
+            menuPanel.Size = new Size(102, 893);
+            menuPanel.TabIndex = 18;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1109, 893);
+            Controls.Add(flowLayoutPanel2);
             Controls.Add(menuPanel);
             Controls.Add(testBtn);
             Controls.Add(pnlIntent);
@@ -649,7 +657,6 @@
             Load += Form1_Load;
             panelTenantInfo.ResumeLayout(false);
             panelTenantInfo.PerformLayout();
-            menuPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pbView).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             dtgDisplayAppRightClick.ResumeLayout(false);
@@ -667,6 +674,7 @@
             pnlIntent.PerformLayout();
             panelSummary.ResumeLayout(false);
             panelSummary.PerformLayout();
+            menuPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -725,6 +733,7 @@
         private RichTextBox rtbDeploymentSummary;
         private PictureBox pbView;
         private System.Windows.Forms.Timer sideBarTimer;
+        private FlowLayoutPanel flowLayoutPanel2;
         private Panel menuPanel;
     }
 }

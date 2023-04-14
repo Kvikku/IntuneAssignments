@@ -24,16 +24,17 @@ using System.Windows.Forms;
 
 // Everything as simple methods
 
-///// Functionality /////
+///// Core functionality /////
 
-// List all assignments with intent for an application
-// Add one or more assignments with intent for an application
-// Delete one or more assignments for an application
+// OK - List all assignments with intent for an application
+// OK - Add one or more assignments with intent for an application
+// OK - Delete one or more assignments for an application
 // Fix try catch and check for if the session is authentictated properly. handle errors
-// Select multiple apps, add assignments
+// OK - Select multiple apps, add assignments
+// Handle All Users and All Devices virtual groups
 
 
-// Assingment options (End User Notifications, Availability, Deadline)
+// Assignment options (End User Notifications, Availability, Deadline)
 // Different needs for each app type (VPP, Win32, MGP, etc)
 // Drop down menu to select each type?
 // Multiple assignments:
@@ -41,11 +42,15 @@ using System.Windows.Forms;
 // On application launch - Prompt user to log in
 // Progress bar
 
+///// Nice to haves /////
+// Warning prompts
+// Confirmations
+// Reload DTG's after changes
 
 
 // last action:
 
-// Delete selected assignment - Not finished
+
 
 
 

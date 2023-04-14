@@ -373,7 +373,7 @@ namespace IntuneAssignments
 
         public async void deleteSelectedAppAssignment(DataGridView dataGridView)
         {
-            
+
 
             // Create an object of form1 to use it's methods   
             Form1 form1 = new Form1();
@@ -394,18 +394,36 @@ namespace IntuneAssignments
             List<MobileAppAssignment> assignmentsList = new List<MobileAppAssignment>();
             assignmentsList.AddRange(allAssignments.Result);
 
+            // match group ID with assignment ID
 
-            foreach (var assignment in assignmentsList) 
+            foreach (DataGridViewCell cell in dataGridView.SelectedCells)
             {
 
-                foreach (DataGridViewCell cell in dataGridView.SelectedCells)
+                int rowIndex = cell.RowIndex;
+                int columnIndex = 2; // Index of the third column (zero-based index)
+
+                if (dataGridView.Rows[rowIndex].Cells[columnIndex].Value != null)
                 {
-                    await client.DeviceAppManagement.MobileApps[appID].Assignments[assignment.Id].Request().DeleteAsync();
+                    // Retrieve the value of the third column in order to match it with assignment ID
+                    string? groupID = dataGridView.Rows[rowIndex].Cells[columnIndex].Value.ToString();
+
+                    // Find assignment ID for a given group ID
+                    var assignmentID = assignmentsList.FirstOrDefault(x => x.Id.Contains(groupID));
+
+                    // Delete assignment
+                    await client.DeviceAppManagement.MobileApps[appID].Assignments[assignmentID.Id].Request().DeleteAsync();
                 }
+
 
             }
 
+            
 
+            // Clear the datagridview for older results
+            _form1.ClearDataGridView(dtgGroupAssignment);
+
+            // Refresh datagridview
+            ListAllAssignedGroups();
 
 
 
@@ -488,7 +506,7 @@ namespace IntuneAssignments
 
         private void tstbtn1_Click(object sender, EventArgs e)
         {
-            
+
             // Show message box with warning, and if statement based on what the user clicks
 
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete all assignments for this app?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
@@ -503,13 +521,13 @@ namespace IntuneAssignments
             }
 
 
-
-            
-
-
-            
-            
-            
         }
+
+        private void btnDeleteSelectedAssignment_Click(object sender, EventArgs e)
+        {
+            deleteSelectedAppAssignment(dtgGroupAssignment);
+        }
+
+
     }
 }

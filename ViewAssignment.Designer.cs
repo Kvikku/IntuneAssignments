@@ -104,6 +104,7 @@
             dtgDisplayApp.RowTemplate.Height = 25;
             dtgDisplayApp.Size = new Size(455, 512);
             dtgDisplayApp.TabIndex = 16;
+
             dtgDisplayApp.CellMouseDoubleClick += dtgDisplayApp_CellMouseDoubleClick;
             // 
             // AppName
@@ -255,6 +256,7 @@
             btnDeleteSelectedAssignment.TabIndex = 20;
             btnDeleteSelectedAssignment.Text = "Delete selected";
             btnDeleteSelectedAssignment.UseVisualStyleBackColor = true;
+            btnDeleteSelectedAssignment.Click += btnDeleteSelectedAssignment_Click;
             // 
             // ViewAssignment
             // 
