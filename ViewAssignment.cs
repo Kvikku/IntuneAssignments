@@ -81,16 +81,13 @@ namespace IntuneAssignments
             Form1 form1 = new Form1();
 
 
-            // Clear the datagridview for older results
-
-            form1.ClearDataGridView(dtgDisplayApp);
-
-
             // Authenticate to Graph
 
             GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
 
+            // Clear the datagridview for older results
 
+            form1.ClearDataGridView(dtgDisplayApp);
 
             // Make a call to Microsoft Graph
             var allApplications = client.DeviceAppManagement.MobileApps
