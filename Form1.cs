@@ -68,7 +68,9 @@ using Windows.Foundation.Metadata;
 
 // last action:
 
-// begun login form creation
+// change GUI
+// Idea to change intent to drop down menu and place within deployment pane. remove radio buttons
+// Idea to change DTG UI to more sleek design
 
 
 
