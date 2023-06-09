@@ -44,6 +44,7 @@ using Windows.Foundation.Metadata;
 // OK - Select multiple apps, add assignments
 // OK - Sidebar slides back after MS auth
 // OK - Search box default text disappear when clicked
+// OK - Display list of each error for each assignment
 
 
 
@@ -71,6 +72,7 @@ using Windows.Foundation.Metadata;
 // change GUI
 // Idea to change intent to drop down menu and place within deployment pane. remove radio buttons
 // Idea to change DTG UI to more sleek design
+// Button animation
 
 
 
@@ -104,6 +106,13 @@ namespace IntuneAssignments
         string accessToken = "";
         public static string GraphAccessToken { get; set; }
         public static Point Form1Location { get; set; }
+        private System.Windows.Forms.Timer animationTimer;
+        private System.Windows.Forms.Timer buttonGrowTimer;
+        private int sizeIncrement = 10;
+        private int growthDuration = 1000;
+        private int timerCount = 1;
+        private Size OriginalLoginButtonSize = Size.Empty;
+
 
 
         public void Form1_Load(object sender, EventArgs e)
@@ -111,10 +120,26 @@ namespace IntuneAssignments
             // Hides the login panel during application launch
             //HidePanel(panelTenantInfo);
             //HidePanel(menuPanel);
+            //delayLoginAnimation();
+
+            // Hides default text on labels
+
+            lblSignedInUser.Text = "";
+            lblTenantID.Text = "";
 
 
-            Task.Delay(3000);
-            sideBarTimer.Start();
+            // Creates a timer to have the animation trigger after 3 seconds
+            animationTimer = new System.Windows.Forms.Timer();
+            animationTimer.Interval = 3000;
+            animationTimer.Tick += Timer_Tick;
+            animationTimer.Start();
+
+
+            // Creates a timer to animate the login button
+
+            buttonGrowTimer = new System.Windows.Forms.Timer();
+            buttonGrowTimer.Interval = 16;
+            buttonGrowTimer.Tick += ButtonTimer_Tick;
 
         }
 
@@ -131,7 +156,6 @@ namespace IntuneAssignments
 
         ////////////////////////////////////////// Classes ///////////////////////////////////////////////////////////////////
 
-
         public class MobileAppInfo
         {
             public string Id { get; set; }
@@ -144,13 +168,9 @@ namespace IntuneAssignments
             public string DisplayName { get; set; }
         }
 
-
-
         // Methods //
 
         ////////////////////////////////////////////// Authentication ///////////////////////////////////////////////
-
-
 
 
 
@@ -276,6 +296,80 @@ namespace IntuneAssignments
 
         /// ////////////////////////////////////// Configuration ///////////////////////////////////////////////////
 
+        private void startButtonAnimation()
+        {
+            // Calculate the number of iterations based on growth duration and interval
+
+            int iterations = growthDuration / 500;
+
+
+            // Create a timer with an interval of 16 milliseconds
+
+            buttonGrowTimer = new System.Windows.Forms.Timer();
+            buttonGrowTimer.Interval = 16;
+            buttonGrowTimer.Tick += ButtonTimer_Tick;
+
+            buttonGrowTimer.Start();
+
+            // Start the timer
+
+
+        }
+
+        private void ButtonTimer_Tick(object sender, EventArgs eventArgs)
+        {
+            // Increase the button's size
+            SignIn.Size = new Size(SignIn.Width + sizeIncrement, SignIn.Height + sizeIncrement);
+
+            // Calculate the total growth duration
+            int totalDuration = (buttonGrowTimer.Interval * timerCount);
+
+            if (totalDuration >= growthDuration)
+            {
+                buttonGrowTimer.Stop();
+
+                buttonGrowTimer.Tick -= ButtonTimer_Tick;
+                buttonGrowTimer.Tick += buttonShrinkTimer_Tick;
+                buttonGrowTimer.Start();
+            }
+
+            timerCount++;
+        }
+
+
+        private void buttonShrinkTimer_Tick(object sender, EventArgs E)
+        {
+
+            SignIn.Size = new Size(SignIn.Width - sizeIncrement, SignIn.Height - sizeIncrement);
+
+            // Check if the button has reached its original size
+            if (SignIn.Width <= 126 || SignIn.Height <= 41)
+            {
+                // Stop the timer
+                buttonGrowTimer.Stop();
+
+                // Enable the button
+                buttonGrowTimer.Enabled = true;
+            }
+        }
+
+
+
+
+        private void delayLoginAnimation()
+        {
+            // Opens the sidebar 
+            sideBarTimer.Start();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            // Stop the timer to prevent further ticks
+            animationTimer.Stop();
+
+            // Call your method here
+            delayLoginAnimation();
+        }
 
         public async void updateTenantInfo()
         {
@@ -434,8 +528,6 @@ namespace IntuneAssignments
 
 
             }
-
-
 
 
             // Check cBAppType.text. List only items with corresponding platform
@@ -1100,12 +1192,9 @@ namespace IntuneAssignments
 
         private async void testBtn_Click(object sender, EventArgs e)
         {
-            var groups = await SearchAndGetAllGroupsAsync();
-            foreach (var group in groups)
-            {
-                MessageBox.Show($"Group ID: {group.Id}, Display Name: {group.DisplayName}");
-            }
 
+
+            buttonGrowTimer.Start();
 
         }
 

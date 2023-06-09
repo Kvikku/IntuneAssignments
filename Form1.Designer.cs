@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panelTenantInfo = new Panel();
             SignIn = new Button();
             lblTenantID = new Label();
@@ -116,12 +118,15 @@
             // 
             // SignIn
             // 
+            SignIn.BackColor = Color.Salmon;
+            SignIn.FlatStyle = FlatStyle.Popup;
+            SignIn.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
             SignIn.Location = new Point(12, 103);
             SignIn.Name = "SignIn";
             SignIn.Size = new Size(126, 41);
             SignIn.TabIndex = 1;
             SignIn.Text = "Sign in";
-            SignIn.UseVisualStyleBackColor = true;
+            SignIn.UseVisualStyleBackColor = false;
             SignIn.Click += button2_Click;
             // 
             // lblTenantID
@@ -177,7 +182,7 @@
             // 
             // testBtn
             // 
-            testBtn.Location = new Point(-1, 838);
+            testBtn.Location = new Point(982, 608);
             testBtn.Name = "testBtn";
             testBtn.Size = new Size(79, 41);
             testBtn.TabIndex = 2;
@@ -296,12 +301,32 @@
             dtgDisplayApp.AllowUserToAddRows = false;
             dtgDisplayApp.AllowUserToDeleteRows = false;
             dtgDisplayApp.BackgroundColor = Color.FromArgb(46, 51, 73);
+            dtgDisplayApp.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.Salmon;
+            dataGridViewCellStyle1.Font = new Font("Constantia", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dtgDisplayApp.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dtgDisplayApp.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgDisplayApp.Columns.AddRange(new DataGridViewColumn[] { AppName, Platform, AppID });
             dtgDisplayApp.ContextMenuStrip = dtgDisplayAppRightClick;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(46, 51, 73);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dtgDisplayApp.DefaultCellStyle = dataGridViewCellStyle2;
+            dtgDisplayApp.EnableHeadersVisualStyles = false;
+            dtgDisplayApp.GridColor = Color.Salmon;
             dtgDisplayApp.Location = new Point(3, 135);
             dtgDisplayApp.Name = "dtgDisplayApp";
             dtgDisplayApp.ReadOnly = true;
+            dtgDisplayApp.RowHeadersVisible = false;
             dtgDisplayApp.RowTemplate.Height = 25;
             dtgDisplayApp.Size = new Size(517, 405);
             dtgDisplayApp.TabIndex = 10;
@@ -319,6 +344,7 @@
             Platform.HeaderText = "Platform";
             Platform.Name = "Platform";
             Platform.ReadOnly = true;
+            Platform.Width = 200;
             // 
             // AppID
             // 
@@ -700,7 +726,6 @@
             menuPanel.Controls.Add(pictureBox1);
             menuPanel.Controls.Add(pbView);
             menuPanel.Controls.Add(panelTenantInfo);
-            menuPanel.Controls.Add(testBtn);
             menuPanel.Dock = DockStyle.Left;
             menuPanel.Location = new Point(0, 0);
             menuPanel.MaximumSize = new Size(287, 893);
@@ -715,6 +740,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1578, 903);
+            Controls.Add(testBtn);
             Controls.Add(panelSummary);
             Controls.Add(menuPanel);
             Controls.Add(pnlIntent);
@@ -770,9 +796,6 @@
         private Button btnSearchGroup;
         private TextBox txtboxSearchGroup;
         private Button btnListAllGroups;
-        private DataGridViewTextBoxColumn AppName;
-        private DataGridViewTextBoxColumn Platform;
-        private DataGridViewTextBoxColumn AppID;
         private Panel pnlSelectGroup;
         private CheckedListBox clbGroupAssignment;
         private DataGridViewTextBoxColumn GroupName;
@@ -807,5 +830,8 @@
         private ComboBox cBAppType;
         private Label lblSelectAppType;
         private Label label1;
+        private DataGridViewTextBoxColumn AppName;
+        private DataGridViewTextBoxColumn Platform;
+        private DataGridViewTextBoxColumn AppID;
     }
 }
