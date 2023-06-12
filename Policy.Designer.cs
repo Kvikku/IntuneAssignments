@@ -30,16 +30,24 @@
         {
             pbHome = new PictureBox();
             pnlSearchPolicy = new Panel();
+            dtgDisplayGroup = new DataGridView();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            btnListAllGroups = new Button();
+            btnSearchGroup = new Button();
+            txtboxSearchGroup = new TextBox();
             dtgDisplayPolicy = new DataGridView();
             PolicyName = new DataGridViewTextBoxColumn();
             Type = new DataGridViewTextBoxColumn();
             Platform = new DataGridViewTextBoxColumn();
+            ID = new DataGridViewTextBoxColumn();
             btnListAllPolicy = new Button();
             btnSearchPolicy = new Button();
             txtboxSearchPolicy = new TextBox();
             cbPolicyType = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlSearchPolicy.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
             SuspendLayout();
             // 
@@ -55,6 +63,10 @@
             // 
             // pnlSearchPolicy
             // 
+            pnlSearchPolicy.Controls.Add(dtgDisplayGroup);
+            pnlSearchPolicy.Controls.Add(btnListAllGroups);
+            pnlSearchPolicy.Controls.Add(btnSearchGroup);
+            pnlSearchPolicy.Controls.Add(txtboxSearchGroup);
             pnlSearchPolicy.Controls.Add(dtgDisplayPolicy);
             pnlSearchPolicy.Controls.Add(btnListAllPolicy);
             pnlSearchPolicy.Controls.Add(btnSearchPolicy);
@@ -65,33 +77,102 @@
             pnlSearchPolicy.Size = new Size(643, 879);
             pnlSearchPolicy.TabIndex = 1;
             // 
+            // dtgDisplayGroup
+            // 
+            dtgDisplayGroup.AllowUserToAddRows = false;
+            dtgDisplayGroup.AllowUserToDeleteRows = false;
+            dtgDisplayGroup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dtgDisplayGroup.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2 });
+            dtgDisplayGroup.Location = new Point(3, 526);
+            dtgDisplayGroup.Name = "dtgDisplayGroup";
+            dtgDisplayGroup.ReadOnly = true;
+            dtgDisplayGroup.RowHeadersVisible = false;
+            dtgDisplayGroup.RowTemplate.Height = 25;
+            dtgDisplayGroup.Size = new Size(604, 350);
+            dtgDisplayGroup.TabIndex = 9;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.HeaderText = "Group name";
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
+            dataGridViewTextBoxColumn1.Width = 300;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.HeaderText = "Group ID";
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
+            dataGridViewTextBoxColumn2.Width = 300;
+            // 
+            // btnListAllGroups
+            // 
+            btnListAllGroups.Location = new Point(432, 479);
+            btnListAllGroups.Name = "btnListAllGroups";
+            btnListAllGroups.Size = new Size(128, 41);
+            btnListAllGroups.TabIndex = 8;
+            btnListAllGroups.Text = "List all";
+            btnListAllGroups.UseVisualStyleBackColor = true;
+            btnListAllGroups.Click += btnListAllGroups_Click;
+            // 
+            // btnSearchGroup
+            // 
+            btnSearchGroup.Location = new Point(298, 479);
+            btnSearchGroup.Name = "btnSearchGroup";
+            btnSearchGroup.Size = new Size(128, 41);
+            btnSearchGroup.TabIndex = 7;
+            btnSearchGroup.Text = "Search";
+            btnSearchGroup.UseVisualStyleBackColor = true;
+            // 
+            // txtboxSearchGroup
+            // 
+            txtboxSearchGroup.Location = new Point(3, 497);
+            txtboxSearchGroup.Name = "txtboxSearchGroup";
+            txtboxSearchGroup.Size = new Size(162, 23);
+            txtboxSearchGroup.TabIndex = 6;
+            txtboxSearchGroup.Text = "Enter search query here";
+            // 
             // dtgDisplayPolicy
             // 
+            dtgDisplayPolicy.AllowUserToAddRows = false;
+            dtgDisplayPolicy.AllowUserToDeleteRows = false;
             dtgDisplayPolicy.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dtgDisplayPolicy.Columns.AddRange(new DataGridViewColumn[] { PolicyName, Type, Platform });
+            dtgDisplayPolicy.Columns.AddRange(new DataGridViewColumn[] { PolicyName, Type, Platform, ID });
             dtgDisplayPolicy.Location = new Point(3, 98);
             dtgDisplayPolicy.Name = "dtgDisplayPolicy";
+            dtgDisplayPolicy.ReadOnly = true;
+            dtgDisplayPolicy.RowHeadersVisible = false;
             dtgDisplayPolicy.RowTemplate.Height = 25;
-            dtgDisplayPolicy.Size = new Size(637, 513);
+            dtgDisplayPolicy.Size = new Size(604, 350);
             dtgDisplayPolicy.TabIndex = 4;
+            dtgDisplayPolicy.CellClick += dtgDisplayPolicy_CellClick;
             // 
             // PolicyName
             // 
             PolicyName.HeaderText = "Name";
             PolicyName.Name = "PolicyName";
+            PolicyName.ReadOnly = true;
             PolicyName.Width = 200;
             // 
             // Type
             // 
             Type.HeaderText = "Type";
             Type.Name = "Type";
+            Type.ReadOnly = true;
             Type.Width = 200;
             // 
             // Platform
             // 
             Platform.HeaderText = "Platform";
             Platform.Name = "Platform";
+            Platform.ReadOnly = true;
             Platform.Width = 200;
+            // 
+            // ID
+            // 
+            ID.HeaderText = "ID";
+            ID.Name = "ID";
+            ID.ReadOnly = true;
             // 
             // btnListAllPolicy
             // 
@@ -143,6 +224,7 @@
             ((System.ComponentModel.ISupportInitialize)pbHome).EndInit();
             pnlSearchPolicy.ResumeLayout(false);
             pnlSearchPolicy.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).EndInit();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).EndInit();
             ResumeLayout(false);
         }
@@ -156,8 +238,15 @@
         private Button btnListAllPolicy;
         private Button btnSearchPolicy;
         private DataGridView dtgDisplayPolicy;
+        private DataGridView dtgDisplayGroup;
+        private Button btnListAllGroups;
+        private Button btnSearchGroup;
+        private TextBox txtboxSearchGroup;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private DataGridViewTextBoxColumn PolicyName;
         private DataGridViewTextBoxColumn Type;
         private DataGridViewTextBoxColumn Platform;
+        private DataGridViewTextBoxColumn ID;
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Net;
 using Microsoft.Graph;
-//using Microsoft.Graph.Be
 using Microsoft.Identity.Client;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
@@ -70,10 +69,11 @@ using Windows.Foundation.Metadata;
 
 // last action:
 
-// change GUI
+
 // Idea to change intent to drop down menu and place within deployment pane. remove radio buttons
 // Idea to change DTG UI to more sleek design
 // Button animation
+// Pop up box for assignment for policies
 
 
 
@@ -855,7 +855,7 @@ namespace IntuneAssignments
             foreach (Control control in panelSummary.Controls)
 
             {
-                if (!(control is Label) && !(control is Button))
+                if (!(control is System.Windows.Forms.Label) && !(control is Button))
                 {
 
                     control.Text = string.Empty;
