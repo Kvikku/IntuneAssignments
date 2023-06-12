@@ -88,6 +88,7 @@
             lblSummarizeApps = new Label();
             sideBarTimer = new System.Windows.Forms.Timer(components);
             menuPanel = new Panel();
+            pictureBox2 = new PictureBox();
             panelTenantInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -103,6 +104,7 @@
             pnlIntent.SuspendLayout();
             panelSummary.SuspendLayout();
             menuPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // panelTenantInfo
@@ -723,6 +725,7 @@
             // menuPanel
             // 
             menuPanel.BorderStyle = BorderStyle.FixedSingle;
+            menuPanel.Controls.Add(pictureBox2);
             menuPanel.Controls.Add(pictureBox1);
             menuPanel.Controls.Add(pbView);
             menuPanel.Controls.Add(panelTenantInfo);
@@ -733,6 +736,16 @@
             menuPanel.Name = "menuPanel";
             menuPanel.Size = new Size(102, 893);
             menuPanel.TabIndex = 18;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = Properties.Resources._46291024716276567993766_48;
+            pictureBox2.Location = new Point(11, 133);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(48, 53);
+            pictureBox2.TabIndex = 18;
+            pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click;
             // 
             // Form1
             // 
@@ -771,6 +784,7 @@
             panelSummary.ResumeLayout(false);
             panelSummary.PerformLayout();
             menuPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
         }
 
@@ -833,5 +847,6 @@
         private DataGridViewTextBoxColumn AppName;
         private DataGridViewTextBoxColumn Platform;
         private DataGridViewTextBoxColumn AppID;
+        private PictureBox pictureBox2;
     }
 }

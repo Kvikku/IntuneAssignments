@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     "net6.0-windows10.0.22621": {
-      "Azure.Core/1.25.0": {
+      "Azure.Core/1.32.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "1.1.1",
@@ -14,22 +14,22 @@
           "System.Threading.Tasks.Extensions": "4.5.4"
         },
         "compile": {
-          "lib/net5.0/Azure.Core.dll": {
+          "lib/net6.0/Azure.Core.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net5.0/Azure.Core.dll": {
+          "lib/net6.0/Azure.Core.dll": {
             "related": ".xml"
           }
         }
       },
-      "Azure.Identity/1.8.1": {
+      "Azure.Identity/1.9.0": {
         "type": "package",
         "dependencies": {
-          "Azure.Core": "1.25.0",
-          "Microsoft.Identity.Client": "4.46.0",
-          "Microsoft.Identity.Client.Extensions.Msal": "2.23.0",
+          "Azure.Core": "1.32.0",
+          "Microsoft.Identity.Client": "4.49.1",
+          "Microsoft.Identity.Client.Extensions.Msal": "2.25.3",
           "System.Memory": "4.5.4",
           "System.Security.Cryptography.ProtectedData": "4.7.0",
           "System.Text.Json": "4.7.2",
@@ -104,19 +104,20 @@
           }
         }
       },
-      "Microsoft.Identity.Client/4.49.1": {
+      "Microsoft.Identity.Client/4.54.1": {
         "type": "package",
         "dependencies": {
+          "Microsoft.Identity.Client.NativeInterop": "0.13.8",
           "Microsoft.IdentityModel.Abstractions": "6.22.0",
           "Microsoft.Web.WebView2": "1.0.864.35"
         },
         "compile": {
-          "lib/net6.0-windows10.0.17763/Microsoft.Identity.Client.dll": {
+          "lib/net6.0-windows7.0/Microsoft.Identity.Client.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net6.0-windows10.0.17763/Microsoft.Identity.Client.dll": {
+          "lib/net6.0-windows7.0/Microsoft.Identity.Client.dll": {
             "related": ".xml"
           }
         },
@@ -124,10 +125,10 @@
           "Microsoft.WindowsDesktop.App.WindowsForms"
         ]
       },
-      "Microsoft.Identity.Client.Extensions.Msal/2.23.0": {
+      "Microsoft.Identity.Client.Extensions.Msal/2.25.3": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Identity.Client": "4.46.0",
+          "Microsoft.Identity.Client": "4.49.1",
           "System.IO.FileSystem.AccessControl": "5.0.0",
           "System.Security.Cryptography.ProtectedData": "4.5.0"
         },
@@ -139,6 +140,29 @@
         "runtime": {
           "lib/netcoreapp3.1/Microsoft.Identity.Client.Extensions.Msal.dll": {
             "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.Identity.Client.NativeInterop/0.13.8": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Identity.Client.NativeInterop.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Identity.Client.NativeInterop.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/win-arm64/native/msalruntime_arm64.dll": {
+            "assetType": "native",
+            "rid": "win-arm64"
+          },
+          "runtimes/win-x64/native/msalruntime.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x86/native/msalruntime_x86.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
           }
         }
       },
@@ -301,7 +325,7 @@
           }
         }
       },
-      "Newtonsoft.Json/13.0.2": {
+      "Newtonsoft.Json/13.0.3": {
         "type": "package",
         "compile": {
           "lib/net6.0/Newtonsoft.Json.dll": {
@@ -1332,38 +1356,40 @@
     }
   },
   "libraries": {
-    "Azure.Core/1.25.0": {
-      "sha512": "X8Dd4sAggS84KScWIjEbFAdt2U1KDolQopTPoHVubG2y3CM54f9l6asVrP5Uy384NWXjsspPYaJgz5xHc+KvTA==",
+    "Azure.Core/1.32.0": {
+      "sha512": "NmnJxaNqKjPwnHXngVg63SrkwbJXrkT0mcK8uCx9rSq0nK6Q3Q+/GZRCaTWcdcECoRP5XK0lr3Ce8PZkHkuHNg==",
       "type": "package",
-      "path": "azure.core/1.25.0",
+      "path": "azure.core/1.32.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "CHANGELOG.md",
         "README.md",
-        "azure.core.1.25.0.nupkg.sha512",
+        "azure.core.1.32.0.nupkg.sha512",
         "azure.core.nuspec",
         "azureicon.png",
         "lib/net461/Azure.Core.dll",
         "lib/net461/Azure.Core.xml",
         "lib/net5.0/Azure.Core.dll",
         "lib/net5.0/Azure.Core.xml",
+        "lib/net6.0/Azure.Core.dll",
+        "lib/net6.0/Azure.Core.xml",
         "lib/netcoreapp2.1/Azure.Core.dll",
         "lib/netcoreapp2.1/Azure.Core.xml",
         "lib/netstandard2.0/Azure.Core.dll",
         "lib/netstandard2.0/Azure.Core.xml"
       ]
     },
-    "Azure.Identity/1.8.1": {
-      "sha512": "pxpGgVW6SCG+RewCVVlsEtcnQsLmlRobVlknY1Ir6t00iu2eRbdH/+ignhDnTaKlNN8pHfMJH5rTkJs9W4rQOg==",
+    "Azure.Identity/1.9.0": {
+      "sha512": "VGcyxE66Za9mO0MtTYG1+ABZGF84QS+KZW8RTbcpYXLomHHvGT+aAL/Yg/ayfN+Usk2Z+DKB0+hymBaOAokj/w==",
       "type": "package",
-      "path": "azure.identity/1.8.1",
+      "path": "azure.identity/1.9.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "CHANGELOG.md",
         "README.md",
-        "azure.identity.1.8.1.nupkg.sha512",
+        "azure.identity.1.9.0.nupkg.sha512",
         "azure.identity.nuspec",
         "azureicon.png",
         "lib/netstandard2.0/Azure.Identity.dll",
@@ -1501,10 +1527,10 @@
         "microsoft.graph.core.nuspec"
       ]
     },
-    "Microsoft.Identity.Client/4.49.1": {
-      "sha512": "vDU3cdXIom4+pxJk8sDJcHYTHPhb6DSVF9zjFY61SoQVs1OxbHZY9+mBnq1gGkG7N/o04WTt42IdV/0gf1+5DA==",
+    "Microsoft.Identity.Client/4.54.1": {
+      "sha512": "YkQkV3IRaA1W36HD4NRD1cq+QFr+4QPKK3SgTSpx+RiobXnLZ6E9anOjDi2TS7okOEofBbjR6GyTPp4IR0MnEQ==",
       "type": "package",
-      "path": "microsoft.identity.client/4.49.1",
+      "path": "microsoft.identity.client/4.54.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1520,8 +1546,8 @@
         "lib/net6.0-android31.0/Microsoft.Identity.Client.xml",
         "lib/net6.0-ios15.4/Microsoft.Identity.Client.dll",
         "lib/net6.0-ios15.4/Microsoft.Identity.Client.xml",
-        "lib/net6.0-windows10.0.17763/Microsoft.Identity.Client.dll",
-        "lib/net6.0-windows10.0.17763/Microsoft.Identity.Client.xml",
+        "lib/net6.0-windows7.0/Microsoft.Identity.Client.dll",
+        "lib/net6.0-windows7.0/Microsoft.Identity.Client.xml",
         "lib/net6.0/Microsoft.Identity.Client.dll",
         "lib/net6.0/Microsoft.Identity.Client.xml",
         "lib/netcoreapp2.1/Microsoft.Identity.Client.dll",
@@ -1533,14 +1559,14 @@
         "lib/uap10.0.17763/Microsoft.Identity.Client.xml",
         "lib/xamarinios10/Microsoft.Identity.Client.dll",
         "lib/xamarinios10/Microsoft.Identity.Client.xml",
-        "microsoft.identity.client.4.49.1.nupkg.sha512",
+        "microsoft.identity.client.4.54.1.nupkg.sha512",
         "microsoft.identity.client.nuspec"
       ]
     },
-    "Microsoft.Identity.Client.Extensions.Msal/2.23.0": {
-      "sha512": "Q8K58FjUIVslHQlk+SIhFYjdy8B1A5Wt3GXxzLS7lnXXaSmbcGzk7d8haqLmR8z/DP99vpZC73SxMa83qSHcbQ==",
+    "Microsoft.Identity.Client.Extensions.Msal/2.25.3": {
+      "sha512": "I6/Od0d3OMD9b7RPxW1l25A8oA94H+r9ZtrOe4Ogk49Ftxhs9RS+pbzPE5dLe0i7nQy+1aob7mR22YsNcc0BiQ==",
       "type": "package",
-      "path": "microsoft.identity.client.extensions.msal/2.23.0",
+      "path": "microsoft.identity.client.extensions.msal/2.25.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1550,8 +1576,26 @@
         "lib/netcoreapp3.1/Microsoft.Identity.Client.Extensions.Msal.xml",
         "lib/netstandard2.0/Microsoft.Identity.Client.Extensions.Msal.dll",
         "lib/netstandard2.0/Microsoft.Identity.Client.Extensions.Msal.xml",
-        "microsoft.identity.client.extensions.msal.2.23.0.nupkg.sha512",
+        "microsoft.identity.client.extensions.msal.2.25.3.nupkg.sha512",
         "microsoft.identity.client.extensions.msal.nuspec"
+      ]
+    },
+    "Microsoft.Identity.Client.NativeInterop/0.13.8": {
+      "sha512": "eccVwaDOan12YJrh6ntIBIXeKTNoWz+af2/c13lhvrDoX0ydVXitCXMJVz0dh2eJK5y2KJ7IfkEvNilB/A9V7A==",
+      "type": "package",
+      "path": "microsoft.identity.client.nativeinterop/0.13.8",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/net461/Microsoft.Identity.Client.NativeInterop.props",
+        "buildtransitive/net461/Microsoft.Identity.Client.NativeInterop.targets",
+        "lib/net461/Microsoft.Identity.Client.NativeInterop.dll",
+        "lib/netstandard2.0/Microsoft.Identity.Client.NativeInterop.dll",
+        "microsoft.identity.client.nativeinterop.0.13.8.nupkg.sha512",
+        "microsoft.identity.client.nativeinterop.nuspec",
+        "runtimes/win-arm64/native/msalruntime_arm64.dll",
+        "runtimes/win-x64/native/msalruntime.dll",
+        "runtimes/win-x86/native/msalruntime_x86.dll"
       ]
     },
     "Microsoft.IdentityModel.Abstractions/6.23.1": {
@@ -1758,10 +1802,10 @@
         "tools/VisualStudioToolsManifest.xml"
       ]
     },
-    "Newtonsoft.Json/13.0.2": {
-      "sha512": "R2pZ3B0UjeyHShm9vG+Tu0EBb2lC8b0dFzV9gVn50ofHXh9Smjk6kTn7A/FdAsC8B5cKib1OnGYOXxRBz5XQDg==",
+    "Newtonsoft.Json/13.0.3": {
+      "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
       "type": "package",
-      "path": "newtonsoft.json/13.0.2",
+      "path": "newtonsoft.json/13.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1783,7 +1827,7 @@
         "lib/netstandard1.3/Newtonsoft.Json.xml",
         "lib/netstandard2.0/Newtonsoft.Json.dll",
         "lib/netstandard2.0/Newtonsoft.Json.xml",
-        "newtonsoft.json.13.0.2.nupkg.sha512",
+        "newtonsoft.json.13.0.3.nupkg.sha512",
         "newtonsoft.json.nuspec",
         "packageIcon.png"
       ]
@@ -4401,10 +4445,10 @@
   },
   "projectFileDependencyGroups": {
     "net6.0-windows10.0.22621": [
-      "Azure.Identity >= 1.8.1",
+      "Azure.Identity >= 1.9.0",
       "Microsoft.Graph >= 4.52.0",
-      "Microsoft.Identity.Client >= 4.49.1",
-      "Newtonsoft.Json >= 13.0.2"
+      "Microsoft.Identity.Client >= 4.54.1",
+      "Newtonsoft.Json >= 13.0.3"
     ]
   },
   "packageFolders": {
@@ -4454,7 +4498,7 @@
         "dependencies": {
           "Azure.Identity": {
             "target": "Package",
-            "version": "[1.8.1, )"
+            "version": "[1.9.0, )"
           },
           "Microsoft.Graph": {
             "target": "Package",
@@ -4462,11 +4506,11 @@
           },
           "Microsoft.Identity.Client": {
             "target": "Package",
-            "version": "[4.49.1, )"
+            "version": "[4.54.1, )"
           },
           "Newtonsoft.Json": {
             "target": "Package",
-            "version": "[13.0.2, )"
+            "version": "[13.0.3, )"
           }
         },
         "imports": [

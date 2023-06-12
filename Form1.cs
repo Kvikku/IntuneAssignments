@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using Microsoft.Graph;
+//using Microsoft.Graph.Be
 using Microsoft.Identity.Client;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
@@ -143,9 +144,23 @@ namespace IntuneAssignments
 
         }
 
+        private void showPolicyAssignment()
+        {
+
+            // Switches to policy assignment form, and keeps the location of this form
+
+            Form1Location = Location;
+
+            this.Hide();
+            Policy policy = new Policy(this);
+            policy.Show();
+
+
+        }
+
         private void showViewAssignment()
         {
-            // Switches to View Assignment-form, and keeps the location of this form
+            // Switches to View Assignment form, and keeps the location of this form
 
             Form1Location = Location;
             this.Hide();
@@ -429,11 +444,7 @@ namespace IntuneAssignments
 
         public void ClearDataGridView(DataGridView dataGridView)
         {
-            // Clear all the rows in the DataGridView control
-            while (dataGridView.Rows.Count > 0)
-            {
-                dataGridView.Rows.RemoveAt(0);
-            }
+            dataGridView.Rows.Clear();
         }
 
         private void ClearCheckedListBox(CheckedListBox checkedListBox)
@@ -1364,6 +1375,11 @@ namespace IntuneAssignments
         private void txtboxSearchApp_Click(object sender, EventArgs e)
         {
             txtboxSearchApp.Clear();
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            showPolicyAssignment();
         }
     }
 }
