@@ -1,4 +1,6 @@
 ﻿using Microsoft.Graph;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,6 +41,9 @@ namespace IntuneAssignments
         {
             InitializeComponent();
             _form1 = form1;
+
+            lblAssignmentPreview.Hide();
+
         }
 
         private void goHome()
@@ -51,11 +56,82 @@ namespace IntuneAssignments
 
         ////////////////////////////////////////////////////////////////////////  METHODS  /////////////////////////////////////////////////////////////////////////////////////////////
 
+        private string ExtractGroupID(string input)
+        {
+            // Group ID for assignments is returned as the following format from Graph
 
-        private void FindCompliancePolicyAssignments(int rowIndex)
+            // PolicyID_GroupID
+
+            // This methode extracts the GroupID part and returns it
+
+
+            int underscoreIndex = input.IndexOf('_');
+            if (underscoreIndex >= 0 && underscoreIndex < input.Length - 1)
+            {
+                return input.Substring(underscoreIndex + 1);
+            }
+
+            return string.Empty; // Return an empty string if "_" is not found or it's the last character
+
+
+        }
+
+
+        public async Task<List<Group>> LookUpGroup(string input)
         {
 
-            
+            // Create an object of form1 to use it's methods   
+            Form1 form1 = new Form1();
+
+
+            // Authenticate to Graph
+            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+
+
+            List<Group> groups = new List<Group>();
+
+            try
+
+            {
+                var groupSearch = await client.Groups
+            .Request()
+            .Filter($"id eq '{input}'")
+            .GetAsync();
+
+
+
+                while (groupSearch.CurrentPage != null)
+                {
+                    foreach (var group in groupSearch.CurrentPage)
+                    {
+                        groups.Add(group);
+                    }
+
+                    if (groupSearch.NextPageRequest == null)
+                    {
+                        break;
+                    }
+
+                    groupSearch = await groupSearch.NextPageRequest.GetAsync();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+
+
+
+            return groups;
+        }
+
+
+        private async void FindCompliancePolicyAssignments(int rowIndex)
+        {
+
+
 
             var profileName = dtgDisplayPolicy.Rows[rowIndex].Cells[0].Value.ToString();
             var profileType = dtgDisplayPolicy.Rows[rowIndex].Cells[1].Value.ToString();
@@ -78,12 +154,17 @@ namespace IntuneAssignments
 
                 // Need to find all assignments by their unique ID's
 
+
+
                 var assignments = client.DeviceManagement.DeviceCompliancePolicies[profileID].Assignments
                     .Request()
                     .Select("id")
                     .GetAsync();
 
-                List <DeviceCompliancePolicyAssignment>  assignmentList = new List<DeviceCompliancePolicyAssignment>();
+                // This ID is profile id followed by group ID
+                // UUID_UUID
+
+                List<DeviceCompliancePolicyAssignment> assignmentList = new List<DeviceCompliancePolicyAssignment>();
 
                 assignmentList.AddRange(assignments.Result);
 
@@ -92,10 +173,13 @@ namespace IntuneAssignments
                 if (assignmentList.Count == 0)
                 {
                     // The list has zero members. Informing user and ending job
-                    MessageBox.Show("No assignment found for " + profileName);
+                    //MessageBox.Show("No assignment found for " + profileName);
+
+                    lblAssignmentPreview.Show();
+                    lblAssignmentPreview.Text = profileName + " does not have any assignments";
                 }
 
-                else if (assignmentList.Count >= 1) 
+                else if (assignmentList.Count >= 1)
                 {
 
                     // Make sure to account for the possiblity of there being multiple assignments
@@ -104,11 +188,39 @@ namespace IntuneAssignments
 
                     // Loop through each assignment ID and find group name
 
+                    lblAssignmentPreview.Show();
+                    lblAssignmentPreview.Text = profileName + " is assigned to:";
+
+
                     foreach (var assignment in assignmentList)
                     {
-                        MessageBox.Show(assignment.Id.ToString());
+                        // Testing only
+                        // MessageBox.Show(assignment.Id.ToString());
+
+
+                        // Need to parse the JSON data and grab target - GroupID field
+
+                        var groupID = ExtractGroupID(assignment.Id.ToString());
+
+                        // Look up Azure AD groups based on ID
+
+                        List<Group> groups = await LookUpGroup(groupID);
+
+                        foreach (var group in groups)
+                        {
+
+                            //MessageBox.Show("This app is currently assigned to " + group.DisplayName);
+
+                            rtbAssignmentPreview.AppendText(group.DisplayName + "\n");
+                        }
+
+
+
+
+
+
                     }
-                    
+
 
                 }
 
@@ -122,7 +234,7 @@ namespace IntuneAssignments
             else if (profileType == "Device Configuration")
             {
 
-            } 
+            }
 
 
 
@@ -133,7 +245,7 @@ namespace IntuneAssignments
 
 
             }
-            
+
             else
             {
                 MessageBox.Show("Unspecified error. Please troubleshoot");
@@ -348,7 +460,8 @@ namespace IntuneAssignments
 
         private void dtgDisplayPolicy_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+            rtbAssignmentPreview.Clear();
+
             string? type = "";
 
 
@@ -356,12 +469,12 @@ namespace IntuneAssignments
             FindCompliancePolicyAssignments(e.RowIndex);
 
 
-            
+
 
             if (e.RowIndex >= 0)
             {
                 type = dtgDisplayPolicy.Rows[e.RowIndex].Cells[1].Value.ToString();
-                
+
                 // Insert logic to choose which lookup method based on the value of the type variable
                 // Index 3 contains the ID
 
@@ -375,5 +488,7 @@ namespace IntuneAssignments
 
 
         }
+
+
     }
 }

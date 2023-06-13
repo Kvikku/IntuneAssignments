@@ -45,10 +45,14 @@
             btnSearchPolicy = new Button();
             txtboxSearchPolicy = new TextBox();
             cbPolicyType = new ComboBox();
+            rtbAssignmentPreview = new RichTextBox();
+            panel1 = new Panel();
+            lblAssignmentPreview = new Label();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlSearchPolicy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // pbHome
@@ -74,7 +78,7 @@
             pnlSearchPolicy.Controls.Add(cbPolicyType);
             pnlSearchPolicy.Location = new Point(97, 12);
             pnlSearchPolicy.Name = "pnlSearchPolicy";
-            pnlSearchPolicy.Size = new Size(643, 879);
+            pnlSearchPolicy.Size = new Size(613, 879);
             pnlSearchPolicy.TabIndex = 1;
             // 
             // dtgDisplayGroup
@@ -211,12 +215,44 @@
             cbPolicyType.Size = new Size(121, 23);
             cbPolicyType.TabIndex = 0;
             // 
+            // rtbAssignmentPreview
+            // 
+            rtbAssignmentPreview.BackColor = Color.FromArgb(46, 51, 73);
+            rtbAssignmentPreview.BorderStyle = BorderStyle.None;
+            rtbAssignmentPreview.ForeColor = Color.Salmon;
+            rtbAssignmentPreview.Location = new Point(3, 38);
+            rtbAssignmentPreview.Name = "rtbAssignmentPreview";
+            rtbAssignmentPreview.Size = new Size(234, 159);
+            rtbAssignmentPreview.TabIndex = 2;
+            rtbAssignmentPreview.Text = "";
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(lblAssignmentPreview);
+            panel1.Controls.Add(rtbAssignmentPreview);
+            panel1.Location = new Point(756, 94);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(382, 307);
+            panel1.TabIndex = 3;
+            // 
+            // lblAssignmentPreview
+            // 
+            lblAssignmentPreview.AutoSize = true;
+            lblAssignmentPreview.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblAssignmentPreview.ForeColor = Color.Salmon;
+            lblAssignmentPreview.Location = new Point(3, 14);
+            lblAssignmentPreview.Name = "lblAssignmentPreview";
+            lblAssignmentPreview.Size = new Size(103, 21);
+            lblAssignmentPreview.TabIndex = 3;
+            lblAssignmentPreview.Text = "Assigned to:";
+            // 
             // Policy
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1578, 903);
+            Controls.Add(panel1);
             Controls.Add(pnlSearchPolicy);
             Controls.Add(pbHome);
             Name = "Policy";
@@ -226,6 +262,8 @@
             pnlSearchPolicy.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).EndInit();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -248,5 +286,8 @@
         private DataGridViewTextBoxColumn Type;
         private DataGridViewTextBoxColumn Platform;
         private DataGridViewTextBoxColumn ID;
+        private RichTextBox rtbAssignmentPreview;
+        private Panel panel1;
+        private Label lblAssignmentPreview;
     }
 }
