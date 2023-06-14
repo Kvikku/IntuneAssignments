@@ -75,6 +75,7 @@ using Windows.Foundation.Metadata;
 // Idea to change DTG UI to more sleek design
 // Button animation
 // Need to handle error when assigned group is deleted ("ghost group")
+// Missing only actual deployment of policies
 
 
 
@@ -448,10 +449,18 @@ namespace IntuneAssignments
             dataGridView.Rows.Clear();
         }
 
-        private void ClearCheckedListBox(CheckedListBox checkedListBox)
+        public void ClearCheckedListBox(CheckedListBox checkedListBox)
         {
 
             checkedListBox.Items.Clear();
+
+        }
+
+
+        public void ClearRichTextBox(RichTextBox richTextBox)
+        {
+
+            richTextBox.Clear();
 
         }
 

@@ -48,11 +48,20 @@
             rtbAssignmentPreview = new RichTextBox();
             panel1 = new Panel();
             lblAssignmentPreview = new Label();
+            panel2 = new Panel();
+            rtbSelectedGroups = new RichTextBox();
+            rtbSelectedPolicies = new RichTextBox();
+            lblSelectedGroups = new Label();
+            lblSelectedPolicies = new Label();
+            btnDeployPolicyAssignment = new Button();
+            btnPrepareDeployment = new Button();
+            btnResetDeployment = new Button();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlSearchPolicy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
             panel1.SuspendLayout();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // pbHome
@@ -230,7 +239,7 @@
             // 
             panel1.Controls.Add(lblAssignmentPreview);
             panel1.Controls.Add(rtbAssignmentPreview);
-            panel1.Location = new Point(756, 94);
+            panel1.Location = new Point(725, 12);
             panel1.Name = "panel1";
             panel1.Size = new Size(382, 307);
             panel1.TabIndex = 3;
@@ -246,12 +255,98 @@
             lblAssignmentPreview.TabIndex = 3;
             lblAssignmentPreview.Text = "Assigned to:";
             // 
+            // panel2
+            // 
+            panel2.Controls.Add(rtbSelectedGroups);
+            panel2.Controls.Add(rtbSelectedPolicies);
+            panel2.Controls.Add(lblSelectedGroups);
+            panel2.Controls.Add(lblSelectedPolicies);
+            panel2.Location = new Point(725, 356);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(382, 532);
+            panel2.TabIndex = 4;
+            // 
+            // rtbSelectedGroups
+            // 
+            rtbSelectedGroups.BackColor = Color.FromArgb(46, 51, 73);
+            rtbSelectedGroups.BorderStyle = BorderStyle.None;
+            rtbSelectedGroups.Location = new Point(6, 341);
+            rtbSelectedGroups.Name = "rtbSelectedGroups";
+            rtbSelectedGroups.Size = new Size(357, 163);
+            rtbSelectedGroups.TabIndex = 6;
+            rtbSelectedGroups.Text = "";
+            // 
+            // rtbSelectedPolicies
+            // 
+            rtbSelectedPolicies.BackColor = Color.FromArgb(46, 51, 73);
+            rtbSelectedPolicies.BorderStyle = BorderStyle.None;
+            rtbSelectedPolicies.Location = new Point(3, 104);
+            rtbSelectedPolicies.Name = "rtbSelectedPolicies";
+            rtbSelectedPolicies.Size = new Size(357, 163);
+            rtbSelectedPolicies.TabIndex = 5;
+            rtbSelectedPolicies.Text = "";
+            // 
+            // lblSelectedGroups
+            // 
+            lblSelectedGroups.AutoSize = true;
+            lblSelectedGroups.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSelectedGroups.ForeColor = Color.Salmon;
+            lblSelectedGroups.Location = new Point(6, 286);
+            lblSelectedGroups.Name = "lblSelectedGroups";
+            lblSelectedGroups.Size = new Size(133, 21);
+            lblSelectedGroups.TabIndex = 5;
+            lblSelectedGroups.Text = "Selected Groups";
+            // 
+            // lblSelectedPolicies
+            // 
+            lblSelectedPolicies.AutoSize = true;
+            lblSelectedPolicies.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSelectedPolicies.ForeColor = Color.Salmon;
+            lblSelectedPolicies.Location = new Point(6, 50);
+            lblSelectedPolicies.Name = "lblSelectedPolicies";
+            lblSelectedPolicies.Size = new Size(138, 21);
+            lblSelectedPolicies.TabIndex = 4;
+            lblSelectedPolicies.Text = "Selected policies";
+            // 
+            // btnDeployPolicyAssignment
+            // 
+            btnDeployPolicyAssignment.Location = new Point(1134, 474);
+            btnDeployPolicyAssignment.Name = "btnDeployPolicyAssignment";
+            btnDeployPolicyAssignment.Size = new Size(167, 58);
+            btnDeployPolicyAssignment.TabIndex = 5;
+            btnDeployPolicyAssignment.Text = "Deploy";
+            btnDeployPolicyAssignment.UseVisualStyleBackColor = true;
+            // 
+            // btnPrepareDeployment
+            // 
+            btnPrepareDeployment.Location = new Point(1134, 356);
+            btnPrepareDeployment.Name = "btnPrepareDeployment";
+            btnPrepareDeployment.Size = new Size(167, 58);
+            btnPrepareDeployment.TabIndex = 6;
+            btnPrepareDeployment.Text = "Prepare deployment";
+            btnPrepareDeployment.UseVisualStyleBackColor = true;
+            btnPrepareDeployment.Click += btnPrepareDeployment_Click;
+            // 
+            // btnResetDeployment
+            // 
+            btnResetDeployment.Location = new Point(1134, 266);
+            btnResetDeployment.Name = "btnResetDeployment";
+            btnResetDeployment.Size = new Size(167, 53);
+            btnResetDeployment.TabIndex = 7;
+            btnResetDeployment.Text = "Reset";
+            btnResetDeployment.UseVisualStyleBackColor = true;
+            btnResetDeployment.Click += btnResetDeployment_Click;
+            // 
             // Policy
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1578, 903);
+            Controls.Add(btnResetDeployment);
+            Controls.Add(btnPrepareDeployment);
+            Controls.Add(btnDeployPolicyAssignment);
+            Controls.Add(panel2);
             Controls.Add(panel1);
             Controls.Add(pnlSearchPolicy);
             Controls.Add(pbHome);
@@ -264,6 +359,8 @@
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -289,5 +386,13 @@
         private RichTextBox rtbAssignmentPreview;
         private Panel panel1;
         private Label lblAssignmentPreview;
+        private Panel panel2;
+        private Label lblSelectedGroups;
+        private Label lblSelectedPolicies;
+        private RichTextBox rtbSelectedGroups;
+        private RichTextBox rtbSelectedPolicies;
+        private Button btnDeployPolicyAssignment;
+        private Button btnPrepareDeployment;
+        private Button btnResetDeployment;
     }
 }

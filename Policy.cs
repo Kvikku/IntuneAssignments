@@ -25,6 +25,10 @@ using static System.Windows.Forms.DataFormats;
 // For assignment of policy - create two lists with app name and ID, and group name and ID
 
 // GUI - hvis bare en rekke er valgt - vis assignments for appen
+// GUI - Menu item to choose if it should query for assignment on click or not
+
+// Error handling:
+// Check if user has selected multiple cells on the same row
 //
 
 
@@ -238,6 +242,116 @@ namespace IntuneAssignments
         }
 
 
+        private Dictionary<string, List <string>> GetSelectedPolicies(DataGridView dataGridView)
+        {
+
+            // Method to store the selected policies from a data grid view in a dictionary for further processing
+
+            Dictionary<string, List<string>> values = new Dictionary<string, List<string>>();
+
+            foreach (DataGridViewCell cell in dataGridView.SelectedCells)
+            {
+                if (!cell.OwningRow.IsNewRow)
+                {
+                    string key = cell.OwningRow.Cells[0].Value?.ToString() ?? string.Empty;
+                    string value1 = cell.OwningRow.Cells[1].Value?.ToString() ?? string.Empty;
+                    string value2 = cell.OwningRow.Cells[2].Value?.ToString() ?? string.Empty;
+
+                    if (!values.ContainsKey(key))
+                    {
+                        values[key] = new List<string>();
+                    }
+
+                    values[key].Add(value1);
+                    values[key].Add(value2);
+                }
+            }
+
+            return values;
+        }
+
+
+        private Dictionary<string, string> GetSelectedGroups(DataGridView dataGridView)
+        {
+
+            // Method to store the selected groups from a data grid view in a dictionary for further processing
+
+            Dictionary<string, string> values = new Dictionary<string, string>();
+
+            foreach (DataGridViewCell cell in dataGridView.SelectedCells)
+            {
+                if (cell.RowIndex >= 0 && cell.ColumnIndex >= 0)
+                {
+                    string key = dataGridView.Rows[cell.RowIndex].Cells[0].Value?.ToString() ?? string.Empty;
+                    string value = dataGridView.Rows[cell.RowIndex].Cells[1].Value?.ToString() ?? string.Empty;
+
+                    values[key] = value;
+                }
+            }
+
+            return values;
+        }
+
+
+        private void PreparePolicyDeployment()
+        {
+
+            // This method prepares the policy deployment by populating the rich text box with the policies and groups that the user has selected
+
+
+            // Clears old content in the textbox
+
+            _form1.ClearRichTextBox(rtbSelectedPolicies);
+            _form1.ClearRichTextBox(rtbSelectedGroups);
+
+
+
+            // Gather the values from the selected policies and selected groups
+
+            Dictionary<string, List<string>> SelectedPolicies = GetSelectedPolicies(dtgDisplayPolicy);
+            Dictionary<string, string> SelectedGroups = GetSelectedGroups(dtgDisplayGroup);
+
+
+            // Loop through all policies and add to the rich text box to give an overview prior to assignment
+            foreach (string policy in SelectedPolicies.Keys)
+            {
+
+                rtbSelectedPolicies.AppendText(policy.ToString() + "\n");
+
+            }
+
+
+            foreach (string group in SelectedGroups.Keys)
+            {
+
+                rtbSelectedGroups.AppendText(group.ToString() + "\n");
+
+            }
+
+
+            // Groups:
+
+
+
+        }
+
+        async Task AssignSelectedPolicies()
+        {
+            // Flow
+
+            // for each selected cell in dtgdisplaypolicy --> assign to each selected cell in dtgdisplaygroup
+
+            // Create an object of form1 to use it's methods   
+            Form1 form1 = new Form1();
+
+
+            // Authenticate to Graph
+            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+
+
+            
+
+        }
 
         private void ListCompliancePolicies()
         {
@@ -373,8 +487,6 @@ namespace IntuneAssignments
             // Create an object of form1 to use it's methods   
             Form1 form1 = new Form1();
 
-            form1.ClearDataGridView(dtgDisplayPolicy);
-
 
 
             // Authenticate to Graph
@@ -442,35 +554,37 @@ namespace IntuneAssignments
 
         private void dtgDisplayPolicy_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            rtbAssignmentPreview.Clear();
-
-            string? type = "";
-
-
-            // Pass the rowIndex to other method to allow processing
-            FindPolicyAssignments(e.RowIndex);
-
-
-
-
-            if (e.RowIndex >= 0)
+            if (e.RowIndex == 0)
             {
-                type = dtgDisplayPolicy.Rows[e.RowIndex].Cells[1].Value.ToString();
+                MessageBox.Show("test");
+            }
 
-                // Insert logic to choose which lookup method based on the value of the type variable
-                // Index 3 contains the ID
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                //string? type = "";
+
+                //type = dtgDisplayPolicy.Rows[e.RowIndex].Cells[1].Value.ToString();
+
+                rtbAssignmentPreview.Clear();
 
 
-                // Options:
-                // Compliance
-                // Device Configuration
-                // Settings Catalog
 
+                // Pass the rowIndex to other method to allow processing
+                FindPolicyAssignments(e.RowIndex);
             }
 
 
         }
 
+        private void btnPrepareDeployment_Click(object sender, EventArgs e)
+        {
+            PreparePolicyDeployment();
+        }
 
+        private void btnResetDeployment_Click(object sender, EventArgs e)
+        {
+            _form1.ClearRichTextBox(rtbSelectedGroups);
+            _form1.ClearRichTextBox(rtbSelectedPolicies);
+        }
     }
 }
