@@ -128,7 +128,7 @@ namespace IntuneAssignments
         }
 
 
-        private async void FindCompliancePolicyAssignments(int rowIndex)
+        private async void FindPolicyAssignments(int rowIndex)
         {
 
 
@@ -149,7 +149,7 @@ namespace IntuneAssignments
             // Authenticate to Graph
             GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
 
-            if (profileType == "Compliance")
+            if (profileType != "")
             {
 
                 // Need to find all assignments by their unique ID's
@@ -224,24 +224,6 @@ namespace IntuneAssignments
 
                 }
 
-
-
-            }
-
-
-
-
-            else if (profileType == "Device Configuration")
-            {
-
-            }
-
-
-
-
-
-            else if (profileType == "Settings catalog")
-            {
 
 
             }
@@ -466,7 +448,7 @@ namespace IntuneAssignments
 
 
             // Pass the rowIndex to other method to allow processing
-            FindCompliancePolicyAssignments(e.RowIndex);
+            FindPolicyAssignments(e.RowIndex);
 
 
 

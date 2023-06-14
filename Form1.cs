@@ -45,6 +45,7 @@ using Windows.Foundation.Metadata;
 // OK - Sidebar slides back after MS auth
 // OK - Search box default text disappear when clicked
 // OK - Display list of each error for each assignment
+// OK - Pop up box for assignment for policies
 
 
 
@@ -73,7 +74,7 @@ using Windows.Foundation.Metadata;
 // Idea to change intent to drop down menu and place within deployment pane. remove radio buttons
 // Idea to change DTG UI to more sleek design
 // Button animation
-// Pop up box for assignment for policies
+// Need to handle error when assigned group is deleted ("ghost group")
 
 
 
