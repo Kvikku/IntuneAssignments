@@ -242,7 +242,7 @@ namespace IntuneAssignments
         }
 
 
-        private Dictionary<string, List <string>> GetSelectedPolicies(DataGridView dataGridView)
+        private Dictionary<string, List<string>> GetSelectedPolicies(DataGridView dataGridView)
         {
 
             // Method to store the selected policies from a data grid view in a dictionary for further processing
@@ -256,6 +256,8 @@ namespace IntuneAssignments
                     string key = cell.OwningRow.Cells[0].Value?.ToString() ?? string.Empty;
                     string value1 = cell.OwningRow.Cells[1].Value?.ToString() ?? string.Empty;
                     string value2 = cell.OwningRow.Cells[2].Value?.ToString() ?? string.Empty;
+                    string value3 = cell.OwningRow.Cells[3].Value?.ToString() ?? string.Empty;
+                    // Add cell for ID!
 
                     if (!values.ContainsKey(key))
                     {
@@ -264,6 +266,7 @@ namespace IntuneAssignments
 
                     values[key].Add(value1);
                     values[key].Add(value2);
+                    values[key].Add(value3);
                 }
             }
 
@@ -293,7 +296,7 @@ namespace IntuneAssignments
         }
 
 
-        private void PreparePolicyDeployment()
+        public void PreparePolicyDeployment()
         {
 
             // This method prepares the policy deployment by populating the rich text box with the policies and groups that the user has selected
@@ -312,7 +315,8 @@ namespace IntuneAssignments
             Dictionary<string, string> SelectedGroups = GetSelectedGroups(dtgDisplayGroup);
 
 
-            // Loop through all policies and add to the rich text box to give an overview prior to assignment
+            // Loop through all policies and add to the rich text box to give an overview prior to assignment:
+
             foreach (string policy in SelectedPolicies.Keys)
             {
 
@@ -321,25 +325,27 @@ namespace IntuneAssignments
             }
 
 
+            // Groups:
+
             foreach (string group in SelectedGroups.Keys)
             {
 
                 rtbSelectedGroups.AppendText(group.ToString() + "\n");
 
             }
-
-
-            // Groups:
-
-
-
         }
 
         async Task AssignSelectedPolicies()
         {
-            // Flow
+            
 
-            // for each selected cell in dtgdisplaypolicy --> assign to each selected cell in dtgdisplaygroup
+            // Gather the values from the selected policies and selected groups
+
+
+
+            Dictionary<string, List<string>> SelectedPolicies = GetSelectedPolicies(dtgDisplayPolicy);
+            Dictionary<string, string> SelectedGroups = GetSelectedGroups(dtgDisplayGroup);
+
 
             // Create an object of form1 to use it's methods   
             Form1 form1 = new Form1();
@@ -349,7 +355,51 @@ namespace IntuneAssignments
             GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
 
 
-            
+            // Iterate over the keys in the dictionary and retrieve the policy ID from graph
+            // for each selected cell in dtgdisplaypolicy --> assign to each selected cell in dtgdisplaygroup
+
+            foreach (string policy in SelectedPolicies.Keys)
+            {
+
+                if (SelectedPolicies.TryGetValue(policy, out List<string> dataList))
+                {
+
+                    if (dataList.Count >= 3)
+                    {
+
+                        // ID is the policy ID in Graph
+                        string type = dataList[0];
+                        //MessageBox.Show(ID);
+
+                        // Type is the profile type (Compliance, Device Configuration, Settings Catalog)
+                        string ID = dataList[2];
+                        //MessageBox.Show(type);
+
+
+
+                        // Begin assignment
+
+                        foreach (var group in SelectedGroups)
+                        {
+
+                            string groupName  = group.Key;
+                            string groupID = group.Value;
+
+                            // Use these for deployment
+
+                        }
+
+
+
+                    }
+
+                }
+
+
+            }
+
+
+
 
         }
 
@@ -554,24 +604,36 @@ namespace IntuneAssignments
 
         private void dtgDisplayPolicy_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex == 0)
+
+            if (cbLookUpAssignment.Checked == true)
             {
-                MessageBox.Show("test");
+
+
+                if (e.RowIndex == 0)
+                {
+                    MessageBox.Show("test");
+                }
+
+                if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+                {
+                    //string? type = "";
+
+                    //type = dtgDisplayPolicy.Rows[e.RowIndex].Cells[1].Value.ToString();
+
+                    rtbAssignmentPreview.Clear();
+
+
+
+                    // Pass the rowIndex to other method to allow processing
+                    FindPolicyAssignments(e.RowIndex);
+                }
             }
 
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            else
             {
-                //string? type = "";
 
-                //type = dtgDisplayPolicy.Rows[e.RowIndex].Cells[1].Value.ToString();
-
-                rtbAssignmentPreview.Clear();
-
-
-
-                // Pass the rowIndex to other method to allow processing
-                FindPolicyAssignments(e.RowIndex);
             }
+
 
 
         }
@@ -585,6 +647,11 @@ namespace IntuneAssignments
         {
             _form1.ClearRichTextBox(rtbSelectedGroups);
             _form1.ClearRichTextBox(rtbSelectedPolicies);
+        }
+
+        private void btnDeployPolicyAssignment_Click(object sender, EventArgs e)
+        {
+            AssignSelectedPolicies();
         }
     }
 }

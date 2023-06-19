@@ -56,6 +56,7 @@
             btnDeployPolicyAssignment = new Button();
             btnPrepareDeployment = new Button();
             btnResetDeployment = new Button();
+            cbLookUpAssignment = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlSearchPolicy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).BeginInit();
@@ -316,6 +317,7 @@
             btnDeployPolicyAssignment.TabIndex = 5;
             btnDeployPolicyAssignment.Text = "Deploy";
             btnDeployPolicyAssignment.UseVisualStyleBackColor = true;
+            btnDeployPolicyAssignment.Click += btnDeployPolicyAssignment_Click;
             // 
             // btnPrepareDeployment
             // 
@@ -337,12 +339,24 @@
             btnResetDeployment.UseVisualStyleBackColor = true;
             btnResetDeployment.Click += btnResetDeployment_Click;
             // 
+            // cbLookUpAssignment
+            // 
+            cbLookUpAssignment.AutoSize = true;
+            cbLookUpAssignment.ForeColor = Color.Salmon;
+            cbLookUpAssignment.Location = new Point(1156, 31);
+            cbLookUpAssignment.Name = "cbLookUpAssignment";
+            cbLookUpAssignment.Size = new Size(212, 19);
+            cbLookUpAssignment.TabIndex = 8;
+            cbLookUpAssignment.Text = "Look up policy assignment on click";
+            cbLookUpAssignment.UseVisualStyleBackColor = true;
+            // 
             // Policy
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1578, 903);
+            Controls.Add(cbLookUpAssignment);
             Controls.Add(btnResetDeployment);
             Controls.Add(btnPrepareDeployment);
             Controls.Add(btnDeployPolicyAssignment);
@@ -362,6 +376,7 @@
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -394,5 +409,6 @@
         private Button btnDeployPolicyAssignment;
         private Button btnPrepareDeployment;
         private Button btnResetDeployment;
+        private CheckBox cbLookUpAssignment;
     }
 }
