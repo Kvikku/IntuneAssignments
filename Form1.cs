@@ -104,7 +104,7 @@ namespace IntuneAssignments
         string tenantID = "18456af8-4036-4e1c-b888-43e04c49046a";
         string clientSecret = "";
         string[] scopes = new string[] { "DeviceManagementApps.ReadWrite.All", "DeviceManagementServiceConfig.Read.All", "DeviceManagementConfiguration.Read.All",
-        "Directory.Read.All"};
+        "Directory.Read.All", "DeviceManagementConfiguration.ReadWrite.All"};
         string GraphEndpoint = "https://graph.microsoft.com/v1.0";
         string accessToken = "";
         public static string GraphAccessToken { get; set; }
@@ -951,6 +951,7 @@ namespace IntuneAssignments
                     {
                         newAssignment.Target = target;
                         newAssignment.Intent = intent;
+
                     }
 
                     try

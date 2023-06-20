@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Windows.Media.Protection.PlayReady;
 using static System.Windows.Forms.DataFormats;
 
 
@@ -335,9 +336,66 @@ namespace IntuneAssignments
             }
         }
 
+
+        async Task AssignCompliancePolcy(string policyID, string groupID)
+        {
+            // Method to assign a compliance policy to one group
+
+            // Create an object of form1 to use it's methods   
+            Form1 form1 = new Form1();
+
+
+            // Authenticate to Graph
+            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+
+
+
+
+            var target = new GroupAssignmentTarget
+            {
+                GroupId = groupID
+                //DeviceAndAppManagementAssignmentFilterId = policyID
+
+            };
+
+
+            var assignment = new DeviceConfigurationAssignment
+            {
+
+                Target = target
+
+            };
+
+
+
+
+
+            try
+            {
+
+
+                await client.DeviceManagement
+                    .DeviceConfigurations[policyID]
+                    .Assignments
+                    .Request()
+                    .AddAsync(assignment);
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+
+        }
+
+
         async Task AssignSelectedPolicies()
         {
-            
+
 
             // Gather the values from the selected policies and selected groups
 
@@ -367,12 +425,14 @@ namespace IntuneAssignments
                     if (dataList.Count >= 3)
                     {
 
-                        // ID is the policy ID in Graph
+                        // Type is the profile type (Compliance, Device Configuration, Settings Catalog)
                         string type = dataList[0];
                         //MessageBox.Show(ID);
 
-                        // Type is the profile type (Compliance, Device Configuration, Settings Catalog)
-                        string ID = dataList[2];
+
+
+                        // ID is the policy ID in Graph
+                        string policyID = dataList[2];
                         //MessageBox.Show(type);
 
 
@@ -382,10 +442,13 @@ namespace IntuneAssignments
                         foreach (var group in SelectedGroups)
                         {
 
-                            string groupName  = group.Key;
+                            string groupName = group.Key;
                             string groupID = group.Value;
 
                             // Use these for deployment
+
+                            await AssignCompliancePolcy(policyID, groupID);
+
 
                         }
 
@@ -653,5 +716,90 @@ namespace IntuneAssignments
         {
             AssignSelectedPolicies();
         }
+
+        public void button1_Click(object sender, EventArgs e)
+        {
+            // Create an object of form1 to use it's methods   
+            Form1 form1 = new Form1();
+
+            // Authenticate to Graph
+            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+
+            var groupID = "107b865f-4732-430e-abf3-41737fd2697b";
+
+            var policyID = "44812917-7720-47cf-9f5f-809d67764817";
+
+            var target = new GroupAssignmentTarget
+            {
+
+               GroupId = groupID
+
+
+            };
+
+            
+            // This only works for Device Configuration (not compliance or settings catalog)
+            var deviceConfigAssignment = new DeviceConfigurationAssignment
+            {
+                
+                Target = target,
+
+            };
+
+            client.DeviceManagement
+                    .DeviceConfigurations[policyID]
+                    .Assignments
+                    .Request()
+                    .AddAsync(deviceConfigAssignment);
+
+
+
+
+
+
+
+            // Under development:
+
+            var settingsCatalogConfig = new DeviceManagementConfigurationPolicyAssignment
+            {
+                
+                Target = target,
+
+            };
+
+
+            client.DeviceManagement
+                    .ConfigurationPolicies[policyID]
+                    .Assignments
+                    .Request()
+                    .AddAsync(settingsCatalogConfig);
+
+
+
+
+
+
+
+
+
+
+            //// PostASync overwrites existing deployments
+
+            //var assignment = new DeviceConfigurationGroupAssignment
+            //{
+            //    TargetGroupId = groupID
+            //};
+
+
+            //client.DeviceManagement
+            //        .DeviceConfigurations[policyID]
+            //        .Assign(new List<DeviceConfigurationGroupAssignment> { assignment } )
+            //        .Request()
+            //        .PostAsync();
+        }
+
+
+
+
     }
 }

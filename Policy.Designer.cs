@@ -57,6 +57,7 @@
             btnPrepareDeployment = new Button();
             btnResetDeployment = new Button();
             cbLookUpAssignment = new CheckBox();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlSearchPolicy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).BeginInit();
@@ -350,12 +351,23 @@
             cbLookUpAssignment.Text = "Look up policy assignment on click";
             cbLookUpAssignment.UseVisualStyleBackColor = true;
             // 
+            // button1
+            // 
+            button1.Location = new Point(1252, 608);
+            button1.Name = "button1";
+            button1.Size = new Size(168, 55);
+            button1.TabIndex = 9;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // Policy
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1578, 903);
+            Controls.Add(button1);
             Controls.Add(cbLookUpAssignment);
             Controls.Add(btnResetDeployment);
             Controls.Add(btnPrepareDeployment);
@@ -410,5 +422,6 @@
         private Button btnPrepareDeployment;
         private Button btnResetDeployment;
         private CheckBox cbLookUpAssignment;
+        private Button button1;
     }
 }
