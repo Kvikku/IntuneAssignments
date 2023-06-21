@@ -719,67 +719,65 @@ namespace IntuneAssignments
 
         public void button1_Click(object sender, EventArgs e)
         {
-            // Create an object of form1 to use it's methods   
-            Form1 form1 = new Form1();
 
-            // Authenticate to Graph
-            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
-
-            var groupID = "107b865f-4732-430e-abf3-41737fd2697b";
-
-            var policyID = "44812917-7720-47cf-9f5f-809d67764817";
-
-            var target = new GroupAssignmentTarget
+            try
             {
 
-               GroupId = groupID
+                // Create an object of form1 to use it's methods   
+                Form1 form1 = new Form1();
+
+                // Authenticate to Graph
+                GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+
+                var groupID = "107b865f-4732-430e-abf3-41737fd2697b";
+
+                var policyID = "64c158f2-b918-415e-9d9a-87587df23c3d";
 
 
-            };
 
+                // Under development:
+
+
+                // Create the assignment target for the group
+
+                var groupAssignmentTarget = new GroupAssignmentTarget
+                {
+                    GroupId = groupID
+                };
+
+                // Create the device compliance policy assignment
+                var assignment = new DeviceCompliancePolicyAssignment
+                {
+                    Target = groupAssignmentTarget
+                };
+
+
+
+                // Add the assignment to the device compliance policy
+                client.DeviceManagement
+                   .DeviceCompliancePolicies[policyID]
+                   .Assignments
+                   .Request()
+                   .AddAsync(assignment);
+
+
+
+
+
+                MessageBox.Show("");
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                //throw;
+            }
             
-            // This only works for Device Configuration (not compliance or settings catalog)
-            var deviceConfigAssignment = new DeviceConfigurationAssignment
-            {
-                
-                Target = target,
-
-            };
-
-            client.DeviceManagement
-                    .DeviceConfigurations[policyID]
-                    .Assignments
-                    .Request()
-                    .AddAsync(deviceConfigAssignment);
+            
 
 
 
-
-
-
-
-            // Under development:
-
-            var settingsCatalogConfig = new DeviceManagementConfigurationPolicyAssignment
-            {
-                
-                Target = target,
-
-            };
-
-
-            client.DeviceManagement
-                    .ConfigurationPolicies[policyID]
-                    .Assignments
-                    .Request()
-                    .AddAsync(settingsCatalogConfig);
-
-
-
-
-
-
-
+           
 
 
 
@@ -798,8 +796,42 @@ namespace IntuneAssignments
             //        .PostAsync();
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            // Create an object of form1 to use it's methods   
+            Form1 form1 = new Form1();
+
+            // Authenticate to Graph
+            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+
+            var groupID = "107b865f-4732-430e-abf3-41737fd2697b";
+
+            var policyID = "dcc45d84-0fa8-41d9-920c-2d19f7d6b381";
+
+            var target = new GroupAssignmentTarget
+            {
+
+                GroupId = groupID
 
 
+            };
 
+            //This only works for Device Configuration (not compliance or settings catalog)
+
+            var deviceConfigAssignment = new DeviceConfigurationAssignment
+            {
+
+                Target = target,
+
+            };
+
+            client.DeviceManagement
+                    .DeviceConfigurations[policyID]
+                    .Assignments
+                    .Request()
+                    .AddAsync(deviceConfigAssignment);
+
+        }
     }
 }

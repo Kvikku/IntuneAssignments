@@ -51,7 +51,7 @@
             },
             "Microsoft.Graph.Beta": {
               "target": "Package",
-              "version": "[4.52.0-preview, )"
+              "version": "[4.73.1-preview, )"
             },
             "Microsoft.Identity.Client": {
               "target": "Package",

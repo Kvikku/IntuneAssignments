@@ -58,6 +58,7 @@
             btnResetDeployment = new Button();
             cbLookUpAssignment = new CheckBox();
             button1 = new Button();
+            button2 = new Button();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlSearchPolicy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).BeginInit();
@@ -357,9 +358,19 @@
             button1.Name = "button1";
             button1.Size = new Size(168, 55);
             button1.TabIndex = 9;
-            button1.Text = "button1";
+            button1.Text = "Compliance";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(1239, 705);
+            button2.Name = "button2";
+            button2.Size = new Size(218, 76);
+            button2.TabIndex = 10;
+            button2.Text = "Device Config";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // Policy
             // 
@@ -367,6 +378,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1578, 903);
+            Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(cbLookUpAssignment);
             Controls.Add(btnResetDeployment);
@@ -423,5 +435,6 @@
         private Button btnResetDeployment;
         private CheckBox cbLookUpAssignment;
         private Button button1;
+        private Button button2;
     }
 }
