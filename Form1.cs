@@ -45,6 +45,7 @@ using Windows.Foundation.Metadata;
 // OK - Sidebar slides back after MS auth
 // OK - Search box default text disappear when clicked
 // OK - Display list of each error for each assignment
+// OK - Pop up box for assignment for policies
 
 
 
@@ -69,10 +70,12 @@ using Windows.Foundation.Metadata;
 
 // last action:
 
-// change GUI
+
 // Idea to change intent to drop down menu and place within deployment pane. remove radio buttons
 // Idea to change DTG UI to more sleek design
 // Button animation
+// Need to handle error when assigned group is deleted ("ghost group")
+// Missing only actual deployment of policies
 
 
 
@@ -101,7 +104,7 @@ namespace IntuneAssignments
         string tenantID = "18456af8-4036-4e1c-b888-43e04c49046a";
         string clientSecret = "";
         string[] scopes = new string[] { "DeviceManagementApps.ReadWrite.All", "DeviceManagementServiceConfig.Read.All", "DeviceManagementConfiguration.Read.All",
-        "Directory.Read.All"};
+        "Directory.Read.All", "DeviceManagementConfiguration.ReadWrite.All"};
         string GraphEndpoint = "https://graph.microsoft.com/v1.0";
         string accessToken = "";
         public static string GraphAccessToken { get; set; }
@@ -143,9 +146,23 @@ namespace IntuneAssignments
 
         }
 
+        private void showPolicyAssignment()
+        {
+
+            // Switches to policy assignment form, and keeps the location of this form
+
+            Form1Location = Location;
+
+            this.Hide();
+            Policy policy = new Policy(this);
+            policy.Show();
+
+
+        }
+
         private void showViewAssignment()
         {
-            // Switches to View Assignment-form, and keeps the location of this form
+            // Switches to View Assignment form, and keeps the location of this form
 
             Form1Location = Location;
             this.Hide();
@@ -429,17 +446,21 @@ namespace IntuneAssignments
 
         public void ClearDataGridView(DataGridView dataGridView)
         {
-            // Clear all the rows in the DataGridView control
-            while (dataGridView.Rows.Count > 0)
-            {
-                dataGridView.Rows.RemoveAt(0);
-            }
+            dataGridView.Rows.Clear();
         }
 
-        private void ClearCheckedListBox(CheckedListBox checkedListBox)
+        public void ClearCheckedListBox(CheckedListBox checkedListBox)
         {
 
             checkedListBox.Items.Clear();
+
+        }
+
+
+        public void ClearRichTextBox(RichTextBox richTextBox)
+        {
+
+            richTextBox.Clear();
 
         }
 
@@ -844,7 +865,7 @@ namespace IntuneAssignments
             foreach (Control control in panelSummary.Controls)
 
             {
-                if (!(control is Label) && !(control is Button))
+                if (!(control is System.Windows.Forms.Label) && !(control is Button))
                 {
 
                     control.Text = string.Empty;
@@ -930,6 +951,7 @@ namespace IntuneAssignments
                     {
                         newAssignment.Target = target;
                         newAssignment.Intent = intent;
+
                     }
 
                     try
@@ -1364,6 +1386,11 @@ namespace IntuneAssignments
         private void txtboxSearchApp_Click(object sender, EventArgs e)
         {
             txtboxSearchApp.Clear();
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            showPolicyAssignment();
         }
     }
 }

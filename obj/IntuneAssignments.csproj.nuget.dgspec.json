@@ -47,19 +47,19 @@
           "dependencies": {
             "Azure.Identity": {
               "target": "Package",
-              "version": "[1.8.1, )"
+              "version": "[1.9.0, )"
             },
-            "Microsoft.Graph": {
+            "Microsoft.Graph.Beta": {
               "target": "Package",
-              "version": "[4.52.0, )"
+              "version": "[4.73.1-preview, )"
             },
             "Microsoft.Identity.Client": {
               "target": "Package",
-              "version": "[4.49.1, )"
+              "version": "[4.54.1, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[13.0.2, )"
+              "version": "[13.0.3, )"
             }
           },
           "imports": [
@@ -90,7 +90,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
         }
       }
     }

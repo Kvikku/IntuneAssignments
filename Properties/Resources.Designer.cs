@@ -93,6 +93,16 @@ namespace IntuneAssignments.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _46291024716276567993766_48 {
+            get {
+                object obj = ResourceManager.GetObject("46291024716276567993766-48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _5358270771574330938_32 {
             get {
                 object obj = ResourceManager.GetObject("5358270771574330938-32", resourceCulture);

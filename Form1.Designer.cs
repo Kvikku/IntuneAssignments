@@ -31,6 +31,8 @@
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             panelTenantInfo = new Panel();
             SignIn = new Button();
             lblTenantID = new Label();
@@ -88,6 +90,7 @@
             lblSummarizeApps = new Label();
             sideBarTimer = new System.Windows.Forms.Timer(components);
             menuPanel = new Panel();
+            pictureBox2 = new PictureBox();
             panelTenantInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -103,6 +106,7 @@
             pnlIntent.SuspendLayout();
             panelSummary.SuspendLayout();
             menuPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // panelTenantInfo
@@ -426,9 +430,25 @@
             dtgDisplayGroup.AllowUserToAddRows = false;
             dtgDisplayGroup.AllowUserToDeleteRows = false;
             dtgDisplayGroup.BackgroundColor = Color.FromArgb(46, 51, 73);
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dtgDisplayGroup.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dtgDisplayGroup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgDisplayGroup.Columns.AddRange(new DataGridViewColumn[] { GroupName, GroupID });
             dtgDisplayGroup.ContextMenuStrip = dtgDisplayAppRightClick;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = SystemColors.Window;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dtgDisplayGroup.DefaultCellStyle = dataGridViewCellStyle4;
             dtgDisplayGroup.Location = new Point(10, 78);
             dtgDisplayGroup.Name = "dtgDisplayGroup";
             dtgDisplayGroup.ReadOnly = true;
@@ -723,6 +743,7 @@
             // menuPanel
             // 
             menuPanel.BorderStyle = BorderStyle.FixedSingle;
+            menuPanel.Controls.Add(pictureBox2);
             menuPanel.Controls.Add(pictureBox1);
             menuPanel.Controls.Add(pbView);
             menuPanel.Controls.Add(panelTenantInfo);
@@ -733,6 +754,16 @@
             menuPanel.Name = "menuPanel";
             menuPanel.Size = new Size(102, 893);
             menuPanel.TabIndex = 18;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = Properties.Resources._46291024716276567993766_48;
+            pictureBox2.Location = new Point(11, 133);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(48, 53);
+            pictureBox2.TabIndex = 18;
+            pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click;
             // 
             // Form1
             // 
@@ -771,6 +802,7 @@
             panelSummary.ResumeLayout(false);
             panelSummary.PerformLayout();
             menuPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
         }
 
@@ -833,5 +865,6 @@
         private DataGridViewTextBoxColumn AppName;
         private DataGridViewTextBoxColumn Platform;
         private DataGridViewTextBoxColumn AppID;
+        private PictureBox pictureBox2;
     }
 }
