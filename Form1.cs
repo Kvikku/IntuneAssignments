@@ -1,7 +1,9 @@
 using System;
 using System.Net;
 using Microsoft.Graph;
+using Microsoft.Graph.Auth;
 using Microsoft.Identity.Client;
+using Microsoft.Graph.Core;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -13,6 +15,8 @@ using Windows.ApplicationModel.VoiceCommands;
 using System.Windows.Forms;
 using System.Diagnostics.Eventing.Reader;
 using Windows.Foundation.Metadata;
+using Microsoft.Graph.Beta;
+using Microsoft.Graph.Beta.Models;
 
 //TO DO
 
@@ -100,12 +104,16 @@ namespace IntuneAssignments
         bool sideBarExpandTimer = false;
         int col = -1;
         int row = -1;
-        string clientID = "f67679c6-4a23-42d8-84c6-bb3f9cf1f1c0";
-        string tenantID = "18456af8-4036-4e1c-b888-43e04c49046a";
-        string clientSecret = "";
-        string[] scopes = new string[] { "DeviceManagementApps.ReadWrite.All", "DeviceManagementServiceConfig.Read.All", "DeviceManagementConfiguration.Read.All",
-        "Directory.Read.All", "DeviceManagementConfiguration.ReadWrite.All"};
+        public static string clientID = "f67679c6-4a23-42d8-84c6-bb3f9cf1f1c0";
+        public static string tenantID = "18456af8-4036-4e1c-b888-43e04c49046a";
+        public static string clientSecret = "mvt8Q~T_JKJ0PlCr69d1bfQlyBJcZXjekFJ_Ab-g";
+        public static string[] scopes = new[] { "DeviceManagementApps.ReadWrite.All", "DeviceManagementServiceConfig.Read.All", "DeviceManagementConfiguration.Read.All",
+        "Directory.Read.All", "DeviceManagementConfiguration.ReadWrite.All" };
         string GraphEndpoint = "https://graph.microsoft.com/v1.0";
+        public static string[] newScopes = new string[]
+        {
+            "https://graph.microsoft.com/.default"
+        };
         string accessToken = "";
         public static string GraphAccessToken { get; set; }
         public static Point Form1Location { get; set; }
@@ -191,46 +199,6 @@ namespace IntuneAssignments
 
 
 
-        private async Task AuthenticateToGraph()
-        {
-            // NOT CURRENTLY IN USE //
-
-            InteractiveBrowserCredential interactiveBrowserCredential = new InteractiveBrowserCredential();
-            var graphClient = new GraphServiceClient(interactiveBrowserCredential);
-
-            InteractiveBrowserCredentialOptions options = new InteractiveBrowserCredentialOptions();
-
-            try
-            {
-                // Make a call to Microsoft Graph to confirm that authentication was successful
-                var me = await graphClient.Me
-                    .Request()
-                    .GetAsync();
-
-                var tenantInfo = await graphClient.Organization
-                    .Request()
-                    .Select("ID")
-                    .GetAsync();
-
-                List<Organization> organizations = new List<Organization>();
-                organizations.AddRange(tenantInfo);
-
-                foreach (var org in organizations)
-                {
-
-                    tenantID = org.Id;
-                    lblTenantID.Text = "Tenant ID: " + tenantID;
-                }
-
-                lblSignedInUser.Text = "Signed in as " + me.DisplayName;
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error authenticating: " + ex.Message);
-            }
-        }
-
         public async Task authMSAL()
         {
 
@@ -259,57 +227,55 @@ namespace IntuneAssignments
             }
         }
 
-        // Deprecated
-        public GraphServiceClient GetGraphClient()
+
+
+
+        //public GraphServiceClient NewGetGraphClient(string SharedAccessToken)
+        //{
+        //    try
+        //    {
+        //        return new GraphServiceClient(
+        //        new DelegateAuthenticationProvider(
+        //            (requestMessage) =>
+        //            {
+        //                requestMessage.Headers.Authorization =
+        //                    new AuthenticationHeaderValue("bearer", SharedAccessToken);
+
+        //                return Task.FromResult(0);
+        //            }));
+        //    }
+        //    catch (Exception errorMsg)
+        //    {
+        //        MessageBox.Show(errorMsg.Message);
+
+        //        throw;
+        //    }
+        //}
+
+
+
+        public class MSGraphAuthenticator
         {
-            // Deprecated
-
-            // Creates a reusable graph service client object
-            // Requires authentication to already be done
-            try
+            // Test if this works
+            public static async Task<GraphServiceClient> GetAuthenticatedGraphClient()
             {
-                return new GraphServiceClient(
-                new DelegateAuthenticationProvider(
-                    (requestMessage) =>
-                    {
-                        requestMessage.Headers.Authorization =
-                            new AuthenticationHeaderValue("bearer", accessToken);
+                try
+                {
+                    ClientSecretCredential clientSecretCredential = new ClientSecretCredential(tenantID, clientID, clientSecret);
+                    GraphServiceClient graphclient = new GraphServiceClient(clientSecretCredential, newScopes);
 
-                        return Task.FromResult(0);
-                    }));
-            }
-            catch (Exception errorMsg)
-            {
-                MessageBox.Show(errorMsg.Message);
 
-                throw;
+                    return graphclient;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    throw;
+                }
+
             }
+
         }
-
-
-        public GraphServiceClient NewGetGraphClient(string SharedAccessToken)
-        {
-            try
-            {
-                return new GraphServiceClient(
-                new DelegateAuthenticationProvider(
-                    (requestMessage) =>
-                    {
-                        requestMessage.Headers.Authorization =
-                            new AuthenticationHeaderValue("bearer", SharedAccessToken);
-
-                        return Task.FromResult(0);
-                    }));
-            }
-            catch (Exception errorMsg)
-            {
-                MessageBox.Show(errorMsg.Message);
-
-                throw;
-            }
-        }
-
-
 
         /// ////////////////////////////////////// Configuration ///////////////////////////////////////////////////
 
@@ -397,18 +363,23 @@ namespace IntuneAssignments
 
 
                 // Create a graph service client object
-                var graphClient = NewGetGraphClient(GraphAccessToken);
+                var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+
 
 
                 // Make a call to Microsoft Graph
-                var tenantInfo = await graphClient.Organization
-                        .Request()
-                        .Select("ID")
-                        .GetAsync();
+                var tenantInfo = await graphClient.Result.Organization.GetAsync((requestConfiguration) =>
+                {
+                    requestConfiguration.QueryParameters.Select = new string[] { "id" };
+                });
+
+
+
 
                 // Put result in a list for processing
                 List<Organization> organizations = new List<Organization>();
-                organizations.AddRange(tenantInfo);
+                organizations.AddRange(tenantInfo.Value);
 
                 // Loop through the list
                 // NOTE - this could be improved. There is room for error if the query returns more than 1 result
@@ -418,11 +389,6 @@ namespace IntuneAssignments
                     lblTenantID.Text = "Tenant ID: " + tenantID;
                 }
 
-                var users = await graphClient.Me
-                    .Request()
-                    .GetAsync();
-
-                lblSignedInUser.Text = users.DisplayName;
 
                 sideBarTimer.Start();
 
@@ -472,26 +438,21 @@ namespace IntuneAssignments
             ClearCheckedListBox(clbAppAssignments);
 
             // Create a graph service client object
-            var graphClient = NewGetGraphClient(GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
             var selectedPlatform = cBAppType.Text;
 
 
 
             // Make a call to Microsoft Graph
-            var allApplications = graphClient.DeviceAppManagement.MobileApps
-                .Request()
-                .Select(u => new
-                {
-                    u.DisplayName,
-                    u.Id,
-                })
-                .Top(1000)
-                .GetAsync();
+            var allApplications = graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Select = new string[] { "displayName", "id" };
+            });
 
             // Put result into a list for easy processing
             List<MobileApp> listAllApplications = new List<MobileApp>();
-            listAllApplications.AddRange(allApplications.Result);
+            listAllApplications.AddRange((IEnumerable<MobileApp>)allApplications.Result);
 
             // Loop through the list
             // This foreach is no longer in use:
@@ -501,14 +462,14 @@ namespace IntuneAssignments
 
                 // Check OS platform for each app
                 var appOS = "";
-                if (app.ODataType?.ToString() == null)
+                if (app.OdataType?.ToString() == null)
                 {
                     appOS = "Undefined";
 
                 }
                 else
                 {
-                    appOS = app.ODataType?.ToString();
+                    appOS = app.OdataType?.ToString();
                 }
 
 
@@ -556,7 +517,7 @@ namespace IntuneAssignments
             if (cBAppType.Text == "Android")
             {
                 List<MobileApp> matchingAndroid = listAllApplications
-                    .Where(item => item.ODataType != null && item.ODataType.Contains("Android"))
+                    .Where(item => item.OdataType != null && item.OdataType.Contains("Android"))
                     .ToList();
 
                 // Display in DTG
@@ -574,7 +535,7 @@ namespace IntuneAssignments
             {
 
                 List<MobileApp> matchingiOS = listAllApplications
-                    .Where(item => item.ODataType != null && item.ODataType.Contains("IOS"))
+                    .Where(item => item.OdataType != null && item.OdataType.Contains("IOS"))
                     .ToList();
 
                 // Note
@@ -596,7 +557,7 @@ namespace IntuneAssignments
             {
 
                 List<MobileApp> matchingWindows = listAllApplications
-                    .Where(item => item.ODataType != null && (item.ODataType.Contains("win32") || item.ODataType.Contains("windowsMicrosoftEdge") || item.ODataType.Contains("microsoftStoreForBusiness")))
+                    .Where(item => item.OdataType != null && (item.ODataType.Contains("win32") || item.ODataType.Contains("windowsMicrosoftEdge") || item.ODataType.Contains("microsoftStoreForBusiness")))
                     .ToList();
 
                 // microsoftStoreForBusiness
@@ -620,7 +581,7 @@ namespace IntuneAssignments
             {
 
                 List<MobileApp> matchingmacOS = listAllApplications
-                   .Where(item => item.ODataType != null && (item.ODataType.Contains("macOSOfficeSuiteApp") || item.ODataType.Contains("macOSMicrosoftEdgeApp") || item.DisplayName.Contains("Microsoft Defender for Endpoint (macOS)")))
+                   .Where(item => item.OdataType != null && (item.OdataType.Contains("macOSOfficeSuiteApp") || item.OdataType.Contains("macOSMicrosoftEdgeApp") || item.DisplayName.Contains("Microsoft Defender for Endpoint (macOS)")))
                    .ToList();
 
                 // Defender for Endpoint app - no odata.type
@@ -651,22 +612,21 @@ namespace IntuneAssignments
             ClearCheckedListBox(clbGroupAssignment);
 
             // Create a graph service client object
-            var graphClient = NewGetGraphClient(GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
-            var groups = graphClient.Groups
-                .Request()
+            var groups = graphClient.Result.Groups
                 .GetAsync();
 
 
             List<Group> listAllGroups = new List<Group>();
-            listAllGroups.AddRange(groups.Result);
+            listAllGroups.AddRange((IEnumerable<Group>)groups.Result);
 
             foreach (var group in listAllGroups)
             {
                 dtgDisplayGroup.Rows.Add(group.DisplayName, group.Id);
             }
         }
-        public void SearchForGroup()
+        public async void SearchForGroup()
         {
             ClearDataGridView(dtgDisplayGroup);
             ClearCheckedListBox(clbGroupAssignment);
@@ -675,35 +635,26 @@ namespace IntuneAssignments
 
 
             // Create a graph service client object
-            var graphClient = NewGetGraphClient(GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
 
             // Construct group query
-            var queryOptions = new List<QueryOption>()
-                {
-                    new QueryOption("$search", "\"displayName:" + searchQuery + "\"")
-                };
 
 
             // Make a call to Microsoft Graph
-            var allGroups = graphClient.Groups
-                .Request(queryOptions)
-                .Header("consistencylevel", "eventual")
-                .Select(u => new
-                {
-                    u.DisplayName,
-                    u.Id,
-                    u.GroupTypes,
-                    u.Description,
-                    u.SecurityEnabled
+            var allGroups = await graphClient.Result.Groups.GetAsync((requestConfiguration) =>
+            {
+                
+                // This cannot be this easy, lol 
+                
+                requestConfiguration.QueryParameters.Search = searchQuery;
+                requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
+            });
 
-                })
-                .Top(100)
-                .GetAsync();
 
             // Make a list of all returned groups from the search
             List<Group> groups = new List<Group>();
-            groups.AddRange(allGroups.Result);
+            groups.AddRange(allGroups.Value);
 
             foreach (var group in groups)
             {
@@ -711,7 +662,7 @@ namespace IntuneAssignments
                 //clbGroupAssignment.Items.Add(group.DisplayName);
             }
         }
-        public void SearchForApp()
+        public async void SearchForApp()
         {
             ClearCheckedListBox(clbAppAssignments);
             ClearDataGridView(dtgDisplayApp);
@@ -720,22 +671,18 @@ namespace IntuneAssignments
 
 
             // Create a graph service client object
-            var graphClient = NewGetGraphClient(GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
             // Make a call to Microsoft Graph
-            var allApplications = graphClient.DeviceAppManagement.MobileApps
-                .Request()
-                .Filter("contains(displayName, '" + searchquery + "')")
-                .Select(u => new
-                {
-                    u.DisplayName,
-                })
-                .Top(1000)
-                .GetAsync();
+            var allApplications = await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Search = "Adobe";
+            });
+
 
             // Put result into a list for easy processing
             List<MobileApp> searchResult = new List<MobileApp>();
-            searchResult.AddRange(allApplications.Result);
+            searchResult.AddRange(allApplications.Value);
 
             int numberOfAppsFound = searchResult.Count;
 
@@ -758,14 +705,14 @@ namespace IntuneAssignments
 
                     // Check OS platform for each app
                     var appOS = "";
-                    if (app.ODataType?.ToString() == null)
+                    if (app.OdataType?.ToString() == null)
                     {
                         appOS = "Undefined";
 
                     }
                     else
                     {
-                        appOS = app.ODataType?.ToString();
+                        appOS = app.OdataType?.ToString();
                     }
 
 
@@ -892,7 +839,7 @@ namespace IntuneAssignments
             // Intent
 
             // Create a graph service client object
-            var graphClient = NewGetGraphClient(GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
             // Sets the scope of the progress bar
 
@@ -956,18 +903,26 @@ namespace IntuneAssignments
 
                     try
                     {
-                        await graphClient.DeviceAppManagement
-                            .MobileApps[mobileAppID]
+                        //await graphClient.DeviceAppManagement
+                        //    .MobileApps[mobileAppID]
+                        //    .Assignments
+                        //    .Request()
+                        //    .AddAsync(newAssignment);
+
+                        
+
+
+
+                        // This might delete existing assignments
+
+                        await graphClient.Result.DeviceAppManagement.MobileApps[mobileAppID]
                             .Assignments
-                            .Request()
-                            .AddAsync(newAssignment);
+                            .PostAsync(newAssignment);
 
                         rtbDeploymentSummary.AppendText("Adding group " + group + " to " + app + " as " + intent + "\n");
                         rtbDeploymentSummary.AppendText("\n");
 
                         progressBar1.Value++;
-
-
 
                     }
                     catch (Exception ex)
@@ -1018,15 +973,21 @@ namespace IntuneAssignments
             // Retrieves all mobile apps and saves them in a list for further use and processing
 
 
-            var mobileApps = new List<MobileAppInfo>();
+            var mobileApps = new List<MobileApp>();
 
-            var graphServiceClient = NewGetGraphClient(GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
-            var mobileAppPage = await graphServiceClient.DeviceAppManagement.MobileApps.Request().GetAsync();
+            var mobileAppPage = await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync();
+
+            var pageIterator = PageIterator<MobileApp, MobileAppCollectionResponse>.CreatePageIterator(graphClient, mobileAppPage, (MobileApp) => { mobileApps.Add(MobileApp); return mobileApps; });
+            
+            // This needs to be remade to support v5.0.0
+
+            await pageIterator.IterateAsync();
 
             do
             {
-                foreach (var mobileApp in mobileAppPage)
+                foreach (var mobileApp in mobileAppPage.Value)
                 {
                     var mobileAppInfo = new MobileAppInfo
                     {
@@ -1036,9 +997,9 @@ namespace IntuneAssignments
                     mobileApps.Add(mobileAppInfo);
                 }
 
-                if (mobileAppPage.NextPageRequest != null)
+                if (mobileAppPage.OdataNextLink != null)
                 {
-                    mobileAppPage = await mobileAppPage.NextPageRequest.GetAsync();
+                    mobileAppPage = await mobileAppPage.OdataNextLink.
                 }
                 else
                 {
