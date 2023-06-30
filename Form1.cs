@@ -75,11 +75,10 @@ using Microsoft.Graph.Beta.Models;
 // last action:
 
 
-// Idea to change intent to drop down menu and place within deployment pane. remove radio buttons
-// Idea to change DTG UI to more sleek design
-// Button animation
-// Need to handle error when assigned group is deleted ("ghost group")
-// Missing only actual deployment of policies
+
+// Continue on policy form
+// - deployment of settings catalog
+// - lookup group on click in dtg not working after sdk v 5.0
 
 
 
@@ -431,7 +430,7 @@ namespace IntuneAssignments
         }
 
 
-        public void ListAllApps()
+        public async void ListAllApps()
         {
 
             ClearDataGridView(dtgDisplayApp);
@@ -445,14 +444,14 @@ namespace IntuneAssignments
 
 
             // Make a call to Microsoft Graph
-            var allApplications = graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
+            var allApplications = await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.QueryParameters.Select = new string[] { "displayName", "id" };
             });
 
             // Put result into a list for easy processing
             List<MobileApp> listAllApplications = new List<MobileApp>();
-            listAllApplications.AddRange((IEnumerable<MobileApp>)allApplications.Result);
+            listAllApplications.AddRange(allApplications.Value);
 
             // Loop through the list
             // This foreach is no longer in use:
@@ -557,7 +556,7 @@ namespace IntuneAssignments
             {
 
                 List<MobileApp> matchingWindows = listAllApplications
-                    .Where(item => item.OdataType != null && (item.ODataType.Contains("win32") || item.ODataType.Contains("windowsMicrosoftEdge") || item.ODataType.Contains("microsoftStoreForBusiness")))
+                    .Where(item => item.OdataType != null && (item.OdataType.Contains("win32") || item.OdataType.Contains("windowsMicrosoftEdge") || item.OdataType.Contains("microsoftStoreForBusiness")))
                     .ToList();
 
                 // microsoftStoreForBusiness
@@ -606,7 +605,12 @@ namespace IntuneAssignments
             }
 
         }
-        public void ListAllGroups()
+
+
+
+        
+
+        public async void ListAllGroups()
         {
             ClearDataGridView(dtgDisplayGroup);
             ClearCheckedListBox(clbGroupAssignment);
@@ -614,12 +618,12 @@ namespace IntuneAssignments
             // Create a graph service client object
             var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
-            var groups = graphClient.Result.Groups
+            var groups = await graphClient.Result.Groups
                 .GetAsync();
 
 
             List<Group> listAllGroups = new List<Group>();
-            listAllGroups.AddRange((IEnumerable<Group>)groups.Result);
+            listAllGroups.AddRange(groups.Value);
 
             foreach (var group in listAllGroups)
             {
@@ -644,9 +648,9 @@ namespace IntuneAssignments
             // Make a call to Microsoft Graph
             var allGroups = await graphClient.Result.Groups.GetAsync((requestConfiguration) =>
             {
-                
+
                 // This cannot be this easy, lol 
-                
+
                 requestConfiguration.QueryParameters.Search = searchQuery;
                 requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
             });
@@ -909,7 +913,7 @@ namespace IntuneAssignments
                         //    .Request()
                         //    .AddAsync(newAssignment);
 
-                        
+
 
 
 
@@ -967,79 +971,78 @@ namespace IntuneAssignments
 
 
 
+
+
         public async Task<List<MobileAppInfo>> GetAllMobileAppsAsync()
         {
 
-            // Retrieves all mobile apps and saves them in a list for further use and processing
+            // Retrieves all mobile apps with ID and display name, and saves them in a list for further use and processing
 
-
+            // Create the list
             var mobileApps = new List<MobileApp>();
 
+
+            // Create a graph service client object
             var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
-            var mobileAppPage = await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync();
 
-            var pageIterator = PageIterator<MobileApp, MobileAppCollectionResponse>.CreatePageIterator(graphClient, mobileAppPage, (MobileApp) => { mobileApps.Add(MobileApp); return mobileApps; });
-            
-            // This needs to be remade to support v5.0.0
 
-            await pageIterator.IterateAsync();
-
-            do
+            // Query for all mobile apps
+            var result = await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
             {
-                foreach (var mobileApp in mobileAppPage.Value)
-                {
-                    var mobileAppInfo = new MobileAppInfo
-                    {
-                        Id = mobileApp.Id,
-                        DisplayName = mobileApp.DisplayName
-                    };
-                    mobileApps.Add(mobileAppInfo);
-                }
+                requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
+            });
 
-                if (mobileAppPage.OdataNextLink != null)
-                {
-                    mobileAppPage = await mobileAppPage.OdataNextLink.
-                }
-                else
-                {
-                    mobileAppPage = null;
-                }
-            } while (mobileAppPage != null);
 
-            return mobileApps;
+            // add the results to the list
+            mobileApps.AddRange(result.Value);
+
+
+            var mobileAppInfos = mobileApps.Select(app => new MobileAppInfo
+            {
+                Id = app.Id,
+                DisplayName = app.DisplayName
+            }).ToList();
+
+            return mobileAppInfos;
+
+
+
+
         }
 
-        public async Task<List<GroupInfo>> SearchAndGetAllGroupsAsync(string query = null)
+        public async Task<List<GroupInfo>> SearchAndGetAllGroupsAsync()
         {
+            // Retrieves all Azure AD groups with ID and display name, and saves them in a list for further use and processing
 
-            var groups = new List<GroupInfo>();
-            var graphServiceClient = NewGetGraphClient(GraphAccessToken);
-            var groupPage = await graphServiceClient.Groups.Request().Filter(query).GetAsync();
+            // Create the list
+            var Groups = new List<Group>();
 
-            do
+
+            // Create a graph service client object
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+
+
+            // Query for all mobile apps
+            var result = await graphClient.Result.Groups.GetAsync((requestConfiguration) =>
             {
-                foreach (var group in groupPage)
-                {
-                    var groupInfo = new GroupInfo
-                    {
-                        Id = group.Id,
-                        DisplayName = group.DisplayName
-                    };
-                    groups.Add(groupInfo);
-                }
+                requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
+            });
 
-                if (groupPage.NextPageRequest != null)
-                {
-                    groupPage = await groupPage.NextPageRequest.GetAsync();
-                }
-                else
-                {
-                    groupPage = null;
-                }
-            } while (groupPage != null);
 
-            return groups;
+            // add the results to the list
+            Groups.AddRange(result.Value);
+
+
+            var groupInfo = Groups.Select(app => new GroupInfo
+            {
+                Id = app.Id,
+                DisplayName = app.DisplayName
+            }).ToList();
+
+            return groupInfo;
+
         }
 
         public string GetAppIdByName(List<MobileAppInfo> mobileApps, string appName)
@@ -1172,6 +1175,7 @@ namespace IntuneAssignments
 
         }
 
+        // met
 
         private async void testBtn_Click(object sender, EventArgs e)
         {

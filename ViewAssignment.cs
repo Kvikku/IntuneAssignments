@@ -1,15 +1,23 @@
-﻿using Microsoft.Graph;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
+﻿using System;
+using System.Net;
+using Microsoft.Graph;
+using Microsoft.Graph.Auth;
+using Microsoft.Identity.Client;
+using Microsoft.Graph.Core;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Azure.Identity;
+using static System.Formats.Asn1.AsnWriter;
+using System.Security.Principal;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.VoiceCommands;
 using System.Windows.Forms;
-using static System.Windows.Forms.DataFormats;
+using System.Diagnostics.Eventing.Reader;
+using Windows.Foundation.Metadata;
+using Microsoft.Graph.Beta;
+using Microsoft.Graph.Beta.Models;
+using static IntuneAssignments.Form1;
 
 namespace IntuneAssignments
 {
@@ -70,7 +78,7 @@ namespace IntuneAssignments
             form1.Show();
         }
 
-        private void searchApp()
+        public async void searchApp()
         {
             // Variables
 
@@ -83,27 +91,25 @@ namespace IntuneAssignments
 
             // Authenticate to Graph
 
-            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
             // Clear the datagridview for older results
 
             form1.ClearDataGridView(dtgDisplayApp);
 
             // Make a call to Microsoft Graph
-            var allApplications = client.DeviceAppManagement.MobileApps
-                .Request()
-                .Filter("contains(displayName, '" + searchquery + "')")
-                .Select(u => new
-                {
-                    u.DisplayName,
-                    u.Id
-                })
-                .Top(1000)
-                .GetAsync();
+
+            var result =  await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Search = searchquery;
+                requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
+                requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
+            });
+
 
             // Put result into a list for easy processing
             List<MobileApp> searchResult = new List<MobileApp>();
-            searchResult.AddRange(allApplications.Result);
+            searchResult.AddRange(result.Value);
 
             int numberOfAppsFound = searchResult.Count;
 
@@ -126,14 +132,14 @@ namespace IntuneAssignments
 
                     // Check OS platform for each app
                     var appOS = "";
-                    if (app.ODataType?.ToString() == null)
+                    if (app.OdataType?.ToString() == null)
                     {
                         appOS = "Undefined";
 
                     }
                     else
                     {
-                        appOS = app.ODataType?.ToString();
+                        appOS = app.OdataType?.ToString();
                     }
 
 
@@ -143,7 +149,7 @@ namespace IntuneAssignments
 
                     switch (appOS)
                     {
-                        case "#microsoft.graph.win32LobApp" or "#microsoft.graph.officeSuiteApp" or "#microsoft.graph.microsoftStoreForBusinessApp":
+                        case "#microsoft.graph.win32LobApp" or "#microsoft.graph.officeSuiteApp" or "#microsoft.graph.microsoftStoreForBusinessApp" or "#microsoft.graph.winGetApp":
                             platform = "Windows";
                             break;
 
@@ -175,7 +181,7 @@ namespace IntuneAssignments
             }
         }
 
-        private void listAllApps()
+        public async void listAllApps()
         {
 
             // Create an object of form1 to use it's methods   
@@ -186,24 +192,32 @@ namespace IntuneAssignments
 
             form1.ClearDataGridView(dtgDisplayApp);
 
+
+            // Create the list
+
+            var listAllApplications = new List<MobileApp>();
+
+
             // Authenticate to Graph
 
-            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+
 
             // Make a call to Microsoft Graph
-            var allApplications = client.DeviceAppManagement.MobileApps
-                .Request()
-                .Select(u => new
-                {
-                    u.DisplayName,
-                    u.Id
-                })
-                .Top(1000)
-                .GetAsync();
+
+            var result = await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
+            });
+
+
 
             // Put result into a list for easy processing
-            List<MobileApp> listAllApplications = new List<MobileApp>();
-            listAllApplications.AddRange(allApplications.Result);
+
+
+            listAllApplications.AddRange(result.Value);
+
 
             // Loop through the list
             foreach (var app in listAllApplications)
@@ -212,14 +226,14 @@ namespace IntuneAssignments
 
                 // Check OS platform for each app
                 var appOS = "";
-                if (app.ODataType?.ToString() == null)
+                if (app.OdataType?.ToString() == null)
                 {
                     appOS = "Undefined";
 
                 }
                 else
                 {
-                    appOS = app.ODataType?.ToString();
+                    appOS = app.OdataType?.ToString();
                 }
 
 
@@ -268,27 +282,25 @@ namespace IntuneAssignments
             var value = _form1.getAppIdFromDtg(dtgDisplayApp, 2);
             var appname = _form1.getAppIdFromDtg(dtgDisplayApp, 0);
 
-            // Create an object of form1 to use it's methods   
-            Form1 form1 = new Form1();
-
-
+            
             UpdateLabel(lblAppID, value);
             UpdateLabel(lblAppName, appname);
 
 
             // Authenticate to Graph
 
-            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
 
+            var result = await graphClient.Result.DeviceAppManagement.MobileApps[value].Assignments.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
+            });
 
-            var allAssignments = client.DeviceAppManagement.MobileApps[value].Assignments
-                .Request()
-                .Select("id,intent")
-                .GetAsync();
+            
 
             List<MobileAppAssignment> assignmentsList = new List<MobileAppAssignment>();
-            assignmentsList.AddRange(allAssignments.Result);
+            assignmentsList.AddRange(result.Value);
 
             if (assignmentsList.Count == 0)
             {
@@ -307,18 +319,17 @@ namespace IntuneAssignments
 
                     var id = assignment.Id.Substring(0, assignment.Id.Length - 4);
 
+                    var resultList = new List<Group>();
 
-                    var findGroupName = await client.Groups
-                        .Request()
-                        .Filter("ID eq '" + id + "'")
-                        .Select(u => new
-                        {
-                            u.DisplayName,
-                            u.Id
-                        })
-                        .GetAsync();
+                    var findGroupName = await graphClient.Result.Groups[id].GetAsync((requestConfiguration) =>
+                    {
+                        requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
+                    });
 
-                    foreach (var group in findGroupName)
+                    resultList.Add(findGroupName);
+
+
+                    foreach (var group in resultList)
                     {
                         dtgGroupAssignment.Rows.Add(group.DisplayName, assignment.Intent, group.Id);
                     }
@@ -334,32 +345,34 @@ namespace IntuneAssignments
         public async void deleteAppAssignment()
         {
 
-            // Create an object of form1 to use it's methods   
-            Form1 form1 = new Form1();
 
             // Authenticate to Graph
 
-            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
 
             // Convert value og lblappid.text to mobile app ID
             var appID = lblAppID.Text;
 
-
             // Query graph for assignment ID for a given app
-            var allAssignments = client.DeviceAppManagement.MobileApps[appID].Assignments
-                .Request()
-                .Select("id,intent")
-                .GetAsync();
+            var result = await graphClient.Result.DeviceAppManagement.MobileApps["{mobileApp-id}"].Assignments.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Select = new string[] { "id", "intent" };
+            });
 
+
+            // Add the result to a list of assignments
             List<MobileAppAssignment> assignmentsList = new List<MobileAppAssignment>();
-            assignmentsList.AddRange(allAssignments.Result);
+            assignmentsList.AddRange(result.Value);
+
+
+            // Loop through the list and delete each assignment
 
             foreach (var assignment in assignmentsList)
             {
                 //MessageBox.Show(assignment.Id + " " + assignment.Intent);
 
-                await client.DeviceAppManagement.MobileApps[appID].Assignments[assignment.Id].Request().DeleteAsync();
+                await graphClient.Result.DeviceAppManagement.MobileApps[appID].Assignments[assignment.Id].DeleteAsync();
             }
 
 
@@ -372,24 +385,21 @@ namespace IntuneAssignments
         {
 
 
-            // Create an object of form1 to use it's methods   
-            Form1 form1 = new Form1();
-
             // Authenticate to Graph
 
-            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
             // Convert value og lblappid.text to mobile app ID
             var appID = lblAppID.Text;
 
-            // Query graph for assignment ID for a given app
-            var allAssignments = client.DeviceAppManagement.MobileApps[appID].Assignments
-                .Request()
-                .Select("id,intent")
-                .GetAsync();
+            var result = await graphClient.Result.DeviceAppManagement.MobileApps[appID].Assignments.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Select = new string[] { "id", "intent" };
+            });
+
 
             List<MobileAppAssignment> assignmentsList = new List<MobileAppAssignment>();
-            assignmentsList.AddRange(allAssignments.Result);
+            assignmentsList.AddRange(result.Value);
 
             // match group ID with assignment ID
 
@@ -408,7 +418,10 @@ namespace IntuneAssignments
                     var assignmentID = assignmentsList.FirstOrDefault(x => x.Id.Contains(groupID));
 
                     // Delete assignment
-                    await client.DeviceAppManagement.MobileApps[appID].Assignments[assignmentID.Id].Request().DeleteAsync();
+
+                    await graphClient.Result.DeviceAppManagement.MobileApps[appID].Assignments[assignmentID.Id].DeleteAsync();
+
+                    
                 }
 
 
