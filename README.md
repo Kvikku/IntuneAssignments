@@ -10,9 +10,9 @@ And before you ask - No, we don't talk about policy sets in Intune to solve this
 
 # About the author
 
-I am a system administrator working primarly with Microsoft 365 services, such as Microsoft Intune and Microsoft 365 Defender.
+I am a system administrator working primarly with Microsoft 365 services, such as Microsoft Intune and Microsoft 365 Defender. I have a bachelor's degree within system and network administration, and several infrastructure related IT certifications.
 
-I am entirely self taught with no formal education within software development. As such, the experienced developers among you will probably discover ineffecient, subpar and non optimized code. Feel free to provide constructive criticism and feedback.
+When it comes to the art of software development I am entirely self taught with no formal education. As such, the experienced developers among you will probably discover ineffecient, subpar and non optimized code. If that is the case, feel free to provide constructive criticism and feedback. I am always interested in learning more!
 
 
 # How to use
