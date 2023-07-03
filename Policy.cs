@@ -96,28 +96,38 @@ namespace IntuneAssignments
 
 
             // Create a list to store the groups in
-            var Groups = new List<Group>();
+            List<Group> Groups = new List<Group>();
+
+           
+
+                // Make a call to Microsoft Graph
+                var result = await graphClient.Result.Groups.GetAsync((requestConfiguration) =>
+                {
+                    requestConfiguration.QueryParameters.Select = new string[] { "id", "displayname" };
+                    requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
+                });
+
+            
+
+                // add the result to the list
+                Groups.AddRange(result.Value);
 
 
-            // Make a call to Microsoft Graph
-            var result = await graphClient.Result.Groups.GetAsync((requestConfiguration) =>
-            {
+                // Find the group name based on the ID (because graph doesn't allow to search for the ID directly)
+                var groupName = Groups.Find(x => x.Id == input);
 
-                // This cannot be this easy, lol 
-                requestConfiguration.QueryParameters.Search = input;
-                requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
-            });
+            return groupName;
 
+            
+            
 
-            // add the result to the list
-            Groups.AddRange(result.Value);
+               
+            
 
-
-            // Return the list
-            return Groups;
-
+           
         }
 
+        
 
         private async void FindPolicyAssignments(int rowIndex)
         {
@@ -198,7 +208,7 @@ namespace IntuneAssignments
                         {
 
                             //MessageBox.Show("This app is currently assigned to " + group.DisplayName);
-
+                            
                             rtbAssignmentPreview.AppendText(group.DisplayName + "\n");
                         }
 
