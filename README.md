@@ -14,5 +14,13 @@ I am a system administrator working primarly with Microsoft 365 services, such a
 
 I am entirely self taught with no formal education within software development. As such, the experienced developers among you will probably discover ineffecient, subpar and non optimized code. Feel free to provide constructive criticism and feedback.
 
+
 # How to use
 
+## Prerequisite
+
+- Azure tenant with permissions to create an App Registration
+
+# Acknowledgments
+
+- ChatGPT <3 
