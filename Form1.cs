@@ -69,6 +69,7 @@ using Microsoft.Graph.Beta.Models;
 // Confirmations
 // Reload DTG's after changes
 // Login form
+// Tool tips
 
 
 
@@ -78,7 +79,6 @@ using Microsoft.Graph.Beta.Models;
 
 // Continue on policy form
 // - deployment of settings catalog
-// - lookup group on click in dtg not working after sdk v 5.0
 
 
 
@@ -133,6 +133,14 @@ namespace IntuneAssignments
             //delayLoginAnimation();
 
             // Hides default text on labels
+
+            // add data to dtgdisplayapp
+            dtgDisplayApp.Rows.Add("test", "test", "test");
+            dtgDisplayApp.Rows.Add("test", "test", "test");
+            dtgDisplayApp.Rows.Add("test", "test", "test");
+            dtgDisplayApp.Rows.Add("test", "test", "test");
+            dtgDisplayApp.Rows.Add("test", "test", "test");
+            dtgDisplayApp.Rows.Add("test", "test", "test");
 
             lblSignedInUser.Text = "";
             lblTenantID.Text = "";
@@ -608,7 +616,7 @@ namespace IntuneAssignments
 
 
 
-        
+
 
         public async void ListAllGroups()
         {

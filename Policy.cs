@@ -116,15 +116,18 @@ namespace IntuneAssignments
                 // Find the group name based on the ID (because graph doesn't allow to search for the ID directly)
                 var groupName = Groups.Find(x => x.Id == input);
 
-            return groupName;
+            // Convert the group name to a string and return it
+            if (groupName != null)
+            {
+                return new List<Group> { groupName };
+            }
 
-            
-            
+            else
+            {
+                return new List<Group>();
+            }
 
-               
-            
 
-           
         }
 
         
@@ -609,11 +612,13 @@ namespace IntuneAssignments
             // Authenticate to Graph
             var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
-            var result = await graphClient.Result.DeviceManagement.ConfigurationPolicies.GetAsync((requestConfiguration) =>
+            var target = new DeviceManagementConfigurationPolicy
             {
-                requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
-                requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
-            });
+
+            };
+
+
+            var result = await graphClient.Result.DeviceManagement.ConfigurationPolicies.GetAsync();
 ;
 
             // Put result into a list for easy processing
@@ -685,7 +690,7 @@ namespace IntuneAssignments
 
             ListCompliancePolicies();
             ListConfigurationProfiles();
-            //ListSettingsCatalog();
+            ListSettingsCatalog();
         }
 
         private void btnListAllGroups_Click(object sender, EventArgs e)

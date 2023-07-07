@@ -91,6 +91,7 @@
             sideBarTimer = new System.Windows.Forms.Timer(components);
             menuPanel = new Panel();
             pictureBox2 = new PictureBox();
+            mainFormToolTip = new ToolTip(components);
             panelTenantInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -172,6 +173,7 @@
             pbView.Size = new Size(48, 53);
             pbView.TabIndex = 17;
             pbView.TabStop = false;
+            mainFormToolTip.SetToolTip(pbView, "Search");
             pbView.Click += pbView_Click;
             // 
             // pictureBox1
@@ -182,6 +184,7 @@
             pictureBox1.Size = new Size(48, 54);
             pictureBox1.TabIndex = 13;
             pictureBox1.TabStop = false;
+            mainFormToolTip.SetToolTip(pictureBox1, "Home");
             pictureBox1.Click += pictureBox1_Click;
             // 
             // testBtn
@@ -763,6 +766,7 @@
             pictureBox2.Size = new Size(48, 53);
             pictureBox2.TabIndex = 18;
             pictureBox2.TabStop = false;
+            mainFormToolTip.SetToolTip(pictureBox2, "Device policy");
             pictureBox2.Click += pictureBox2_Click;
             // 
             // Form1
@@ -866,5 +870,6 @@
         private DataGridViewTextBoxColumn Platform;
         private DataGridViewTextBoxColumn AppID;
         private PictureBox pictureBox2;
+        private ToolTip mainFormToolTip;
     }
 }
