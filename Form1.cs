@@ -70,7 +70,7 @@ using Microsoft.Graph.Beta.Models;
 // Reload DTG's after changes
 // Login form
 // Tool tips
-
+// append or replace description
 
 
 // last action:
