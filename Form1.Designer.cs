@@ -90,6 +90,7 @@
             lblSummarizeApps = new Label();
             sideBarTimer = new System.Windows.Forms.Timer(components);
             menuPanel = new Panel();
+            pBPointToLoginButton = new PictureBox();
             pictureBox2 = new PictureBox();
             mainFormToolTip = new ToolTip(components);
             panelTenantInfo.SuspendLayout();
@@ -107,6 +108,7 @@
             pnlIntent.SuspendLayout();
             panelSummary.SuspendLayout();
             menuPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pBPointToLoginButton).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
@@ -189,7 +191,7 @@
             // 
             // testBtn
             // 
-            testBtn.Location = new Point(982, 608);
+            testBtn.Location = new Point(11, 823);
             testBtn.Name = "testBtn";
             testBtn.Size = new Size(79, 41);
             testBtn.TabIndex = 2;
@@ -222,7 +224,7 @@
             clbAppAssignments.Items.AddRange(new object[] { "App 1", "App 2", "App 3" });
             clbAppAssignments.Location = new Point(12, 13);
             clbAppAssignments.Name = "clbAppAssignments";
-            clbAppAssignments.Size = new Size(188, 323);
+            clbAppAssignments.Size = new Size(188, 272);
             clbAppAssignments.TabIndex = 0;
             clbAppAssignments.MouseClick += clbAppAssignments_MouseClick;
             // 
@@ -279,7 +281,7 @@
             pnlSearchApp.Controls.Add(btnAllGroups);
             pnlSearchApp.Location = new Point(108, 11);
             pnlSearchApp.Name = "pnlSearchApp";
-            pnlSearchApp.Size = new Size(798, 545);
+            pnlSearchApp.Size = new Size(754, 437);
             pnlSearchApp.TabIndex = 9;
             // 
             // lblSelectAppType
@@ -307,7 +309,9 @@
             // 
             dtgDisplayApp.AllowUserToAddRows = false;
             dtgDisplayApp.AllowUserToDeleteRows = false;
+            dtgDisplayApp.AllowUserToResizeRows = false;
             dtgDisplayApp.BackgroundColor = Color.FromArgb(46, 51, 73);
+            dtgDisplayApp.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dtgDisplayApp.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = Color.Salmon;
@@ -322,8 +326,8 @@
             dtgDisplayApp.ContextMenuStrip = dtgDisplayAppRightClick;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.FromArgb(46, 51, 73);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = Color.Salmon;
             dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
@@ -335,7 +339,7 @@
             dtgDisplayApp.ReadOnly = true;
             dtgDisplayApp.RowHeadersVisible = false;
             dtgDisplayApp.RowTemplate.Height = 25;
-            dtgDisplayApp.Size = new Size(517, 405);
+            dtgDisplayApp.Size = new Size(517, 324);
             dtgDisplayApp.TabIndex = 10;
             dtgDisplayApp.CellDoubleClick += dtgDisplayApp_CellDoubleClick;
             // 
@@ -344,7 +348,7 @@
             AppName.HeaderText = "App name";
             AppName.Name = "AppName";
             AppName.ReadOnly = true;
-            AppName.Width = 200;
+            AppName.Width = 350;
             // 
             // Platform
             // 
@@ -358,15 +362,19 @@
             AppID.HeaderText = "ID";
             AppID.Name = "AppID";
             AppID.ReadOnly = true;
+            AppID.Width = 112;
             // 
             // txtboxSearchApp
             // 
-            txtboxSearchApp.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            txtboxSearchApp.BackColor = Color.FromArgb(46, 51, 73);
+            txtboxSearchApp.BorderStyle = BorderStyle.None;
+            txtboxSearchApp.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txtboxSearchApp.ForeColor = Color.Salmon;
             txtboxSearchApp.Location = new Point(194, 74);
             txtboxSearchApp.Name = "txtboxSearchApp";
-            txtboxSearchApp.Size = new Size(191, 22);
+            txtboxSearchApp.Size = new Size(191, 19);
             txtboxSearchApp.TabIndex = 11;
-            txtboxSearchApp.Text = "Enter search query here";
+            txtboxSearchApp.Text = "Enter search here";
             txtboxSearchApp.Click += txtboxSearchApp_Click;
             // 
             // btnSearchApp
@@ -412,9 +420,9 @@
             pnlSearchGroup.Controls.Add(txtboxSearchGroup);
             pnlSearchGroup.Controls.Add(btnListAllGroups);
             pnlSearchGroup.Controls.Add(pnlSelectGroup);
-            pnlSearchGroup.Location = new Point(108, 576);
+            pnlSearchGroup.Location = new Point(868, 11);
             pnlSearchGroup.Name = "pnlSearchGroup";
-            pnlSearchGroup.Size = new Size(798, 317);
+            pnlSearchGroup.Size = new Size(798, 437);
             pnlSearchGroup.TabIndex = 11;
             // 
             // label1
@@ -452,11 +460,12 @@
             dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
             dtgDisplayGroup.DefaultCellStyle = dataGridViewCellStyle4;
-            dtgDisplayGroup.Location = new Point(10, 78);
+            dtgDisplayGroup.Location = new Point(3, 135);
             dtgDisplayGroup.Name = "dtgDisplayGroup";
             dtgDisplayGroup.ReadOnly = true;
+            dtgDisplayGroup.RowHeadersVisible = false;
             dtgDisplayGroup.RowTemplate.Height = 25;
-            dtgDisplayGroup.Size = new Size(505, 234);
+            dtgDisplayGroup.Size = new Size(505, 297);
             dtgDisplayGroup.TabIndex = 14;
             dtgDisplayGroup.CellDoubleClick += dtgDisplayGroup_CellDoubleClick;
             // 
@@ -479,7 +488,7 @@
             btnSearchGroup.BackColor = Color.Salmon;
             btnSearchGroup.FlatStyle = FlatStyle.Popup;
             btnSearchGroup.Font = new Font("Consolas", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
-            btnSearchGroup.Location = new Point(207, 45);
+            btnSearchGroup.Location = new Point(197, 69);
             btnSearchGroup.Name = "btnSearchGroup";
             btnSearchGroup.Size = new Size(119, 30);
             btnSearchGroup.TabIndex = 15;
@@ -489,7 +498,7 @@
             // 
             // txtboxSearchGroup
             // 
-            txtboxSearchGroup.Location = new Point(10, 49);
+            txtboxSearchGroup.Location = new Point(3, 77);
             txtboxSearchGroup.Name = "txtboxSearchGroup";
             txtboxSearchGroup.Size = new Size(191, 23);
             txtboxSearchGroup.TabIndex = 13;
@@ -499,7 +508,7 @@
             btnListAllGroups.BackColor = Color.Salmon;
             btnListAllGroups.FlatStyle = FlatStyle.Popup;
             btnListAllGroups.Font = new Font("Consolas", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
-            btnListAllGroups.Location = new Point(332, 45);
+            btnListAllGroups.Location = new Point(322, 70);
             btnListAllGroups.Name = "btnListAllGroups";
             btnListAllGroups.Size = new Size(124, 30);
             btnListAllGroups.TabIndex = 13;
@@ -511,9 +520,9 @@
             // 
             pnlSelectGroup.BorderStyle = BorderStyle.FixedSingle;
             pnlSelectGroup.Controls.Add(clbGroupAssignment);
-            pnlSelectGroup.Location = new Point(526, 9);
+            pnlSelectGroup.Location = new Point(514, 135);
             pnlSelectGroup.Name = "pnlSelectGroup";
-            pnlSelectGroup.Size = new Size(216, 303);
+            pnlSelectGroup.Size = new Size(216, 283);
             pnlSelectGroup.TabIndex = 11;
             // 
             // clbGroupAssignment
@@ -529,7 +538,7 @@
             clbGroupAssignment.Items.AddRange(new object[] { "Group 1", "Group 2", "Group 3", "Group 4", "Group 5" });
             clbGroupAssignment.Location = new Point(12, 13);
             clbGroupAssignment.Name = "clbGroupAssignment";
-            clbGroupAssignment.Size = new Size(188, 221);
+            clbGroupAssignment.Size = new Size(188, 187);
             clbGroupAssignment.TabIndex = 0;
             clbGroupAssignment.MouseClick += clbGroupAssignment_MouseClick;
             // 
@@ -539,9 +548,9 @@
             pnlIntent.Controls.Add(rbtnUninstall);
             pnlIntent.Controls.Add(rbtnRequired);
             pnlIntent.Controls.Add(rbtnAvailable);
-            pnlIntent.Location = new Point(933, 205);
+            pnlIntent.Location = new Point(1672, 326);
             pnlIntent.Name = "pnlIntent";
-            pnlIntent.Size = new Size(135, 123);
+            pnlIntent.Size = new Size(135, 122);
             pnlIntent.TabIndex = 12;
             // 
             // lblIntentChoice
@@ -549,7 +558,7 @@
             lblIntentChoice.AutoSize = true;
             lblIntentChoice.Font = new Font("Consolas", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
             lblIntentChoice.ForeColor = Color.Salmon;
-            lblIntentChoice.Location = new Point(20, 19);
+            lblIntentChoice.Location = new Point(20, 12);
             lblIntentChoice.Name = "lblIntentChoice";
             lblIntentChoice.Size = new Size(82, 24);
             lblIntentChoice.TabIndex = 3;
@@ -613,7 +622,7 @@
             btnReset.BackColor = Color.Salmon;
             btnReset.FlatStyle = FlatStyle.Popup;
             btnReset.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            btnReset.Location = new Point(305, 10);
+            btnReset.Location = new Point(252, 10);
             btnReset.Name = "btnReset";
             btnReset.Size = new Size(79, 38);
             btnReset.TabIndex = 15;
@@ -634,9 +643,9 @@
             panelSummary.Controls.Add(lblSummarizeIntent);
             panelSummary.Controls.Add(lblSummarizeGroups);
             panelSummary.Controls.Add(lblSummarizeApps);
-            panelSummary.Location = new Point(1105, 11);
+            panelSummary.Location = new Point(112, 490);
             panelSummary.Name = "panelSummary";
-            panelSummary.Size = new Size(387, 869);
+            panelSummary.Size = new Size(1554, 401);
             panelSummary.TabIndex = 16;
             // 
             // rtbDeploymentSummary
@@ -644,15 +653,15 @@
             rtbDeploymentSummary.BackColor = Color.FromArgb(46, 51, 73);
             rtbDeploymentSummary.BorderStyle = BorderStyle.None;
             rtbDeploymentSummary.ForeColor = Color.Salmon;
-            rtbDeploymentSummary.Location = new Point(15, 505);
+            rtbDeploymentSummary.Location = new Point(1123, 92);
             rtbDeploymentSummary.Name = "rtbDeploymentSummary";
-            rtbDeploymentSummary.Size = new Size(359, 349);
+            rtbDeploymentSummary.Size = new Size(359, 294);
             rtbDeploymentSummary.TabIndex = 20;
             rtbDeploymentSummary.Text = "";
             // 
             // progressBar1
             // 
-            progressBar1.Location = new Point(15, 454);
+            progressBar1.Location = new Point(1123, 58);
             progressBar1.Name = "progressBar1";
             progressBar1.Size = new Size(292, 28);
             progressBar1.TabIndex = 17;
@@ -664,7 +673,7 @@
             btnDeployAssignments.FlatStyle = FlatStyle.Popup;
             btnDeployAssignments.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
             btnDeployAssignments.ForeColor = SystemColors.ControlText;
-            btnDeployAssignments.Location = new Point(15, 409);
+            btnDeployAssignments.Location = new Point(1123, 13);
             btnDeployAssignments.Name = "btnDeployAssignments";
             btnDeployAssignments.Size = new Size(292, 39);
             btnDeployAssignments.TabIndex = 17;
@@ -677,7 +686,7 @@
             rtbSummarizeIntent.BackColor = Color.FromArgb(46, 51, 73);
             rtbSummarizeIntent.BorderStyle = BorderStyle.None;
             rtbSummarizeIntent.ForeColor = Color.Salmon;
-            rtbSummarizeIntent.Location = new Point(15, 377);
+            rtbSummarizeIntent.Location = new Point(713, 109);
             rtbSummarizeIntent.Name = "rtbSummarizeIntent";
             rtbSummarizeIntent.Size = new Size(359, 26);
             rtbSummarizeIntent.TabIndex = 19;
@@ -688,9 +697,9 @@
             rtbSummarizeGroups.BackColor = Color.FromArgb(46, 51, 73);
             rtbSummarizeGroups.BorderStyle = BorderStyle.None;
             rtbSummarizeGroups.ForeColor = Color.Salmon;
-            rtbSummarizeGroups.Location = new Point(15, 260);
+            rtbSummarizeGroups.Location = new Point(320, 109);
             rtbSummarizeGroups.Name = "rtbSummarizeGroups";
-            rtbSummarizeGroups.Size = new Size(359, 93);
+            rtbSummarizeGroups.Size = new Size(356, 277);
             rtbSummarizeGroups.TabIndex = 18;
             rtbSummarizeGroups.Text = "";
             // 
@@ -701,40 +710,40 @@
             rtbSummarizeApps.ForeColor = Color.Salmon;
             rtbSummarizeApps.Location = new Point(15, 109);
             rtbSummarizeApps.Name = "rtbSummarizeApps";
-            rtbSummarizeApps.Size = new Size(359, 114);
+            rtbSummarizeApps.Size = new Size(283, 277);
             rtbSummarizeApps.TabIndex = 17;
             rtbSummarizeApps.Text = "";
             // 
             // lblSummarizeIntent
             // 
             lblSummarizeIntent.AutoSize = true;
-            lblSummarizeIntent.Font = new Font("Consolas", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lblSummarizeIntent.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
             lblSummarizeIntent.ForeColor = Color.Salmon;
-            lblSummarizeIntent.Location = new Point(3, 356);
+            lblSummarizeIntent.Location = new Point(712, 83);
             lblSummarizeIntent.Name = "lblSummarizeIntent";
-            lblSummarizeIntent.Size = new Size(19, 13);
+            lblSummarizeIntent.Size = new Size(27, 19);
             lblSummarizeIntent.TabIndex = 2;
             lblSummarizeIntent.Text = "as";
             // 
             // lblSummarizeGroups
             // 
             lblSummarizeGroups.AutoSize = true;
-            lblSummarizeGroups.Font = new Font("Consolas", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lblSummarizeGroups.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
             lblSummarizeGroups.ForeColor = Color.Salmon;
-            lblSummarizeGroups.Location = new Point(3, 239);
+            lblSummarizeGroups.Location = new Point(307, 83);
             lblSummarizeGroups.Name = "lblSummarizeGroups";
-            lblSummarizeGroups.Size = new Size(247, 13);
+            lblSummarizeGroups.Size = new Size(369, 19);
             lblSummarizeGroups.TabIndex = 1;
             lblSummarizeGroups.Text = "will be assigned to the following groups";
             // 
             // lblSummarizeApps
             // 
             lblSummarizeApps.AutoSize = true;
-            lblSummarizeApps.Font = new Font("Consolas", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lblSummarizeApps.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
             lblSummarizeApps.ForeColor = Color.Salmon;
             lblSummarizeApps.Location = new Point(3, 83);
             lblSummarizeApps.Name = "lblSummarizeApps";
-            lblSummarizeApps.Size = new Size(115, 13);
+            lblSummarizeApps.Size = new Size(171, 19);
             lblSummarizeApps.TabIndex = 0;
             lblSummarizeApps.Text = "The following apps";
             // 
@@ -746,9 +755,11 @@
             // menuPanel
             // 
             menuPanel.BorderStyle = BorderStyle.FixedSingle;
+            menuPanel.Controls.Add(pBPointToLoginButton);
             menuPanel.Controls.Add(pictureBox2);
             menuPanel.Controls.Add(pictureBox1);
             menuPanel.Controls.Add(pbView);
+            menuPanel.Controls.Add(testBtn);
             menuPanel.Controls.Add(panelTenantInfo);
             menuPanel.Dock = DockStyle.Left;
             menuPanel.Location = new Point(0, 0);
@@ -757,6 +768,15 @@
             menuPanel.Name = "menuPanel";
             menuPanel.Size = new Size(102, 893);
             menuPanel.TabIndex = 18;
+            // 
+            // pBPointToLoginButton
+            // 
+            pBPointToLoginButton.Image = Properties.Resources._5410058521582634780_128;
+            pBPointToLoginButton.Location = new Point(127, 204);
+            pBPointToLoginButton.Name = "pBPointToLoginButton";
+            pBPointToLoginButton.Size = new Size(129, 136);
+            pBPointToLoginButton.TabIndex = 19;
+            pBPointToLoginButton.TabStop = false;
             // 
             // pictureBox2
             // 
@@ -774,8 +794,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
-            ClientSize = new Size(1578, 903);
-            Controls.Add(testBtn);
+            ClientSize = new Size(1878, 897);
             Controls.Add(panelSummary);
             Controls.Add(menuPanel);
             Controls.Add(pnlIntent);
@@ -806,6 +825,7 @@
             panelSummary.ResumeLayout(false);
             panelSummary.PerformLayout();
             menuPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pBPointToLoginButton).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
         }
@@ -866,10 +886,11 @@
         private ComboBox cBAppType;
         private Label lblSelectAppType;
         private Label label1;
+        private PictureBox pictureBox2;
+        private ToolTip mainFormToolTip;
         private DataGridViewTextBoxColumn AppName;
         private DataGridViewTextBoxColumn Platform;
         private DataGridViewTextBoxColumn AppID;
-        private PictureBox pictureBox2;
-        private ToolTip mainFormToolTip;
+        private PictureBox pBPointToLoginButton;
     }
 }

@@ -83,6 +83,16 @@ namespace IntuneAssignments.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _20578788401621609632_128 {
+            get {
+                object obj = ResourceManager.GetObject("20578788401621609632-128", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _3271932871579761116_48 {
             get {
                 object obj = ResourceManager.GetObject("3271932871579761116-48", resourceCulture);
@@ -106,6 +116,16 @@ namespace IntuneAssignments.Properties {
         internal static System.Drawing.Bitmap _5358270771574330938_32 {
             get {
                 object obj = ResourceManager.GetObject("5358270771574330938-32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _5410058521582634780_128 {
+            get {
+                object obj = ResourceManager.GetObject("5410058521582634780-128", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -17,6 +17,7 @@ using System.Diagnostics.Eventing.Reader;
 using Windows.Foundation.Metadata;
 using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
+using Microsoft.Graph.Beta.Models.WindowsUpdates;
 
 //TO DO
 
@@ -42,6 +43,9 @@ using Microsoft.Graph.Beta.Models;
 // Windows - Winget apps?
 // Logging to log file
 
+
+/// FINISHED ///
+
 // OK - List all assignments with intent for an application
 // OK - Add one or more assignments with intent for an application
 // OK - Delete one or more assignments for an application
@@ -50,6 +54,7 @@ using Microsoft.Graph.Beta.Models;
 // OK - Search box default text disappear when clicked
 // OK - Display list of each error for each assignment
 // OK - Pop up box for assignment for policies
+// OK - Deployment of settings catalog, compliance and device config
 
 
 
@@ -65,6 +70,7 @@ using Microsoft.Graph.Beta.Models;
 
 ///// Nice to haves /////
 
+//
 // Warning prompts
 // Confirmations
 // Reload DTG's after changes
@@ -74,11 +80,16 @@ using Microsoft.Graph.Beta.Models;
 
 
 // last action:
+// deployment of settings catalog, compliance and device config OK
 
+
+// Continue on applicaiton form
+// - fix search fields
 
 
 // Continue on policy form
-// - deployment of settings catalog
+// - Warning when deploying large amount of groups and/or apps - could take up to 1 minutes before it shows up in the portal
+// - fix search fields
 
 
 
@@ -144,6 +155,11 @@ namespace IntuneAssignments
 
             lblSignedInUser.Text = "";
             lblTenantID.Text = "";
+
+            pnlIntent.Hide();
+            pnlSearchApp.Hide();
+            pnlSearchGroup.Hide();
+            panelSummary.Hide();
 
 
             // Creates a timer to have the animation trigger after 3 seconds
@@ -397,7 +413,26 @@ namespace IntuneAssignments
                 }
 
 
+                // THIS NEEDS FIXING
+
+                // Make a call to Microsoft Graph to find logged in users display name
+                //var result = await graphClient.Result.Me.GetAsync((requestConfiguration) =>
+                //{
+                //  requestConfiguration.QueryParameters.Select = new string[] { "displayName" };
+                //});
+
+
+                //lblSignedInUser.Text = result.DisplayName.ToString();
+                //lblSignedInUser.Show();
+
+
                 sideBarTimer.Start();
+                pBPointToLoginButton.Hide();
+
+                pnlIntent.Show();
+                pnlSearchApp.Show();
+                pnlSearchGroup.Show();
+
 
             }
             catch (Exception ex)
