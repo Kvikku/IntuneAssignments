@@ -55,6 +55,8 @@ namespace IntuneAssignments
 
             lblAssignmentPreview.Hide();
 
+            pnlAssignedTo.Hide();
+
         }
 
         private void goHome()
@@ -786,8 +788,20 @@ namespace IntuneAssignments
             Form1 form1 = new Form1();
 
 
+            // Sets the scope of the progress bar to the number of selected policies * number of selected groups
+
+            int numberOfPolicies = SelectedPolicies.Count();
+            int numberOfGroups = SelectedGroups.Count();
+            int progressBarMaxValue = numberOfPolicies * numberOfGroups;
+
+
+            pBarDeployProgress.Maximum = progressBarMaxValue;
+
+
             // Authenticate to Graph
             var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+
 
 
             // Iterate over the keys in the dictionary and retrieve the policy ID from graph
@@ -835,7 +849,6 @@ namespace IntuneAssignments
                             }
                         }
 
-
                         // Assignments for Settings Catalog
                         if (type == "Settings Catalog")
                         {
@@ -872,16 +885,7 @@ namespace IntuneAssignments
                             }
                         }
 
-                        //foreach (var group in SelectedGroups)
-                        //{
-                        //    string groupName = group.Key;
-                        //    string groupID = group.Value;
 
-                        //     Use these for deployment
-
-                        //    await AssignCompliancePolcy(policyID, groupID);
-                        //    await AssignSettingsCatalog(policyID, groupID);
-                        //}
 
 
 
@@ -889,7 +893,7 @@ namespace IntuneAssignments
 
                 }
 
-
+                pBarDeployProgress.Value++;
             }
 
 
@@ -1083,7 +1087,7 @@ namespace IntuneAssignments
 
             if (cbLookUpAssignment.Checked == true)
             {
-
+                pnlAssignedTo.Visible = true;
 
                 if (e.RowIndex == 0)
                 {
@@ -1123,6 +1127,7 @@ namespace IntuneAssignments
         {
             _form1.ClearRichTextBox(rtbSelectedGroups);
             _form1.ClearRichTextBox(rtbSelectedPolicies);
+            pBarDeployProgress.Value = 0;
         }
 
         private void btnDeployPolicyAssignment_Click(object sender, EventArgs e)
@@ -1130,6 +1135,14 @@ namespace IntuneAssignments
             AssignSelectedPolicies();
         }
 
+        private void btnSearchPolicy_Click(object sender, EventArgs e)
+        {
 
+        }
+
+        private void btnSearchGroup_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

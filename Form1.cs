@@ -18,6 +18,7 @@ using Windows.Foundation.Metadata;
 using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
 using Microsoft.Graph.Beta.Models.WindowsUpdates;
+using Tavis.UriTemplates;
 
 //TO DO
 
@@ -55,6 +56,10 @@ using Microsoft.Graph.Beta.Models.WindowsUpdates;
 // OK - Display list of each error for each assignment
 // OK - Pop up box for assignment for policies
 // OK - Deployment of settings catalog, compliance and device config
+// OK - On application launch - Prompt user to log in
+// OK - Progress bar
+// OK - Search fields
+// OK - Deployment of settings catalog, compliance and device config
 
 
 
@@ -63,8 +68,8 @@ using Microsoft.Graph.Beta.Models.WindowsUpdates;
 // Drop down menu to select each type?
 // Multiple assignments:
 // Panel with radio buttons? drop down menus?
-// On application launch - Prompt user to log in
-// Progress bar
+
+
 
 
 
@@ -80,16 +85,18 @@ using Microsoft.Graph.Beta.Models.WindowsUpdates;
 
 
 // last action:
-// deployment of settings catalog, compliance and device config OK
+
 
 
 // Continue on applicaiton form
-// - fix search fields
+
 
 
 // Continue on policy form
 // - Warning when deploying large amount of groups and/or apps - could take up to 1 minutes before it shows up in the portal
-// - fix search fields
+// - Progress bar
+// Create list for 1.0 release
+
 
 
 
@@ -496,160 +503,129 @@ namespace IntuneAssignments
             List<MobileApp> listAllApplications = new List<MobileApp>();
             listAllApplications.AddRange(allApplications.Value);
 
-            // Loop through the list
-            // This foreach is no longer in use:
-            foreach (var app in listAllApplications)
-            {
-
-
-                // Check OS platform for each app
-                var appOS = "";
-                if (app.OdataType?.ToString() == null)
-                {
-                    appOS = "Undefined";
-
-                }
-                else
-                {
-                    appOS = app.OdataType?.ToString();
-                }
 
 
 
-                // Convert Odata.type string to human known platform
-                // NOTE - Additional checks are required to discover correct platform
-                var platform = "";
-
-                switch (appOS)
-                {
-                    case "#microsoft.graph.win32LobApp" or "#microsoft.graph.officeSuiteApp" or "#microsoft.graph.microsoftStoreForBusinessApp":
-                        platform = "Windows";
-                        break;
-
-                    case "#microsoft.graph.managedIOSStoreApp" or "#microsoft.graph.iosVppApp":
-                        platform = "iOS";
-                        break;
-
-                    case "#microsoft.graph.androidManagedStoreApp":
-                        platform = "Android";
-                        break;
-
-                    case "#microsoft.graph.macOSOfficeSuiteApp":
-                        platform = "macOS";
-                        break;
-
-                    default:
-                        platform = "Undefined or unknown";
-                        break;
-
-                }
-
-                // Display all
-                // Finally add displayname and platform for each app into the datagridview
-                //dtgDisplayApp.Rows.Add(app.DisplayName, platform, app.Id);
-
-
-
-
-            }
 
 
             // Check cBAppType.text. List only items with corresponding platform
 
             if (cBAppType.Text == "Android")
             {
-                List<MobileApp> matchingAndroid = listAllApplications
-                    .Where(item => item.OdataType != null && item.OdataType.Contains("Android"))
-                    .ToList();
-
-                // Display in DTG
-                foreach (var result in matchingAndroid)
+                foreach (var result in listAllApplications)
                 {
-                    dtgDisplayApp.Rows.Add(result.DisplayName, "Android app", result);
+                    // Need to translate odatatype to actual platform name
+                    var platForm = FindAppPlatform(result.OdataType.ToString());
 
-                    // Test and troubleshoot only
-                    // MessageBox.Show(result.DisplayName.ToString());
+                    if (platForm == "Android")
+                    {
+                        dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                    }
                 }
+
+
 
             }
 
             if (cBAppType.Text == "iOS")
             {
-
-                List<MobileApp> matchingiOS = listAllApplications
-                    .Where(item => item.OdataType != null && item.OdataType.Contains("IOS"))
-                    .ToList();
-
-                // Note
-                // for VPP app - query for #microsoft.graph.iosVppApp
-                // for store app - query for #microsoft.graph.managedIOSStoreApp
-
-
-                // Display in DTG
-                foreach (var result in matchingiOS)
+                foreach (var result in listAllApplications)
                 {
-                    dtgDisplayApp.Rows.Add(result.DisplayName, "iOS app", result);
+                    // Need to translate odatatype to actual platform name
+                    var platForm = FindAppPlatform(result.OdataType.ToString());
 
-                    // Test and troubleshoot only
-                    // MessageBox.Show(result.DisplayName.ToString());
+                    if (platForm == "iOS")
+                    {
+                        dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                    }
                 }
+
             }
 
             if (cBAppType.Text == "Windows")
             {
-
-                List<MobileApp> matchingWindows = listAllApplications
-                    .Where(item => item.OdataType != null && (item.OdataType.Contains("win32") || item.OdataType.Contains("windowsMicrosoftEdge") || item.OdataType.Contains("microsoftStoreForBusiness")))
-                    .ToList();
-
-                // microsoftStoreForBusiness
-                // Win32LobApp
-                // windowsMicrosoftEdgeApp
-                // Winget?
-
-
-                // Display in DTG
-                foreach (var result in matchingWindows)
+                foreach (var result in listAllApplications)
                 {
-                    dtgDisplayApp.Rows.Add(result.DisplayName, "Windows app", result);
+                    // Need to translate odatatype to actual platform name
+                    var platForm = FindAppPlatform(result.OdataType.ToString());
 
-                    // Test and troubleshoot only
-                    // MessageBox.Show(result.DisplayName.ToString());
+                    if (platForm == "Windows")
+                    {
+                        dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                    }
                 }
+
 
             }
 
             if (cBAppType.Text == "macOS")
             {
-
-                List<MobileApp> matchingmacOS = listAllApplications
-                   .Where(item => item.OdataType != null && (item.OdataType.Contains("macOSOfficeSuiteApp") || item.OdataType.Contains("macOSMicrosoftEdgeApp") || item.DisplayName.Contains("Microsoft Defender for Endpoint (macOS)")))
-                   .ToList();
-
-                // Defender for Endpoint app - no odata.type
-
-
-                // Display in DTG
-                foreach (var result in matchingmacOS)
+                foreach (var result in listAllApplications)
                 {
-                    dtgDisplayApp.Rows.Add(result.DisplayName, "macOS app", result);
+                    // Need to translate odatatype to actual platform name
+                    var platForm = FindAppPlatform(result.OdataType.ToString());
 
-                    // Test and troubleshoot only
-                    // MessageBox.Show(result.DisplayName.ToString());
+                    if (platForm == "macOS")
+                    {
+                        dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                    }
                 }
-
 
             }
 
             if (cBAppType.Text == "All types (BETA)")
             {
 
-                MessageBox.Show("Feature not implemented yet");
+                // Searching for all types of apps
+
+                foreach (var result in listAllApplications)
+                {
+
+
+                    // Need to translate odatatype to actual platform name
+                    var platForm = FindAppPlatform(result.OdataType.ToString());
+
+                    dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                }
+
+
             }
 
         }
 
 
+        public string FindAppPlatform(string odatatype)
+        {
+
+            // Translates odatatype property to human readable platform name for display in datagridview
+
+            string[] Windows = { "#microsoft.graph.win32LobApp", "#microsoft.graph.officeSuiteApp", "#microsoft.graph.microsoftStoreForBusinessApp", "#microsoft.graph.winGetApp" };
+            string[] Android = { "#microsoft.graph.managedAndroidStoreApp", "androidStoreApp" };
+            string[] iOS = { "#microsoft.graph.managedIOSStoreApp", "iosStoreApp", "#microsoft.graph.iosVppApp" };
+            string[] macoS = { "#microsoft.graph.macOSOfficeSuiteApp", "macOSMicrosoftEdgeApp" };
+
+            // search for odatatype in arrays and returns the platform name
+            if (Windows.Contains(odatatype))
+            {
+                return "Windows";
+            }
+            else if (Android.Contains(odatatype))
+            {
+                return "Android";
+            }
+            else if (iOS.Contains(odatatype))
+            {
+                return "iOS";
+            }
+            else if (macoS.Contains(odatatype))
+            {
+                return "macOS";
+            }
+            else
+            {
+                return "Unknown app type";
+            }
+        }
 
 
 
@@ -694,7 +670,7 @@ namespace IntuneAssignments
 
                 // This cannot be this easy, lol 
 
-                requestConfiguration.QueryParameters.Search = searchQuery;
+                requestConfiguration.QueryParameters.Search = "\"displayName:" + searchQuery + "\"";
                 requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
             });
 
@@ -723,7 +699,7 @@ namespace IntuneAssignments
             // Make a call to Microsoft Graph
             var allApplications = await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
             {
-                requestConfiguration.QueryParameters.Search = "Adobe";
+                requestConfiguration.QueryParameters.Search = searchquery;
             });
 
 
@@ -737,65 +713,100 @@ namespace IntuneAssignments
 
             {
 
-                MessageBox.Show("No applications found with containing " + searchquery);
+                MessageBox.Show("No applications found containing " + searchquery);
 
             }
 
-            else if (numberOfAppsFound >= 1)
+            else if (numberOfAppsFound > 0)
 
             {
 
-                // Loop through the list
-                foreach (var app in searchResult)
+                // Check cBAppType.text. List only items with corresponding platform
+
+                if (cBAppType.Text == "Android")
                 {
-
-
-                    // Check OS platform for each app
-                    var appOS = "";
-                    if (app.OdataType?.ToString() == null)
+                    foreach (var result in searchResult)
                     {
-                        appOS = "Undefined";
+                        // Need to translate odatatype to actual platform name
+                        var platForm = FindAppPlatform(result.OdataType.ToString());
 
-                    }
-                    else
-                    {
-                        appOS = app.OdataType?.ToString();
+                        if (platForm == "Android")
+                        {
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                        }
                     }
 
-
-                    // Convert Odata.type string to human known platform
-                    // NOTE - Additional checks are required to discover correct platform
-                    var platform = "";
-
-                    switch (appOS)
-                    {
-                        case "#microsoft.graph.win32LobApp" or "#microsoft.graph.officeSuiteApp" or "#microsoft.graph.microsoftStoreForBusinessApp":
-                            platform = "Windows";
-                            break;
-
-                        case "#microsoft.graph.managedIOSStoreApp":
-                            platform = "iOS";
-                            break;
-
-                        case "#microsoft.graph.androidManagedStoreApp":
-                            platform = "Android";
-                            break;
-
-                        case "#microsoft.graph.macOSOfficeSuiteApp":
-                            platform = "macOS";
-                            break;
-
-                        default:
-                            platform = "Undefined or unknown";
-                            break;
-
-                    }
-
-                    // Finally add displayname and platform for each app into the datagridview
-                    dtgDisplayApp.Rows.Add(app.DisplayName, platform, app.Id);
 
 
                 }
+
+                if (cBAppType.Text == "iOS")
+                {
+                    foreach (var result in searchResult)
+                    {
+                        // Need to translate odatatype to actual platform name
+                        var platForm = FindAppPlatform(result.OdataType.ToString());
+
+                        if (platForm == "iOS")
+                        {
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                        }
+                    }
+
+                }
+
+                if (cBAppType.Text == "Windows")
+                {
+                    foreach (var result in searchResult)
+                    {
+                        // Need to translate odatatype to actual platform name
+                        var platForm = FindAppPlatform(result.OdataType.ToString());
+
+                        if (platForm == "Windows")
+                        {
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                        }
+                    }
+
+
+                }
+
+                if (cBAppType.Text == "macOS")
+                {
+                    foreach (var result in searchResult)
+                    {
+                        // Need to translate odatatype to actual platform name
+                        var platForm = FindAppPlatform(result.OdataType.ToString());
+
+                        if (platForm == "macOS")
+                        {
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                        }
+                    }
+
+                }
+
+                if (cBAppType.Text == "All types (BETA)")
+                {
+
+                    // Searching for all types of apps
+
+                    foreach (var result in searchResult)
+                    {
+
+
+                        // Need to translate odatatype to actual platform name
+                        var platForm = FindAppPlatform(result.OdataType.ToString());
+
+                        dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                    }
+
+
+                }
+
+
+
+
 
             }
 
@@ -1134,6 +1145,19 @@ namespace IntuneAssignments
 
         }
 
+        public void showDeploymentSummary()
+        {
+            panelSummary.Show();
+            System.Threading.Thread.Sleep(2000);
+            btnSummarize_Click(null, null);
+        }
+
+
+        // method that clicks the button btnSummarize
+
+
+
+
 
         /////////////////////////////////////////// Key presses ////////////////////////////////////////////////////////////////////////
         private void TxtboxSearchApp_KeyDown(object? sender, KeyEventArgs e)
@@ -1220,13 +1244,7 @@ namespace IntuneAssignments
 
         // met
 
-        private async void testBtn_Click(object sender, EventArgs e)
-        {
 
-
-            buttonGrowTimer.Start();
-
-        }
 
         private void btnSearchApp_Click(object sender, EventArgs e)
         {
@@ -1240,13 +1258,14 @@ namespace IntuneAssignments
 
 
             {
-                MessageBox.Show("Please select application type");
+                MessageBox.Show("Please select application type in the drop down menu");
             }
 
             else if (cBAppType.Text == "All types (BETA)")
 
             {
-                MessageBox.Show("Feature not implemented");
+                ListAllApps();
+                //MessageBox.Show("Feature not implemented");
             }
             else
             {
@@ -1259,6 +1278,9 @@ namespace IntuneAssignments
         private void btnSearchGroup_Click(object sender, EventArgs e)
         {
             SearchForGroup();
+
+
+
         }
 
         private void btnListAllGroups_Click(object sender, EventArgs e)
@@ -1399,6 +1421,56 @@ namespace IntuneAssignments
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             showPolicyAssignment();
+        }
+
+        private void rbtnAvailable_Click(object sender, EventArgs e)
+        {
+            // Click event for Available radio button
+            // Shows the deployment summary of the apps page
+
+            showDeploymentSummary();
+        }
+
+        private void rbtnRequired_Click(object sender, EventArgs e)
+        {
+            // Click event for Required radio button
+            // Shows the deployment summary of the apps page
+
+            showDeploymentSummary();
+        }
+
+        private void rbtnUninstall_Click(object sender, EventArgs e)
+        {
+            // Click event for Uninstall radio button
+            // Shows the deployment summary of the apps page
+
+            showDeploymentSummary();
+        }
+
+        private void btnSearchApp_Click_1(object sender, EventArgs e)
+        {
+
+            if (cBAppType.Text == "")
+
+
+            {
+                MessageBox.Show("Please select application type in the drop down menu");
+            }
+
+            else if (cBAppType.Text == "All types (BETA)")
+
+            {
+                SearchForApp();
+            }
+            else
+            {
+                SearchForApp();
+            }
+        }
+
+        private void txtboxSearchGroup_Click(object sender, EventArgs e)
+        {
+            txtboxSearchGroup.Clear();
         }
     }
 }
