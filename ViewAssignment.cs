@@ -99,7 +99,7 @@ namespace IntuneAssignments
 
             // Make a call to Microsoft Graph
 
-            var result =  await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
+            var result = await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.QueryParameters.Search = searchquery;
                 requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
@@ -282,7 +282,7 @@ namespace IntuneAssignments
             var value = _form1.getAppIdFromDtg(dtgDisplayApp, 2);
             var appname = _form1.getAppIdFromDtg(dtgDisplayApp, 0);
 
-            
+
             UpdateLabel(lblAppID, value);
             UpdateLabel(lblAppName, appname);
 
@@ -297,7 +297,7 @@ namespace IntuneAssignments
                 requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
             });
 
-            
+
 
             List<MobileAppAssignment> assignmentsList = new List<MobileAppAssignment>();
             assignmentsList.AddRange(result.Value);
@@ -421,13 +421,13 @@ namespace IntuneAssignments
 
                     await graphClient.Result.DeviceAppManagement.MobileApps[appID].Assignments[assignmentID.Id].DeleteAsync();
 
-                    
+
                 }
 
 
             }
 
-            
+
 
             // Clear the datagridview for older results
             _form1.ClearDataGridView(dtgGroupAssignment);

@@ -17,85 +17,34 @@ using System.Diagnostics.Eventing.Reader;
 using Windows.Foundation.Metadata;
 using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
-using Microsoft.Graph.Beta.Models.WindowsUpdates;
-using Tavis.UriTemplates;
 
 //TO DO
-
-///// UI ///////////////////
-
-// Flat theme
-// Animations
-
-
-///// Framework ////////////
-
-// Everything as simple methods
-
-///// Core functionality /////
-
-// Fix try catch and check for if the session is authentictated properly. handle errors
-// Handle All Users and All Devices virtual groups
-// Handle errors when deploying to already assigned groups
-// Display list of each error for each assignment
-// Display welcome tour on first launch
-// Checkbox to skip
-// VPP apps - modify query
-// Windows - Winget apps?
-// Logging to log file
-
-
-/// FINISHED ///
-
-// OK - List all assignments with intent for an application
-// OK - Add one or more assignments with intent for an application
-// OK - Delete one or more assignments for an application
-// OK - Select multiple apps, add assignments
-// OK - Sidebar slides back after MS auth
-// OK - Search box default text disappear when clicked
-// OK - Display list of each error for each assignment
-// OK - Pop up box for assignment for policies
-// OK - Deployment of settings catalog, compliance and device config
-// OK - On application launch - Prompt user to log in
-// OK - Progress bar
-// OK - Search fields
-// OK - Deployment of settings catalog, compliance and device config
-
-
-
-// Assignment options (End User Notifications, Availability, Deadline)
-// Different needs for each app type (VPP, Win32, MGP, etc)
-// Drop down menu to select each type?
-// Multiple assignments:
-// Panel with radio buttons? drop down menus?
-
-
-
 
 
 ///// Nice to haves /////
 
-//
+// Handle errors when deploying to already assigned groups (Currently this is not a issue, because existing assignments is not deleted. consider if it is necessary to notify of existing assignments)
+// Handle All Users and All Devices virtual groups
+// Delete policy assignments
 // Warning prompts
 // Confirmations
-// Reload DTG's after changes
-// Login form
-// Tool tips
 // append or replace description
-
-
-// last action:
-
-
-
-// Continue on applicaiton form
+// Warning when deploying large amount of groups and/or apps - could take up to 1 minutes before it shows up in the portal
+// VPP apps - modify query
+// Logging to log file
+// Assignment options (End User Notifications, Availability, Deadline)
+// Different needs for each app type (VPP, Win32, MGP, etc)
 
 
 
-// Continue on policy form
-// - Warning when deploying large amount of groups and/or apps - could take up to 1 minutes before it shows up in the portal
-// - Progress bar
-// Create list for 1.0 release
+// Create list for 1.1 release
+
+
+
+// Create list for 1.0 release:
+//// Tool tips (Done for apps and policies)
+//// Assignment form
+//// Help function for all forms
 
 
 
@@ -109,6 +58,12 @@ namespace IntuneAssignments
     {
         public Form1()
         {
+
+            // change the application icon and use the ico file in resources folder
+
+
+
+
             InitializeComponent();
             txtboxSearchApp.KeyDown += TxtboxSearchApp_KeyDown;
         }
@@ -153,14 +108,9 @@ namespace IntuneAssignments
             // Hides default text on labels
 
             // add data to dtgdisplayapp
-            dtgDisplayApp.Rows.Add("test", "test", "test");
-            dtgDisplayApp.Rows.Add("test", "test", "test");
-            dtgDisplayApp.Rows.Add("test", "test", "test");
-            dtgDisplayApp.Rows.Add("test", "test", "test");
-            dtgDisplayApp.Rows.Add("test", "test", "test");
-            dtgDisplayApp.Rows.Add("test", "test", "test");
 
-            lblSignedInUser.Text = "";
+
+            lblSignedInUser.Text = "You are not signed in!";
             lblTenantID.Text = "";
 
             pnlIntent.Hide();
@@ -168,6 +118,7 @@ namespace IntuneAssignments
             pnlSearchGroup.Hide();
             panelSummary.Hide();
 
+            cBAppType.Text = "All platforms";
 
             // Creates a timer to have the animation trigger after 3 seconds
             animationTimer = new System.Windows.Forms.Timer();
@@ -401,7 +352,7 @@ namespace IntuneAssignments
                 // Make a call to Microsoft Graph
                 var tenantInfo = await graphClient.Result.Organization.GetAsync((requestConfiguration) =>
                 {
-                    requestConfiguration.QueryParameters.Select = new string[] { "id" };
+                    //requestConfiguration.QueryParameters.Select = new string[] { "id" };
                 });
 
 
@@ -415,8 +366,8 @@ namespace IntuneAssignments
                 // NOTE - this could be improved. There is room for error if the query returns more than 1 result
                 foreach (var org in organizations)
                 {
-                    tenantID = org.Id;
-                    lblTenantID.Text = "Tenant ID: " + tenantID;
+                    lblSignedInUser.Text = "Tenant: " + org.DisplayName;
+                    lblTenantID.Text = "Tenant ID: " + org.Id;
                 }
 
 
@@ -573,7 +524,7 @@ namespace IntuneAssignments
 
             }
 
-            if (cBAppType.Text == "All types (BETA)")
+            if (cBAppType.Text == "All platforms")
             {
 
                 // Searching for all types of apps
@@ -1024,7 +975,71 @@ namespace IntuneAssignments
         }
 
 
+        public void HelpGuide()
+        {
 
+
+
+            // make a message box with yes and no button
+
+            DialogResult result = MessageBox.Show("Do you want a quick tour?", "Quick tour", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+
+            if (result == DialogResult.Yes)
+            {
+                // User wants help. Begin help guide
+
+                // First check if user is signed in to a tenant
+                if (lblTenantID.Text == "")
+                {
+                    MessageBox.Show("You are not signed in to a tenant. Please sign in to a tenant first, and then launch help guide.", "Please sign in", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+
+
+
+                // Begin with hiding certain panels
+                panelSummary.Visible = false;
+                pnlIntent.Visible = false;
+                pnlSearchGroup.Visible = false;
+
+
+
+
+                ListAllApps();
+                // mute the sound that plays when a user clicks the button here
+
+                MessageBox.Show("First you find and double click each application you want to assign.", "Find applications", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+
+
+                pnlSearchGroup.Visible = true;
+                ListAllGroups();
+                MessageBox.Show("Now find and double click each group you want to assign applications to.", "Find groups", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+
+
+
+                pnlIntent.Visible = true;
+                MessageBox.Show("Then select the intent for the deployment.", "Select intent", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+
+
+
+                panelSummary.Visible = true;
+                MessageBox.Show("Finally you click Prepare deployment, double check the summary and click Deploy or Reset.", "Check summary", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+
+
+
+
+
+            }
+            else if (result == DialogResult.No)
+            {
+                // User did not want help. Do nothing
+            }
+            else
+            {
+                MessageBox.Show("Something went wrong");
+            }
+
+        }
 
 
         public async Task<List<MobileAppInfo>> GetAllMobileAppsAsync()
@@ -1148,7 +1163,7 @@ namespace IntuneAssignments
         public void showDeploymentSummary()
         {
             panelSummary.Show();
-            System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(1000);
             btnSummarize_Click(null, null);
         }
 
@@ -1253,26 +1268,7 @@ namespace IntuneAssignments
 
         private void btnAllGroups_Click(object sender, EventArgs e)
         {
-
-            if (cBAppType.Text == "")
-
-
-            {
-                MessageBox.Show("Please select application type in the drop down menu");
-            }
-
-            else if (cBAppType.Text == "All types (BETA)")
-
-            {
-                ListAllApps();
-                //MessageBox.Show("Feature not implemented");
-            }
-            else
-            {
-                ListAllApps();
-            }
-
-
+            ListAllApps();
         }
 
         private void btnSearchGroup_Click(object sender, EventArgs e)
@@ -1403,7 +1399,26 @@ namespace IntuneAssignments
 
         private void btnDeployAssignments_Click(object sender, EventArgs e)
         {
-            AddAppAssignment();
+            int numberOfApps = rtbSummarizeApps.Lines.Count();
+            int numberOfGroups = rtbSummarizeGroups.Lines.Count();
+            int numberOfAssignments = numberOfApps * numberOfGroups;
+
+
+            if (numberOfAssignments > 9)
+            {
+
+                DialogResult result = MessageBox.Show("You are attempting to make 10 or more assignments. Are you sure?", "Large assignment detected", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                if (result == DialogResult.Yes)
+                {
+                    AddAppAssignment();
+                }
+                else
+                {
+                    // user clicked no. Do nothing
+                }
+            }
+
+
         }
 
         private void pbView_Click(object sender, EventArgs e)
@@ -1471,6 +1486,17 @@ namespace IntuneAssignments
         private void txtboxSearchGroup_Click(object sender, EventArgs e)
         {
             txtboxSearchGroup.Clear();
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            HelpGuide();
+        }
+
+        private void pbInfo_Click(object sender, EventArgs e)
+        {
+            About about = new About();
+            about.ShowDialog(this);
         }
     }
 }

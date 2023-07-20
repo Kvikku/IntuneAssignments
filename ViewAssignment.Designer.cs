@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewAssignment));
             pnlSearchApp = new Panel();
             pbClearDtgDisplayApp = new PictureBox();
             lblSearchApp = new Label();
@@ -104,7 +105,6 @@
             dtgDisplayApp.RowTemplate.Height = 25;
             dtgDisplayApp.Size = new Size(455, 512);
             dtgDisplayApp.TabIndex = 16;
-
             dtgDisplayApp.CellMouseDoubleClick += dtgDisplayApp_CellMouseDoubleClick;
             // 
             // AppName
@@ -269,8 +269,8 @@
             Controls.Add(pbHome);
             Controls.Add(panel1);
             Controls.Add(pnlSearchApp);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "ViewAssignment";
-            Text = "ViewAssignment";
             Load += ViewAssignment_Load;
             pnlSearchApp.ResumeLayout(false);
             pnlSearchApp.PerformLayout();

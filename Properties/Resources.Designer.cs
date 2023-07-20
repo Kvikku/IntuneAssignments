@@ -63,6 +63,36 @@ namespace IntuneAssignments.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _11016449961582988850_48 {
+            get {
+                object obj = ResourceManager.GetObject("11016449961582988850-48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _11016449961582988850_48__1_ {
+            get {
+                object obj = ResourceManager.GetObject("11016449961582988850-48 (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _121047815016345278514481_48 {
+            get {
+                object obj = ResourceManager.GetObject("121047815016345278514481-48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _15536420761558096328_48 {
             get {
                 object obj = ResourceManager.GetObject("15536420761558096328-48", resourceCulture);
@@ -126,6 +156,37 @@ namespace IntuneAssignments.Properties {
         internal static System.Drawing.Bitmap _5410058521582634780_128 {
             get {
                 object obj = ResourceManager.GetObject("5410058521582634780-128", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap download {
+            get {
+                object obj = ResourceManager.GetObject("download", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Icon_round_Question_mark_svg {
+            get {
+                object obj = ResourceManager.GetObject("Icon-round-Question_mark.svg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap png_clipart_question_mark_logo_question_mark_in_circle_icons_logos_emojis_question_marks {
+            get {
+                object obj = ResourceManager.GetObject("png-clipart-question-mark-logo-question-mark-in-circle-icons-logos-emojis-questio" +
+                        "n-marks", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
