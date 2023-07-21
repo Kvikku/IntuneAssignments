@@ -42,13 +42,10 @@ using Microsoft.Graph.Beta.Models;
 
 
 // Create list for 1.0 release:
-//// Tool tips (Done for apps and policies)
-//// Assignment form
-//// Help function for all forms
 
-
-
-
+// Test on different tenants
+// Need to create a guide for users to create an app registration and give it the correct permissions
+// need to add a check if permissions are correct on the app registration (and overkill permissions)
 
 
 

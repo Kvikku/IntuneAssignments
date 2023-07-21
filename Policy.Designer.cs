@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Policy));
             pbHome = new PictureBox();
             pnlSearchPolicy = new Panel();
@@ -55,7 +55,7 @@
             rtbAssignmentPreview = new RichTextBox();
             pnlAssignedTo = new Panel();
             lblAssignmentPreview = new Label();
-            panel2 = new Panel();
+            pnlSummary = new Panel();
             rtbDeploymentSummary = new RichTextBox();
             pBarDeployProgress = new ProgressBar();
             rtbSelectedGroups = new RichTextBox();
@@ -69,13 +69,15 @@
             pnlSearchGroup = new Panel();
             lblSelectGroups = new Label();
             toolTipPolicy = new ToolTip(components);
+            pbHelpGuide = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlSearchPolicy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).BeginInit();
             pnlAssignedTo.SuspendLayout();
-            panel2.SuspendLayout();
+            pnlSummary.SuspendLayout();
             pnlSearchGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbHelpGuide).BeginInit();
             SuspendLayout();
             // 
             // pbHome
@@ -122,24 +124,24 @@
             dtgDisplayPolicy.AllowUserToResizeRows = false;
             dtgDisplayPolicy.BackgroundColor = Color.FromArgb(46, 51, 73);
             dtgDisplayPolicy.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.Salmon;
-            dataGridViewCellStyle1.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dtgDisplayPolicy.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = Color.Salmon;
+            dataGridViewCellStyle5.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dtgDisplayPolicy.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dtgDisplayPolicy.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgDisplayPolicy.Columns.AddRange(new DataGridViewColumn[] { PolicyName, Type, Platform, ID });
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(46, 51, 73);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = Color.Salmon;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dtgDisplayPolicy.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.FromArgb(46, 51, 73);
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle6.ForeColor = Color.Salmon;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dtgDisplayPolicy.DefaultCellStyle = dataGridViewCellStyle6;
             dtgDisplayPolicy.EnableHeadersVisualStyles = false;
             dtgDisplayPolicy.Location = new Point(9, 98);
             dtgDisplayPolicy.Name = "dtgDisplayPolicy";
@@ -203,7 +205,6 @@
             btnSearchPolicy.Text = "Search";
             toolTipPolicy.SetToolTip(btnSearchPolicy, "Search for applications");
             btnSearchPolicy.UseVisualStyleBackColor = false;
-
             // 
             // txtboxSearchPolicy
             // 
@@ -237,24 +238,24 @@
             dtgDisplayGroup.AllowUserToDeleteRows = false;
             dtgDisplayGroup.BackgroundColor = Color.FromArgb(46, 51, 73);
             dtgDisplayGroup.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.Salmon;
-            dataGridViewCellStyle3.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dtgDisplayGroup.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = Color.Salmon;
+            dataGridViewCellStyle7.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle7.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            dtgDisplayGroup.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             dtgDisplayGroup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgDisplayGroup.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2 });
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(46, 51, 73);
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle4.ForeColor = Color.Salmon;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
-            dtgDisplayGroup.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = Color.FromArgb(46, 51, 73);
+            dataGridViewCellStyle8.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle8.ForeColor = Color.Salmon;
+            dataGridViewCellStyle8.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
+            dtgDisplayGroup.DefaultCellStyle = dataGridViewCellStyle8;
             dtgDisplayGroup.EnableHeadersVisualStyles = false;
             dtgDisplayGroup.GridColor = Color.Salmon;
             dtgDisplayGroup.Location = new Point(3, 98);
@@ -305,7 +306,6 @@
             btnSearchGroup.Text = "Search";
             toolTipPolicy.SetToolTip(btnSearchGroup, "Search for groups");
             btnSearchGroup.UseVisualStyleBackColor = false;
-
             // 
             // txtboxSearchGroup
             // 
@@ -333,6 +333,7 @@
             // 
             // pnlAssignedTo
             // 
+            pnlAssignedTo.BorderStyle = BorderStyle.FixedSingle;
             pnlAssignedTo.Controls.Add(lblAssignmentPreview);
             pnlAssignedTo.Controls.Add(rtbAssignmentPreview);
             pnlAssignedTo.Location = new Point(1547, 45);
@@ -351,22 +352,22 @@
             lblAssignmentPreview.TabIndex = 3;
             lblAssignmentPreview.Text = "Assigned to:";
             // 
-            // panel2
+            // pnlSummary
             // 
-            panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(rtbDeploymentSummary);
-            panel2.Controls.Add(pBarDeployProgress);
-            panel2.Controls.Add(rtbSelectedGroups);
-            panel2.Controls.Add(rtbSelectedPolicies);
-            panel2.Controls.Add(lblSelectedGroups);
-            panel2.Controls.Add(btnDeployPolicyAssignment);
-            panel2.Controls.Add(btnResetDeployment);
-            panel2.Controls.Add(lblSelectedPolicies);
-            panel2.Controls.Add(btnPrepareDeployment);
-            panel2.Location = new Point(97, 500);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(1444, 384);
-            panel2.TabIndex = 4;
+            pnlSummary.BorderStyle = BorderStyle.FixedSingle;
+            pnlSummary.Controls.Add(rtbDeploymentSummary);
+            pnlSummary.Controls.Add(pBarDeployProgress);
+            pnlSummary.Controls.Add(rtbSelectedGroups);
+            pnlSummary.Controls.Add(rtbSelectedPolicies);
+            pnlSummary.Controls.Add(lblSelectedGroups);
+            pnlSummary.Controls.Add(btnDeployPolicyAssignment);
+            pnlSummary.Controls.Add(btnResetDeployment);
+            pnlSummary.Controls.Add(lblSelectedPolicies);
+            pnlSummary.Controls.Add(btnPrepareDeployment);
+            pnlSummary.Location = new Point(97, 500);
+            pnlSummary.Name = "pnlSummary";
+            pnlSummary.Size = new Size(1444, 384);
+            pnlSummary.TabIndex = 4;
             // 
             // rtbDeploymentSummary
             // 
@@ -491,7 +492,6 @@
             cbLookUpAssignment.Text = "Look up policy assignment on click";
             toolTipPolicy.SetToolTip(cbLookUpAssignment, "Enable to look up existing assignments for policies when clicking them");
             cbLookUpAssignment.UseVisualStyleBackColor = true;
-
             // 
             // pnlSearchGroup
             // 
@@ -518,15 +518,27 @@
             lblSelectGroups.Text = "Groups";
             toolTipPolicy.SetToolTip(lblSelectGroups, "Selected policies");
             // 
+            // pbHelpGuide
+            // 
+            pbHelpGuide.Image = Properties.Resources._121047815016345278514481_48;
+            pbHelpGuide.InitialImage = Properties.Resources._121047815016345278514481_48;
+            pbHelpGuide.Location = new Point(12, 70);
+            pbHelpGuide.Name = "pbHelpGuide";
+            pbHelpGuide.Size = new Size(49, 47);
+            pbHelpGuide.TabIndex = 10;
+            pbHelpGuide.TabStop = false;
+            pbHelpGuide.Click += pbHelpGuide_Click;
+            // 
             // Policy
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1912, 901);
+            Controls.Add(pbHelpGuide);
             Controls.Add(pnlSearchGroup);
             Controls.Add(cbLookUpAssignment);
-            Controls.Add(panel2);
+            Controls.Add(pnlSummary);
             Controls.Add(pnlAssignedTo);
             Controls.Add(pnlSearchPolicy);
             Controls.Add(pbHome);
@@ -540,10 +552,11 @@
             ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).EndInit();
             pnlAssignedTo.ResumeLayout(false);
             pnlAssignedTo.PerformLayout();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
+            pnlSummary.ResumeLayout(false);
+            pnlSummary.PerformLayout();
             pnlSearchGroup.ResumeLayout(false);
             pnlSearchGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbHelpGuide).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -564,7 +577,7 @@
         private RichTextBox rtbAssignmentPreview;
         private Panel pnlAssignedTo;
         private Label lblAssignmentPreview;
-        private Panel panel2;
+        private Panel pnlSummary;
         private Label lblSelectedGroups;
         private Label lblSelectedPolicies;
         private RichTextBox rtbSelectedGroups;
@@ -585,5 +598,6 @@
         private ToolTip toolTipPolicy;
         private Label lblSelectApps;
         private Label lblSelectGroups;
+        private PictureBox pbHelpGuide;
     }
 }

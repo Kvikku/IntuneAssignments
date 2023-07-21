@@ -1066,6 +1066,69 @@ namespace IntuneAssignments
             }
         }
 
+        public void HelpGuide()
+        {
+
+            // make a message box with yes and no button
+
+            DialogResult result = MessageBox.Show("Do you want a quick tour?", "Quick tour", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+
+            if (result == DialogResult.Yes)
+            {
+
+                // Hides all panels to begin the help guide
+
+                pnlAssignedTo.Visible = false;
+                pnlSearchGroup.Visible = false;
+                pnlSearchPolicy.Visible = false;
+                pnlSummary.Visible = false;
+                cbLookUpAssignment.Visible = false;
+
+                // sleep for 2 seconds
+                Thread.Sleep(2000);
+
+                
+                MessageBox.Show("Here you can do bulk group assignments for policies");
+
+                pnlSearchPolicy.Visible = true;
+                MessageBox.Show("Firstly you need to find and select all policies you want for deployment");
+
+                pnlSearchGroup.Visible = true;
+                MessageBox.Show("Then you need to find and select all groups you want to deploy the policies to");
+
+
+                pnlSummary.Visible = true;
+                cbLookUpAssignment.Visible = true;
+                MessageBox.Show("Finally you can review the summary and click deploy to deploy the policies to the selected groups");
+
+
+
+                
+
+
+
+
+
+
+
+            }
+
+            else if (result == DialogResult.No)
+
+            {
+
+                // User clicked no, so do nothing
+
+            }
+
+
+            else
+
+            {
+                MessageBox.Show("An error has occured when trying to display the help guide.");
+            }
+
+        }
 
         ////////////////////////////////////////////////////////////////////////  BUTTONS  /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1182,5 +1245,9 @@ namespace IntuneAssignments
             AssignSelectedPolicies();
         }
 
+        private void pbHelpGuide_Click(object sender, EventArgs e)
+        {
+            HelpGuide();
+        }
     }
 }

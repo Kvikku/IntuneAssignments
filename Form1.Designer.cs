@@ -564,6 +564,7 @@
             // 
             // pnlIntent
             // 
+            pnlIntent.BorderStyle = BorderStyle.FixedSingle;
             pnlIntent.Controls.Add(lblIntentChoice);
             pnlIntent.Controls.Add(rbtnUninstall);
             pnlIntent.Controls.Add(rbtnRequired);
@@ -660,6 +661,7 @@
             // 
             // panelSummary
             // 
+            panelSummary.BorderStyle = BorderStyle.FixedSingle;
             panelSummary.Controls.Add(lblSummary);
             panelSummary.Controls.Add(rtbDeploymentSummary);
             panelSummary.Controls.Add(progressBar1);
@@ -835,7 +837,7 @@
             pictureBox3.Image = Properties.Resources._121047815016345278514481_48;
             pictureBox3.Location = new Point(11, 192);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(48, 54);
+            pictureBox3.Size = new Size(48, 47);
             pictureBox3.TabIndex = 20;
             pictureBox3.TabStop = false;
             mainFormToolTip.SetToolTip(pictureBox3, "Help");

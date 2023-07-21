@@ -355,7 +355,7 @@ namespace IntuneAssignments
             var appID = lblAppID.Text;
 
             // Query graph for assignment ID for a given app
-            var result = await graphClient.Result.DeviceAppManagement.MobileApps["{mobileApp-id}"].Assignments.GetAsync((requestConfiguration) =>
+            var result = await graphClient.Result.DeviceAppManagement.MobileApps[appID].Assignments.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.QueryParameters.Select = new string[] { "id", "intent" };
             });
@@ -453,6 +453,45 @@ namespace IntuneAssignments
             }
         }
 
+
+        public void HelpGuide()
+        {
+
+            DialogResult result = MessageBox.Show("Do you want a quick tour?", "Quick tour", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+
+            if (result == DialogResult.Yes)
+            {
+
+                pnlSearchApp.Visible = false;
+                pnllViewAssignments.Visible = false;
+
+                MessageBox.Show("Here you can view and delete assignments");
+
+                pnlSearchApp.Visible = true;
+                MessageBox.Show("Firstly you find and select the application you want to view assignments for");
+
+                pnllViewAssignments.Visible = true;
+                MessageBox.Show("Then you can view and delete assignments");
+
+
+            }
+
+            else if (result == DialogResult.No)
+
+            {
+
+                // User clicked no, so do nothing
+
+            }
+
+
+            else
+
+            {
+                MessageBox.Show("An error has occured when trying to display the help guide.");
+            }
+
+        }
         /////////////////////////////////////////// Key presses ////////////////////////////////////////////////////////////////////////
 
 
@@ -524,6 +563,12 @@ namespace IntuneAssignments
             {
                 // If user clicks yes, delete all assignments
                 deleteAppAssignment();
+
+                // Clear the datagridview for older results
+                _form1.ClearDataGridView(dtgGroupAssignment);
+
+                // Refresh datagridview
+                ListAllAssignedGroups();
             }
             else if (dialogResult == DialogResult.No)
             {
@@ -535,9 +580,25 @@ namespace IntuneAssignments
 
         private void btnDeleteSelectedAssignment_Click(object sender, EventArgs e)
         {
-            deleteSelectedAppAssignment(dtgGroupAssignment);
+            // Show message box with warning, and if statement based on what the user clicks
+
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete the selected assignments for this app?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+            if (dialogResult == DialogResult.Yes)
+            {
+                // If user clicks yes, delete all assignments
+                deleteSelectedAppAssignment(dtgGroupAssignment);
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                // If user clicks no, do nothing
+            }
+
+
         }
 
-
+        private void pbHelpGuide_Click(object sender, EventArgs e)
+        {
+            HelpGuide();
+        }
     }
 }
