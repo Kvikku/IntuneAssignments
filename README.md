@@ -19,7 +19,13 @@ When it comes to the art of software development I am entirely self taught with 
 
 ## Prerequisite
 
+There are some requirements and prerequisites you will need to take care of:
+
 - Azure tenant with permissions to create an App Registration
+
+You will need an Azure tenant with an App registration. This application will be granted the necessary permissions to complete the deployments in Microsoft Intune.
+Authentication is handled through the use of Client ID and Client Secret (Other authentication methods will be implemented in the future).
+
 
 # Acknowledgments
 
