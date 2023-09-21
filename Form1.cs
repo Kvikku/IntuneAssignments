@@ -1,7 +1,9 @@
 using System;
 using System.Net;
 using Microsoft.Graph;
+using Microsoft.Graph.Auth;
 using Microsoft.Identity.Client;
+using Microsoft.Graph.Core;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -13,72 +15,37 @@ using Windows.ApplicationModel.VoiceCommands;
 using System.Windows.Forms;
 using System.Diagnostics.Eventing.Reader;
 using Windows.Foundation.Metadata;
+using Microsoft.Graph.Beta;
+using Microsoft.Graph.Beta.Models;
 
 //TO DO
-
-///// UI ///////////////////
-
-// Flat theme
-// Animations
-
-
-///// Framework ////////////
-
-// Everything as simple methods
-
-///// Core functionality /////
-
-// Fix try catch and check for if the session is authentictated properly. handle errors
-// Handle All Users and All Devices virtual groups
-// Handle errors when deploying to already assigned groups
-// Display list of each error for each assignment
-// Display welcome tour on first launch
-// Checkbox to skip
-// VPP apps - modify query
-// Windows - Winget apps?
-// Logging to log file
-
-// OK - List all assignments with intent for an application
-// OK - Add one or more assignments with intent for an application
-// OK - Delete one or more assignments for an application
-// OK - Select multiple apps, add assignments
-// OK - Sidebar slides back after MS auth
-// OK - Search box default text disappear when clicked
-// OK - Display list of each error for each assignment
-// OK - Pop up box for assignment for policies
-
-
-
-// Assignment options (End User Notifications, Availability, Deadline)
-// Different needs for each app type (VPP, Win32, MGP, etc)
-// Drop down menu to select each type?
-// Multiple assignments:
-// Panel with radio buttons? drop down menus?
-// On application launch - Prompt user to log in
-// Progress bar
-
 
 
 ///// Nice to haves /////
 
+// Handle errors when deploying to already assigned groups (Currently this is not a issue, because existing assignments is not deleted. consider if it is necessary to notify of existing assignments)
+// Handle All Users and All Devices virtual groups
+// Delete policy assignments
 // Warning prompts
 // Confirmations
-// Reload DTG's after changes
-// Login form
+// append or replace description
+// Warning when deploying large amount of groups and/or apps - could take up to 1 minutes before it shows up in the portal
+// VPP apps - modify query
+// Logging to log file
+// Assignment options (End User Notifications, Availability, Deadline)
+// Different needs for each app type (VPP, Win32, MGP, etc)
 
 
 
-// last action:
-
-
-// Idea to change intent to drop down menu and place within deployment pane. remove radio buttons
-// Idea to change DTG UI to more sleek design
-// Button animation
-// Need to handle error when assigned group is deleted ("ghost group")
-// Missing only actual deployment of policies
+// Create list for 1.1 release
 
 
 
+// Create list for 1.0 release:
+
+// Test on different tenants
+// Need to create a guide for users to create an app registration and give it the correct permissions
+// need to add a check if permissions are correct on the app registration (and overkill permissions)
 
 
 
@@ -88,6 +55,12 @@ namespace IntuneAssignments
     {
         public Form1()
         {
+
+            // change the application icon and use the ico file in resources folder
+
+
+
+
             InitializeComponent();
             txtboxSearchApp.KeyDown += TxtboxSearchApp_KeyDown;
         }
@@ -100,12 +73,16 @@ namespace IntuneAssignments
         bool sideBarExpandTimer = false;
         int col = -1;
         int row = -1;
-        string clientID = "f67679c6-4a23-42d8-84c6-bb3f9cf1f1c0";
-        string tenantID = "18456af8-4036-4e1c-b888-43e04c49046a";
-        string clientSecret = "";
-        string[] scopes = new string[] { "DeviceManagementApps.ReadWrite.All", "DeviceManagementServiceConfig.Read.All", "DeviceManagementConfiguration.Read.All",
-        "Directory.Read.All", "DeviceManagementConfiguration.ReadWrite.All"};
+        public static string clientID = "f67679c6-4a23-42d8-84c6-bb3f9cf1f1c0";
+        public static string tenantID = "18456af8-4036-4e1c-b888-43e04c49046a";
+        public static string clientSecret = "mvt8Q~T_JKJ0PlCr69d1bfQlyBJcZXjekFJ_Ab-g";
+        public static string[] scopes = new[] { "DeviceManagementApps.ReadWrite.All", "DeviceManagementServiceConfig.Read.All", "DeviceManagementConfiguration.Read.All",
+        "Directory.Read.All", "DeviceManagementConfiguration.ReadWrite.All" };
         string GraphEndpoint = "https://graph.microsoft.com/v1.0";
+        public static string[] newScopes = new string[]
+        {
+            "https://graph.microsoft.com/.default"
+        };
         string accessToken = "";
         public static string GraphAccessToken { get; set; }
         public static Point Form1Location { get; set; }
@@ -127,9 +104,18 @@ namespace IntuneAssignments
 
             // Hides default text on labels
 
-            lblSignedInUser.Text = "";
+            // add data to dtgdisplayapp
+
+
+            lblSignedInUser.Text = "You are not signed in!";
             lblTenantID.Text = "";
 
+            pnlIntent.Hide();
+            pnlSearchApp.Hide();
+            pnlSearchGroup.Hide();
+            panelSummary.Hide();
+
+            cBAppType.Text = "All platforms";
 
             // Creates a timer to have the animation trigger after 3 seconds
             animationTimer = new System.Windows.Forms.Timer();
@@ -191,46 +177,6 @@ namespace IntuneAssignments
 
 
 
-        private async Task AuthenticateToGraph()
-        {
-            // NOT CURRENTLY IN USE //
-
-            InteractiveBrowserCredential interactiveBrowserCredential = new InteractiveBrowserCredential();
-            var graphClient = new GraphServiceClient(interactiveBrowserCredential);
-
-            InteractiveBrowserCredentialOptions options = new InteractiveBrowserCredentialOptions();
-
-            try
-            {
-                // Make a call to Microsoft Graph to confirm that authentication was successful
-                var me = await graphClient.Me
-                    .Request()
-                    .GetAsync();
-
-                var tenantInfo = await graphClient.Organization
-                    .Request()
-                    .Select("ID")
-                    .GetAsync();
-
-                List<Organization> organizations = new List<Organization>();
-                organizations.AddRange(tenantInfo);
-
-                foreach (var org in organizations)
-                {
-
-                    tenantID = org.Id;
-                    lblTenantID.Text = "Tenant ID: " + tenantID;
-                }
-
-                lblSignedInUser.Text = "Signed in as " + me.DisplayName;
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error authenticating: " + ex.Message);
-            }
-        }
-
         public async Task authMSAL()
         {
 
@@ -259,57 +205,55 @@ namespace IntuneAssignments
             }
         }
 
-        // Deprecated
-        public GraphServiceClient GetGraphClient()
+
+
+
+        //public GraphServiceClient NewGetGraphClient(string SharedAccessToken)
+        //{
+        //    try
+        //    {
+        //        return new GraphServiceClient(
+        //        new DelegateAuthenticationProvider(
+        //            (requestMessage) =>
+        //            {
+        //                requestMessage.Headers.Authorization =
+        //                    new AuthenticationHeaderValue("bearer", SharedAccessToken);
+
+        //                return Task.FromResult(0);
+        //            }));
+        //    }
+        //    catch (Exception errorMsg)
+        //    {
+        //        MessageBox.Show(errorMsg.Message);
+
+        //        throw;
+        //    }
+        //}
+
+
+
+        public class MSGraphAuthenticator
         {
-            // Deprecated
-
-            // Creates a reusable graph service client object
-            // Requires authentication to already be done
-            try
+            // Test if this works
+            public static async Task<GraphServiceClient> GetAuthenticatedGraphClient()
             {
-                return new GraphServiceClient(
-                new DelegateAuthenticationProvider(
-                    (requestMessage) =>
-                    {
-                        requestMessage.Headers.Authorization =
-                            new AuthenticationHeaderValue("bearer", accessToken);
+                try
+                {
+                    ClientSecretCredential clientSecretCredential = new ClientSecretCredential(tenantID, clientID, clientSecret);
+                    GraphServiceClient graphclient = new GraphServiceClient(clientSecretCredential, newScopes);
 
-                        return Task.FromResult(0);
-                    }));
-            }
-            catch (Exception errorMsg)
-            {
-                MessageBox.Show(errorMsg.Message);
 
-                throw;
+                    return graphclient;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    throw;
+                }
+
             }
+
         }
-
-
-        public GraphServiceClient NewGetGraphClient(string SharedAccessToken)
-        {
-            try
-            {
-                return new GraphServiceClient(
-                new DelegateAuthenticationProvider(
-                    (requestMessage) =>
-                    {
-                        requestMessage.Headers.Authorization =
-                            new AuthenticationHeaderValue("bearer", SharedAccessToken);
-
-                        return Task.FromResult(0);
-                    }));
-            }
-            catch (Exception errorMsg)
-            {
-                MessageBox.Show(errorMsg.Message);
-
-                throw;
-            }
-        }
-
-
 
         /// ////////////////////////////////////// Configuration ///////////////////////////////////////////////////
 
@@ -397,34 +341,53 @@ namespace IntuneAssignments
 
 
                 // Create a graph service client object
-                var graphClient = NewGetGraphClient(GraphAccessToken);
+                var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+
 
 
                 // Make a call to Microsoft Graph
-                var tenantInfo = await graphClient.Organization
-                        .Request()
-                        .Select("ID")
-                        .GetAsync();
+                var tenantInfo = await graphClient.Result.Organization.GetAsync((requestConfiguration) =>
+                {
+                    //requestConfiguration.QueryParameters.Select = new string[] { "id" };
+                });
+
+
+
 
                 // Put result in a list for processing
                 List<Organization> organizations = new List<Organization>();
-                organizations.AddRange(tenantInfo);
+                organizations.AddRange(tenantInfo.Value);
 
                 // Loop through the list
                 // NOTE - this could be improved. There is room for error if the query returns more than 1 result
                 foreach (var org in organizations)
                 {
-                    tenantID = org.Id;
-                    lblTenantID.Text = "Tenant ID: " + tenantID;
+                    lblSignedInUser.Text = "Tenant: " + org.DisplayName;
+                    lblTenantID.Text = "Tenant ID: " + org.Id;
                 }
 
-                var users = await graphClient.Me
-                    .Request()
-                    .GetAsync();
 
-                lblSignedInUser.Text = users.DisplayName;
+                // THIS NEEDS FIXING
+
+                // Make a call to Microsoft Graph to find logged in users display name
+                //var result = await graphClient.Result.Me.GetAsync((requestConfiguration) =>
+                //{
+                //  requestConfiguration.QueryParameters.Select = new string[] { "displayName" };
+                //});
+
+
+                //lblSignedInUser.Text = result.DisplayName.ToString();
+                //lblSignedInUser.Show();
+
 
                 sideBarTimer.Start();
+                pBPointToLoginButton.Hide();
+
+                pnlIntent.Show();
+                pnlSearchApp.Show();
+                pnlSearchGroup.Show();
+
 
             }
             catch (Exception ex)
@@ -465,208 +428,176 @@ namespace IntuneAssignments
         }
 
 
-        public void ListAllApps()
+        public async void ListAllApps()
         {
 
             ClearDataGridView(dtgDisplayApp);
             ClearCheckedListBox(clbAppAssignments);
 
             // Create a graph service client object
-            var graphClient = NewGetGraphClient(GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
             var selectedPlatform = cBAppType.Text;
 
 
 
             // Make a call to Microsoft Graph
-            var allApplications = graphClient.DeviceAppManagement.MobileApps
-                .Request()
-                .Select(u => new
-                {
-                    u.DisplayName,
-                    u.Id,
-                })
-                .Top(1000)
-                .GetAsync();
+            var allApplications = await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Select = new string[] { "displayName", "id" };
+            });
 
             // Put result into a list for easy processing
             List<MobileApp> listAllApplications = new List<MobileApp>();
-            listAllApplications.AddRange(allApplications.Result);
-
-            // Loop through the list
-            // This foreach is no longer in use:
-            foreach (var app in listAllApplications)
-            {
-
-
-                // Check OS platform for each app
-                var appOS = "";
-                if (app.ODataType?.ToString() == null)
-                {
-                    appOS = "Undefined";
-
-                }
-                else
-                {
-                    appOS = app.ODataType?.ToString();
-                }
-
-
-
-                // Convert Odata.type string to human known platform
-                // NOTE - Additional checks are required to discover correct platform
-                var platform = "";
-
-                switch (appOS)
-                {
-                    case "#microsoft.graph.win32LobApp" or "#microsoft.graph.officeSuiteApp" or "#microsoft.graph.microsoftStoreForBusinessApp":
-                        platform = "Windows";
-                        break;
-
-                    case "#microsoft.graph.managedIOSStoreApp" or "#microsoft.graph.iosVppApp":
-                        platform = "iOS";
-                        break;
-
-                    case "#microsoft.graph.androidManagedStoreApp":
-                        platform = "Android";
-                        break;
-
-                    case "#microsoft.graph.macOSOfficeSuiteApp":
-                        platform = "macOS";
-                        break;
-
-                    default:
-                        platform = "Undefined or unknown";
-                        break;
-
-                }
-
-                // Display all
-                // Finally add displayname and platform for each app into the datagridview
-                //dtgDisplayApp.Rows.Add(app.DisplayName, platform, app.Id);
+            listAllApplications.AddRange(allApplications.Value);
 
 
 
 
-            }
 
 
             // Check cBAppType.text. List only items with corresponding platform
 
             if (cBAppType.Text == "Android")
             {
-                List<MobileApp> matchingAndroid = listAllApplications
-                    .Where(item => item.ODataType != null && item.ODataType.Contains("Android"))
-                    .ToList();
-
-                // Display in DTG
-                foreach (var result in matchingAndroid)
+                foreach (var result in listAllApplications)
                 {
-                    dtgDisplayApp.Rows.Add(result.DisplayName, "Android app", result);
+                    // Need to translate odatatype to actual platform name
+                    var platForm = FindAppPlatform(result.OdataType.ToString());
 
-                    // Test and troubleshoot only
-                    // MessageBox.Show(result.DisplayName.ToString());
+                    if (platForm == "Android")
+                    {
+                        dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                    }
                 }
+
+
 
             }
 
             if (cBAppType.Text == "iOS")
             {
-
-                List<MobileApp> matchingiOS = listAllApplications
-                    .Where(item => item.ODataType != null && item.ODataType.Contains("IOS"))
-                    .ToList();
-
-                // Note
-                // for VPP app - query for #microsoft.graph.iosVppApp
-                // for store app - query for #microsoft.graph.managedIOSStoreApp
-
-
-                // Display in DTG
-                foreach (var result in matchingiOS)
+                foreach (var result in listAllApplications)
                 {
-                    dtgDisplayApp.Rows.Add(result.DisplayName, "iOS app", result);
+                    // Need to translate odatatype to actual platform name
+                    var platForm = FindAppPlatform(result.OdataType.ToString());
 
-                    // Test and troubleshoot only
-                    // MessageBox.Show(result.DisplayName.ToString());
+                    if (platForm == "iOS")
+                    {
+                        dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                    }
                 }
+
             }
 
             if (cBAppType.Text == "Windows")
             {
-
-                List<MobileApp> matchingWindows = listAllApplications
-                    .Where(item => item.ODataType != null && (item.ODataType.Contains("win32") || item.ODataType.Contains("windowsMicrosoftEdge") || item.ODataType.Contains("microsoftStoreForBusiness")))
-                    .ToList();
-
-                // microsoftStoreForBusiness
-                // Win32LobApp
-                // windowsMicrosoftEdgeApp
-                // Winget?
-
-
-                // Display in DTG
-                foreach (var result in matchingWindows)
+                foreach (var result in listAllApplications)
                 {
-                    dtgDisplayApp.Rows.Add(result.DisplayName, "Windows app", result);
+                    // Need to translate odatatype to actual platform name
+                    var platForm = FindAppPlatform(result.OdataType.ToString());
 
-                    // Test and troubleshoot only
-                    // MessageBox.Show(result.DisplayName.ToString());
+                    if (platForm == "Windows")
+                    {
+                        dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                    }
                 }
+
 
             }
 
             if (cBAppType.Text == "macOS")
             {
-
-                List<MobileApp> matchingmacOS = listAllApplications
-                   .Where(item => item.ODataType != null && (item.ODataType.Contains("macOSOfficeSuiteApp") || item.ODataType.Contains("macOSMicrosoftEdgeApp") || item.DisplayName.Contains("Microsoft Defender for Endpoint (macOS)")))
-                   .ToList();
-
-                // Defender for Endpoint app - no odata.type
-
-
-                // Display in DTG
-                foreach (var result in matchingmacOS)
+                foreach (var result in listAllApplications)
                 {
-                    dtgDisplayApp.Rows.Add(result.DisplayName, "macOS app", result);
+                    // Need to translate odatatype to actual platform name
+                    var platForm = FindAppPlatform(result.OdataType.ToString());
 
-                    // Test and troubleshoot only
-                    // MessageBox.Show(result.DisplayName.ToString());
+                    if (platForm == "macOS")
+                    {
+                        dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                    }
+                }
+
+            }
+
+            if (cBAppType.Text == "All platforms")
+            {
+
+                // Searching for all types of apps
+
+                foreach (var result in listAllApplications)
+                {
+
+
+                    // Need to translate odatatype to actual platform name
+                    var platForm = FindAppPlatform(result.OdataType.ToString());
+
+                    dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
                 }
 
 
             }
 
-            if (cBAppType.Text == "All types (BETA)")
-            {
-
-                MessageBox.Show("Feature not implemented yet");
-            }
-
         }
-        public void ListAllGroups()
+
+
+        public string FindAppPlatform(string odatatype)
+        {
+
+            // Translates odatatype property to human readable platform name for display in datagridview
+
+            string[] Windows = { "#microsoft.graph.win32LobApp", "#microsoft.graph.officeSuiteApp", "#microsoft.graph.microsoftStoreForBusinessApp", "#microsoft.graph.winGetApp" };
+            string[] Android = { "#microsoft.graph.managedAndroidStoreApp", "androidStoreApp" };
+            string[] iOS = { "#microsoft.graph.managedIOSStoreApp", "iosStoreApp", "#microsoft.graph.iosVppApp" };
+            string[] macoS = { "#microsoft.graph.macOSOfficeSuiteApp", "macOSMicrosoftEdgeApp" };
+
+            // search for odatatype in arrays and returns the platform name
+            if (Windows.Contains(odatatype))
+            {
+                return "Windows";
+            }
+            else if (Android.Contains(odatatype))
+            {
+                return "Android";
+            }
+            else if (iOS.Contains(odatatype))
+            {
+                return "iOS";
+            }
+            else if (macoS.Contains(odatatype))
+            {
+                return "macOS";
+            }
+            else
+            {
+                return "Unknown app type";
+            }
+        }
+
+
+
+        public async void ListAllGroups()
         {
             ClearDataGridView(dtgDisplayGroup);
             ClearCheckedListBox(clbGroupAssignment);
 
             // Create a graph service client object
-            var graphClient = NewGetGraphClient(GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
-            var groups = graphClient.Groups
-                .Request()
+            var groups = await graphClient.Result.Groups
                 .GetAsync();
 
 
             List<Group> listAllGroups = new List<Group>();
-            listAllGroups.AddRange(groups.Result);
+            listAllGroups.AddRange(groups.Value);
 
             foreach (var group in listAllGroups)
             {
                 dtgDisplayGroup.Rows.Add(group.DisplayName, group.Id);
             }
         }
-        public void SearchForGroup()
+        public async void SearchForGroup()
         {
             ClearDataGridView(dtgDisplayGroup);
             ClearCheckedListBox(clbGroupAssignment);
@@ -675,35 +606,26 @@ namespace IntuneAssignments
 
 
             // Create a graph service client object
-            var graphClient = NewGetGraphClient(GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
 
             // Construct group query
-            var queryOptions = new List<QueryOption>()
-                {
-                    new QueryOption("$search", "\"displayName:" + searchQuery + "\"")
-                };
 
 
             // Make a call to Microsoft Graph
-            var allGroups = graphClient.Groups
-                .Request(queryOptions)
-                .Header("consistencylevel", "eventual")
-                .Select(u => new
-                {
-                    u.DisplayName,
-                    u.Id,
-                    u.GroupTypes,
-                    u.Description,
-                    u.SecurityEnabled
+            var allGroups = await graphClient.Result.Groups.GetAsync((requestConfiguration) =>
+            {
 
-                })
-                .Top(100)
-                .GetAsync();
+                // This cannot be this easy, lol 
+
+                requestConfiguration.QueryParameters.Search = "\"displayName:" + searchQuery + "\"";
+                requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
+            });
+
 
             // Make a list of all returned groups from the search
             List<Group> groups = new List<Group>();
-            groups.AddRange(allGroups.Result);
+            groups.AddRange(allGroups.Value);
 
             foreach (var group in groups)
             {
@@ -711,7 +633,7 @@ namespace IntuneAssignments
                 //clbGroupAssignment.Items.Add(group.DisplayName);
             }
         }
-        public void SearchForApp()
+        public async void SearchForApp()
         {
             ClearCheckedListBox(clbAppAssignments);
             ClearDataGridView(dtgDisplayApp);
@@ -720,22 +642,18 @@ namespace IntuneAssignments
 
 
             // Create a graph service client object
-            var graphClient = NewGetGraphClient(GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
             // Make a call to Microsoft Graph
-            var allApplications = graphClient.DeviceAppManagement.MobileApps
-                .Request()
-                .Filter("contains(displayName, '" + searchquery + "')")
-                .Select(u => new
-                {
-                    u.DisplayName,
-                })
-                .Top(1000)
-                .GetAsync();
+            var allApplications = await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Search = searchquery;
+            });
+
 
             // Put result into a list for easy processing
             List<MobileApp> searchResult = new List<MobileApp>();
-            searchResult.AddRange(allApplications.Result);
+            searchResult.AddRange(allApplications.Value);
 
             int numberOfAppsFound = searchResult.Count;
 
@@ -743,65 +661,100 @@ namespace IntuneAssignments
 
             {
 
-                MessageBox.Show("No applications found with containing " + searchquery);
+                MessageBox.Show("No applications found containing " + searchquery);
 
             }
 
-            else if (numberOfAppsFound >= 1)
+            else if (numberOfAppsFound > 0)
 
             {
 
-                // Loop through the list
-                foreach (var app in searchResult)
+                // Check cBAppType.text. List only items with corresponding platform
+
+                if (cBAppType.Text == "Android")
                 {
-
-
-                    // Check OS platform for each app
-                    var appOS = "";
-                    if (app.ODataType?.ToString() == null)
+                    foreach (var result in searchResult)
                     {
-                        appOS = "Undefined";
+                        // Need to translate odatatype to actual platform name
+                        var platForm = FindAppPlatform(result.OdataType.ToString());
 
-                    }
-                    else
-                    {
-                        appOS = app.ODataType?.ToString();
+                        if (platForm == "Android")
+                        {
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                        }
                     }
 
-
-                    // Convert Odata.type string to human known platform
-                    // NOTE - Additional checks are required to discover correct platform
-                    var platform = "";
-
-                    switch (appOS)
-                    {
-                        case "#microsoft.graph.win32LobApp" or "#microsoft.graph.officeSuiteApp" or "#microsoft.graph.microsoftStoreForBusinessApp":
-                            platform = "Windows";
-                            break;
-
-                        case "#microsoft.graph.managedIOSStoreApp":
-                            platform = "iOS";
-                            break;
-
-                        case "#microsoft.graph.androidManagedStoreApp":
-                            platform = "Android";
-                            break;
-
-                        case "#microsoft.graph.macOSOfficeSuiteApp":
-                            platform = "macOS";
-                            break;
-
-                        default:
-                            platform = "Undefined or unknown";
-                            break;
-
-                    }
-
-                    // Finally add displayname and platform for each app into the datagridview
-                    dtgDisplayApp.Rows.Add(app.DisplayName, platform, app.Id);
 
 
                 }
+
+                if (cBAppType.Text == "iOS")
+                {
+                    foreach (var result in searchResult)
+                    {
+                        // Need to translate odatatype to actual platform name
+                        var platForm = FindAppPlatform(result.OdataType.ToString());
+
+                        if (platForm == "iOS")
+                        {
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                        }
+                    }
+
+                }
+
+                if (cBAppType.Text == "Windows")
+                {
+                    foreach (var result in searchResult)
+                    {
+                        // Need to translate odatatype to actual platform name
+                        var platForm = FindAppPlatform(result.OdataType.ToString());
+
+                        if (platForm == "Windows")
+                        {
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                        }
+                    }
+
+
+                }
+
+                if (cBAppType.Text == "macOS")
+                {
+                    foreach (var result in searchResult)
+                    {
+                        // Need to translate odatatype to actual platform name
+                        var platForm = FindAppPlatform(result.OdataType.ToString());
+
+                        if (platForm == "macOS")
+                        {
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                        }
+                    }
+
+                }
+
+                if (cBAppType.Text == "All types (BETA)")
+                {
+
+                    // Searching for all types of apps
+
+                    foreach (var result in searchResult)
+                    {
+
+
+                        // Need to translate odatatype to actual platform name
+                        var platForm = FindAppPlatform(result.OdataType.ToString());
+
+                        dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                    }
+
+
+                }
+
+
+
+
 
             }
 
@@ -892,7 +845,7 @@ namespace IntuneAssignments
             // Intent
 
             // Create a graph service client object
-            var graphClient = NewGetGraphClient(GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
             // Sets the scope of the progress bar
 
@@ -956,18 +909,26 @@ namespace IntuneAssignments
 
                     try
                     {
-                        await graphClient.DeviceAppManagement
-                            .MobileApps[mobileAppID]
+                        //await graphClient.DeviceAppManagement
+                        //    .MobileApps[mobileAppID]
+                        //    .Assignments
+                        //    .Request()
+                        //    .AddAsync(newAssignment);
+
+
+
+
+
+                        // This might delete existing assignments
+
+                        await graphClient.Result.DeviceAppManagement.MobileApps[mobileAppID]
                             .Assignments
-                            .Request()
-                            .AddAsync(newAssignment);
+                            .PostAsync(newAssignment);
 
                         rtbDeploymentSummary.AppendText("Adding group " + group + " to " + app + " as " + intent + "\n");
                         rtbDeploymentSummary.AppendText("\n");
 
                         progressBar1.Value++;
-
-
 
                     }
                     catch (Exception ex)
@@ -1011,74 +972,143 @@ namespace IntuneAssignments
         }
 
 
+        public void HelpGuide()
+        {
+
+
+
+            // make a message box with yes and no button
+
+            DialogResult result = MessageBox.Show("Do you want a quick tour?", "Quick tour", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+
+            if (result == DialogResult.Yes)
+            {
+                // User wants help. Begin help guide
+
+                // First check if user is signed in to a tenant
+                if (lblTenantID.Text == "")
+                {
+                    MessageBox.Show("You are not signed in to a tenant. Please sign in to a tenant first, and then launch help guide.", "Please sign in", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+
+
+
+                // Begin with hiding certain panels
+                panelSummary.Visible = false;
+                pnlIntent.Visible = false;
+                pnlSearchGroup.Visible = false;
+
+
+
+
+                ListAllApps();
+                // mute the sound that plays when a user clicks the button here
+
+                MessageBox.Show("First you find and double click each application you want to assign.", "Find applications", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+
+
+                pnlSearchGroup.Visible = true;
+                ListAllGroups();
+                MessageBox.Show("Now find and double click each group you want to assign applications to.", "Find groups", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+
+
+
+                pnlIntent.Visible = true;
+                MessageBox.Show("Then select the intent for the deployment.", "Select intent", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+
+
+
+                panelSummary.Visible = true;
+                MessageBox.Show("Finally you click Prepare deployment, double check the summary and click Deploy or Reset.", "Check summary", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+
+
+
+
+
+            }
+            else if (result == DialogResult.No)
+            {
+                // User did not want help. Do nothing
+            }
+            else
+            {
+                MessageBox.Show("Something went wrong");
+            }
+
+        }
+
 
         public async Task<List<MobileAppInfo>> GetAllMobileAppsAsync()
         {
 
-            // Retrieves all mobile apps and saves them in a list for further use and processing
+            // Retrieves all mobile apps with ID and display name, and saves them in a list for further use and processing
+
+            // Create the list
+            var mobileApps = new List<MobileApp>();
 
 
-            var mobileApps = new List<MobileAppInfo>();
+            // Create a graph service client object
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
-            var graphServiceClient = NewGetGraphClient(GraphAccessToken);
 
-            var mobileAppPage = await graphServiceClient.DeviceAppManagement.MobileApps.Request().GetAsync();
 
-            do
+            // Query for all mobile apps
+            var result = await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
             {
-                foreach (var mobileApp in mobileAppPage)
-                {
-                    var mobileAppInfo = new MobileAppInfo
-                    {
-                        Id = mobileApp.Id,
-                        DisplayName = mobileApp.DisplayName
-                    };
-                    mobileApps.Add(mobileAppInfo);
-                }
+                requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
+            });
 
-                if (mobileAppPage.NextPageRequest != null)
-                {
-                    mobileAppPage = await mobileAppPage.NextPageRequest.GetAsync();
-                }
-                else
-                {
-                    mobileAppPage = null;
-                }
-            } while (mobileAppPage != null);
 
-            return mobileApps;
+            // add the results to the list
+            mobileApps.AddRange(result.Value);
+
+
+            var mobileAppInfos = mobileApps.Select(app => new MobileAppInfo
+            {
+                Id = app.Id,
+                DisplayName = app.DisplayName
+            }).ToList();
+
+            return mobileAppInfos;
+
+
+
+
         }
 
-        public async Task<List<GroupInfo>> SearchAndGetAllGroupsAsync(string query = null)
+        public async Task<List<GroupInfo>> SearchAndGetAllGroupsAsync()
         {
+            // Retrieves all Azure AD groups with ID and display name, and saves them in a list for further use and processing
 
-            var groups = new List<GroupInfo>();
-            var graphServiceClient = NewGetGraphClient(GraphAccessToken);
-            var groupPage = await graphServiceClient.Groups.Request().Filter(query).GetAsync();
+            // Create the list
+            var Groups = new List<Group>();
 
-            do
+
+            // Create a graph service client object
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+
+
+            // Query for all mobile apps
+            var result = await graphClient.Result.Groups.GetAsync((requestConfiguration) =>
             {
-                foreach (var group in groupPage)
-                {
-                    var groupInfo = new GroupInfo
-                    {
-                        Id = group.Id,
-                        DisplayName = group.DisplayName
-                    };
-                    groups.Add(groupInfo);
-                }
+                requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
+            });
 
-                if (groupPage.NextPageRequest != null)
-                {
-                    groupPage = await groupPage.NextPageRequest.GetAsync();
-                }
-                else
-                {
-                    groupPage = null;
-                }
-            } while (groupPage != null);
 
-            return groups;
+            // add the results to the list
+            Groups.AddRange(result.Value);
+
+
+            var groupInfo = Groups.Select(app => new GroupInfo
+            {
+                Id = app.Id,
+                DisplayName = app.DisplayName
+            }).ToList();
+
+            return groupInfo;
+
         }
 
         public string GetAppIdByName(List<MobileAppInfo> mobileApps, string appName)
@@ -1126,6 +1156,19 @@ namespace IntuneAssignments
             }
 
         }
+
+        public void showDeploymentSummary()
+        {
+            panelSummary.Show();
+            System.Threading.Thread.Sleep(1000);
+            btnSummarize_Click(null, null);
+        }
+
+
+        // method that clicks the button btnSummarize
+
+
+
 
 
         /////////////////////////////////////////// Key presses ////////////////////////////////////////////////////////////////////////
@@ -1211,14 +1254,9 @@ namespace IntuneAssignments
 
         }
 
-
-        private async void testBtn_Click(object sender, EventArgs e)
-        {
+        // met
 
 
-            buttonGrowTimer.Start();
-
-        }
 
         private void btnSearchApp_Click(object sender, EventArgs e)
         {
@@ -1227,30 +1265,15 @@ namespace IntuneAssignments
 
         private void btnAllGroups_Click(object sender, EventArgs e)
         {
-
-            if (cBAppType.Text == "")
-
-
-            {
-                MessageBox.Show("Please select application type");
-            }
-
-            else if (cBAppType.Text == "All types (BETA)")
-
-            {
-                MessageBox.Show("Feature not implemented");
-            }
-            else
-            {
-                ListAllApps();
-            }
-
-
+            ListAllApps();
         }
 
         private void btnSearchGroup_Click(object sender, EventArgs e)
         {
             SearchForGroup();
+
+
+
         }
 
         private void btnListAllGroups_Click(object sender, EventArgs e)
@@ -1373,7 +1396,26 @@ namespace IntuneAssignments
 
         private void btnDeployAssignments_Click(object sender, EventArgs e)
         {
-            AddAppAssignment();
+            int numberOfApps = rtbSummarizeApps.Lines.Count();
+            int numberOfGroups = rtbSummarizeGroups.Lines.Count();
+            int numberOfAssignments = numberOfApps * numberOfGroups;
+
+
+            if (numberOfAssignments > 9)
+            {
+
+                DialogResult result = MessageBox.Show("You are attempting to make 10 or more assignments. Are you sure?", "Large assignment detected", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                if (result == DialogResult.Yes)
+                {
+                    AddAppAssignment();
+                }
+                else
+                {
+                    // user clicked no. Do nothing
+                }
+            }
+
+
         }
 
         private void pbView_Click(object sender, EventArgs e)
@@ -1391,6 +1433,67 @@ namespace IntuneAssignments
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             showPolicyAssignment();
+        }
+
+        private void rbtnAvailable_Click(object sender, EventArgs e)
+        {
+            // Click event for Available radio button
+            // Shows the deployment summary of the apps page
+
+            showDeploymentSummary();
+        }
+
+        private void rbtnRequired_Click(object sender, EventArgs e)
+        {
+            // Click event for Required radio button
+            // Shows the deployment summary of the apps page
+
+            showDeploymentSummary();
+        }
+
+        private void rbtnUninstall_Click(object sender, EventArgs e)
+        {
+            // Click event for Uninstall radio button
+            // Shows the deployment summary of the apps page
+
+            showDeploymentSummary();
+        }
+
+        private void btnSearchApp_Click_1(object sender, EventArgs e)
+        {
+
+            if (cBAppType.Text == "")
+
+
+            {
+                MessageBox.Show("Please select application type in the drop down menu");
+            }
+
+            else if (cBAppType.Text == "All types (BETA)")
+
+            {
+                SearchForApp();
+            }
+            else
+            {
+                SearchForApp();
+            }
+        }
+
+        private void txtboxSearchGroup_Click(object sender, EventArgs e)
+        {
+            txtboxSearchGroup.Clear();
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            HelpGuide();
+        }
+
+        private void pbInfo_Click(object sender, EventArgs e)
+        {
+            About about = new About();
+            about.ShowDialog(this);
         }
     }
 }

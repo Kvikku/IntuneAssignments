@@ -1,17 +1,23 @@
-﻿using Microsoft.Graph;
+﻿using System;
+using System.Net;
+using Microsoft.Graph;
+using Microsoft.Graph.Auth;
+using Microsoft.Identity.Client;
+using Microsoft.Graph.Core;
+using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+using Azure.Identity;
+using static System.Formats.Asn1.AsnWriter;
+using System.Security.Principal;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.VoiceCommands;
 using System.Windows.Forms;
-using Windows.Media.Protection.PlayReady;
-using static System.Windows.Forms.DataFormats;
+using System.Diagnostics.Eventing.Reader;
+using Windows.Foundation.Metadata;
+using Microsoft.Graph.Beta;
+using Microsoft.Graph.Beta.Models;
+using static IntuneAssignments.Form1;
 
 
 
@@ -41,6 +47,11 @@ namespace IntuneAssignments
 
         private readonly Form1 _form1;
 
+        private void Policy_Load(object sender, EventArgs e)
+        {
+            cbPolicyType.Text = "All types";
+            pnlAssignedTo.Visible = false;
+        }
 
         public Policy(Form1 form1)
         {
@@ -48,6 +59,8 @@ namespace IntuneAssignments
             _form1 = form1;
 
             lblAssignmentPreview.Hide();
+
+            pnlAssignedTo.Hide();
 
         }
 
@@ -85,52 +98,45 @@ namespace IntuneAssignments
         public async Task<List<Group>> LookUpGroup(string input)
         {
 
-            // Create an object of form1 to use it's methods   
-            Form1 form1 = new Form1();
-
-
             // Authenticate to Graph
-            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
 
-            List<Group> groups = new List<Group>();
+            // Create a list to store the groups in
+            List<Group> Groups = new List<Group>();
 
-            try
 
+
+            // Make a call to Microsoft Graph
+            var result = await graphClient.Result.Groups.GetAsync((requestConfiguration) =>
             {
-                var groupSearch = await client.Groups
-            .Request()
-            .Filter($"id eq '{input}'")
-            .GetAsync();
+                requestConfiguration.QueryParameters.Select = new string[] { "id", "displayname" };
+                requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
+            });
 
 
 
-                while (groupSearch.CurrentPage != null)
-                {
-                    foreach (var group in groupSearch.CurrentPage)
-                    {
-                        groups.Add(group);
-                    }
+            // add the result to the list
+            Groups.AddRange(result.Value);
 
-                    if (groupSearch.NextPageRequest == null)
-                    {
-                        break;
-                    }
 
-                    groupSearch = await groupSearch.NextPageRequest.GetAsync();
-                }
+            // Find the group name based on the ID (because graph doesn't allow to search for the ID directly)
+            var groupName = Groups.Find(x => x.Id == input);
 
-            }
-            catch (Exception ex)
+            // Convert the group name to a string and return it
+            if (groupName != null)
             {
-                MessageBox.Show(ex.Message);
+                return new List<Group> { groupName };
             }
 
+            else
+            {
+                return new List<Group>();
+            }
 
 
-
-            return groups;
         }
+
 
 
         private async void FindPolicyAssignments(int rowIndex)
@@ -145,14 +151,9 @@ namespace IntuneAssignments
 
 
             // Troubleshoot only:
-            //MessageBox.Show("Type is " + profileType);
+            // MessageBox.Show("Type is " + profileType);
 
-            // Create an object of form1 to use it's methods   
-            Form1 form1 = new Form1();
-
-
-            // Authenticate to Graph
-            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
             if (profileType != "")
             {
@@ -161,17 +162,19 @@ namespace IntuneAssignments
 
 
 
-                var assignments = client.DeviceManagement.DeviceCompliancePolicies[profileID].Assignments
-                    .Request()
-                    .Select("id")
-                    .GetAsync();
+
+
+                var result = await graphClient.Result.DeviceManagement.DeviceCompliancePolicies[profileID].Assignments.GetAsync((requestConfiguration) =>
+                {
+                    requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
+                });
 
                 // This ID is profile id followed by group ID
                 // UUID_UUID
 
                 List<DeviceCompliancePolicyAssignment> assignmentList = new List<DeviceCompliancePolicyAssignment>();
 
-                assignmentList.AddRange(assignments.Result);
+                assignmentList.AddRange(result.Value);
 
 
 
@@ -337,21 +340,21 @@ namespace IntuneAssignments
         }
 
 
-        async Task AssignCompliancePolcy(string policyID, string groupID)
+        async Task AssignSettingsCatalog(string policyID, string groupID)
         {
-            // Method to assign a compliance policy to one group
+            // Description
 
-            // Create an object of form1 to use it's methods   
-            Form1 form1 = new Form1();
+            // This methods assigns a settings catalog to one or more groups
+
+            // The policy ID and group ID are passed as parameters to this method and used to create the assignment
+
 
 
             // Authenticate to Graph
-            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
-
-
-
-            var target = new GroupAssignmentTarget
+            // Create a group assignment target object
+            var groupAssignmentTarget = new GroupAssignmentTarget
             {
                 GroupId = groupID
                 //DeviceAndAppManagementAssignmentFilterId = policyID
@@ -359,39 +362,420 @@ namespace IntuneAssignments
             };
 
 
-            var assignment = new DeviceConfigurationAssignment
+
+            // Create a configuration policy assignment object
+            var deviceConfigurationAssignmentTarget = new DeviceConfigurationAssignment
             {
 
-                Target = target
+                Target = groupAssignmentTarget
 
+            };
+
+
+            // Create an array to store all group IDs
+            // Add the new group ID to the array, which is passed into this method as a parameter
+            // Existing group IDs are added to this array later in the code
+            string[] groupIDs = { groupID };
+
+
+            // Create a list to temporarily store existing group IDs for further processing
+            List<DeviceManagementConfigurationPolicyAssignment> groupIDList = new List<DeviceManagementConfigurationPolicyAssignment>();
+
+
+
+            // All existing assignments must be retrieved and added to the array in order to prevent them from being overwritten
+
+            // Find all existing assignments by their group ID
+            var existingAssignments = await graphClient.Result.DeviceManagement.ConfigurationPolicies[policyID]
+                .Assignments
+                .GetAsync();
+
+
+            // Check if there are any existing assignments
+
+            if (existingAssignments.Value.Count >= 1)
+            {
+                // Add existing assignments to a list for further processing
+                foreach (var assignment in existingAssignments.Value)
+                {
+                    groupIDList.Add(assignment);
+                }
+            }
+
+
+            // Loop through each existing assignment, extract the group ID and add that to the array of group ID's
+            // This is to ensure that existing assignments are not overwritten and deleted by PostAsync() later in the code
+
+
+            foreach (var group in groupIDList)
+            {
+
+                // Extract the group ID from the ID property (which consists of the policy ID and the group ID joined by a "_" sign)
+                int underscoreIndex = group.Id.IndexOf("_");
+
+                if (underscoreIndex >= 0 && underscoreIndex < group.Id.Length - 1)
+                {
+                    string extractedText = group.Id.Substring(underscoreIndex + 1);
+
+
+                    // Add each existing assignment to the array of assignments to ensure that they are not overwritten and deleted
+                    Array.Resize(ref groupIDs, groupIDs.Length + 1);
+                    groupIDs[groupIDs.Length - 1] = extractedText;
+
+
+
+                }
+
+            }
+
+            // Create an empty list to store the assignments
+            List<DeviceManagementConfigurationPolicyAssignment> assignments = new List<DeviceManagementConfigurationPolicyAssignment>();
+
+
+            // Loop through each group ID and create an assignment object for each one
+
+            foreach (var group in groupIDs)
+            {
+                var assignment = new DeviceManagementConfigurationPolicyAssignment
+                {
+                    OdataType = "#microsoft.graph.deviceManagementConfigurationPolicyAssignment",
+                    Id = group,
+                    Target = new GroupAssignmentTarget
+                    {
+                        OdataType = "#microsoft.graph.groupAssignmentTarget",
+                        DeviceAndAppManagementAssignmentFilterId = null,
+                        DeviceAndAppManagementAssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.Include,
+                        GroupId = group,
+                    },
+                    Source = DeviceAndAppManagementAssignmentSource.Direct,
+                    SourceId = group,
+
+                };
+                // add each assignment to the list of assignments
+                assignments.Add(assignment);
+
+            }
+
+
+            // Create a request body object and add all assignment object to it
+            var requestBody = new Microsoft.Graph.Beta.DeviceManagement.ConfigurationPolicies.Item.Assign.AssignPostRequestBody
+            {
+                Assignments = assignments
             };
 
 
 
 
+            // Create a new assignment
+            try
+            {
+
+                var result = await graphClient.Result.DeviceManagement.ConfigurationPolicies[policyID].Assign.PostAsync(requestBody);
+
+
+            }
+            catch (ServiceException ex)
+            {
+
+                MessageBox.Show(ex.Message);
+                throw;
+            }
+
+
+        }
+
+        async Task AssignCompliancePolcy(string policyID, string groupID)
+        {
+            // This methods assigns a compliance policy to one or more groups
+
+            // the policy ID and group ID are passed as parameters to this method and used to create the assignment 
+
+
+
+            // Authenticate to Graph
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+
+
+            // Create a group assignment target object
+            var groupAssignmentTarget = new GroupAssignmentTarget
+            {
+                GroupId = groupID
+                //DeviceAndAppManagementAssignmentFilterId = policyID
+
+            };
+
+
+            // Create a device configuration assignment object
+            var deviceComplianceAssignmentTarget = new DeviceCompliancePolicyAssignment
+            {
+
+                Target = groupAssignmentTarget
+
+            };
+
+
+            // Create an array to store all group IDs
+            // Add the new group ID to the array, which is passed into this method as a parameter
+            // Existing group IDs are added to this array later in the code
+            string[] groupIDs = { groupID };
+
+
+            // create a list for temporarily storing existing group IDs for further processing
+            List<DeviceCompliancePolicyAssignment> groupIDList = new List<DeviceCompliancePolicyAssignment>();
+
+
+            // Find all existing assignments by their group ID
+            var existingAssignments = await graphClient.Result.DeviceManagement.DeviceCompliancePolicies[policyID]
+                .Assignments
+                .GetAsync();
+
+
+            // check if there are any existing assignments
+
+            if (existingAssignments.Value.Count >= 1)
+            {
+                // Add existing assignments to a list for further processing
+                foreach (var assignment in existingAssignments.Value)
+                {
+                    groupIDList.Add(assignment);
+                }
+            }
+
+
+
+
+
+            // Loop through each existing assignment, extract the group ID and add that to the array of group ID's
+            // This is to ensure that existing assignments are not overwritten and deleted by PostAsync() later in the code
+            foreach (var group in groupIDList)
+            {
+
+                // Extract the group ID from the ID property (which consists of the policy ID and the group ID joined by a "_" sign)
+                int underscoreIndex = group.Id.IndexOf("_");
+
+                if (underscoreIndex >= 0 && underscoreIndex < group.Id.Length - 1)
+                {
+                    string extractedText = group.Id.Substring(underscoreIndex + 1);
+
+                    // Add each existing assignment to the array of assignments
+
+                    Array.Resize(ref groupIDs, groupIDs.Length + 1);
+                    groupIDs[groupIDs.Length - 1] = extractedText;
+
+
+                }
+            }
+
+
+
+
+            // The array now consists of all existing group ID's + the new group ID passed to this method as a parameter
+
+
+            // Begin deployment of the policy to the groups
+
+
+            // Create an empty list to store the assignments
+            List<DeviceCompliancePolicyAssignment> assignments = new List<DeviceCompliancePolicyAssignment>();
+
+
+
+            // Loop through the groupIDs array and add each ID to the request body
+            // It is important that all group ID's are added and assigned at the same time,
+            // otherwise each request will delete all previous and only the last request will be added
+
+            foreach (var ID in groupIDs)
+            {
+                var assignment = new DeviceCompliancePolicyAssignment
+                {
+                    OdataType = "#microsoft.graph.deviceCompliancePolicyAssignment",
+                    Id = ID,
+                    Target = new DeviceAndAppManagementAssignmentTarget
+                    {
+                        OdataType = "#microsoft.graph.groupAssignmentTarget",
+                        AdditionalData = new Dictionary<string, object>
+                        {
+                            { "groupId", ID }
+                        },
+                    }
+                };
+
+                assignments.Add(assignment);
+            }
+
+            // create a request body object and add all assignment objects to it
+            var requestBody = new Microsoft.Graph.Beta.DeviceManagement.DeviceCompliancePolicies.Item.Assign.AssignPostRequestBody
+            {
+                Assignments = assignments
+            };
+
+
+
+            // Create a new assignment
 
             try
             {
 
-
-                await client.DeviceManagement
-                    .DeviceConfigurations[policyID]
-                    .Assignments
-                    .Request()
-                    .AddAsync(assignment);
+                var result = await graphClient.Result.DeviceManagement.DeviceCompliancePolicies[policyID].Assign.PostAsync(requestBody);
 
 
             }
-            catch (Exception)
+            catch (ServiceException ex)
             {
-
+                MessageBox.Show(ex.Message);
                 throw;
             }
 
 
 
+
+
+
+
+
         }
 
+        async Task AssignDeviceConfiguration(string policyID, string groupID)
+        {
+            // This methods assigns a device configuration policy to one or more groups
+
+            // the policy ID and group ID are passed as parameters to this method and used to create the assignment 
+
+            // Authenticate to Graph
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+
+            // create a group assignment target object
+            var target = new GroupAssignmentTarget
+            {
+
+                GroupId = groupID
+            };
+
+            // create a device configuration assignment object
+            var deviceConfigAssignment = new DeviceConfigurationAssignment
+            {
+
+                Target = target,
+
+            };
+
+            // Create an array to store all group IDs
+            // Add the new group ID to the array, which is passed into this method as a parameter
+            // Existing group IDs are added to this array later in the code
+            string[] groupIDs = { groupID };
+
+
+            // create a list for temporarily storing existing group IDs for further processing
+            List<DeviceConfigurationAssignment> groupIDlist = new List<DeviceConfigurationAssignment>();
+
+            // All existing assignments must be retrieved and added to the array in order to prevent them from being overwritten
+
+            // Find all existing assignments by their group ID
+            var existingAssignments = await graphClient.Result.DeviceManagement.DeviceConfigurations[policyID]
+                .Assignments
+                .GetAsync();
+
+            // Check if there are any existing assignments
+
+            if (existingAssignments.Value.Count >= 1)
+            {
+                // Add existing assignments to a list for further processing
+                foreach (var assignment in existingAssignments.Value)
+                {
+                    groupIDlist.Add(assignment);
+                }
+            }
+
+
+            // Loop through each existing assignment, extract the group ID and add that to the array of group ID's
+            // This is to ensure that existing assignments are not overwritten and deleted by PostAsync() later in the code
+
+            foreach (var group in groupIDlist)
+            {
+
+                // Extract the group ID from the ID property (which consists of the policy ID and the group ID joined by a "_" sign)
+                int underscoreIndex = group.Id.IndexOf("_");
+
+                if (underscoreIndex >= 0 && underscoreIndex < group.Id.Length - 1)
+                {
+                    string extractedText = group.Id.Substring(underscoreIndex + 1);
+
+
+                    // Add each existing assignment to the array of assignments to ensure that they are not overwritten and deleted
+                    Array.Resize(ref groupIDs, groupIDs.Length + 1);
+                    groupIDs[groupIDs.Length - 1] = extractedText;
+
+
+
+                }
+
+            }
+
+
+            // create an empty list to store the assignments
+            List<DeviceConfigurationAssignment> assignments = new List<DeviceConfigurationAssignment>();
+
+            // Loop through each group ID and create an assignment object for each one
+
+            foreach (var group in groupIDs)
+            {
+
+                var assignment = new DeviceConfigurationAssignment
+                {
+
+                    //OdataType = "#microsoft.graph.deviceManagementConfigurationPolicyAssignment",
+                    Id = policyID + "_" + group,
+                    Intent = DeviceConfigAssignmentIntent.Apply,
+                    //Source = DeviceAndAppManagementAssignmentSource.Direct,
+                    //SourceId = group,
+                    Target = new GroupAssignmentTarget
+                    {
+                        OdataType = "microsoft.graph.groupAssignmentTarget",
+                        //DeviceAndAppManagementAssignmentFilterId = null,
+                        //DeviceAndAppManagementAssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.None,
+                        GroupId = group
+
+                    },
+
+                };
+
+                // Add each assignment object to the list of assignments
+                assignments.Add(assignment);
+
+            }
+
+            // Create a request body object and add all assignment objects to it
+            var requestBody = new Microsoft.Graph.Beta.DeviceManagement.DeviceConfigurations.Item.Assign.AssignPostRequestBody
+            {
+                Assignments = assignments
+            };
+
+
+            // create a new assignment
+            try
+            {
+
+                var result = await graphClient.Result.DeviceManagement.DeviceConfigurations[policyID].Assign.PostAsync(requestBody);
+
+
+            }
+            catch (ServiceException ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+
+
+
+
+
+
+
+
+
+        }
 
         async Task AssignSelectedPolicies()
         {
@@ -409,94 +793,171 @@ namespace IntuneAssignments
             Form1 form1 = new Form1();
 
 
+            // Sets the scope of the progress bar to the number of selected policies * number of selected groups
+
+            int numberOfPolicies = SelectedPolicies.Count();
+            int numberOfGroups = SelectedGroups.Count();
+            int progressBarMaxValue = numberOfPolicies * numberOfGroups;
+            pBarDeployProgress.Maximum = progressBarMaxValue;
+
+
+            // Store default color for rich textbox
+            var defaultColor = rtbDeploymentSummary.ForeColor;
+
             // Authenticate to Graph
-            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+
 
 
             // Iterate over the keys in the dictionary and retrieve the policy ID from graph
             // for each selected cell in dtgdisplaypolicy --> assign to each selected cell in dtgdisplaygroup
 
-            foreach (string policy in SelectedPolicies.Keys)
+
+            try
             {
 
-                if (SelectedPolicies.TryGetValue(policy, out List<string> dataList))
+                foreach (string policy in SelectedPolicies.Keys)
                 {
 
-                    if (dataList.Count >= 3)
+                    if (SelectedPolicies.TryGetValue(policy, out List<string> dataList))
                     {
 
-                        // Type is the profile type (Compliance, Device Configuration, Settings Catalog)
-                        string type = dataList[0];
-                        //MessageBox.Show(ID);
-
-
-
-                        // ID is the policy ID in Graph
-                        string policyID = dataList[2];
-                        //MessageBox.Show(type);
-
-
-
-                        // Begin assignment
-
-                        foreach (var group in SelectedGroups)
+                        if (dataList.Count >= 3)
                         {
 
-                            string groupName = group.Key;
-                            string groupID = group.Value;
-
-                            // Use these for deployment
-
-                            await AssignCompliancePolcy(policyID, groupID);
+                            // Type is the profile type (Compliance, Device Configuration, Settings Catalog)
+                            string type = dataList[0];
+                            //MessageBox.Show(ID);
 
 
+                            // ID is the policy ID in Graph
+                            string policyID = dataList[2];
+                            //MessageBox.Show(type);
+
+
+                            // Assignments needs to be separated into different foreach loops
+
+                            // Assignments for Compliance Policies
+                            if (type == "Compliance")
+                            {
+
+                                // Loop through each selected group and assign the policy to each group
+                                foreach (var group in SelectedGroups)
+                                {
+
+                                    string groupName = group.Key;
+                                    string groupID = group.Value;
+
+
+                                    // Assignment for Compliance Policies
+                                    await AssignCompliancePolcy(policyID, groupID);
+
+
+                                    // Log status to the textbox
+                                    rtbDeploymentSummary.ForeColor = Color.Green;
+                                    rtbDeploymentSummary.AppendText(policy + " has been assigned to " + group.Key + Environment.NewLine);
+                                    pBarDeployProgress.Value++;
+                                    rtbDeploymentSummary.ForeColor = defaultColor;
+
+                                }
+                            }
+
+                            // Assignments for Settings Catalog
+                            if (type == "Settings Catalog")
+                            {
+
+                                // Loop through each selected group and assign the policy to each group
+                                foreach (var group in SelectedGroups)
+                                {
+
+                                    string groupName = group.Key;
+                                    string groupID = group.Value;
+
+
+                                    // Assignment for Settings Catalog
+                                    await AssignSettingsCatalog(policyID, groupID);
+
+
+                                    // Log status to the textbox
+                                    rtbDeploymentSummary.ForeColor = Color.Green;
+                                    rtbDeploymentSummary.AppendText(policy + " has been assigned to " + group.Key + Environment.NewLine);
+                                    pBarDeployProgress.Value++;
+                                    rtbDeploymentSummary.ForeColor = defaultColor;
+                                }
+                            }
+
+                            // Assignments for Device Configuration Policies
+                            if (type == "Device Configuration")
+                            {
+
+                                // Loop through each selected group and assign the policy to each group
+                                foreach (var group in SelectedGroups)
+                                {
+
+                                    string groupName = group.Key;
+                                    string groupID = group.Value;
+
+
+                                    // Assignment for Device Configuration Policies
+                                    await AssignDeviceConfiguration(policyID, groupID);
+
+
+                                    // Log status to the textbox
+                                    rtbDeploymentSummary.ForeColor = Color.Green;
+                                    rtbDeploymentSummary.AppendText(policy + " has been assigned to " + group.Key + Environment.NewLine);
+                                    pBarDeployProgress.Value++;
+                                    rtbDeploymentSummary.ForeColor = defaultColor;
+                                }
+                            }
                         }
-
-
-
                     }
-
                 }
-
-
             }
+            catch (ServiceException ex)
+            {
+                // Log error to the textbox
+                rtbDeploymentSummary.SelectionColor = Color.Red;
+                rtbDeploymentSummary.AppendText("An error occured when deploying policies. The error message is :" + Environment.NewLine);
+                rtbDeploymentSummary.AppendText(ex.Message + Environment.NewLine);
+                rtbDeploymentSummary.SelectionColor = rtbDeploymentSummary.ForeColor;
+                throw;
+            }
+
+
 
 
 
 
         }
 
-        private void ListCompliancePolicies()
+        public async void ListCompliancePolicies()
         {
+
+            // This method lists all compliance policies in the tenant and displays them in a datagridview
 
             // Put result into a list for easy processing
             List<DeviceCompliancePolicy> deviceCompliancePolicies = new List<DeviceCompliancePolicy>();
 
-            // Empty the list
 
+            // Empty the list
             deviceCompliancePolicies.Clear();
 
-            // Create an object of form1 to use it's methods   
-            Form1 form1 = new Form1();
 
             // Authenticate to Graph
-            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
 
             // Make a call to Microsoft Graph
-            var allPolicies = client.DeviceManagement.DeviceCompliancePolicies
-                .Request()
-                .Select(u => new
-                {
-                    u.DisplayName,
-                    u.Id
-                })
-                .Top(1000)
-                .GetAsync();
+            var result = await graphClient.Result.DeviceManagement.DeviceCompliancePolicies.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
+                requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
+            });
 
 
             // Adds all the data from the graph query into the list
-            deviceCompliancePolicies.AddRange(allPolicies.Result);
+            deviceCompliancePolicies.AddRange(result.Value);
 
 
             // Loop through the list
@@ -504,41 +965,34 @@ namespace IntuneAssignments
             foreach (var policy in deviceCompliancePolicies)
             {
 
-                dtgDisplayPolicy.Rows.Add(policy.DisplayName, "Compliance", policy.ODataType, policy.Id);
+                dtgDisplayPolicy.Rows.Add(policy.DisplayName, "Compliance", policy.OdataType, policy.Id);
 
             }
 
         }
 
-        private void ListConfigurationProfiles()
+        public async void ListConfigurationProfiles()
         {
 
-
-            // Create an object of form1 to use it's methods   
-            Form1 form1 = new Form1();
+            // This method lists all configuration profiles in the tenant and displays them in a datagridview
 
             // Authenticate to Graph
-            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
 
 
-            // Make a call to Microsoft Graph
-            var allPolicies = client.DeviceManagement.DeviceConfigurations
-                .Request()
-                .Select(u => new
-                {
-                    u.DisplayName,
-                    u.Id
-                })
-                .Top(1000)
-                .GetAsync();
+            var result = await graphClient.Result.DeviceManagement.DeviceConfigurations.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
+                requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
+            });
 
             // Put result into a list for easy processing
             List<DeviceConfiguration> deviceConfigurationProfiles = new List<DeviceConfiguration>();
 
 
             // Adds all the data from the graph query into the list
-            deviceConfigurationProfiles.AddRange(allPolicies.Result);
+            deviceConfigurationProfiles.AddRange(result.Value);
 
 
             // Loop through the list
@@ -546,42 +1000,37 @@ namespace IntuneAssignments
             foreach (var profile in deviceConfigurationProfiles)
             {
 
-                dtgDisplayPolicy.Rows.Add(profile.DisplayName, "Device Configuration", profile.ODataType, profile.Id);
+                dtgDisplayPolicy.Rows.Add(profile.DisplayName, "Device Configuration", profile.OdataType, profile.Id);
 
             }
 
         }
 
-        private void ListSettingsCatalog()
+        public async void ListSettingsCatalog()
         {
-
+            // This method lists all settings catalog in the tenant and displays them in a datagridview
 
             // Create an object of form1 to use it's methods   
             Form1 form1 = new Form1();
 
             // Authenticate to Graph
-            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+            var target = new DeviceManagementConfigurationPolicy
+            {
+
+            };
 
 
-
-            // Make a call to Microsoft Graph
-            var allPolicies = client.DeviceManagement.ConfigurationPolicies
-                .Request()
-                .Select(u => new
-                {
-                    u.Name,
-                    u.Id,
-                    u.Platforms
-                })
-                .Top(1000)
-                .GetAsync();
+            var result = await graphClient.Result.DeviceManagement.ConfigurationPolicies.GetAsync();
+            ;
 
             // Put result into a list for easy processing
             List<DeviceManagementConfigurationPolicy> configurationPolicies = new List<DeviceManagementConfigurationPolicy>();
 
 
             // Adds all the data from the graph query into the list
-            configurationPolicies.AddRange(allPolicies.Result);
+            configurationPolicies.AddRange(result.Value);
 
 
             // Loop through the list
@@ -595,23 +1044,21 @@ namespace IntuneAssignments
 
         }
 
-        private void ListAllGroups()
+        public async void ListAllGroups()
         {
-            // Create an object of form1 to use it's methods   
-            Form1 form1 = new Form1();
-
+            // This method lists all groups in the tenant and displays them in a datagridview
 
 
             // Authenticate to Graph
-            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
-            var groups = client.Groups
-                .Request()
+            var result = await graphClient.Result.Groups
                 .GetAsync();
 
 
             List<Group> listAllGroups = new List<Group>();
-            listAllGroups.AddRange(groups.Result);
+
+            listAllGroups.AddRange(result.Value);
 
             foreach (var group in listAllGroups)
             {
@@ -619,6 +1066,69 @@ namespace IntuneAssignments
             }
         }
 
+        public void HelpGuide()
+        {
+
+            // make a message box with yes and no button
+
+            DialogResult result = MessageBox.Show("Do you want a quick tour?", "Quick tour", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+
+            if (result == DialogResult.Yes)
+            {
+
+                // Hides all panels to begin the help guide
+
+                pnlAssignedTo.Visible = false;
+                pnlSearchGroup.Visible = false;
+                pnlSearchPolicy.Visible = false;
+                pnlSummary.Visible = false;
+                cbLookUpAssignment.Visible = false;
+
+                // sleep for 2 seconds
+                Thread.Sleep(2000);
+
+                
+                MessageBox.Show("Here you can do bulk group assignments for policies");
+
+                pnlSearchPolicy.Visible = true;
+                MessageBox.Show("Firstly you need to find and select all policies you want for deployment");
+
+                pnlSearchGroup.Visible = true;
+                MessageBox.Show("Then you need to find and select all groups you want to deploy the policies to");
+
+
+                pnlSummary.Visible = true;
+                cbLookUpAssignment.Visible = true;
+                MessageBox.Show("Finally you can review the summary and click deploy to deploy the policies to the selected groups");
+
+
+
+                
+
+
+
+
+
+
+
+            }
+
+            else if (result == DialogResult.No)
+
+            {
+
+                // User clicked no, so do nothing
+
+            }
+
+
+            else
+
+            {
+                MessageBox.Show("An error has occured when trying to display the help guide.");
+            }
+
+        }
 
         ////////////////////////////////////////////////////////////////////////  BUTTONS  /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -643,11 +1153,28 @@ namespace IntuneAssignments
             form1.ClearDataGridView(dtgDisplayPolicy);
 
 
+            if (cbPolicyType.Text == "All types")
+            {
+                ListCompliancePolicies();
+                ListConfigurationProfiles();
+                ListSettingsCatalog();
+            }
+
+            else if (cbPolicyType.Text == "Compliance policy")
+            {
+                ListCompliancePolicies();
+            }
+
+            else if (cbPolicyType.Text == "Administrative templates")
+            {
+                ListConfigurationProfiles();
+            }
+            else if (cbPolicyType.Text == "Settings catalog")
+            {
+                ListSettingsCatalog();
+            }
 
 
-            ListCompliancePolicies();
-            ListConfigurationProfiles();
-            ListSettingsCatalog();
         }
 
         private void btnListAllGroups_Click(object sender, EventArgs e)
@@ -670,7 +1197,7 @@ namespace IntuneAssignments
 
             if (cbLookUpAssignment.Checked == true)
             {
-
+                pnlAssignedTo.Visible = true;
 
                 if (e.RowIndex == 0)
                 {
@@ -710,6 +1237,7 @@ namespace IntuneAssignments
         {
             _form1.ClearRichTextBox(rtbSelectedGroups);
             _form1.ClearRichTextBox(rtbSelectedPolicies);
+            pBarDeployProgress.Value = 0;
         }
 
         private void btnDeployPolicyAssignment_Click(object sender, EventArgs e)
@@ -717,121 +1245,9 @@ namespace IntuneAssignments
             AssignSelectedPolicies();
         }
 
-        public void button1_Click(object sender, EventArgs e)
+        private void pbHelpGuide_Click(object sender, EventArgs e)
         {
-
-            try
-            {
-
-                // Create an object of form1 to use it's methods   
-                Form1 form1 = new Form1();
-
-                // Authenticate to Graph
-                GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
-
-                var groupID = "107b865f-4732-430e-abf3-41737fd2697b";
-
-                var policyID = "64c158f2-b918-415e-9d9a-87587df23c3d";
-
-
-
-                // Under development:
-
-
-                // Create the assignment target for the group
-
-                var groupAssignmentTarget = new GroupAssignmentTarget
-                {
-                    GroupId = groupID
-                };
-
-                // Create the device compliance policy assignment
-                var assignment = new DeviceCompliancePolicyAssignment
-                {
-                    Target = groupAssignmentTarget
-                };
-
-
-
-                // Add the assignment to the device compliance policy
-                client.DeviceManagement
-                   .DeviceCompliancePolicies[policyID]
-                   .Assignments
-                   .Request()
-                   .AddAsync(assignment);
-
-
-
-
-
-                MessageBox.Show("");
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                //throw;
-            }
-            
-            
-
-
-
-           
-
-
-
-            //// PostASync overwrites existing deployments
-
-            //var assignment = new DeviceConfigurationGroupAssignment
-            //{
-            //    TargetGroupId = groupID
-            //};
-
-
-            //client.DeviceManagement
-            //        .DeviceConfigurations[policyID]
-            //        .Assign(new List<DeviceConfigurationGroupAssignment> { assignment } )
-            //        .Request()
-            //        .PostAsync();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-            // Create an object of form1 to use it's methods   
-            Form1 form1 = new Form1();
-
-            // Authenticate to Graph
-            GraphServiceClient client = new Form1().NewGetGraphClient(Form1.GraphAccessToken);
-
-            var groupID = "107b865f-4732-430e-abf3-41737fd2697b";
-
-            var policyID = "dcc45d84-0fa8-41d9-920c-2d19f7d6b381";
-
-            var target = new GroupAssignmentTarget
-            {
-
-                GroupId = groupID
-
-
-            };
-
-            //This only works for Device Configuration (not compliance or settings catalog)
-
-            var deviceConfigAssignment = new DeviceConfigurationAssignment
-            {
-
-                Target = target,
-
-            };
-
-            client.DeviceManagement
-                    .DeviceConfigurations[policyID]
-                    .Assignments
-                    .Request()
-                    .AddAsync(deviceConfigAssignment);
-
+            HelpGuide();
         }
     }
 }
