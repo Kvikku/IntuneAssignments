@@ -28,14 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Policy));
             pbHome = new PictureBox();
             pnlSearchPolicy = new Panel();
-            dtgDisplayGroup = new DataGridView();
-            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
-            btnListAllGroups = new Button();
-            btnSearchGroup = new Button();
-            txtboxSearchGroup = new TextBox();
+            lblSelectApps = new Label();
             dtgDisplayPolicy = new DataGridView();
             PolicyName = new DataGridViewTextBoxColumn();
             Type = new DataGridViewTextBoxColumn();
@@ -45,26 +46,38 @@
             btnSearchPolicy = new Button();
             txtboxSearchPolicy = new TextBox();
             cbPolicyType = new ComboBox();
+            dtgDisplayGroup = new DataGridView();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            btnListAllGroups = new Button();
+            btnSearchGroup = new Button();
+            txtboxSearchGroup = new TextBox();
             rtbAssignmentPreview = new RichTextBox();
-            panel1 = new Panel();
+            pnlAssignedTo = new Panel();
             lblAssignmentPreview = new Label();
-            panel2 = new Panel();
+            pnlSummary = new Panel();
+            rtbDeploymentSummary = new RichTextBox();
+            pBarDeployProgress = new ProgressBar();
             rtbSelectedGroups = new RichTextBox();
             rtbSelectedPolicies = new RichTextBox();
             lblSelectedGroups = new Label();
-            lblSelectedPolicies = new Label();
             btnDeployPolicyAssignment = new Button();
-            btnPrepareDeployment = new Button();
             btnResetDeployment = new Button();
+            lblSelectedPolicies = new Label();
+            btnPrepareDeployment = new Button();
             cbLookUpAssignment = new CheckBox();
-            button1 = new Button();
-            button2 = new Button();
+            pnlSearchGroup = new Panel();
+            lblSelectGroups = new Label();
+            toolTipPolicy = new ToolTip(components);
+            pbHelpGuide = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlSearchPolicy.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
-            panel1.SuspendLayout();
-            panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).BeginInit();
+            pnlAssignedTo.SuspendLayout();
+            pnlSummary.SuspendLayout();
+            pnlSearchGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbHelpGuide).BeginInit();
             SuspendLayout();
             // 
             // pbHome
@@ -75,14 +88,13 @@
             pbHome.Size = new Size(49, 51);
             pbHome.TabIndex = 0;
             pbHome.TabStop = false;
+            toolTipPolicy.SetToolTip(pbHome, "Home");
             pbHome.Click += pbHome_Click;
             // 
             // pnlSearchPolicy
             // 
-            pnlSearchPolicy.Controls.Add(dtgDisplayGroup);
-            pnlSearchPolicy.Controls.Add(btnListAllGroups);
-            pnlSearchPolicy.Controls.Add(btnSearchGroup);
-            pnlSearchPolicy.Controls.Add(txtboxSearchGroup);
+            pnlSearchPolicy.BorderStyle = BorderStyle.FixedSingle;
+            pnlSearchPolicy.Controls.Add(lblSelectApps);
             pnlSearchPolicy.Controls.Add(dtgDisplayPolicy);
             pnlSearchPolicy.Controls.Add(btnListAllPolicy);
             pnlSearchPolicy.Controls.Add(btnSearchPolicy);
@@ -90,76 +102,53 @@
             pnlSearchPolicy.Controls.Add(cbPolicyType);
             pnlSearchPolicy.Location = new Point(97, 12);
             pnlSearchPolicy.Name = "pnlSearchPolicy";
-            pnlSearchPolicy.Size = new Size(613, 879);
+            pnlSearchPolicy.Size = new Size(795, 468);
             pnlSearchPolicy.TabIndex = 1;
             // 
-            // dtgDisplayGroup
+            // lblSelectApps
             // 
-            dtgDisplayGroup.AllowUserToAddRows = false;
-            dtgDisplayGroup.AllowUserToDeleteRows = false;
-            dtgDisplayGroup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dtgDisplayGroup.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2 });
-            dtgDisplayGroup.Location = new Point(3, 526);
-            dtgDisplayGroup.Name = "dtgDisplayGroup";
-            dtgDisplayGroup.ReadOnly = true;
-            dtgDisplayGroup.RowHeadersVisible = false;
-            dtgDisplayGroup.RowTemplate.Height = 25;
-            dtgDisplayGroup.Size = new Size(604, 350);
-            dtgDisplayGroup.TabIndex = 9;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            dataGridViewTextBoxColumn1.HeaderText = "Group name";
-            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            dataGridViewTextBoxColumn1.ReadOnly = true;
-            dataGridViewTextBoxColumn1.Width = 300;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            dataGridViewTextBoxColumn2.HeaderText = "Group ID";
-            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            dataGridViewTextBoxColumn2.ReadOnly = true;
-            dataGridViewTextBoxColumn2.Width = 300;
-            // 
-            // btnListAllGroups
-            // 
-            btnListAllGroups.Location = new Point(432, 479);
-            btnListAllGroups.Name = "btnListAllGroups";
-            btnListAllGroups.Size = new Size(128, 41);
-            btnListAllGroups.TabIndex = 8;
-            btnListAllGroups.Text = "List all";
-            btnListAllGroups.UseVisualStyleBackColor = true;
-            btnListAllGroups.Click += btnListAllGroups_Click;
-            // 
-            // btnSearchGroup
-            // 
-            btnSearchGroup.Location = new Point(298, 479);
-            btnSearchGroup.Name = "btnSearchGroup";
-            btnSearchGroup.Size = new Size(128, 41);
-            btnSearchGroup.TabIndex = 7;
-            btnSearchGroup.Text = "Search";
-            btnSearchGroup.UseVisualStyleBackColor = true;
-            // 
-            // txtboxSearchGroup
-            // 
-            txtboxSearchGroup.Location = new Point(3, 497);
-            txtboxSearchGroup.Name = "txtboxSearchGroup";
-            txtboxSearchGroup.Size = new Size(162, 23);
-            txtboxSearchGroup.TabIndex = 6;
-            txtboxSearchGroup.Text = "Enter search query here";
+            lblSelectApps.AutoSize = true;
+            lblSelectApps.Font = new Font("Consolas", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSelectApps.ForeColor = Color.Salmon;
+            lblSelectApps.Location = new Point(9, 10);
+            lblSelectApps.Name = "lblSelectApps";
+            lblSelectApps.Size = new Size(106, 24);
+            lblSelectApps.TabIndex = 10;
+            lblSelectApps.Text = "Policies";
+            toolTipPolicy.SetToolTip(lblSelectApps, "Selected policies");
             // 
             // dtgDisplayPolicy
             // 
             dtgDisplayPolicy.AllowUserToAddRows = false;
             dtgDisplayPolicy.AllowUserToDeleteRows = false;
+            dtgDisplayPolicy.AllowUserToResizeRows = false;
+            dtgDisplayPolicy.BackgroundColor = Color.FromArgb(46, 51, 73);
+            dtgDisplayPolicy.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = Color.Salmon;
+            dataGridViewCellStyle5.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dtgDisplayPolicy.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dtgDisplayPolicy.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgDisplayPolicy.Columns.AddRange(new DataGridViewColumn[] { PolicyName, Type, Platform, ID });
-            dtgDisplayPolicy.Location = new Point(3, 98);
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.FromArgb(46, 51, 73);
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle6.ForeColor = Color.Salmon;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dtgDisplayPolicy.DefaultCellStyle = dataGridViewCellStyle6;
+            dtgDisplayPolicy.EnableHeadersVisualStyles = false;
+            dtgDisplayPolicy.Location = new Point(9, 98);
             dtgDisplayPolicy.Name = "dtgDisplayPolicy";
             dtgDisplayPolicy.ReadOnly = true;
             dtgDisplayPolicy.RowHeadersVisible = false;
             dtgDisplayPolicy.RowTemplate.Height = 25;
-            dtgDisplayPolicy.Size = new Size(604, 350);
+            dtgDisplayPolicy.Size = new Size(781, 404);
             dtgDisplayPolicy.TabIndex = 4;
             dtgDisplayPolicy.CellClick += dtgDisplayPolicy_CellClick;
             // 
@@ -168,7 +157,7 @@
             PolicyName.HeaderText = "Name";
             PolicyName.Name = "PolicyName";
             PolicyName.ReadOnly = true;
-            PolicyName.Width = 200;
+            PolicyName.Width = 400;
             // 
             // Type
             // 
@@ -192,40 +181,144 @@
             // 
             // btnListAllPolicy
             // 
-            btnListAllPolicy.Location = new Point(432, 33);
+            btnListAllPolicy.BackColor = Color.Salmon;
+            btnListAllPolicy.FlatStyle = FlatStyle.Flat;
+            btnListAllPolicy.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnListAllPolicy.Location = new Point(662, 42);
             btnListAllPolicy.Name = "btnListAllPolicy";
             btnListAllPolicy.Size = new Size(128, 41);
             btnListAllPolicy.TabIndex = 3;
             btnListAllPolicy.Text = "List all";
-            btnListAllPolicy.UseVisualStyleBackColor = true;
+            toolTipPolicy.SetToolTip(btnListAllPolicy, "List all applications");
+            btnListAllPolicy.UseVisualStyleBackColor = false;
             btnListAllPolicy.Click += btnListAllPolicy_Click;
             // 
             // btnSearchPolicy
             // 
-            btnSearchPolicy.Location = new Point(298, 33);
+            btnSearchPolicy.BackColor = Color.Salmon;
+            btnSearchPolicy.FlatStyle = FlatStyle.Flat;
+            btnSearchPolicy.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSearchPolicy.Location = new Point(528, 42);
             btnSearchPolicy.Name = "btnSearchPolicy";
             btnSearchPolicy.Size = new Size(128, 41);
             btnSearchPolicy.TabIndex = 2;
             btnSearchPolicy.Text = "Search";
-            btnSearchPolicy.UseVisualStyleBackColor = true;
+            toolTipPolicy.SetToolTip(btnSearchPolicy, "Search for applications");
+            btnSearchPolicy.UseVisualStyleBackColor = false;
             // 
             // txtboxSearchPolicy
             // 
-            txtboxSearchPolicy.Location = new Point(130, 51);
+            txtboxSearchPolicy.BackColor = Color.FromArgb(46, 51, 73);
+            txtboxSearchPolicy.BorderStyle = BorderStyle.FixedSingle;
+            txtboxSearchPolicy.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txtboxSearchPolicy.ForeColor = Color.Salmon;
+            txtboxSearchPolicy.Location = new Point(188, 49);
             txtboxSearchPolicy.Name = "txtboxSearchPolicy";
-            txtboxSearchPolicy.Size = new Size(162, 23);
+            txtboxSearchPolicy.Size = new Size(186, 26);
             txtboxSearchPolicy.TabIndex = 1;
-            txtboxSearchPolicy.Text = "Enter search query here";
+            txtboxSearchPolicy.Text = "Enter search here";
+            toolTipPolicy.SetToolTip(txtboxSearchPolicy, "Enter search query here");
             // 
             // cbPolicyType
             // 
+            cbPolicyType.BackColor = Color.FromArgb(46, 51, 73);
             cbPolicyType.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbPolicyType.FlatStyle = FlatStyle.Popup;
             cbPolicyType.FormattingEnabled = true;
-            cbPolicyType.Items.AddRange(new object[] { "All", "Compliance", "Option 1", "Option 2" });
-            cbPolicyType.Location = new Point(3, 51);
+            cbPolicyType.Items.AddRange(new object[] { "All types", "Compliance policy", "Administrative templates", "Settings catalog" });
+            cbPolicyType.Location = new Point(9, 51);
             cbPolicyType.Name = "cbPolicyType";
-            cbPolicyType.Size = new Size(121, 23);
+            cbPolicyType.Size = new Size(163, 23);
             cbPolicyType.TabIndex = 0;
+            toolTipPolicy.SetToolTip(cbPolicyType, "Filter on type");
+            // 
+            // dtgDisplayGroup
+            // 
+            dtgDisplayGroup.AllowUserToAddRows = false;
+            dtgDisplayGroup.AllowUserToDeleteRows = false;
+            dtgDisplayGroup.BackgroundColor = Color.FromArgb(46, 51, 73);
+            dtgDisplayGroup.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = Color.Salmon;
+            dataGridViewCellStyle7.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle7.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            dtgDisplayGroup.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dtgDisplayGroup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dtgDisplayGroup.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2 });
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = Color.FromArgb(46, 51, 73);
+            dataGridViewCellStyle8.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle8.ForeColor = Color.Salmon;
+            dataGridViewCellStyle8.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
+            dtgDisplayGroup.DefaultCellStyle = dataGridViewCellStyle8;
+            dtgDisplayGroup.EnableHeadersVisualStyles = false;
+            dtgDisplayGroup.GridColor = Color.Salmon;
+            dtgDisplayGroup.Location = new Point(3, 98);
+            dtgDisplayGroup.Name = "dtgDisplayGroup";
+            dtgDisplayGroup.ReadOnly = true;
+            dtgDisplayGroup.RowHeadersVisible = false;
+            dtgDisplayGroup.RowTemplate.Height = 25;
+            dtgDisplayGroup.Size = new Size(628, 401);
+            dtgDisplayGroup.TabIndex = 9;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.HeaderText = "Group name";
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
+            dataGridViewTextBoxColumn1.Width = 420;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.HeaderText = "Group ID";
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
+            dataGridViewTextBoxColumn2.Width = 300;
+            // 
+            // btnListAllGroups
+            // 
+            btnListAllGroups.BackColor = Color.Salmon;
+            btnListAllGroups.FlatStyle = FlatStyle.Flat;
+            btnListAllGroups.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnListAllGroups.Location = new Point(503, 42);
+            btnListAllGroups.Name = "btnListAllGroups";
+            btnListAllGroups.Size = new Size(128, 41);
+            btnListAllGroups.TabIndex = 8;
+            btnListAllGroups.Text = "List all";
+            toolTipPolicy.SetToolTip(btnListAllGroups, "List all groups");
+            btnListAllGroups.UseVisualStyleBackColor = false;
+            btnListAllGroups.Click += btnListAllGroups_Click;
+            // 
+            // btnSearchGroup
+            // 
+            btnSearchGroup.BackColor = Color.Salmon;
+            btnSearchGroup.FlatStyle = FlatStyle.Flat;
+            btnSearchGroup.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSearchGroup.Location = new Point(369, 42);
+            btnSearchGroup.Name = "btnSearchGroup";
+            btnSearchGroup.Size = new Size(128, 41);
+            btnSearchGroup.TabIndex = 7;
+            btnSearchGroup.Text = "Search";
+            toolTipPolicy.SetToolTip(btnSearchGroup, "Search for groups");
+            btnSearchGroup.UseVisualStyleBackColor = false;
+            // 
+            // txtboxSearchGroup
+            // 
+            txtboxSearchGroup.BackColor = Color.FromArgb(46, 51, 73);
+            txtboxSearchGroup.BorderStyle = BorderStyle.FixedSingle;
+            txtboxSearchGroup.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txtboxSearchGroup.ForeColor = Color.Salmon;
+            txtboxSearchGroup.Location = new Point(3, 57);
+            txtboxSearchGroup.Name = "txtboxSearchGroup";
+            txtboxSearchGroup.Size = new Size(162, 26);
+            txtboxSearchGroup.TabIndex = 6;
+            txtboxSearchGroup.Text = "Enter search here";
+            toolTipPolicy.SetToolTip(txtboxSearchGroup, "Enter search query here");
             // 
             // rtbAssignmentPreview
             // 
@@ -238,14 +331,15 @@
             rtbAssignmentPreview.TabIndex = 2;
             rtbAssignmentPreview.Text = "";
             // 
-            // panel1
+            // pnlAssignedTo
             // 
-            panel1.Controls.Add(lblAssignmentPreview);
-            panel1.Controls.Add(rtbAssignmentPreview);
-            panel1.Location = new Point(725, 12);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(382, 307);
-            panel1.TabIndex = 3;
+            pnlAssignedTo.BorderStyle = BorderStyle.FixedSingle;
+            pnlAssignedTo.Controls.Add(lblAssignmentPreview);
+            pnlAssignedTo.Controls.Add(rtbAssignmentPreview);
+            pnlAssignedTo.Location = new Point(1547, 45);
+            pnlAssignedTo.Name = "pnlAssignedTo";
+            pnlAssignedTo.Size = new Size(357, 217);
+            pnlAssignedTo.TabIndex = 3;
             // 
             // lblAssignmentPreview
             // 
@@ -258,147 +352,211 @@
             lblAssignmentPreview.TabIndex = 3;
             lblAssignmentPreview.Text = "Assigned to:";
             // 
-            // panel2
+            // pnlSummary
             // 
-            panel2.Controls.Add(rtbSelectedGroups);
-            panel2.Controls.Add(rtbSelectedPolicies);
-            panel2.Controls.Add(lblSelectedGroups);
-            panel2.Controls.Add(lblSelectedPolicies);
-            panel2.Location = new Point(725, 356);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(382, 532);
-            panel2.TabIndex = 4;
+            pnlSummary.BorderStyle = BorderStyle.FixedSingle;
+            pnlSummary.Controls.Add(rtbDeploymentSummary);
+            pnlSummary.Controls.Add(pBarDeployProgress);
+            pnlSummary.Controls.Add(rtbSelectedGroups);
+            pnlSummary.Controls.Add(rtbSelectedPolicies);
+            pnlSummary.Controls.Add(lblSelectedGroups);
+            pnlSummary.Controls.Add(btnDeployPolicyAssignment);
+            pnlSummary.Controls.Add(btnResetDeployment);
+            pnlSummary.Controls.Add(lblSelectedPolicies);
+            pnlSummary.Controls.Add(btnPrepareDeployment);
+            pnlSummary.Location = new Point(97, 500);
+            pnlSummary.Name = "pnlSummary";
+            pnlSummary.Size = new Size(1444, 384);
+            pnlSummary.TabIndex = 4;
+            // 
+            // rtbDeploymentSummary
+            // 
+            rtbDeploymentSummary.BackColor = Color.FromArgb(46, 51, 73);
+            rtbDeploymentSummary.BorderStyle = BorderStyle.None;
+            rtbDeploymentSummary.ForeColor = Color.Salmon;
+            rtbDeploymentSummary.Location = new Point(893, 148);
+            rtbDeploymentSummary.Name = "rtbDeploymentSummary";
+            rtbDeploymentSummary.Size = new Size(539, 224);
+            rtbDeploymentSummary.TabIndex = 9;
+            rtbDeploymentSummary.Text = "";
+            toolTipPolicy.SetToolTip(rtbDeploymentSummary, "Output from the deployment process");
+            rtbDeploymentSummary.WordWrap = false;
+            // 
+            // pBarDeployProgress
+            // 
+            pBarDeployProgress.Location = new Point(893, 67);
+            pBarDeployProgress.Name = "pBarDeployProgress";
+            pBarDeployProgress.Size = new Size(292, 39);
+            pBarDeployProgress.TabIndex = 8;
+            toolTipPolicy.SetToolTip(pBarDeployProgress, "Because you gotta have a progress bar");
             // 
             // rtbSelectedGroups
             // 
             rtbSelectedGroups.BackColor = Color.FromArgb(46, 51, 73);
             rtbSelectedGroups.BorderStyle = BorderStyle.None;
-            rtbSelectedGroups.Location = new Point(6, 341);
+            rtbSelectedGroups.ForeColor = Color.Salmon;
+            rtbSelectedGroups.Location = new Point(514, 139);
             rtbSelectedGroups.Name = "rtbSelectedGroups";
-            rtbSelectedGroups.Size = new Size(357, 163);
+            rtbSelectedGroups.Size = new Size(373, 224);
             rtbSelectedGroups.TabIndex = 6;
             rtbSelectedGroups.Text = "";
+            toolTipPolicy.SetToolTip(rtbSelectedGroups, "The groups that will be used for deployment");
+            rtbSelectedGroups.WordWrap = false;
             // 
             // rtbSelectedPolicies
             // 
             rtbSelectedPolicies.BackColor = Color.FromArgb(46, 51, 73);
             rtbSelectedPolicies.BorderStyle = BorderStyle.None;
-            rtbSelectedPolicies.Location = new Point(3, 104);
+            rtbSelectedPolicies.ForeColor = Color.Salmon;
+            rtbSelectedPolicies.Location = new Point(9, 139);
             rtbSelectedPolicies.Name = "rtbSelectedPolicies";
-            rtbSelectedPolicies.Size = new Size(357, 163);
+            rtbSelectedPolicies.Size = new Size(450, 224);
             rtbSelectedPolicies.TabIndex = 5;
             rtbSelectedPolicies.Text = "";
+            toolTipPolicy.SetToolTip(rtbSelectedPolicies, "The applications that will be used for deployment");
+            rtbSelectedPolicies.WordWrap = false;
             // 
             // lblSelectedGroups
             // 
             lblSelectedGroups.AutoSize = true;
-            lblSelectedGroups.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSelectedGroups.Font = new Font("Consolas", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
             lblSelectedGroups.ForeColor = Color.Salmon;
-            lblSelectedGroups.Location = new Point(6, 286);
+            lblSelectedGroups.Location = new Point(514, 92);
             lblSelectedGroups.Name = "lblSelectedGroups";
-            lblSelectedGroups.Size = new Size(133, 21);
+            lblSelectedGroups.Size = new Size(190, 24);
             lblSelectedGroups.TabIndex = 5;
             lblSelectedGroups.Text = "Selected Groups";
+            toolTipPolicy.SetToolTip(lblSelectedGroups, "Selected Groups");
+            // 
+            // btnDeployPolicyAssignment
+            // 
+            btnDeployPolicyAssignment.BackColor = Color.Salmon;
+            btnDeployPolicyAssignment.FlatStyle = FlatStyle.Flat;
+            btnDeployPolicyAssignment.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnDeployPolicyAssignment.Location = new Point(893, 3);
+            btnDeployPolicyAssignment.Name = "btnDeployPolicyAssignment";
+            btnDeployPolicyAssignment.Size = new Size(292, 58);
+            btnDeployPolicyAssignment.TabIndex = 5;
+            btnDeployPolicyAssignment.Text = "Deploy";
+            toolTipPolicy.SetToolTip(btnDeployPolicyAssignment, "Initiate deployment");
+            btnDeployPolicyAssignment.UseVisualStyleBackColor = false;
+            btnDeployPolicyAssignment.Click += btnDeployPolicyAssignment_Click;
+            // 
+            // btnResetDeployment
+            // 
+            btnResetDeployment.BackColor = Color.Salmon;
+            btnResetDeployment.FlatStyle = FlatStyle.Flat;
+            btnResetDeployment.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnResetDeployment.Location = new Point(235, 3);
+            btnResetDeployment.Name = "btnResetDeployment";
+            btnResetDeployment.Size = new Size(96, 58);
+            btnResetDeployment.TabIndex = 7;
+            btnResetDeployment.Text = "Reset";
+            btnResetDeployment.UseVisualStyleBackColor = false;
+            btnResetDeployment.Click += btnResetDeployment_Click;
             // 
             // lblSelectedPolicies
             // 
             lblSelectedPolicies.AutoSize = true;
-            lblSelectedPolicies.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSelectedPolicies.Font = new Font("Consolas", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
             lblSelectedPolicies.ForeColor = Color.Salmon;
-            lblSelectedPolicies.Location = new Point(6, 50);
+            lblSelectedPolicies.Location = new Point(9, 92);
             lblSelectedPolicies.Name = "lblSelectedPolicies";
-            lblSelectedPolicies.Size = new Size(138, 21);
+            lblSelectedPolicies.Size = new Size(214, 24);
             lblSelectedPolicies.TabIndex = 4;
             lblSelectedPolicies.Text = "Selected policies";
-            // 
-            // btnDeployPolicyAssignment
-            // 
-            btnDeployPolicyAssignment.Location = new Point(1134, 474);
-            btnDeployPolicyAssignment.Name = "btnDeployPolicyAssignment";
-            btnDeployPolicyAssignment.Size = new Size(167, 58);
-            btnDeployPolicyAssignment.TabIndex = 5;
-            btnDeployPolicyAssignment.Text = "Deploy";
-            btnDeployPolicyAssignment.UseVisualStyleBackColor = true;
-            btnDeployPolicyAssignment.Click += btnDeployPolicyAssignment_Click;
+            toolTipPolicy.SetToolTip(lblSelectedPolicies, "Selected policies");
             // 
             // btnPrepareDeployment
             // 
-            btnPrepareDeployment.Location = new Point(1134, 356);
+            btnPrepareDeployment.BackColor = Color.Salmon;
+            btnPrepareDeployment.FlatStyle = FlatStyle.Flat;
+            btnPrepareDeployment.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnPrepareDeployment.Location = new Point(9, 3);
             btnPrepareDeployment.Name = "btnPrepareDeployment";
-            btnPrepareDeployment.Size = new Size(167, 58);
+            btnPrepareDeployment.Size = new Size(220, 58);
             btnPrepareDeployment.TabIndex = 6;
             btnPrepareDeployment.Text = "Prepare deployment";
-            btnPrepareDeployment.UseVisualStyleBackColor = true;
+            toolTipPolicy.SetToolTip(btnPrepareDeployment, "Click to prepare selected applications and groups for deployment");
+            btnPrepareDeployment.UseVisualStyleBackColor = false;
             btnPrepareDeployment.Click += btnPrepareDeployment_Click;
-            // 
-            // btnResetDeployment
-            // 
-            btnResetDeployment.Location = new Point(1134, 266);
-            btnResetDeployment.Name = "btnResetDeployment";
-            btnResetDeployment.Size = new Size(167, 53);
-            btnResetDeployment.TabIndex = 7;
-            btnResetDeployment.Text = "Reset";
-            btnResetDeployment.UseVisualStyleBackColor = true;
-            btnResetDeployment.Click += btnResetDeployment_Click;
             // 
             // cbLookUpAssignment
             // 
             cbLookUpAssignment.AutoSize = true;
             cbLookUpAssignment.ForeColor = Color.Salmon;
-            cbLookUpAssignment.Location = new Point(1156, 31);
+            cbLookUpAssignment.Location = new Point(1550, 12);
             cbLookUpAssignment.Name = "cbLookUpAssignment";
             cbLookUpAssignment.Size = new Size(212, 19);
             cbLookUpAssignment.TabIndex = 8;
             cbLookUpAssignment.Text = "Look up policy assignment on click";
+            toolTipPolicy.SetToolTip(cbLookUpAssignment, "Enable to look up existing assignments for policies when clicking them");
             cbLookUpAssignment.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // pnlSearchGroup
             // 
-            button1.Location = new Point(1252, 608);
-            button1.Name = "button1";
-            button1.Size = new Size(168, 55);
-            button1.TabIndex = 9;
-            button1.Text = "Compliance";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            pnlSearchGroup.BorderStyle = BorderStyle.FixedSingle;
+            pnlSearchGroup.Controls.Add(lblSelectGroups);
+            pnlSearchGroup.Controls.Add(dtgDisplayGroup);
+            pnlSearchGroup.Controls.Add(txtboxSearchGroup);
+            pnlSearchGroup.Controls.Add(btnListAllGroups);
+            pnlSearchGroup.Controls.Add(btnSearchGroup);
+            pnlSearchGroup.Location = new Point(898, 12);
+            pnlSearchGroup.Name = "pnlSearchGroup";
+            pnlSearchGroup.Size = new Size(643, 468);
+            pnlSearchGroup.TabIndex = 9;
             // 
-            // button2
+            // lblSelectGroups
             // 
-            button2.Location = new Point(1239, 705);
-            button2.Name = "button2";
-            button2.Size = new Size(218, 76);
-            button2.TabIndex = 10;
-            button2.Text = "Device Config";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            lblSelectGroups.AutoSize = true;
+            lblSelectGroups.Font = new Font("Consolas", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSelectGroups.ForeColor = Color.Salmon;
+            lblSelectGroups.Location = new Point(3, 10);
+            lblSelectGroups.Name = "lblSelectGroups";
+            lblSelectGroups.Size = new Size(82, 24);
+            lblSelectGroups.TabIndex = 11;
+            lblSelectGroups.Text = "Groups";
+            toolTipPolicy.SetToolTip(lblSelectGroups, "Selected policies");
+            // 
+            // pbHelpGuide
+            // 
+            pbHelpGuide.Image = Properties.Resources._121047815016345278514481_48;
+            pbHelpGuide.InitialImage = Properties.Resources._121047815016345278514481_48;
+            pbHelpGuide.Location = new Point(12, 70);
+            pbHelpGuide.Name = "pbHelpGuide";
+            pbHelpGuide.Size = new Size(49, 47);
+            pbHelpGuide.TabIndex = 10;
+            pbHelpGuide.TabStop = false;
+            pbHelpGuide.Click += pbHelpGuide_Click;
             // 
             // Policy
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
-            ClientSize = new Size(1578, 903);
-            Controls.Add(button2);
-            Controls.Add(button1);
+            ClientSize = new Size(1912, 901);
+            Controls.Add(pbHelpGuide);
+            Controls.Add(pnlSearchGroup);
             Controls.Add(cbLookUpAssignment);
-            Controls.Add(btnResetDeployment);
-            Controls.Add(btnPrepareDeployment);
-            Controls.Add(btnDeployPolicyAssignment);
-            Controls.Add(panel2);
-            Controls.Add(panel1);
+            Controls.Add(pnlSummary);
+            Controls.Add(pnlAssignedTo);
             Controls.Add(pnlSearchPolicy);
             Controls.Add(pbHome);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Policy";
-            Text = "Policy";
+            Load += Policy_Load;
             ((System.ComponentModel.ISupportInitialize)pbHome).EndInit();
             pnlSearchPolicy.ResumeLayout(false);
             pnlSearchPolicy.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).EndInit();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).EndInit();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).EndInit();
+            pnlAssignedTo.ResumeLayout(false);
+            pnlAssignedTo.PerformLayout();
+            pnlSummary.ResumeLayout(false);
+            pnlSummary.PerformLayout();
+            pnlSearchGroup.ResumeLayout(false);
+            pnlSearchGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbHelpGuide).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -416,16 +574,10 @@
         private Button btnListAllGroups;
         private Button btnSearchGroup;
         private TextBox txtboxSearchGroup;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private DataGridViewTextBoxColumn PolicyName;
-        private DataGridViewTextBoxColumn Type;
-        private DataGridViewTextBoxColumn Platform;
-        private DataGridViewTextBoxColumn ID;
         private RichTextBox rtbAssignmentPreview;
-        private Panel panel1;
+        private Panel pnlAssignedTo;
         private Label lblAssignmentPreview;
-        private Panel panel2;
+        private Panel pnlSummary;
         private Label lblSelectedGroups;
         private Label lblSelectedPolicies;
         private RichTextBox rtbSelectedGroups;
@@ -434,7 +586,18 @@
         private Button btnPrepareDeployment;
         private Button btnResetDeployment;
         private CheckBox cbLookUpAssignment;
-        private Button button1;
-        private Button button2;
+        private Panel pnlSearchGroup;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private ProgressBar pBarDeployProgress;
+        private RichTextBox rtbDeploymentSummary;
+        private DataGridViewTextBoxColumn PolicyName;
+        private DataGridViewTextBoxColumn Type;
+        private DataGridViewTextBoxColumn Platform;
+        private DataGridViewTextBoxColumn ID;
+        private ToolTip toolTipPolicy;
+        private Label lblSelectApps;
+        private Label lblSelectGroups;
+        private PictureBox pbHelpGuide;
     }
 }
