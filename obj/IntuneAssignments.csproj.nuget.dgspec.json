@@ -49,6 +49,14 @@
               "target": "Package",
               "version": "[1.9.0, )"
             },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[8.0.0-rc.1.23419.4, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[8.0.0-rc.1.23419.4, )"
+            },
             "Microsoft.Graph.Auth": {
               "target": "Package",
               "version": "[1.0.0-preview.7, )"

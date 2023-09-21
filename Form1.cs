@@ -46,6 +46,9 @@ using Microsoft.Graph.Beta.Models;
 // Test on different tenants
 // Need to create a guide for users to create an app registration and give it the correct permissions
 // need to add a check if permissions are correct on the app registration (and overkill permissions)
+// Need to store authentication information in a file
+// Need to ask user if he wants to save the information
+
 
 
 
@@ -53,21 +56,6 @@ namespace IntuneAssignments
 {
     public partial class Form1 : Form
     {
-        public Form1()
-        {
-
-            // change the application icon and use the ico file in resources folder
-
-
-
-
-            InitializeComponent();
-            txtboxSearchApp.KeyDown += TxtboxSearchApp_KeyDown;
-        }
-
-
-
-
         // Global variables //
 
         bool sideBarExpandTimer = false;
@@ -84,6 +72,8 @@ namespace IntuneAssignments
             "https://graph.microsoft.com/.default"
         };
         string accessToken = "";
+        public static string configurationFolder = @"C:\ProgramData\IntuneAssignments";
+        public static string AppSettingsFile = @"C:\ProgramData\IntuneAssignments" + @"\AppSettings.json";
         public static string GraphAccessToken { get; set; }
         public static Point Form1Location { get; set; }
         private System.Windows.Forms.Timer animationTimer;
@@ -93,7 +83,15 @@ namespace IntuneAssignments
         private int timerCount = 1;
         private Size OriginalLoginButtonSize = Size.Empty;
 
+        public Form1()
+        {
 
+            // change the application icon and use the ico file in resources folder
+
+
+            InitializeComponent();
+            txtboxSearchApp.KeyDown += TxtboxSearchApp_KeyDown;
+        }
 
         public void Form1_Load(object sender, EventArgs e)
         {
@@ -105,6 +103,9 @@ namespace IntuneAssignments
             // Hides default text on labels
 
             // add data to dtgdisplayapp
+
+            createConfigurationFolder();
+            createConfigurationFiles();
 
 
             lblSignedInUser.Text = "You are not signed in!";
@@ -131,6 +132,9 @@ namespace IntuneAssignments
             buttonGrowTimer.Tick += ButtonTimer_Tick;
 
         }
+
+
+
 
         private void showPolicyAssignment()
         {
@@ -170,6 +174,16 @@ namespace IntuneAssignments
             public string Id { get; set; }
             public string DisplayName { get; set; }
         }
+
+        public class EntraConfiguration
+        {
+            public string TenantId { get; set; }
+            public string ClientId { get; set; }
+            public string ClientSecret { get; set; }
+
+        }
+
+
 
         // Methods //
 
@@ -256,6 +270,34 @@ namespace IntuneAssignments
         }
 
         /// ////////////////////////////////////// Configuration ///////////////////////////////////////////////////
+
+        private void createConfigurationFolder()
+        {
+            // Create a folder in ProgramData to store configuration files
+
+
+            // Check if the folder in configurationFolder variable exists
+            if (!System.IO.Directory.Exists(configurationFolder))
+            {
+                // If it does not exist, create it
+                System.IO.Directory.CreateDirectory(configurationFolder);
+            }
+        }
+
+        private void createConfigurationFiles()
+        {
+            // Create configuration files in the configuration folder
+
+
+
+            string AppSettingsFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppSettings.json");
+            string destinationDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "IntuneAssignments");
+            string destinationFilePath = Path.Combine(destinationDirectory, "AppSettings.json");
+
+            // Copies the appsettings.json file to programdata folder
+            File.Copy(AppSettingsFile, destinationFilePath, true);  // The 'true' argument allows overwriting if the file already exists
+
+        }
 
         private void startButtonAnimation()
         {
@@ -1494,6 +1536,25 @@ namespace IntuneAssignments
         {
             About about = new About();
             about.ShowDialog(this);
+        }
+
+        private void tstbtn001_Click(object sender, EventArgs e)
+        {
+            // append text to the config file
+
+            using (StreamWriter writer = File.AppendText(AppSettingsFile))
+            {
+                writer.WriteLine("test");
+            }
+
+        }
+
+        private void pBSettings_Click(object sender, EventArgs e)
+        {
+
+            Settings settings = new Settings();
+            settings.ShowDialog(this);
+
         }
     }
 }

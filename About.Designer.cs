@@ -72,11 +72,11 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Consolas", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Font = new Font("Consolas", 12F, FontStyle.Bold, GraphicsUnit.Point);
             label1.ForeColor = Color.Salmon;
             label1.Location = new Point(48, 30);
             label1.Name = "label1";
-            label1.Size = new Size(42, 15);
+            label1.Size = new Size(54, 19);
             label1.TabIndex = 2;
             label1.Text = "About";
             // 
@@ -127,11 +127,11 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Font = new Font("Consolas", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.Font = new Font("Consolas", 12F, FontStyle.Bold, GraphicsUnit.Point);
             label6.ForeColor = Color.Salmon;
             label6.Location = new Point(48, 292);
             label6.Name = "label6";
-            label6.Size = new Size(49, 15);
+            label6.Size = new Size(63, 19);
             label6.TabIndex = 7;
             label6.Text = "Author";
             // 
@@ -162,11 +162,11 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Font = new Font("Consolas", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label8.Font = new Font("Consolas", 12F, FontStyle.Bold, GraphicsUnit.Point);
             label8.ForeColor = Color.Salmon;
             label8.Location = new Point(48, 173);
             label8.Name = "label8";
-            label8.Size = new Size(56, 15);
+            label8.Size = new Size(72, 19);
             label8.TabIndex = 10;
             label8.Text = "Version";
             // 

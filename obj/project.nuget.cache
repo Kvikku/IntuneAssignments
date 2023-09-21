@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "oN7THUG/mepSk656R5mt6GIUsqzU4jAW9sIkSM0dI0E8WtsoEzuKy56xt86VDQQ2xskvhz7Apv4DTJZ0dPF8QA==",
+  "dgSpecHash": "lG3HKlSzJndNWwaUub8khf3b0nQWoGBqzY8JtTll6XAtXwfFDQRfbDqx1vYgo0cAzUqtRUdf71Z9oMTBSYv3PA==",
   "success": true,
   "projectFilePath": "C:\\Github\\IntuneAssignments\\IntuneAssignments.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,14 @@
     "C:\\Users\\jorge\\.nuget\\packages\\azure.identity\\1.9.0\\azure.identity.1.9.0.nupkg.sha512",
     "C:\\Users\\jorge\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\jorge\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\jorge\\.nuget\\packages\\microsoft.extensions.configuration\\8.0.0-rc.1.23419.4\\microsoft.extensions.configuration.8.0.0-rc.1.23419.4.nupkg.sha512",
+    "C:\\Users\\jorge\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\8.0.0-rc.1.23419.4\\microsoft.extensions.configuration.abstractions.8.0.0-rc.1.23419.4.nupkg.sha512",
+    "C:\\Users\\jorge\\.nuget\\packages\\microsoft.extensions.configuration.fileextensions\\8.0.0-rc.1.23419.4\\microsoft.extensions.configuration.fileextensions.8.0.0-rc.1.23419.4.nupkg.sha512",
+    "C:\\Users\\jorge\\.nuget\\packages\\microsoft.extensions.configuration.json\\8.0.0-rc.1.23419.4\\microsoft.extensions.configuration.json.8.0.0-rc.1.23419.4.nupkg.sha512",
+    "C:\\Users\\jorge\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\8.0.0-rc.1.23419.4\\microsoft.extensions.fileproviders.abstractions.8.0.0-rc.1.23419.4.nupkg.sha512",
+    "C:\\Users\\jorge\\.nuget\\packages\\microsoft.extensions.fileproviders.physical\\8.0.0-rc.1.23419.4\\microsoft.extensions.fileproviders.physical.8.0.0-rc.1.23419.4.nupkg.sha512",
+    "C:\\Users\\jorge\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\8.0.0-rc.1.23419.4\\microsoft.extensions.filesystemglobbing.8.0.0-rc.1.23419.4.nupkg.sha512",
+    "C:\\Users\\jorge\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0-rc.1.23419.4\\microsoft.extensions.primitives.8.0.0-rc.1.23419.4.nupkg.sha512",
     "C:\\Users\\jorge\\.nuget\\packages\\microsoft.graph.auth\\1.0.0-preview.7\\microsoft.graph.auth.1.0.0-preview.7.nupkg.sha512",
     "C:\\Users\\jorge\\.nuget\\packages\\microsoft.graph.beta\\5.36.0-preview\\microsoft.graph.beta.5.36.0-preview.nupkg.sha512",
     "C:\\Users\\jorge\\.nuget\\packages\\microsoft.graph.core\\3.0.7\\microsoft.graph.core.3.0.7.nupkg.sha512",
@@ -53,19 +61,12 @@
     "C:\\Users\\jorge\\.nuget\\packages\\system.security.principal\\4.3.0\\system.security.principal.4.3.0.nupkg.sha512",
     "C:\\Users\\jorge\\.nuget\\packages\\system.security.principal.windows\\5.0.0\\system.security.principal.windows.5.0.0.nupkg.sha512",
     "C:\\Users\\jorge\\.nuget\\packages\\system.text.encoding\\4.3.0\\system.text.encoding.4.3.0.nupkg.sha512",
-    "C:\\Users\\jorge\\.nuget\\packages\\system.text.encodings.web\\6.0.0\\system.text.encodings.web.6.0.0.nupkg.sha512",
-    "C:\\Users\\jorge\\.nuget\\packages\\system.text.json\\6.0.0\\system.text.json.6.0.0.nupkg.sha512",
+    "C:\\Users\\jorge\\.nuget\\packages\\system.text.encodings.web\\8.0.0-rc.1.23419.4\\system.text.encodings.web.8.0.0-rc.1.23419.4.nupkg.sha512",
+    "C:\\Users\\jorge\\.nuget\\packages\\system.text.json\\8.0.0-rc.1.23419.4\\system.text.json.8.0.0-rc.1.23419.4.nupkg.sha512",
     "C:\\Users\\jorge\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
     "C:\\Users\\jorge\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\jorge\\.nuget\\packages\\tavis.uritemplates\\2.0.0\\tavis.uritemplates.2.0.0.nupkg.sha512",
     "C:\\Users\\jorge\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.22621.29\\microsoft.windows.sdk.net.ref.10.0.22621.29.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file C:\\Github\\IntuneAssignments\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  "logs": []
 }

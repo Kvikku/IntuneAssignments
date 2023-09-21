@@ -91,6 +91,8 @@
             lblSummarizeApps = new Label();
             sideBarTimer = new System.Windows.Forms.Timer(components);
             menuPanel = new Panel();
+            pBSettings = new PictureBox();
+            tstbtn001 = new Button();
             pbInfo = new PictureBox();
             pictureBox3 = new PictureBox();
             pBPointToLoginButton = new PictureBox();
@@ -111,6 +113,7 @@
             pnlIntent.SuspendLayout();
             panelSummary.SuspendLayout();
             menuPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pBSettings).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbInfo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pBPointToLoginButton).BeginInit();
@@ -806,6 +809,8 @@
             // menuPanel
             // 
             menuPanel.BorderStyle = BorderStyle.FixedSingle;
+            menuPanel.Controls.Add(pBSettings);
+            menuPanel.Controls.Add(tstbtn001);
             menuPanel.Controls.Add(pbInfo);
             menuPanel.Controls.Add(pictureBox3);
             menuPanel.Controls.Add(pBPointToLoginButton);
@@ -820,6 +825,26 @@
             menuPanel.Name = "menuPanel";
             menuPanel.Size = new Size(102, 893);
             menuPanel.TabIndex = 18;
+            // 
+            // pBSettings
+            // 
+            pBSettings.Image = (Image)resources.GetObject("pBSettings.Image");
+            pBSettings.Location = new Point(11, 788);
+            pBSettings.Name = "pBSettings";
+            pBSettings.Size = new Size(49, 42);
+            pBSettings.TabIndex = 23;
+            pBSettings.TabStop = false;
+            pBSettings.Click += pBSettings_Click;
+            // 
+            // tstbtn001
+            // 
+            tstbtn001.Location = new Point(3, 351);
+            tstbtn001.Name = "tstbtn001";
+            tstbtn001.Size = new Size(75, 23);
+            tstbtn001.TabIndex = 22;
+            tstbtn001.Text = "button1";
+            tstbtn001.UseVisualStyleBackColor = true;
+            tstbtn001.Click += tstbtn001_Click;
             // 
             // pbInfo
             // 
@@ -899,6 +924,7 @@
             panelSummary.ResumeLayout(false);
             panelSummary.PerformLayout();
             menuPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pBSettings).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbInfo).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pBPointToLoginButton).EndInit();
@@ -970,5 +996,7 @@
         private PictureBox pictureBox3;
         private Label lblSummary;
         private PictureBox pbInfo;
+        private Button tstbtn001;
+        private PictureBox pBSettings;
     }
 }
