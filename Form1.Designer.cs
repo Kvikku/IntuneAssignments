@@ -838,7 +838,7 @@
             // 
             // tstbtn001
             // 
-            tstbtn001.Location = new Point(3, 351);
+            tstbtn001.Location = new Point(10, 364);
             tstbtn001.Name = "tstbtn001";
             tstbtn001.Size = new Size(75, 23);
             tstbtn001.TabIndex = 22;

@@ -61,5 +61,10 @@ namespace IntuneAssignments
             Process.Start(psi);
 
         }
+
+        private void About_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

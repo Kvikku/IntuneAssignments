@@ -201,6 +201,7 @@
             Controls.Add(btnOk);
             Name = "About";
             Text = "About";
+            Load += About_Load;
             ResumeLayout(false);
             PerformLayout();
         }

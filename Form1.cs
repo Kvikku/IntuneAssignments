@@ -17,6 +17,9 @@ using System.Diagnostics.Eventing.Reader;
 using Windows.Foundation.Metadata;
 using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
+using Microsoft.Graph.Beta.TenantRelationships.ManagedTenants.ManagementActionTenantDeploymentStatuses.MicrosoftGraphManagedTenantsChangeDeploymentStatus;
+using Microsoft.Extensions.Configuration;
+using static System.Windows.Forms.DataFormats;
 
 //TO DO
 
@@ -39,14 +42,15 @@ using Microsoft.Graph.Beta.Models;
 
 // Create list for 1.1 release
 
+// Check if API permissions are OK and overkill
+// Logging to log file
 
 
 // Create list for 1.0 release:
 
-// Test on different tenants
-// Need to create a guide for users to create an app registration and give it the correct permissions
-// need to add a check if permissions are correct on the app registration (and overkill permissions)
-// Need to store authentication information in a file
+// In progress - Test on different tenants
+// OK - Need to create a guide for users to create an app registration and give it the correct permissions
+// OK - Need to store authentication information in a file
 // Need to ask user if he wants to save the information
 
 
@@ -56,14 +60,19 @@ namespace IntuneAssignments
 {
     public partial class Form1 : Form
     {
+
+
+
         // Global variables //
 
         bool sideBarExpandTimer = false;
         int col = -1;
         int row = -1;
-        public static string clientID = "f67679c6-4a23-42d8-84c6-bb3f9cf1f1c0";
-        public static string tenantID = "18456af8-4036-4e1c-b888-43e04c49046a";
-        public static string clientSecret = "mvt8Q~T_JKJ0PlCr69d1bfQlyBJcZXjekFJ_Ab-g";
+        public static string clientID { get; set; }
+        public static string tenantID { get; set; }
+        public static string clientSecret { get; set; }
+        public static string authority { get; set; }
+
         public static string[] scopes = new[] { "DeviceManagementApps.ReadWrite.All", "DeviceManagementServiceConfig.Read.All", "DeviceManagementConfiguration.Read.All",
         "Directory.Read.All", "DeviceManagementConfiguration.ReadWrite.All" };
         string GraphEndpoint = "https://graph.microsoft.com/v1.0";
@@ -82,6 +91,10 @@ namespace IntuneAssignments
         private int growthDuration = 1000;
         private int timerCount = 1;
         private Size OriginalLoginButtonSize = Size.Empty;
+
+
+        //public MSGraphAuthenticator graphAuthenticator { get; set; }
+
 
         public Form1()
         {
@@ -111,25 +124,30 @@ namespace IntuneAssignments
             lblSignedInUser.Text = "You are not signed in!";
             lblTenantID.Text = "";
 
-            pnlIntent.Hide();
-            pnlSearchApp.Hide();
-            pnlSearchGroup.Hide();
-            panelSummary.Hide();
+            //pnlIntent.Hide();
+            //pnlSearchApp.Hide();
+            //pnlSearchGroup.Hide();
+            //panelSummary.Hide();
 
             cBAppType.Text = "All platforms";
 
-            // Creates a timer to have the animation trigger after 3 seconds
-            animationTimer = new System.Windows.Forms.Timer();
-            animationTimer.Interval = 3000;
-            animationTimer.Tick += Timer_Tick;
-            animationTimer.Start();
 
 
-            // Creates a timer to animate the login button
+            // This code is not necessary as long as client credential provider is used as the authentication method
 
-            buttonGrowTimer = new System.Windows.Forms.Timer();
-            buttonGrowTimer.Interval = 16;
-            buttonGrowTimer.Tick += ButtonTimer_Tick;
+            //// Creates a timer to have the animation trigger after 3 seconds
+            //animationTimer = new System.Windows.Forms.Timer();
+            //animationTimer.Interval = 3000;
+            //animationTimer.Tick += Timer_Tick;
+            //animationTimer.Start();
+
+
+            //// Creates a timer to animate the login button
+
+            //buttonGrowTimer = new System.Windows.Forms.Timer();
+            //buttonGrowTimer.Interval = 16;
+            //buttonGrowTimer.Tick += ButtonTimer_Tick;
+
 
         }
 
@@ -177,6 +195,8 @@ namespace IntuneAssignments
 
         public class EntraConfiguration
         {
+            // IS THIS REQUIRED?
+
             public string TenantId { get; set; }
             public string ClientId { get; set; }
             public string ClientSecret { get; set; }
@@ -193,6 +213,8 @@ namespace IntuneAssignments
 
         public async Task authMSAL()
         {
+
+            // THIS CODE IS NOT NECESSARY WHEN CLIENT CREDENTIAL PROVIDER IS THE AUTHENTICATION METHOD IN USE
 
             // Authenticates with a user log in, and saves the access token in a variable for future use
             // Other methodes requires this access token to be created, so this should be the first thing the user does
@@ -248,7 +270,12 @@ namespace IntuneAssignments
 
         public class MSGraphAuthenticator
         {
+
+
+
+
             // Test if this works
+
             public static async Task<GraphServiceClient> GetAuthenticatedGraphClient()
             {
                 try
@@ -257,7 +284,9 @@ namespace IntuneAssignments
                     GraphServiceClient graphclient = new GraphServiceClient(clientSecretCredential, newScopes);
 
 
+
                     return graphclient;
+
                 }
                 catch (Exception ex)
                 {
@@ -269,7 +298,13 @@ namespace IntuneAssignments
 
         }
 
-        /// ////////////////////////////////////// Configuration ///////////////////////////////////////////////////
+
+
+
+        /// ////////////////////////////////////// Configuration /////////////////////////////////////////////////////
+
+
+
 
         private void createConfigurationFolder()
         {
@@ -281,6 +316,7 @@ namespace IntuneAssignments
             {
                 // If it does not exist, create it
                 System.IO.Directory.CreateDirectory(configurationFolder);
+
             }
         }
 
@@ -288,16 +324,53 @@ namespace IntuneAssignments
         {
             // Create configuration files in the configuration folder
 
+            // check if the configuration file already exists
+            if (!System.IO.File.Exists(AppSettingsFile))
+            {
+                string AppSettingsFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppSettings.json");
+                string destinationDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "IntuneAssignments");
+                string destinationFilePath = Path.Combine(destinationDirectory, "AppSettings.json");
+                File.Copy(AppSettingsFile, destinationFilePath, false);  // The 'true' argument allows overwriting if the file already exists
+            }
+
+            // does nothing if the file already exists
+        }
 
 
-            string AppSettingsFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppSettings.json");
-            string destinationDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "IntuneAssignments");
-            string destinationFilePath = Path.Combine(destinationDirectory, "AppSettings.json");
+        private void checkConfigurationSettings()
+        {
 
-            // Copies the appsettings.json file to programdata folder
-            File.Copy(AppSettingsFile, destinationFilePath, true);  // The 'true' argument allows overwriting if the file already exists
+            // Checks if configuration settings are present in the configuration file
+
+
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                //.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile(AppSettingsFile)
+                .Build();
+
+
+            // Sets the variables to the values in the appsettings.json file
+            tenantID = configuration.GetSection("Entra:TenantId").Value;
+            clientID = configuration.GetSection("Entra:ClientId").Value;
+            clientSecret = configuration.GetSection("Entra:ClientSecret").Value;
+            authority = $"https://login.microsoftonline.com/{tenantID}";
+
+            if (string.IsNullOrEmpty(tenantID) || string.IsNullOrEmpty(clientID) || string.IsNullOrEmpty(clientSecret))
+            {
+                MessageBox.Show("Some authentication info appears to be missing. Please check the information in the AppSettings.json file. Click OK to open the containing folder");
+
+                // Open file explorer
+                System.Diagnostics.Process.Start("explorer.exe", configurationFolder);
+
+
+            }
+            else
+            {
+                MessageBox.Show("OK");
+            }
 
         }
+
 
         private void startButtonAnimation()
         {
@@ -1422,7 +1495,7 @@ namespace IntuneAssignments
             //HidePanel(panelTenantInfo);
             //HidePanel(menuPanel);
 
-            sideBarTimer.Start();
+            //sideBarTimer.Start();
 
         }
 
@@ -1542,19 +1615,53 @@ namespace IntuneAssignments
         {
             // append text to the config file
 
-            using (StreamWriter writer = File.AppendText(AppSettingsFile))
-            {
-                writer.WriteLine("test");
-            }
+            //using (StreamWriter writer = File.AppendText(AppSettingsFile))
+            //{
+            //writer.WriteLine("test");
+            //}
+
+
+            //TEST();
+
+            //updateTenantInfo();
+            checkConfigurationSettings();
 
         }
+
+        public async Task TEST()
+        {
+
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+            // Make a call to Microsoft Graph
+            var tenantInfo = await graphClient.Result.Organization.GetAsync((requestConfiguration) =>
+            {
+                //requestConfiguration.QueryParameters.Select = new string[] { "id" };
+            });
+
+
+
+
+            // Put result in a list for processing
+            List<Organization> organizations = new List<Organization>();
+            organizations.AddRange(tenantInfo.Value);
+
+            // Loop through the list
+            // NOTE - this could be improved. There is room for error if the query returns more than 1 result
+            foreach (var org in organizations)
+            {
+                MessageBox.Show(org.DisplayName);
+            }
+        }
+
 
         private void pBSettings_Click(object sender, EventArgs e)
         {
 
             Settings settings = new Settings();
-            settings.ShowDialog(this);
+            settings.ShowDialog();
 
         }
+
     }
 }
