@@ -40,6 +40,25 @@ Authentication is handled through the use of Client ID and Client Secret (Other 
 
 ## Profile deployment
 
+# Planned features (not yet implemented)
+
+## Functionality
+
+- Handle All Users and All Devices virtual groups
+- Assignment options
+    - End user notifications
+    - Deadline
+    - Availability 
+
+## Security related
+
+- Authentication with work account login
+- Logging to log file
+- Verify API permissions when authenticating
+
+
 # Acknowledgments
 
-- ChatGPT <3 
+- ChatGPT and Copilot Chat
+- Reddit
+- Stack overflow
