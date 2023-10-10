@@ -1626,6 +1626,8 @@ namespace IntuneAssignments
             //updateTenantInfo();
             checkConfigurationSettings();
 
+
+
         }
 
         public async Task TEST()

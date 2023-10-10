@@ -12,6 +12,8 @@ using Azure.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace IntuneAssignments
 {
@@ -83,15 +85,14 @@ namespace IntuneAssignments
         private void btnOK_Click(object sender, EventArgs e)
         {
 
-            // THIS DOES NOT WORK YET
+            
 
             // Save the new settings to appsettings.json
 
-            string path = Form1.AppSettingsFile;
+            string originalPath = Form1.AppSettingsFile;
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
-            //.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile(path)
+                .AddJsonFile(originalPath)
                 .Build();
 
             var entraSettings = configuration.GetSection("Entra");
@@ -100,9 +101,33 @@ namespace IntuneAssignments
             entraSettings["ClientId"] = tBClientID.Text;
             entraSettings["ClientSecret"] = tBClientSecret.Text;
 
-            
 
-            File.WriteAllText("appsettings.json", configuration.GetDebugView());
+
+            // Create a JSON object to represent the configuration data
+            var jsonConfig = new JObject();
+            jsonConfig["Entra"] = new JObject
+                {
+                    { "TenantId", entraSettings["TenantId"] },
+                    { "ClientId", entraSettings["ClientId"] },
+                    { "ClientSecret", entraSettings["ClientSecret"] }
+                };
+
+            // Serialize the JSON object to a formatted string
+            string updatedJson = jsonConfig.ToString(Formatting.Indented);
+
+            // Write the updated JSON string back to the original file
+            File.WriteAllText(originalPath, updatedJson);
+
+
+
+            // Update global variables so that the rest of the application can use the new settings
+
+            Form1.tenantID = tBTenantID.Text;
+            Form1.clientID = tBClientID.Text;
+            Form1.clientSecret = tBClientSecret.Text;
+            Form1.authority = $"https://login.microsoftonline.com/{Form1.tenantID}";
+
+
 
             this.Close();
         }
