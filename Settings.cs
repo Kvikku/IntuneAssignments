@@ -82,11 +82,8 @@ namespace IntuneAssignments
         }
 
 
-        private void btnOK_Click(object sender, EventArgs e)
+        private void saveSettings()
         {
-
-            
-
             // Save the new settings to appsettings.json
 
             string originalPath = Form1.AppSettingsFile;
@@ -101,25 +98,6 @@ namespace IntuneAssignments
             entraSettings["ClientId"] = tBClientID.Text;
             entraSettings["ClientSecret"] = tBClientSecret.Text;
 
-
-
-            // Create a JSON object to represent the configuration data
-            var jsonConfig = new JObject();
-            jsonConfig["Entra"] = new JObject
-                {
-                    { "TenantId", entraSettings["TenantId"] },
-                    { "ClientId", entraSettings["ClientId"] },
-                    { "ClientSecret", entraSettings["ClientSecret"] }
-                };
-
-            // Serialize the JSON object to a formatted string
-            string updatedJson = jsonConfig.ToString(Formatting.Indented);
-
-            // Write the updated JSON string back to the original file
-            File.WriteAllText(originalPath, updatedJson);
-
-
-
             // Update global variables so that the rest of the application can use the new settings
 
             Form1.tenantID = tBTenantID.Text;
@@ -127,8 +105,51 @@ namespace IntuneAssignments
             Form1.clientSecret = tBClientSecret.Text;
             Form1.authority = $"https://login.microsoftonline.com/{Form1.tenantID}";
 
+            
+
+            // Ask the user if he wants to save these settings for future use
+            DialogResult dialogResult = MessageBox.Show("Do you want to save these settings for future use?", "Save settings", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+
+                // Create a JSON object to represent the configuration data
+                var jsonConfig = new JObject();
+                jsonConfig["Entra"] = new JObject
+                {
+                    { "TenantId", entraSettings["TenantId"] },
+                    { "ClientId", entraSettings["ClientId"] },
+                    { "ClientSecret", entraSettings["ClientSecret"] }
+                };
+
+                // Serialize the JSON object to a formatted string
+                string updatedJson = jsonConfig.ToString(Formatting.Indented);
+
+                // Write the updated JSON string back to the original file
+                File.WriteAllText(originalPath, updatedJson);
+
+            } else if (dialogResult == DialogResult.No)
+            {
+                // Do nothing
+            }
+
+            
 
 
+
+           
+
+
+
+
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+
+            saveSettings();
+
+            
+           
             this.Close();
         }
 

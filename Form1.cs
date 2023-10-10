@@ -48,10 +48,11 @@ using static System.Windows.Forms.DataFormats;
 
 // Create list for 1.0 release:
 
-// In progress - Test on different tenants
+// OK - Test on different tenants
 // OK - Need to create a guide for users to create an app registration and give it the correct permissions
 // OK - Need to store authentication information in a file
-// Need to ask user if he wants to save the information
+// OK - Need to ask user if he wants to save the information
+// Need to have indicator of if tenant connection is OK
 
 
 
@@ -149,6 +150,10 @@ namespace IntuneAssignments
             //buttonGrowTimer.Tick += ButtonTimer_Tick;
 
 
+            // Load authentication settings from appsettings.json file
+            loadAuthenticationInfo();
+
+            checkConnectionStatus();
         }
 
 
@@ -271,9 +276,6 @@ namespace IntuneAssignments
         public class MSGraphAuthenticator
         {
 
-
-
-
             // Test if this works
 
             public static async Task<GraphServiceClient> GetAuthenticatedGraphClient()
@@ -290,7 +292,7 @@ namespace IntuneAssignments
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    //MessageBox.Show(ex.Message);
                     throw;
                 }
 
@@ -303,8 +305,67 @@ namespace IntuneAssignments
 
         /// ////////////////////////////////////// Configuration /////////////////////////////////////////////////////
 
+        private void checkConnectionStatus()
+        {
+
+            // Checks if the authentication info in appsettings.json file grants access to Microsoft Graph
+
+            try
+            {
+
+                // Create a graph service client object
+                var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+                // Make a call to Microsoft Graph
+                var tenantInfo = graphClient.Result.Organization.GetAsync((requestConfiguration) =>
+                {
+                    requestConfiguration.QueryParameters.Select = new string[] { "id" };
+                });
+
+                // Put result in a list for processing
+                List<Organization> organizations = new List<Organization>();
+                organizations.AddRange(tenantInfo.Result.Value);
 
 
+
+                // THIS DOESNT WORK YET
+                //pBConnectionStatus.Image = Properties.Resources.check;
+
+            }
+            catch (Exception ex)
+            {
+                //Do nothing
+
+                //MessageBox.Show(ex.Message);
+                pBConnectionStatus.Image = Properties.Resources.cancel;
+            }
+
+
+        }
+
+        private void loadAuthenticationInfo()
+        {
+
+            // Reads the appsettings.json file and stores the information in variables
+
+            string path = Form1.AppSettingsFile; //@"C:\ProgramData\IntuneAssignments" + @"\AppSettings.json";
+
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .AddJsonFile(path)
+                .Build();
+
+
+            // Sets the variables to the values in the appsettings.json file
+
+            Form1.tenantID = configuration.GetSection("Entra:TenantId").Value;
+            Form1.clientID = configuration.GetSection("Entra:ClientId").Value;
+            Form1.clientSecret = configuration.GetSection("Entra:ClientSecret").Value;
+            Form1.authority = $"https://login.microsoftonline.com/{Form1.tenantID}";
+
+
+            // Testing only
+            // MessageBox.Show(tenantID + "\n" + clientID + "\n" + clientSecret + "\n" + authority); 
+        }
 
         private void createConfigurationFolder()
         {
@@ -447,18 +508,60 @@ namespace IntuneAssignments
             delayLoginAnimation();
         }
 
-        public async void updateTenantInfo()
-        {
 
+        public async void updateTenantInfoWithoutUser()
+        {
 
             try
             {
-
 
                 // Create a graph service client object
                 var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
 
+
+                // Make a call to Microsoft Graph
+                var tenantInfo = await graphClient.Result.Organization.GetAsync((requestConfiguration) =>
+                {
+                    //requestConfiguration.QueryParameters.Select = new string[] { "id" };
+                });
+
+
+                // Put result in a list for processing
+                List<Organization> organizations = new List<Organization>();
+                organizations.AddRange(tenantInfo.Value);
+
+
+                // Loop through the list
+                // NOTE - this could be improved. There is room for error if the query returns more than 1 result
+                foreach (var org in organizations)
+                {
+                    lblTenantID.Text = "Tenant ID: " + org.Id;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("Error authenticating to Microsoft Graph. Please try again");
+                //MessageBox.Show(ex.Message);
+                {
+
+                }
+
+            }
+
+        }
+
+        public async void updateTenantInfo()
+        {
+
+            try
+            {
+
+                // Create a graph service client object
+                var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
 
                 // Make a call to Microsoft Graph
@@ -1602,6 +1705,7 @@ namespace IntuneAssignments
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
+            updateTenantInfoWithoutUser();
             HelpGuide();
         }
 
