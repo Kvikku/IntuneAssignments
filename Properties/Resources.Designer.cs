@@ -193,6 +193,16 @@ namespace IntuneAssignments.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ic_sync_128_28843 {
+            get {
+                object obj = ResourceManager.GetObject("ic_sync_128_28843", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Icon_round_Question_mark_svg {
             get {
                 object obj = ResourceManager.GetObject("Icon-round-Question_mark.svg", resourceCulture);

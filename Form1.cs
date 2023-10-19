@@ -52,7 +52,12 @@ using static System.Windows.Forms.DataFormats;
 // OK - Need to create a guide for users to create an app registration and give it the correct permissions
 // OK - Need to store authentication information in a file
 // OK - Need to ask user if he wants to save the information
-// Need to have indicator of if tenant connection is OK
+// OK - Need to have indicator of if tenant connection is OK
+// Finish github instructions
+
+
+
+
 
 
 
@@ -65,7 +70,7 @@ namespace IntuneAssignments
 
 
         // Global variables //
-
+        public event EventHandler pbCheckConnectionClickSimulated;
         bool sideBarExpandTimer = false;
         int col = -1;
         int row = -1;
@@ -124,6 +129,12 @@ namespace IntuneAssignments
 
             lblSignedInUser.Text = "You are not signed in!";
             lblTenantID.Text = "";
+            lblConnectionStatus.Text = "";
+            lblTenantName.Text = "";
+
+
+
+            tstbtn001.Hide();
 
             //pnlIntent.Hide();
             //pnlSearchApp.Hide();
@@ -132,7 +143,8 @@ namespace IntuneAssignments
 
             cBAppType.Text = "All platforms";
 
-
+            // Remove this to authenticate as a user
+            panelTenantInfo.Hide();
 
             // This code is not necessary as long as client credential provider is used as the authentication method
 
@@ -305,7 +317,7 @@ namespace IntuneAssignments
 
         /// ////////////////////////////////////// Configuration /////////////////////////////////////////////////////
 
-        private void checkConnectionStatus()
+        private async Task checkConnectionStatus()
         {
 
             // Checks if the authentication info in appsettings.json file grants access to Microsoft Graph
@@ -314,22 +326,28 @@ namespace IntuneAssignments
             {
 
                 // Create a graph service client object
-                var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+                var graphClient = await MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
                 // Make a call to Microsoft Graph
-                var tenantInfo = graphClient.Result.Organization.GetAsync((requestConfiguration) =>
+                var tenantInfo = await graphClient.Organization.GetAsync((requestConfiguration) =>
                 {
-                    requestConfiguration.QueryParameters.Select = new string[] { "id" };
+                    requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
                 });
 
                 // Put result in a list for processing
                 List<Organization> organizations = new List<Organization>();
-                organizations.AddRange(tenantInfo.Result.Value);
+                organizations.AddRange(tenantInfo.Value);
+
+                // display tenant name in message box
 
 
 
                 // THIS DOESNT WORK YET
-                //pBConnectionStatus.Image = Properties.Resources.check;
+                pBConnectionStatus.Image = Properties.Resources.check;
+                lblConnectionStatus.Text = "Connected to: ";
+                lblTenantName.Text = organizations[0].DisplayName;
+
+                //MessageBox.Show("You are connected to" + "\n" + organizations[0].DisplayName + "\n" + organizations[0].Id);
 
             }
             catch (Exception ex)
@@ -338,6 +356,7 @@ namespace IntuneAssignments
 
                 //MessageBox.Show(ex.Message);
                 pBConnectionStatus.Image = Properties.Resources.cancel;
+                lblConnectionStatus.Text = "Not connected";
             }
 
 
@@ -365,6 +384,12 @@ namespace IntuneAssignments
 
             // Testing only
             // MessageBox.Show(tenantID + "\n" + clientID + "\n" + clientSecret + "\n" + authority); 
+        }
+
+
+        public void SimulatePictureBoxClick()
+        {
+            checkConnectionStatus();
         }
 
         private void createConfigurationFolder()
@@ -418,16 +443,27 @@ namespace IntuneAssignments
 
             if (string.IsNullOrEmpty(tenantID) || string.IsNullOrEmpty(clientID) || string.IsNullOrEmpty(clientSecret))
             {
-                MessageBox.Show("Some authentication info appears to be missing. Please check the information in the AppSettings.json file. Click OK to open the containing folder");
 
-                // Open file explorer
-                System.Diagnostics.Process.Start("explorer.exe", configurationFolder);
 
+                // open file explorer if user clicks yes. If user clicks no, do nothing
+                DialogResult dialogResult = MessageBox.Show("Some authentication info appears to be missing. Please check the information in the AppSettings.json file. Do you want to open the containing folder?", "Open configuration folder", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    // Open file explorer
+                    System.Diagnostics.Process.Start("explorer.exe", configurationFolder);
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    //do something else
+                }
 
             }
             else
             {
-                MessageBox.Show("OK");
+
+                // Do nothing
+
+
             }
 
         }
@@ -473,7 +509,6 @@ namespace IntuneAssignments
             timerCount++;
         }
 
-
         private void buttonShrinkTimer_Tick(object sender, EventArgs E)
         {
 
@@ -490,9 +525,6 @@ namespace IntuneAssignments
             }
         }
 
-
-
-
         private void delayLoginAnimation()
         {
             // Opens the sidebar 
@@ -507,7 +539,6 @@ namespace IntuneAssignments
             // Call your method here
             delayLoginAnimation();
         }
-
 
         public async void updateTenantInfoWithoutUser()
         {
@@ -600,7 +631,7 @@ namespace IntuneAssignments
 
 
                 sideBarTimer.Start();
-                pBPointToLoginButton.Hide();
+
 
                 pnlIntent.Show();
                 pnlSearchApp.Show();
@@ -1717,20 +1748,8 @@ namespace IntuneAssignments
 
         private void tstbtn001_Click(object sender, EventArgs e)
         {
-            // append text to the config file
 
-            //using (StreamWriter writer = File.AppendText(AppSettingsFile))
-            //{
-            //writer.WriteLine("test");
-            //}
-
-
-            //TEST();
-
-            //updateTenantInfo();
-            checkConfigurationSettings();
-
-
+            //ye old faithful test button
 
         }
 
@@ -1767,7 +1786,15 @@ namespace IntuneAssignments
             Settings settings = new Settings();
             settings.ShowDialog();
 
+
+
         }
 
+        private void pbCheckConnection_Click(object sender, EventArgs e)
+        {
+
+            checkConfigurationSettings();
+            checkConnectionStatus();
+        }
     }
 }

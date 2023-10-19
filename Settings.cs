@@ -127,21 +127,27 @@ namespace IntuneAssignments
                 // Write the updated JSON string back to the original file
                 File.WriteAllText(originalPath, updatedJson);
 
+                
+
+
             } else if (dialogResult == DialogResult.No)
             {
                 // Do nothing
             }
 
-            
-
-
-
-           
-
-
-
+            pbButtonClick();
 
         }
+
+
+        private void pbButtonClick()
+        {
+
+            Form1 form1 = System.Windows.Forms.Application.OpenForms["Form1"] as Form1;
+            form1?.SimulatePictureBoxClick();
+
+        }   
+
 
         private void btnOK_Click(object sender, EventArgs e)
         {
