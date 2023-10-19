@@ -15,7 +15,7 @@ I am a system administrator working primarly with Microsoft 365 services, such a
 When it comes to the art of software development I am entirely self taught with no formal education. As such, the experienced developers among you will probably discover ineffecient, subpar and non optimized code. If that is the case, feel free to provide constructive criticism and feedback. I am always interested in learning more!
 
 
-# How to use
+
 
 ## Prerequisite
 
@@ -32,6 +32,7 @@ Authentication is handled through the use of Client ID and Client Secret (Other 
     - https://login.microsoftonline.com/common/oauth2/nativeclient
     - msal48751b13-c91e-4132-b21a-dc763721f4d4://auth
     - https://login.live.com/oauth20_desktop.srf
+
 
 
 # How to use
