@@ -17,21 +17,38 @@ When it comes to the art of software development I am entirely self taught with 
 
 
 
-## Prerequisite
+# Prerequisites
 
 There are some requirements and prerequisites you will need to take care of:
 
-- Azure tenant with permissions to create an App Registration
+## 1 - Azure tenant
 
-You will need an Azure tenant with an App registration. This application will be granted the necessary permissions to complete the deployments in Microsoft Intune.
-Authentication is handled through the use of Client ID and Client Secret (Other authentication methods will be implemented in the future).
+You will need access to an Azure tenant (obviously).
+
+## 2 - App registration
+
+
+
+You will need to create an App Registration in your Azure tenant. This application will be granted the necessary permissions to complete the deployments in Microsoft Intune.
+Authentication is handled through the use of Client ID and Client Secret (Other authentication methods will be implemented in the future, I promise ;) ).
+
+The applicatiion should look something like this:
 
 - Name (your choice)
-- Accounts in this organization only
+- Supported account types - Accounts in this organization only
 - Return URL - Mobile and desktop clients - use the default provided in the GUI
     - https://login.microsoftonline.com/common/oauth2/nativeclient
     - msal48751b13-c91e-4132-b21a-dc763721f4d4://auth
     - https://login.live.com/oauth20_desktop.srf
+
+## 3 - API Permissions
+
+The app registration requires the following permissions as type Application (not Delegated)
+
+- DeviceManagementApps.ReadWrite.All
+- DeviceManagementConfiguration.ReadWrite.All
+- DeviceManagementManagedDevices.ReadWrite.All
+- DeviceManagementServiceConfig.ReadWrite.All
 
 
 
