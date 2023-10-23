@@ -105,6 +105,10 @@ When launching the application the first time you will have to enter the followi
 - Verify API permissions when authenticating
 
 
+## Community feature requests
+
+If you have other feature request, please raise an issue in this repository and explain to the best of your abilities the desired feature. I appreciate a challenge!
+
 # Acknowledgments
 
 - ChatGPT and Copilot Chat
