@@ -113,7 +113,7 @@ When launching the application the first time you will have to enter the followi
 
 ## Community feature requests
 
-If you have other feature request, please raise an issue in this repository and explain to the best of your abilities the desired feature. I appreciate a challenge!
+If you have other feature request, please post or comment in the discussion tab, and explain to the best of your abilities the desired feature. I appreciate a challenge!
 
 # Acknowledgments
 ![](https://img.shields.io/badge/Thanks-green)
