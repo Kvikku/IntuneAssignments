@@ -1,24 +1,24 @@
-using System;
-using System.Net;
+using Azure.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Graph;
 using Microsoft.Graph.Auth;
-using Microsoft.Identity.Client;
-using Microsoft.Graph.Core;
-using System.Net.Http.Headers;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Azure.Identity;
-using static System.Formats.Asn1.AsnWriter;
-using System.Security.Principal;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.VoiceCommands;
-using System.Windows.Forms;
-using System.Diagnostics.Eventing.Reader;
-using Windows.Foundation.Metadata;
 using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
 using Microsoft.Graph.Beta.TenantRelationships.ManagedTenants.ManagementActionTenantDeploymentStatuses.MicrosoftGraphManagedTenantsChangeDeploymentStatus;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Graph.Core;
+using Microsoft.Identity.Client;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Diagnostics.Eventing.Reader;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Security.Principal;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Windows.ApplicationModel.VoiceCommands;
+using Windows.Foundation.Metadata;
+using static System.Formats.Asn1.AsnWriter;
 using static System.Windows.Forms.DataFormats;
 
 //TO DO
@@ -53,7 +53,9 @@ using static System.Windows.Forms.DataFormats;
 // OK - Need to store authentication information in a file
 // OK - Need to ask user if he wants to save the information
 // OK - Need to have indicator of if tenant connection is OK
-// Finish github instructions
+// OK - Finish github instructions
+// Move these suggestions to github page, in stead of saving them here
+
 
 
 
