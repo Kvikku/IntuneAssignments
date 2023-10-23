@@ -18,9 +18,10 @@ When it comes to the art of software development I am entirely self taught with 
 
 
 # Prerequisites
-![](https://img.shields.io/badge/How_to-get_started-blue)
+![](https://img.shields.io/badge/START%20HERE-red)
 
-There are some requirements and prerequisites you will need to take care of:
+
+There are some requirements and prerequisites you will need to take care of before using the application.
 
 ## 1 - Azure tenant
 
@@ -91,6 +92,7 @@ When launching the application the first time you will have to enter the followi
 # Planned features
 
 ## Functionality
+![](https://img.shields.io/badge/Upcoming-Stuff-green)
 
 - Handle All Users and All Devices virtual groups
 - Assignment options
@@ -110,7 +112,7 @@ When launching the application the first time you will have to enter the followi
 If you have other feature request, please raise an issue in this repository and explain to the best of your abilities the desired feature. I appreciate a challenge!
 
 # Acknowledgments
-
+![](https://img.shields.io/badge/Thanks-green)
 - ChatGPT and Copilot Chat
 - Reddit
 - Stack overflow
