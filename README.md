@@ -18,6 +18,7 @@ When it comes to the art of software development I am entirely self taught with 
 
 
 # Prerequisites
+![](https://img.shields.io/badge/How_to-get_started-blue)
 
 There are some requirements and prerequisites you will need to take care of:
 
@@ -29,7 +30,10 @@ You will need access to an Azure tenant (obviously).
 
 
 
-You will need to create an App Registration in your Azure tenant. This application will be granted the necessary permissions to complete the deployments in Microsoft Intune.
+You will need to create an App Registration in your Azure tenant. 
+
+This application will be granted the necessary permissions to complete the deployments in Microsoft Intune.
+
 Authentication is handled through the use of Client ID and Client Secret (Other authentication methods will be implemented in the future, I promise ;) ).
 
 The applicatiion should look something like this:
@@ -50,10 +54,22 @@ The app registration requires the following permissions as type Application (not
 - DeviceManagementManagedDevices.ReadWrite.All
 - DeviceManagementServiceConfig.ReadWrite.All
 
+## 4 - Authentication
+
+### Client secret
+
+You will need to create a client secret to authenticate the desktop app to Microsoft Graph via this app registration.
+
+
+### User based authentication
+
+- This is a work in progress. Check back later
+
+
 
 
 # How to use
-
+![](https://img.shields.io/badge/How_to-_use-blue)
 ## Application deployment
 
 ## Profile deployment
