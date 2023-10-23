@@ -98,7 +98,11 @@ When launching the application the first time you will have to enter the followi
 - Assignment options
     - End user notifications
     - Deadline
-    - Availability 
+    - Availability
+- Bulk delete
+    - Assignments
+    - Policies
+    - Applications
 
 ## Security related
 
