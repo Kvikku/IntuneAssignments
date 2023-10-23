@@ -58,7 +58,7 @@ The app registration requires the following permissions as type Application (not
 
 ## Profile deployment
 
-# Planned features (not yet implemented)
+# Planned features
 
 ## Functionality
 
