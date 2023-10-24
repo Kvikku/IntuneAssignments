@@ -44,6 +44,8 @@ using static System.Windows.Forms.DataFormats;
 
 // Check if API permissions are OK and overkill
 // Logging to log file
+// https://learn.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/send-local-toast?tabs=desktop
+// 
 
 
 // Create list for 1.0 release:
