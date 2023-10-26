@@ -83,11 +83,18 @@ When launching the application the first time you will have to enter the followi
 - Client ID
 - Client Secret
 
+Click the Wrench icon in the menu on the left side, enter your authentication info and click OK to save. 
 
+The app will now verify if what you entered is correct. 
+Status can be seen the lower left side.
 
 ## Application deployment
 
+
+
 ## Profile deployment
+
+
 
 # Planned features
 
