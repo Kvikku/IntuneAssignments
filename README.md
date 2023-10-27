@@ -137,6 +137,7 @@ _NOTE - This currently only supports assignments for applications_
 
 - Handle All Users and All Devices virtual groups
 - Assignment options
+    - Filters
     - End user notifications
     - Deadline
     - Availability
