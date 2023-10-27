@@ -17,7 +17,9 @@ And before you ask - No, we don't talk about policy sets in Intune to solve this
 ![](https://img.shields.io/badge/START%20HERE-red)
 
 
-There are some requirements and prerequisites you will need to take care of before using the application.
+There are some requirements and prerequisites you will need to take care of before using the application. 
+
+Please read through this section carefully.
 
 ## 1 - Azure tenant
 
