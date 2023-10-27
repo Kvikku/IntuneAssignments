@@ -4,7 +4,7 @@
 
 This application aims to solve one big issue I've had with Microsoft Intune for a long time - how to efficiently deploy a large amount of applications and profiles/policies to one or more groups with just a few clicks.
 
-Usually with process involves a lot of manual work and mouse clicks, which in turn increases the probability for human error.
+Usually this process involves a lot of manual work and mouse clicks, which in turn increases the probability for human error.
 
 And before you ask - No, we don't talk about policy sets in Intune to solve this. Shh!
 
@@ -145,7 +145,7 @@ _NOTE - This currently only supports assignments for applications_
     - Policies
     - Applications
 - Handle the description property
-- 
+  
 
 ## Security related
 
