@@ -9,7 +9,7 @@ Usually with process involves a lot of manual work and mouse clicks, which in tu
 And before you ask - No, we don't talk about policy sets in Intune to solve this. Shh!
 
 
-
+__NOTE - This application is a work in progress. Errors, crashes and unexpected behaviour can occur__
 
 
 
@@ -17,7 +17,9 @@ And before you ask - No, we don't talk about policy sets in Intune to solve this
 ![](https://img.shields.io/badge/START%20HERE-red)
 
 
-There are some requirements and prerequisites you will need to take care of before using the application.
+There are some requirements and prerequisites you will need to take care of before using the application. 
+
+Please read through this section carefully.
 
 ## 1 - Azure tenant
 
@@ -65,6 +67,14 @@ You will need to create a client secret to authenticate the desktop app to Micro
 
 - This is a work in progress. Check back later
 
+## 5 -.NET Desktop runtime
+
+You will need to install .NET Desktop runtime 6.0 on your device. 
+
+This can be downloaded here:
+
+https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.24-windows-x64-installer?cid=getdotnetcore
+
 
 
 
@@ -72,6 +82,8 @@ You will need to create a client secret to authenticate the desktop app to Micro
 ![](https://img.shields.io/badge/How_to-_use-blue)
 
 ## First run
+
+Download the release version to your device, unzip, and navigate to "bin\Debug\net6.0-windows10.0.22621.0", and launch "IntuneAssignments.exe"
 
 When launching the application the first time you will have to enter the following info from your tenant and app registration:
 
@@ -84,12 +96,38 @@ Click the Wrench icon in the menu on the left side, enter your authentication in
 The app will now verify if what you entered is correct. 
 Status can be seen the lower left side.
 
+## Help guides
+
+There is a help guide throughout the application, represented with a book icon in the left menu. Use it for a quick tour of each page.
+
+
 ## Application deployment
 
+Application deployment is done on the home page (House icon)
 
+1. First you find and double click the application(s) that you want to deploy. This will move them to the check list
+2. Then you do the same for the group(s) you want to deploy to.
+3. Then you select the intent for the deployment
+4. Finally you click "Prepare deployment", double check that it is what you intended and click "Deploy"
 
 ## Profile deployment
 
+Profile deployment is done on the profile page (Gear icon)
+
+1. First you find and highlight the profile(s) that you want to deploy.
+2. Then you do the same for the group(s) you want to deploy to
+3. Finally you click "Prepare deployment", double check that it is what you intended and click "Deploy"
+
+
+## Manage assignments
+
+Managing existing assignments is done on the assignment page (Magnifying glass icon)
+
+_NOTE - This currently only supports assignments for applications_
+
+1. First you find and double click the application you want to manage assignments for
+2. If the applications have existing assignments they will appear in the list to the right
+3. You can now delete assignments individually or in bulk
 
 
 # Planned features
@@ -106,6 +144,8 @@ Status can be seen the lower left side.
     - Assignments
     - Policies
     - Applications
+- Handle the description property
+- 
 
 ## Security related
 
