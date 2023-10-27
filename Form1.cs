@@ -21,49 +21,6 @@ using Windows.Foundation.Metadata;
 using static System.Formats.Asn1.AsnWriter;
 using static System.Windows.Forms.DataFormats;
 
-//TO DO
-
-
-///// Nice to haves /////
-
-// Handle errors when deploying to already assigned groups (Currently this is not a issue, because existing assignments is not deleted. consider if it is necessary to notify of existing assignments)
-// Handle All Users and All Devices virtual groups
-// Delete policy assignments
-// Warning prompts
-// Confirmations
-// append or replace description
-// Warning when deploying large amount of groups and/or apps - could take up to 1 minutes before it shows up in the portal
-// VPP apps - modify query
-// Logging to log file
-// Assignment options (End User Notifications, Availability, Deadline)
-// Different needs for each app type (VPP, Win32, MGP, etc)
-
-
-
-// Create list for 1.1 release
-
-// Check if API permissions are OK and overkill
-// Logging to log file
-// https://learn.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/send-local-toast?tabs=desktop
-// 
-
-
-// Create list for 1.0 release:
-
-// OK - Test on different tenants
-// OK - Need to create a guide for users to create an app registration and give it the correct permissions
-// OK - Need to store authentication information in a file
-// OK - Need to ask user if he wants to save the information
-// OK - Need to have indicator of if tenant connection is OK
-// OK - Finish github instructions
-// Move these suggestions to github page, in stead of saving them here
-
-
-
-
-
-
-
 
 
 namespace IntuneAssignments
@@ -72,8 +29,8 @@ namespace IntuneAssignments
     {
 
 
-
         // Global variables //
+
         public event EventHandler pbCheckConnectionClickSimulated;
         bool sideBarExpandTimer = false;
         int col = -1;
