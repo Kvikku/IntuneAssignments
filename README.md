@@ -65,6 +65,14 @@ You will need to create a client secret to authenticate the desktop app to Micro
 
 - This is a work in progress. Check back later
 
+## 5 -.NET Desktop runtime
+
+You will need to install .NET Desktop runtime 6.0 on your device. 
+
+This can be downloaded here:
+
+https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.24-windows-x64-installer?cid=getdotnetcore
+
 
 
 
@@ -72,6 +80,8 @@ You will need to create a client secret to authenticate the desktop app to Micro
 ![](https://img.shields.io/badge/How_to-_use-blue)
 
 ## First run
+
+Download the release version to your device, unzip, and navigate to "bin\Debug\net6.0-windows10.0.22621.0", and launch "IntuneAssignments.exe"
 
 When launching the application the first time you will have to enter the following info from your tenant and app registration:
 
@@ -106,6 +116,8 @@ Status can be seen the lower left side.
     - Assignments
     - Policies
     - Applications
+- Handle the description property
+- 
 
 ## Security related
 
