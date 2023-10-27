@@ -8,11 +8,7 @@ Usually with process involves a lot of manual work and mouse clicks, which in tu
 
 And before you ask - No, we don't talk about policy sets in Intune to solve this. Shh!
 
-# About the author
 
-I am a system administrator working primarly with Microsoft 365 services, such as Microsoft Intune and Microsoft 365 Defender. I have a bachelor's degree within system and network administration, and several infrastructure related IT certifications.
-
-When it comes to the art of software development I am entirely self taught with no formal education. As such, the experienced developers among you will probably discover ineffecient, subpar and non optimized code. If that is the case, feel free to provide constructive criticism and feedback. I am always interested in learning more!
 
 
 
@@ -39,7 +35,7 @@ Authentication is handled through the use of Client ID and Client Secret (Other 
 
 The application should look something like this:
 
-- Name - Intune Assignments
+- Name - Intune Bulk Assignments (or whatever you want)
 - Supported account types - Accounts in this organization only
 - Return URL - Mobile and desktop clients - use the default provided in the GUI
     - https://login.microsoftonline.com/common/oauth2/nativeclient
@@ -127,3 +123,10 @@ If you have other feature request, please post or comment in the discussion tab,
 - ChatGPT and Copilot Chat
 - Reddit
 - Stack overflow
+
+
+# About the author
+
+I am a system administrator working primarly with Microsoft 365 services, such as Microsoft Intune and Microsoft 365 Defender. I have a bachelor's degree within system and network administration, and several infrastructure related IT certifications.
+
+When it comes to the art of software development I am entirely self taught with no formal education. As such, the experienced developers among you will probably discover ineffecient, subpar and non optimized code. If that is the case, feel free to provide constructive criticism and feedback. I am always interested in learning more!
