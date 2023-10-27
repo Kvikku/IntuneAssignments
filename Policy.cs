@@ -40,6 +40,18 @@ using static IntuneAssignments.Form1;
 
 
 
+//TO DO
+
+// ALL USERS - acacacac-9df4-4c7d-9d50-4ef0226f57a9
+// "@odata.type": "#microsoft.graph.allLicensedUsersAssignmentTarget"
+
+
+
+
+// ALL DEVICES - adadadad-808e-44e2-905a-0b7873a8a531
+// "@odata.type": "#microsoft.graph.allDevicesAssignmentTarget"
+
+
 namespace IntuneAssignments
 {
     public partial class Policy : Form
@@ -358,7 +370,7 @@ namespace IntuneAssignments
             {
                 GroupId = groupID
                 //DeviceAndAppManagementAssignmentFilterId = policyID
-
+                
             };
 
 
