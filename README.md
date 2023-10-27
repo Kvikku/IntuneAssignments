@@ -9,7 +9,7 @@ Usually with process involves a lot of manual work and mouse clicks, which in tu
 And before you ask - No, we don't talk about policy sets in Intune to solve this. Shh!
 
 
-
+__NOTE - This application is a work in progress. Errors, crashes and unexpected behaviour can occur__
 
 
 
@@ -96,12 +96,38 @@ Click the Wrench icon in the menu on the left side, enter your authentication in
 The app will now verify if what you entered is correct. 
 Status can be seen the lower left side.
 
+## Help guides
+
+There is a help guide throughout the application, represented with a book icon in the left menu. Use it for a quick tour of each page.
+
+
 ## Application deployment
 
+Application deployment is done on the home page (House icon)
 
+1. First you find and double click the application(s) that you want to deploy. This will move them to the check list
+2. Then you do the same for the group(s) you want to deploy to.
+3. Then you select the intent for the deployment
+4. Finally you click "Prepare deployment", double check that it is what you intended and click "Deploy"
 
 ## Profile deployment
 
+Profile deployment is done on the profile page (Gear icon)
+
+1. First you find and highlight the profile(s) that you want to deploy.
+2. Then you do the same for the group(s) you want to deploy to
+3. Finally you click "Prepare deployment", double check that it is what you intended and click "Deploy"
+
+
+## Manage assignments
+
+Managing existing assignments is done on the assignment page (Magnifying glass icon)
+
+_NOTE - This currently only supports assignments for applications_
+
+1. First you find and double click the application you want to manage assignments for
+2. If the applications have existing assignments they will appear in the list to the right
+3. You can now delete assignments individually or in bulk
 
 
 # Planned features
