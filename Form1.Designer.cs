@@ -484,7 +484,7 @@
             dtgDisplayGroup.ReadOnly = true;
             dtgDisplayGroup.RowHeadersVisible = false;
             dtgDisplayGroup.RowTemplate.Height = 25;
-            dtgDisplayGroup.Size = new Size(370, 324);
+            dtgDisplayGroup.Size = new Size(370, 306);
             dtgDisplayGroup.TabIndex = 14;
             mainFormToolTip.SetToolTip(dtgDisplayGroup, "Double click a group to prepare it for deployment");
             dtgDisplayGroup.CellDoubleClick += dtgDisplayGroup_CellDoubleClick;

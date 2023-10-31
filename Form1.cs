@@ -60,6 +60,16 @@ namespace IntuneAssignments
         private Size OriginalLoginButtonSize = Size.Empty;
 
 
+
+
+        public string allUsersGroupID = "acacacac-9df4-4c7d-9d50-4ef0226f57a9";
+        // "@odata.type": "#microsoft.graph.allLicensedUsersAssignmentTarget"
+
+        public string allDevicesGroupID = "adadadad-808e-44e2-905a-0b7873a8a531";
+        // "@odata.type": "#microsoft.graph.allDevicesAssignmentTarget"
+
+
+
         //public MSGraphAuthenticator graphAuthenticator { get; set; }
 
 
@@ -806,6 +816,11 @@ namespace IntuneAssignments
             {
                 dtgDisplayGroup.Rows.Add(group.DisplayName, group.Id);
             }
+
+            dtgDisplayGroup.Rows.Add("All Users", allUsersGroupID);
+            dtgDisplayGroup.Rows.Add("All Devices", allDevicesGroupID);
+
+
         }
         public async void SearchForGroup()
         {

@@ -349,6 +349,10 @@ namespace IntuneAssignments
                 rtbSelectedGroups.AppendText(group.ToString() + "\n");
 
             }
+
+
+         
+
         }
 
 
@@ -370,7 +374,7 @@ namespace IntuneAssignments
             {
                 GroupId = groupID
                 //DeviceAndAppManagementAssignmentFilterId = policyID
-                
+
             };
 
 
@@ -1060,6 +1064,8 @@ namespace IntuneAssignments
         {
             // This method lists all groups in the tenant and displays them in a datagridview
 
+            // Create an object of form1 to use it's methods   
+            Form1 form1 = new Form1();
 
             // Authenticate to Graph
             var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
@@ -1076,6 +1082,13 @@ namespace IntuneAssignments
             {
                 dtgDisplayGroup.Rows.Add(group.DisplayName, group.Id);
             }
+
+
+            // Add All users and all devices virtual groups and IDs to the datagridview
+
+            dtgDisplayGroup.Rows.Add("All Users", form1.allUsersGroupID);
+            dtgDisplayGroup.Rows.Add("All Devices", form1.allDevicesGroupID);
+
         }
 
         public void HelpGuide()
@@ -1099,7 +1112,7 @@ namespace IntuneAssignments
                 // sleep for 2 seconds
                 Thread.Sleep(2000);
 
-                
+
                 MessageBox.Show("Here you can do bulk group assignments for policies");
 
                 pnlSearchPolicy.Visible = true;
@@ -1115,7 +1128,7 @@ namespace IntuneAssignments
 
 
 
-                
+
 
 
 
