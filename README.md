@@ -136,7 +136,7 @@ _NOTE - This currently only supports assignments for applications_
 # Planned features
 
 ## Functionality
-![](https://img.shields.io/badge/Upcoming-Stuff-green)
+![](https://img.shields.io/badge/Upcoming-Stuff-orange)
 
 
 - Assignment options
@@ -158,7 +158,11 @@ _NOTE - This currently only supports assignments for applications_
 - Verify API permissions when authenticating
 
 
+
+
 ## Completed features
+
+![](https://img.shields.io/badge/Completed-Stuff-green)
 
 - All Users and All Devices for application deployment
 - All Users and All Devices for policy deployment
