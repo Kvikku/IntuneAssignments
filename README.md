@@ -136,9 +136,9 @@ _NOTE - This currently only supports assignments for applications_
 # Planned features
 
 ## Functionality
-![](https://img.shields.io/badge/Upcoming-Stuff-green)
+![](https://img.shields.io/badge/Upcoming-Stuff-orange)
 
-- Handle All Users and All Devices virtual groups
+
 - Assignment options
     - Filters
     - End user notifications
@@ -157,6 +157,15 @@ _NOTE - This currently only supports assignments for applications_
 - Logging to log file
 - Verify API permissions when authenticating
 
+
+
+
+## Completed features
+
+![](https://img.shields.io/badge/Completed-Stuff-green)
+
+- All Users and All Devices for application deployment
+- All Users and All Devices for policy deployment
 
 ## Community feature requests
 
