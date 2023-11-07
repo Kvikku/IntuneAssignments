@@ -138,7 +138,7 @@ _NOTE - This currently only supports assignments for applications_
 ## Functionality
 ![](https://img.shields.io/badge/Upcoming-Stuff-green)
 
-- Handle All Users and All Devices virtual groups
+
 - Assignment options
     - Filters
     - End user notifications
