@@ -158,6 +158,11 @@ _NOTE - This currently only supports assignments for applications_
 - Verify API permissions when authenticating
 
 
+## Completed features
+
+- All Users and All Devices for application deployment
+- All Users and All Devices for policy deployment
+
 ## Community feature requests
 
 If you have other feature request, please post or comment in the discussion tab, and explain to the best of your abilities the desired feature. I appreciate a challenge!
