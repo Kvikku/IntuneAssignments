@@ -105,7 +105,7 @@ namespace IntuneAssignments
 
 
 
-            tstbtn001.Hide();
+            //tstbtn001.Hide();
 
             //pnlIntent.Hide();
             //pnlSearchApp.Hide();
@@ -1055,6 +1055,163 @@ namespace IntuneAssignments
 
 
 
+        public string ConvertODataTypeToAppClass(string oDataType)
+        {
+
+            // This method converts the odatatype property to the actual class name of the app
+
+            // (Yes, it's not very nice looking, but it works)
+
+            try
+            {
+
+                if (oDataType == "#microsoft.graph.win32LobApp")
+                {
+                    return "Win32LobApp";
+                }
+
+                else if (oDataType == "#microsoft.graph.officeSuiteApp")
+                {
+                    return "OfficeSuiteApp";
+                }
+
+                else if (oDataType == "#microsoft.graph.microsoftStoreForBusinessApp")
+                {
+                    return "MicrosoftStoreForBusinessApp";
+                }
+
+                else if (oDataType == "#microsoft.graph.winGetApp")
+                {
+                    return "WinGetApp";
+                }
+
+                else if (oDataType == "#microsoft.graph.managedAndroidStoreApp")
+                {
+                    return "ManagedAndroidStoreApp";
+                }
+
+                else if (oDataType == "#microsoft.graph.managedIOSStoreApp")
+                {
+                    return "ManagedIOSStoreApp";
+                }
+
+                else if (oDataType == "#microsoft.graph.iosVppApp")
+                {
+                    return "IosVppApp";
+                }
+
+                else if (oDataType == "#microsoft.graph.macOSOfficeSuiteApp")
+                {
+                    return "MacOSOfficeSuiteApp";
+                }
+
+                else if (oDataType == "#microsoft.graph.macOSMicrosoftEdgeApp")
+                {
+                    return "MacOSMicrosoftEdgeApp";
+                }  
+                
+                else if (oDataType == "#microsoft.graph.macOSMicrosoftDefenderApp")
+                {
+                    return "MacOSMicrosoftDefenderApp";
+                }
+                else if (oDataType == "#microsoft.graph.androidStoreApp")
+                {
+                        return "AndroidStoreApp";
+                }
+    
+                else if (oDataType == "#microsoft.graph.iosStoreApp")
+                {
+                        return "IosStoreApp";
+                }
+    
+                else
+                {
+                    return "Unknown app type";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return "Error looking up class name. The following error code was returned: " + ex.Message; ;
+                throw;
+            }
+
+            
+            
+
+
+        }
+
+
+        async Task UpdateApplicationDescription()
+        {
+
+            // Create a graph service client object
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+
+
+            // Check if txtboxAppDescription is blank or not
+            if (string.IsNullOrEmpty(txtboxAppDescription.Text))
+            {
+                // No text entered. No changes will be made. This is intentional
+                return;
+            }
+
+
+
+            // Need to find the app type of the selected app
+
+
+
+            // Create request body with the new description
+            var requestBody = new Win32LobApp
+            {
+                Description = txtboxAppDescription.Text
+            };
+
+
+            var mobileApps = await GetAllMobileAppsAsync();
+            var Groups = await SearchAndGetAllGroupsAsync();
+
+            foreach (var app in clbAppAssignments.Items)
+            {
+                var mobileAppID = GetAppIdByName(mobileApps, app.ToString());
+
+                // This is the app ID for each app in the checked list box
+                // Use this for assignment purposes
+
+
+
+
+
+                
+                foreach (var group in clbGroupAssignment.Items)
+                {
+                    var groupID = GetGroupIdByName(Groups, group.ToString());
+                    // This is the app ID for each group in the checked list box
+                    // Use this for assignment purposes
+
+
+
+
+                    // Note to next time
+                    // must find odatatype of app and use that to determine which class to use
+                    // then use that class to create the request body to update the description
+                    // Easiest way to find odatatype is to get all apps and search for the app name in the list of apps returned from the search query
+                    // then use the odatatype property of the app to determine which class to use
+
+
+
+
+
+                    await graphClient.Result.DeviceAppManagement.MobileApps[mobileAppID].PatchAsync(requestBody);
+
+                }
+            }
+        }
+
+
         async Task AddAppAssignment()
         {
             // Reset the progress bar
@@ -1763,32 +1920,64 @@ namespace IntuneAssignments
 
             //ye old faithful test button
 
+
+            TEST();
+
+
         }
+
+
+
+
 
         public async Task TEST()
         {
 
+
+
             var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
-            // Make a call to Microsoft Graph
-            var tenantInfo = await graphClient.Result.Organization.GetAsync((requestConfiguration) =>
+            var app = await graphClient.Result.DeviceAppManagement.MobileApps["156a5c8d-b98e-4984-993b-14de5fd76b06"].GetAsync();
+
+            // Show the app's description property
+
+            MessageBox.Show("Old message:" + app.Description);
+
+
+            var requestBody = new MobileApp
             {
-                //requestConfiguration.QueryParameters.Select = new string[] { "id" };
-            });
+                Description = "TEST123"
+            };
 
 
+            await graphClient.Result.DeviceAppManagement.MobileApps["156a5c8d-b98e-4984-993b-14de5fd76b06"].PatchAsync(requestBody);
+
+            var app2 = await graphClient.Result.DeviceAppManagement.MobileApps["156a5c8d-b98e-4984-993b-14de5fd76b06"].GetAsync();
+
+            MessageBox.Show("New message:" + app2.Description);
+
+            // write a function to update the app's description
 
 
-            // Put result in a list for processing
-            List<Organization> organizations = new List<Organization>();
-            organizations.AddRange(tenantInfo.Value);
+            //var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
-            // Loop through the list
-            // NOTE - this could be improved. There is room for error if the query returns more than 1 result
-            foreach (var org in organizations)
-            {
-                MessageBox.Show(org.DisplayName);
-            }
+            //// Make a call to Microsoft Graph
+            //var tenantInfo = await graphClient.Result.Organization.GetAsync((requestConfiguration) =>
+            //{
+            //    //requestConfiguration.QueryParameters.Select = new string[] { "id" };
+            //});
+
+
+            //// Put result in a list for processing
+            //List<Organization> organizations = new List<Organization>();
+            //organizations.AddRange(tenantInfo.Value);
+
+            //// Loop through the list
+            //// NOTE - this could be improved. There is room for error if the query returns more than 1 result
+            //foreach (var org in organizations)
+            //{
+            //    MessageBox.Show(org.DisplayName);
+            //}
         }
 
 
@@ -1807,6 +1996,11 @@ namespace IntuneAssignments
 
             checkConfigurationSettings();
             checkConnectionStatus();
+        }
+
+        private void btnDeployDescription_Click(object sender, EventArgs e)
+        {
+            UpdateApplicationDescription();
         }
     }
 }

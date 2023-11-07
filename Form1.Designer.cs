@@ -72,6 +72,8 @@
             pnlSelectGroup = new Panel();
             clbGroupAssignment = new CheckedListBox();
             pnlIntent = new Panel();
+            txtboxAppDescription = new TextBox();
+            lblDescription = new Label();
             lblIntentChoice = new Label();
             rbtnUninstall = new RadioButton();
             rbtnRequired = new RadioButton();
@@ -79,6 +81,7 @@
             btnSummarize = new Button();
             btnReset = new Button();
             panelSummary = new Panel();
+            btnDeployDescription = new Button();
             lblSummary = new Label();
             rtbDeploymentSummary = new RichTextBox();
             progressBar1 = new ProgressBar();
@@ -574,6 +577,8 @@
             // pnlIntent
             // 
             pnlIntent.BorderStyle = BorderStyle.FixedSingle;
+            pnlIntent.Controls.Add(txtboxAppDescription);
+            pnlIntent.Controls.Add(lblDescription);
             pnlIntent.Controls.Add(lblIntentChoice);
             pnlIntent.Controls.Add(rbtnUninstall);
             pnlIntent.Controls.Add(rbtnRequired);
@@ -583,12 +588,36 @@
             pnlIntent.Size = new Size(317, 415);
             pnlIntent.TabIndex = 12;
             // 
+            // txtboxAppDescription
+            // 
+            txtboxAppDescription.BackColor = Color.FromArgb(46, 51, 73);
+            txtboxAppDescription.BorderStyle = BorderStyle.FixedSingle;
+            txtboxAppDescription.ForeColor = Color.Salmon;
+            txtboxAppDescription.Location = new Point(14, 230);
+            txtboxAppDescription.Multiline = true;
+            txtboxAppDescription.Name = "txtboxAppDescription";
+            txtboxAppDescription.Size = new Size(281, 162);
+            txtboxAppDescription.TabIndex = 5;
+            mainFormToolTip.SetToolTip(txtboxAppDescription, "Enter a desired description. Leave blank to not add or change the description field");
+            // 
+            // lblDescription
+            // 
+            lblDescription.AutoSize = true;
+            lblDescription.Font = new Font("Consolas", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            lblDescription.ForeColor = Color.Salmon;
+            lblDescription.Location = new Point(14, 203);
+            lblDescription.Name = "lblDescription";
+            lblDescription.Size = new Size(142, 24);
+            lblDescription.TabIndex = 4;
+            lblDescription.Text = "Description";
+            mainFormToolTip.SetToolTip(lblDescription, "Enter a desired description. Leave blank to not add or change the description field");
+            // 
             // lblIntentChoice
             // 
             lblIntentChoice.AutoSize = true;
             lblIntentChoice.Font = new Font("Consolas", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
             lblIntentChoice.ForeColor = Color.Salmon;
-            lblIntentChoice.Location = new Point(3, 9);
+            lblIntentChoice.Location = new Point(14, 15);
             lblIntentChoice.Name = "lblIntentChoice";
             lblIntentChoice.Size = new Size(82, 24);
             lblIntentChoice.TabIndex = 3;
@@ -600,7 +629,7 @@
             rbtnUninstall.AutoSize = true;
             rbtnUninstall.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
             rbtnUninstall.ForeColor = Color.Salmon;
-            rbtnUninstall.Location = new Point(3, 194);
+            rbtnUninstall.Location = new Point(14, 104);
             rbtnUninstall.Name = "rbtnUninstall";
             rbtnUninstall.Size = new Size(108, 23);
             rbtnUninstall.TabIndex = 2;
@@ -615,7 +644,7 @@
             rbtnRequired.AutoSize = true;
             rbtnRequired.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
             rbtnRequired.ForeColor = Color.Salmon;
-            rbtnRequired.Location = new Point(3, 165);
+            rbtnRequired.Location = new Point(14, 75);
             rbtnRequired.Name = "rbtnRequired";
             rbtnRequired.Size = new Size(99, 23);
             rbtnRequired.TabIndex = 1;
@@ -630,7 +659,7 @@
             rbtnAvailable.AutoSize = true;
             rbtnAvailable.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
             rbtnAvailable.ForeColor = Color.Salmon;
-            rbtnAvailable.Location = new Point(3, 136);
+            rbtnAvailable.Location = new Point(14, 46);
             rbtnAvailable.Name = "rbtnAvailable";
             rbtnAvailable.Size = new Size(108, 23);
             rbtnAvailable.TabIndex = 0;
@@ -671,6 +700,7 @@
             // panelSummary
             // 
             panelSummary.BorderStyle = BorderStyle.FixedSingle;
+            panelSummary.Controls.Add(btnDeployDescription);
             panelSummary.Controls.Add(lblSummary);
             panelSummary.Controls.Add(rtbDeploymentSummary);
             panelSummary.Controls.Add(progressBar1);
@@ -687,6 +717,16 @@
             panelSummary.Name = "panelSummary";
             panelSummary.Size = new Size(1739, 426);
             panelSummary.TabIndex = 16;
+            // 
+            // btnDeployDescription
+            // 
+            btnDeployDescription.Location = new Point(1310, 27);
+            btnDeployDescription.Name = "btnDeployDescription";
+            btnDeployDescription.Size = new Size(105, 34);
+            btnDeployDescription.TabIndex = 21;
+            btnDeployDescription.Text = "button1";
+            btnDeployDescription.UseVisualStyleBackColor = true;
+            btnDeployDescription.Click += btnDeployDescription_Click;
             // 
             // lblSummary
             // 
@@ -1051,5 +1091,8 @@
         private Label lblConnectionStatus;
         private Label lblTenantName;
         private PictureBox pbCheckConnection;
+        private Label lblDescription;
+        private TextBox txtboxAppDescription;
+        private Button btnDeployDescription;
     }
 }
