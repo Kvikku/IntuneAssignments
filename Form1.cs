@@ -1306,6 +1306,9 @@ namespace IntuneAssignments
         {
             // Retrieves all Azure AD groups with ID and display name, and saves them in a list for further use and processing
 
+
+
+
             // Create the list
             var Groups = new List<Group>();
 
@@ -1326,11 +1329,34 @@ namespace IntuneAssignments
             Groups.AddRange(result.Value);
 
 
+
+
             var groupInfo = Groups.Select(app => new GroupInfo
             {
                 Id = app.Id,
                 DisplayName = app.DisplayName
             }).ToList();
+
+
+
+            Groups.AddRange(result.Value);
+
+            // Manually create and add two more objects
+            GroupInfo allUsersGroup = new GroupInfo
+            {
+                Id = allUsersGroupID,
+                DisplayName = "All users"
+            };
+
+            GroupInfo allDevicesGroup = new GroupInfo
+            {
+                Id = allDevicesGroupID,
+                DisplayName = "All devices"
+            };
+
+            // Add the manually created objects to the list
+            groupInfo.Add(allUsersGroup);
+            groupInfo.Add(allDevicesGroup);
 
             return groupInfo;
 
@@ -1638,6 +1664,16 @@ namespace IntuneAssignments
                 {
                     // user clicked no. Do nothing
                 }
+
+
+            }
+            else if (numberOfAssignments <= 9)
+            {
+                AddAppAssignment();
+            }
+            else
+            {
+                MessageBox.Show("Something went wrong");
             }
 
 
