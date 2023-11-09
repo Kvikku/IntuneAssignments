@@ -152,7 +152,7 @@ _NOTE - This currently only supports assignments for applications_
   
 
 - Applications
-    - Hide managed store apps from view
+    - Hide managed store apps from view (description property of store apps for iOS and Android are read only)
 
 ## Security related
 
