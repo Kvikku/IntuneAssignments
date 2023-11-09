@@ -13,6 +13,7 @@ using System;
 using System.Diagnostics.Eventing.Reader;
 using System.Net;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -59,7 +60,8 @@ namespace IntuneAssignments
         private int timerCount = 1;
         private Size OriginalLoginButtonSize = Size.Empty;
 
-
+        public string graphAssembly = "Microsoft.Graph.Beta";
+        public string graphClassNamePrefix = "Microsoft.Graph.Beta.Models.";
 
 
         public string allUsersGroupID = "acacacac-9df4-4c7d-9d50-4ef0226f57a9";
@@ -767,10 +769,10 @@ namespace IntuneAssignments
 
             // Translates odatatype property to human readable platform name for display in datagridview
 
-            string[] Windows = { "#microsoft.graph.win32LobApp", "#microsoft.graph.officeSuiteApp", "#microsoft.graph.microsoftStoreForBusinessApp", "#microsoft.graph.winGetApp" };
-            string[] Android = { "#microsoft.graph.managedAndroidStoreApp", "androidStoreApp" };
-            string[] iOS = { "#microsoft.graph.managedIOSStoreApp", "iosStoreApp", "#microsoft.graph.iosVppApp" };
-            string[] macoS = { "#microsoft.graph.macOSOfficeSuiteApp", "macOSMicrosoftEdgeApp" };
+            string[] Windows = { "#microsoft.graph.win32LobApp", "#microsoft.graph.officeSuiteApp", "#microsoft.graph.microsoftStoreForBusinessApp", "#microsoft.graph.winGetApp", "#microsoft.graph.windowsMicrosoftEdgeApp", "#microsoft.graph.webApp", "#microsoft.graph.windowsWebApp" };
+            string[] Android = { "#microsoft.graph.managedAndroidStoreApp", "androidStoreApp", "#microsoft.graph.androidManagedStoreApp", "#microsoft.graph.webApp" };
+            string[] iOS = { "#microsoft.graph.managedIOSStoreApp", "iosStoreApp", "#microsoft.graph.iosVppApp", "#microsoft.graph.webApp" };
+            string[] macoS = { "#microsoft.graph.macOSOfficeSuiteApp", "macOSMicrosoftEdgeApp", "#microsoft.graph.macOSMicrosoftDefenderApp", "#microsoft.graph.macOSMicrosoftEdgeApp", "#microsoft.graph.macOSWebClip", "#microsoft.graph.webApp" };
 
             // search for odatatype in arrays and returns the platform name
             if (Windows.Contains(odatatype))
@@ -1054,6 +1056,59 @@ namespace IntuneAssignments
         }
 
 
+        public async Task<string> GetOdataTypeFromAppIDAsync(string appID)
+        {
+
+            // This method returns the odatatype of an app based on the app ID
+
+            try
+            {
+                // Create a graph service client object
+                var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+
+
+                // Make a call to Microsoft Graph
+                var listOfApps = await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
+                {
+                    requestConfiguration.QueryParameters.Filter = $"id eq '{appID}'";
+                });
+
+                // Add result to a list for processing
+                List<MobileApp> apps = new List<MobileApp>();
+                apps.AddRange(listOfApps.Value);
+
+                // Check if any apps are returned
+
+
+
+                if (apps.Count == 0)
+                {
+                    return "No apps found";
+
+
+
+                }
+
+                else if (apps.Count > 0)
+                {
+                    var odataType = apps[0].OdataType.ToString();
+                    return odataType;
+                }
+
+                else
+                {
+                    return $"No app found with ID {appID}";
+                }
+
+            }
+            catch (Exception)
+            {
+                return $"An error occurred while retrieving app information for ID {appID}";
+                throw;
+            }
+
+        }
 
         public string ConvertODataTypeToAppClass(string oDataType)
         {
@@ -1061,6 +1116,8 @@ namespace IntuneAssignments
             // This method converts the odatatype property to the actual class name of the app
 
             // (Yes, it's not very nice looking, but it works)
+
+
 
             try
             {
@@ -1073,6 +1130,21 @@ namespace IntuneAssignments
                 else if (oDataType == "#microsoft.graph.officeSuiteApp")
                 {
                     return "OfficeSuiteApp";
+                }
+
+                else if (oDataType == "#microsoft.graph.windowsMicrosoftEdgeApp")
+                {
+                    return "WindowsMicrosoftEdgeApp";
+                }
+
+                else if (oDataType == "#microsoft.graph.webApp")
+                {
+                    return "WebApp";
+                }
+
+                else if (oDataType == "#microsoft.graph.windowsWebApp")
+                {
+                    return "WindowsWebApp";
                 }
 
                 else if (oDataType == "#microsoft.graph.microsoftStoreForBusinessApp")
@@ -1089,6 +1161,17 @@ namespace IntuneAssignments
                 {
                     return "ManagedAndroidStoreApp";
                 }
+
+                else if (oDataType == "#microsoft.graph.macOSWebClip")
+                {
+                    return "MacOSWebClip";
+                }
+
+                else if (oDataType == "#microsoft.graph.androidManagedStoreApp")
+                {
+                    return "AndroidManagedStoreApp";
+                }
+
 
                 else if (oDataType == "#microsoft.graph.managedIOSStoreApp")
                 {
@@ -1108,22 +1191,22 @@ namespace IntuneAssignments
                 else if (oDataType == "#microsoft.graph.macOSMicrosoftEdgeApp")
                 {
                     return "MacOSMicrosoftEdgeApp";
-                }  
-                
+                }
+
                 else if (oDataType == "#microsoft.graph.macOSMicrosoftDefenderApp")
                 {
                     return "MacOSMicrosoftDefenderApp";
                 }
                 else if (oDataType == "#microsoft.graph.androidStoreApp")
                 {
-                        return "AndroidStoreApp";
+                    return "AndroidStoreApp";
                 }
-    
+
                 else if (oDataType == "#microsoft.graph.iosStoreApp")
                 {
-                        return "IosStoreApp";
+                    return "IosStoreApp";
                 }
-    
+
                 else
                 {
                     return "Unknown app type";
@@ -1136,8 +1219,8 @@ namespace IntuneAssignments
                 throw;
             }
 
-            
-            
+
+
 
 
         }
@@ -1146,71 +1229,117 @@ namespace IntuneAssignments
         async Task UpdateApplicationDescription()
         {
 
-            // Create a graph service client object
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            // This method updates the description of an app
+            // The existing description is overwritten with the text in txtboxAppDescription
+            // The description property on iOS and Android store apps is read only, so this method will not work for those apps
 
 
 
-            // Check if txtboxAppDescription is blank or not
-            if (string.IsNullOrEmpty(txtboxAppDescription.Text))
+            // NEXT STEP:
+            // how to clean up the GUI and implement this method in the application
+
+
+
+
+            try
             {
-                // No text entered. No changes will be made. This is intentional
-                return;
-            }
+
+                // Create a graph service client object
+                var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
 
-
-            // Need to find the app type of the selected app
-
-
-
-            // Create request body with the new description
-            var requestBody = new Win32LobApp
-            {
-                Description = txtboxAppDescription.Text
-            };
-
-
-            var mobileApps = await GetAllMobileAppsAsync();
-            var Groups = await SearchAndGetAllGroupsAsync();
-
-            foreach (var app in clbAppAssignments.Items)
-            {
-                var mobileAppID = GetAppIdByName(mobileApps, app.ToString());
-
-                // This is the app ID for each app in the checked list box
-                // Use this for assignment purposes
-
-
-
-
-
-                
-                foreach (var group in clbGroupAssignment.Items)
+                // Check if txtboxAppDescription is blank or not
+                if (string.IsNullOrEmpty(txtboxAppDescription.Text))
                 {
-                    var groupID = GetGroupIdByName(Groups, group.ToString());
-                    // This is the app ID for each group in the checked list box
-                    // Use this for assignment purposes
-
-
-
-
-                    // Note to next time
-                    // must find odatatype of app and use that to determine which class to use
-                    // then use that class to create the request body to update the description
-                    // Easiest way to find odatatype is to get all apps and search for the app name in the list of apps returned from the search query
-                    // then use the odatatype property of the app to determine which class to use
-
-
-
-
-
-                    await graphClient.Result.DeviceAppManagement.MobileApps[mobileAppID].PatchAsync(requestBody);
-
+                    // No text entered. No changes will be made. This is intentional
+                    return;
                 }
+
+
+                // Create request body with the new description
+                // Template
+                //
+                var testBody = new MobileApp
+                {
+                    Description = txtboxAppDescription.Text
+                };
+
+                // During troubleshoot, use these values to test the method
+
+                // Load the assembly to look up the class name of the app
+
+                var assembly = Assembly.Load(graphAssembly);
+                var mobileApps = await GetAllMobileAppsAsync();
+                var Groups = await SearchAndGetAllGroupsAsync();
+
+
+
+                foreach (var app in clbAppAssignments.Items)
+                {
+                    // This is the app ID for each app in the checked list box
+                    var mobileAppID = GetAppIdByName(mobileApps, app.ToString());
+
+
+                    // Retrieve the odatatype of the app
+                    var oDataType = await GetOdataTypeFromAppIDAsync(mobileAppID);
+
+
+                    // Retrieve the class name of the app based on the odatatype
+                    var appClassName = ConvertODataTypeToAppClass(oDataType);
+
+
+                    // Create the full class name
+                    var fullClassName = graphClassNamePrefix + appClassName;
+
+                    // Look up the class type. It is needed to create a new request body with the correct class type (WinGetApp, Win32LOBApp, AndroidStoreApp, etc)
+                    var classType = assembly.GetType(fullClassName);
+
+
+                    if (classType == null)
+                    {
+                        // troubleshoot if this happens
+                        MessageBox.Show("Class type is null");
+                    }
+
+
+
+                    // Create a new request body based on the app class name
+                    var requestBody = Activator.CreateInstance(classType);
+
+
+                    // Update the description property in the request body
+                    SetProperty(requestBody, "Description", txtboxAppDescription.Text);
+
+
+                    // Here MobileApp class is used. This is the base class for all apps
+                    await graphClient.Result.DeviceAppManagement.MobileApps[mobileAppID].PatchAsync((MobileApp)requestBody);
+                }
+
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occured while updating the description: " + ex.Message);
+                throw;
+            }
+
         }
 
+
+        static void SetProperty(object obj, string propertyName, object value)
+        {
+            // Set the value of a property in an object
+
+
+            var property = obj.GetType().GetProperty(propertyName);
+            if (property != null)
+            {
+                property.SetValue(obj, value);
+            }
+            else
+            {
+                Console.WriteLine($"Property {propertyName} not found in {obj.GetType().Name}");
+            }
+        }
 
         async Task AddAppAssignment()
         {
@@ -1921,7 +2050,10 @@ namespace IntuneAssignments
             //ye old faithful test button
 
 
-            TEST();
+            //TEST();
+
+
+            UpdateApplicationDescription();
 
 
         }
@@ -1944,7 +2076,7 @@ namespace IntuneAssignments
             MessageBox.Show("Old message:" + app.Description);
 
 
-            var requestBody = new MobileApp
+            var requestBody = new WinGetApp
             {
                 Description = "TEST123"
             };

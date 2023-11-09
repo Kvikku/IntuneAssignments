@@ -598,7 +598,7 @@
             txtboxAppDescription.Name = "txtboxAppDescription";
             txtboxAppDescription.Size = new Size(281, 162);
             txtboxAppDescription.TabIndex = 5;
-            mainFormToolTip.SetToolTip(txtboxAppDescription, "Enter a desired description. Leave blank to not add or change the description field");
+            mainFormToolTip.SetToolTip(txtboxAppDescription, "Enter a desired description. Leave blank to not add or change the description field. Existing description will be overwritten");
             // 
             // lblDescription
             // 
@@ -610,7 +610,7 @@
             lblDescription.Size = new Size(142, 24);
             lblDescription.TabIndex = 4;
             lblDescription.Text = "Description";
-            mainFormToolTip.SetToolTip(lblDescription, "Enter a desired description. Leave blank to not add or change the description field");
+            mainFormToolTip.SetToolTip(lblDescription, "Enter a desired description. Leave blank to not add or change the description field. Existing description will be overwritten");
             // 
             // lblIntentChoice
             // 
