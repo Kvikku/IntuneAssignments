@@ -151,6 +151,9 @@ _NOTE - This currently only supports assignments for applications_
 - Handle the description property
   
 
+- Applications
+    - Hide managed store apps from view
+
 ## Security related
 
 - Authentication with work account login
