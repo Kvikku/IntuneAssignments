@@ -149,6 +149,7 @@ _NOTE - This currently only supports assignments for applications_
     - Policies
     - Applications
 - Handle the description property
+- Conditional Access
   
 
 - Applications
