@@ -15,21 +15,21 @@
           "Microsoft.Graph.Beta": "5.51.0-preview",
           "Microsoft.Identity.Client": "4.57.0",
           "Newtonsoft.Json": "13.0.3",
-          "runtimepack.Microsoft.Windows.SDK.NET.Ref": "10.0.22621.29"
+          "runtimepack.Microsoft.Windows.SDK.NET.Ref": "10.0.22621.31"
         },
         "runtime": {
           "IntuneAssignments.dll": {}
         }
       },
-      "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.22621.29": {
+      "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.22621.31": {
         "runtime": {
           "Microsoft.Windows.SDK.NET.dll": {
-            "assemblyVersion": "10.0.22621.24",
-            "fileVersion": "10.0.22621.29"
+            "assemblyVersion": "10.0.22621.30",
+            "fileVersion": "10.0.22621.31"
           },
           "WinRT.Runtime.dll": {
             "assemblyVersion": "2.0.0.0",
-            "fileVersion": "2.0.3.42921"
+            "fileVersion": "2.0.4.44211"
           }
         }
       },
@@ -662,7 +662,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.22621.29": {
+    "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.22621.31": {
       "type": "runtimepack",
       "serviceable": false,
       "sha512": ""

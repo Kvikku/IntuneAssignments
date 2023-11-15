@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "aTVb3KtnM4kWq/fa9FI3O5RqoBu+1zbk00Igt6PLI22gby2606kGnaN1xZqbMIv52A0mIzJQhGxxwidiaXiu6Q==",
+  "dgSpecHash": "GusmixCO5IlwbZvbeV8ZtgjAgIGrGBJXlI76AwLnBR1hkvaTiOB3mvoB1FxZgkjJ25Y/EbmePHuyQ9iT6wi0rA==",
   "success": true,
   "projectFilePath": "C:\\Github\\IntuneAssignments\\IntuneAssignments.csproj",
   "expectedPackageFiles": [
@@ -67,7 +67,7 @@
     "C:\\Users\\jorge\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
     "C:\\Users\\jorge\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\jorge\\.nuget\\packages\\tavis.uritemplates\\2.0.0\\tavis.uritemplates.2.0.0.nupkg.sha512",
-    "C:\\Users\\jorge\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.22621.29\\microsoft.windows.sdk.net.ref.10.0.22621.29.nupkg.sha512"
+    "C:\\Users\\jorge\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.22621.31\\microsoft.windows.sdk.net.ref.10.0.22621.31.nupkg.sha512"
   ],
   "logs": []
 }

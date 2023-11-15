@@ -56,6 +56,7 @@
             pnlAssignedTo = new Panel();
             lblAssignmentPreview = new Label();
             pnlSummary = new Panel();
+            btnDeployDescription = new Button();
             rtbDeploymentSummary = new RichTextBox();
             pBarDeployProgress = new ProgressBar();
             rtbSelectedGroups = new RichTextBox();
@@ -70,6 +71,9 @@
             lblSelectGroups = new Label();
             toolTipPolicy = new ToolTip(components);
             pbHelpGuide = new PictureBox();
+            pnlDescription = new Panel();
+            txtboxDescription = new TextBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlSearchPolicy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
@@ -78,6 +82,7 @@
             pnlSummary.SuspendLayout();
             pnlSearchGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbHelpGuide).BeginInit();
+            pnlDescription.SuspendLayout();
             SuspendLayout();
             // 
             // pbHome
@@ -151,6 +156,7 @@
             dtgDisplayPolicy.Size = new Size(781, 404);
             dtgDisplayPolicy.TabIndex = 4;
             dtgDisplayPolicy.CellClick += dtgDisplayPolicy_CellClick;
+            dtgDisplayPolicy.SelectionChanged += dtgDisplayPolicy_SelectionChanged;
             // 
             // PolicyName
             // 
@@ -355,6 +361,7 @@
             // pnlSummary
             // 
             pnlSummary.BorderStyle = BorderStyle.FixedSingle;
+            pnlSummary.Controls.Add(btnDeployDescription);
             pnlSummary.Controls.Add(rtbDeploymentSummary);
             pnlSummary.Controls.Add(pBarDeployProgress);
             pnlSummary.Controls.Add(rtbSelectedGroups);
@@ -368,6 +375,20 @@
             pnlSummary.Name = "pnlSummary";
             pnlSummary.Size = new Size(1444, 384);
             pnlSummary.TabIndex = 4;
+            // 
+            // btnDeployDescription
+            // 
+            btnDeployDescription.BackColor = Color.Salmon;
+            btnDeployDescription.FlatStyle = FlatStyle.Flat;
+            btnDeployDescription.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnDeployDescription.Location = new Point(1191, 3);
+            btnDeployDescription.Name = "btnDeployDescription";
+            btnDeployDescription.Size = new Size(193, 58);
+            btnDeployDescription.TabIndex = 10;
+            btnDeployDescription.Text = "Add description";
+            toolTipPolicy.SetToolTip(btnDeployDescription, "Initiate deployment");
+            btnDeployDescription.UseVisualStyleBackColor = false;
+            btnDeployDescription.Click += btnDeployDescription_Click;
             // 
             // rtbDeploymentSummary
             // 
@@ -437,7 +458,7 @@
             btnDeployPolicyAssignment.Name = "btnDeployPolicyAssignment";
             btnDeployPolicyAssignment.Size = new Size(292, 58);
             btnDeployPolicyAssignment.TabIndex = 5;
-            btnDeployPolicyAssignment.Text = "Deploy";
+            btnDeployPolicyAssignment.Text = "Add assignment";
             toolTipPolicy.SetToolTip(btnDeployPolicyAssignment, "Initiate deployment");
             btnDeployPolicyAssignment.UseVisualStyleBackColor = false;
             btnDeployPolicyAssignment.Click += btnDeployPolicyAssignment_Click;
@@ -485,7 +506,7 @@
             // 
             cbLookUpAssignment.AutoSize = true;
             cbLookUpAssignment.ForeColor = Color.Salmon;
-            cbLookUpAssignment.Location = new Point(1550, 12);
+            cbLookUpAssignment.Location = new Point(1547, 20);
             cbLookUpAssignment.Name = "cbLookUpAssignment";
             cbLookUpAssignment.Size = new Size(212, 19);
             cbLookUpAssignment.TabIndex = 8;
@@ -529,12 +550,45 @@
             pbHelpGuide.TabStop = false;
             pbHelpGuide.Click += pbHelpGuide_Click;
             // 
+            // pnlDescription
+            // 
+            pnlDescription.BorderStyle = BorderStyle.FixedSingle;
+            pnlDescription.Controls.Add(txtboxDescription);
+            pnlDescription.Controls.Add(label1);
+            pnlDescription.Location = new Point(1547, 268);
+            pnlDescription.Name = "pnlDescription";
+            pnlDescription.Size = new Size(357, 244);
+            pnlDescription.TabIndex = 4;
+            // 
+            // txtboxDescription
+            // 
+            txtboxDescription.BackColor = Color.FromArgb(46, 51, 73);
+            txtboxDescription.BorderStyle = BorderStyle.FixedSingle;
+            txtboxDescription.ForeColor = Color.Salmon;
+            txtboxDescription.Location = new Point(6, 54);
+            txtboxDescription.Multiline = true;
+            txtboxDescription.Name = "txtboxDescription";
+            txtboxDescription.Size = new Size(324, 174);
+            txtboxDescription.TabIndex = 11;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.ForeColor = Color.Salmon;
+            label1.Location = new Point(3, 14);
+            label1.Name = "label1";
+            label1.Size = new Size(98, 21);
+            label1.TabIndex = 3;
+            label1.Text = "Description";
+            // 
             // Policy
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1912, 901);
+            Controls.Add(pnlDescription);
             Controls.Add(pbHelpGuide);
             Controls.Add(pnlSearchGroup);
             Controls.Add(cbLookUpAssignment);
@@ -557,6 +611,8 @@
             pnlSearchGroup.ResumeLayout(false);
             pnlSearchGroup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbHelpGuide).EndInit();
+            pnlDescription.ResumeLayout(false);
+            pnlDescription.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -599,5 +655,9 @@
         private Label lblSelectApps;
         private Label lblSelectGroups;
         private PictureBox pbHelpGuide;
+        private Button btnDeployDescription;
+        private Panel pnlDescription;
+        private TextBox txtboxDescription;
+        private Label label1;
     }
 }

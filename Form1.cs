@@ -1116,6 +1116,7 @@ namespace IntuneAssignments
             // This method converts the odatatype property to the actual class name of the app
 
             // (Yes, it's not very nice looking, but it works)
+            // (Maybe convert to switch statement later )
 
 
 
@@ -1241,6 +1242,16 @@ namespace IntuneAssignments
 
 
 
+            // Configures the progress bar to show the progress of the update
+
+            // Reset it to 0
+            progressBar1.Value = 0;
+
+            // Set the max (finished state) value to the number of apps in the checked list box
+            progressBar1.Maximum = clbAppAssignments.Items.Count;
+
+
+
             try
             {
 
@@ -1263,6 +1274,7 @@ namespace IntuneAssignments
                 {
                     Description = txtboxAppDescription.Text
                 };
+
 
                 // During troubleshoot, use these values to test the method
 
@@ -1313,19 +1325,31 @@ namespace IntuneAssignments
 
                     // Here MobileApp class is used. This is the base class for all apps
                     await graphClient.Result.DeviceAppManagement.MobileApps[mobileAppID].PatchAsync((MobileApp)requestBody);
+                    
+                    // Update the progress bar value by 1 for each app in the checked list box
+                    progressBar1.Value++;
+
+                    // Write the action to the summary textbox
+                    rtbDeploymentSummary.AppendText("Updating description for " + app.ToString() + "\n");
+                
                 }
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error occured while updating the description: " + ex.Message);
+                //MessageBox.Show("An error occured while updating the description: " + ex.Message);
+
+                // Write an error to the summary textbox
+                rtbDeploymentSummary.AppendText("Error updating description: " + ex.Message + "\n");
+
                 throw;
             }
 
         }
 
+        
 
-        static void SetProperty(object obj, string propertyName, object value)
+         static void SetProperty(object obj, string propertyName, object value)
         {
             // Set the value of a property in an object
 
@@ -2132,6 +2156,9 @@ namespace IntuneAssignments
 
         private void btnDeployDescription_Click(object sender, EventArgs e)
         {
+            
+            
+            
             UpdateApplicationDescription();
         }
     }

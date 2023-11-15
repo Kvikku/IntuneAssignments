@@ -585,7 +585,7 @@
             pnlIntent.Controls.Add(rbtnAvailable);
             pnlIntent.Location = new Point(1562, 34);
             pnlIntent.Name = "pnlIntent";
-            pnlIntent.Size = new Size(317, 415);
+            pnlIntent.Size = new Size(317, 414);
             pnlIntent.TabIndex = 12;
             // 
             // txtboxAppDescription
@@ -720,12 +720,18 @@
             // 
             // btnDeployDescription
             // 
-            btnDeployDescription.Location = new Point(1310, 27);
+            btnDeployDescription.BackColor = Color.Salmon;
+            btnDeployDescription.FlatAppearance.BorderSize = 0;
+            btnDeployDescription.FlatStyle = FlatStyle.Popup;
+            btnDeployDescription.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnDeployDescription.ForeColor = SystemColors.ControlText;
+            btnDeployDescription.Location = new Point(1259, 22);
             btnDeployDescription.Name = "btnDeployDescription";
-            btnDeployDescription.Size = new Size(105, 34);
+            btnDeployDescription.Size = new Size(156, 39);
             btnDeployDescription.TabIndex = 21;
-            btnDeployDescription.Text = "button1";
-            btnDeployDescription.UseVisualStyleBackColor = true;
+            btnDeployDescription.Text = "Add description";
+            mainFormToolTip.SetToolTip(btnDeployDescription, "Overwrite each apps description with your own");
+            btnDeployDescription.UseVisualStyleBackColor = false;
             btnDeployDescription.Click += btnDeployDescription_Click;
             // 
             // lblSummary
@@ -770,8 +776,8 @@
             btnDeployAssignments.Name = "btnDeployAssignments";
             btnDeployAssignments.Size = new Size(292, 39);
             btnDeployAssignments.TabIndex = 17;
-            btnDeployAssignments.Text = "Deploy";
-            mainFormToolTip.SetToolTip(btnDeployAssignments, "Initiate deployment");
+            btnDeployAssignments.Text = "Add assignments";
+            mainFormToolTip.SetToolTip(btnDeployAssignments, "Add the selected assignments to the selected apps");
             btnDeployAssignments.UseVisualStyleBackColor = false;
             btnDeployAssignments.Click += btnDeployAssignments_Click;
             // 

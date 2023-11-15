@@ -18,6 +18,7 @@ using Windows.Foundation.Metadata;
 using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
 using static IntuneAssignments.Form1;
+using System.Reflection;
 
 
 
@@ -351,10 +352,324 @@ namespace IntuneAssignments
             }
 
 
-         
+
 
         }
 
+
+
+
+        public string findPolicyPlatform(string odatatype)
+        {
+            // IMPORTANT!
+
+            // This was intended to be used to find the platform of a policy, however it is not used in the current version of the app
+            // The reason was that it is easier to find a substring in the odatatype property than to use this method
+            // Keeping it here for future reference
+
+
+            // Translates odatatype property to human readable platform name for display in datagridview
+            // Must be updated if new platforms are added to Intune or the odatatype changes
+
+            string[] Windows = { "#microsoft.graph.windows10CompliancePolicy", "Windows10" };
+            string[] iOS = { "#microsoft.graph.iosCompliancePolicy" };
+            string[] Android = { "#microsoft.graph.androidDeviceOwnerCompliancePolicy", "#microsoft.graph.androidWorkProfileCompliancePolicy", "#microsoft.graph.androidDeviceOwnerGeneralDeviceConfiguration" };
+            string[] macOS = { "#microsoft.graph.macOSCompliancePolicy", };
+
+
+            return "test";
+        }
+
+
+
+        public string findSettingsCatalogPolicyType(string odatatype)
+        {
+            /* 
+                This method converts the odatatype property to the actual class name of the app and returns it
+                There are 4 different types of settings catalog in Intune, and each one has a different class name
+                
+                The class name is needed to dynamically create a requestBody when updating the description of a policy
+                
+
+                var requestBody = new DeviceManagementConfigurationPolicy
+
+
+                Platforms = DeviceManagementConfigurationPlatforms.Windows10
+                Platforms = DeviceManagementConfigurationPlatforms.IOS
+                Platforms = DeviceManagementConfigurationPlatforms.MacOS
+
+
+            */
+
+            switch (odatatype)
+            {
+                case ("TEST"):
+                    // Code for TEST
+                    return "TEST";
+
+                default:
+                    // Code for other cases or handle unexpected values
+                    return "Error looking up policy type";
+            }
+
+
+        }
+        public string findCompliancePolicyType(string odatatype)
+        {
+            /* 
+                This method converts the odatatype property to the actual class name of the app and returns it
+                There are 5 different types of compliance policies in Intune, and each one has a different class name
+                
+                The class name is needed to dynamically create a requestBody when updating the description of a policy
+
+
+            */
+
+
+            switch (odatatype)
+            {
+                case "#microsoft.graph.androidDeviceOwnerCompliancePolicy":
+                    // Code for androidDeviceOwnerCompliancePolicy
+                    return "AndroidDeviceOwnerCompliancePolicy";
+
+
+                case "#microsoft.graph.iosCompliancePolicy":
+                    // Code for iosCompliancePolicy
+                    return "IosCompliancePolicy";
+
+                case "#microsoft.graph.windows10CompliancePolicy":
+                    // Code for windows10CompliancePolicy
+                    return "Windows10CompliancePolicy";
+
+
+                case "#microsoft.graph.androidWorkProfileCompliancePolicy":
+                    // Code for androidWorkProfileCompliancePolicy
+
+                    return "AndroidWorkProfileCompliancePolicy";
+
+
+                case "#microsoft.graph.macOSCompliancePolicy":
+                    // Code for macOSCompliancePolicy
+                    return "MacOSCompliancePolicy";
+
+
+                default:
+                    // Code for other cases or handle unexpected values
+                    return "Error looking up policy type";
+
+            }
+        }
+
+
+        async Task UpdatePolicyDescription()
+        {
+
+            // This method updates the description of a policy
+            // The existing description is overwritten with the text in txtboxAppDescription
+
+            // Configure the progress bar to show progress
+
+            // Set progress bar to 0
+            pBarDeployProgress.Value = 0;
+
+
+
+
+            // Create an instance of form1
+            Form1 form1 = new Form1();
+
+
+
+            // Load the MS Graph assembly for class lookup
+            var assembly = Assembly.Load(form1.graphAssembly);
+
+            try
+            {
+
+                // Authenticate to Graph
+                var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+
+
+                // Check if text box is empty
+                if (string.IsNullOrEmpty(txtboxDescription.Text))
+                {
+                    // No text entered. No changes will be made. This is intentional
+                    return;
+                }
+
+
+
+                else
+                {
+
+
+                    if (dtgDisplayPolicy.SelectedRows.Count > 0)
+                    {
+
+                       
+
+                        
+
+                        // Loop through each selected row in the datagridview
+
+                        foreach (DataGridViewRow row in dtgDisplayPolicy.SelectedRows)
+                        {
+
+                            // Set the max (finished state) value to the number of apps in the checked list box
+                            pBarDeployProgress.Maximum = dtgDisplayPolicy.SelectedRows.Count;
+
+
+
+                            // Extract the policy ID from the datagridview
+
+                            string policyID = row.Cells[3].Value.ToString();
+                            string policyName = row.Cells[0].Value.ToString();
+                            string policyType = row.Cells[1].Value.ToString();
+                            string policyPlatform = row.Cells[2].Value.ToString();
+
+
+
+
+                            /*
+                             These next blocks of code will handle each policy type separately
+                             For each policy type there is a different object type that must be created and used to update the policy
+                             This code could probably be optimized by using a switch statement instead of if statements
+                            */
+
+
+
+
+
+                            // COMPLIANCE POLICY //
+
+                            if (policyType == "Compliance")
+                            {
+
+                                // Must check what platform the policy is for and create the correct object type
+
+                                // Look up the class name based on the odatatype property
+                                var policyClassName = findCompliancePolicyType(policyPlatform);
+
+                                // Create the full class name
+                                var fullClassName = form1.graphClassNamePrefix + policyClassName;
+
+                                // Create the class type
+                                var classType = assembly.GetType(fullClassName);
+
+
+                                if (classType == null)
+                                {
+                                    // troubleshoot if this happens
+                                    MessageBox.Show("Class type is null");
+                                }
+
+
+                                // Create a new request body based on the app class name
+                                var requestBody = Activator.CreateInstance(classType);
+
+
+                                // Set the description property to the text in the textbox
+                                SetProperty(requestBody, "Description", txtboxDescription.Text);
+
+
+                                // Update the policy
+                                var result = await graphClient.Result.DeviceManagement.DeviceCompliancePolicies[policyID].PatchAsync((DeviceCompliancePolicy)requestBody);
+
+                                // write to the textbox
+                                rtbDeploymentSummary.AppendText("Description for " + policyName + " has been updated" + Environment.NewLine);
+
+                            }
+
+
+
+                            // SETTINGS CATALOG POLICY
+
+                            if (policyType == "Settings Catalog")
+                            {
+
+                                // Create a new settings catalog object
+                                var requestBody = new DeviceManagementConfigurationPolicy
+                                {
+                                    Description = txtboxDescription.Text
+                                };
+
+                            }
+
+
+
+
+                            /*
+                               Next step is to continue with the other policy types
+                               
+                               Device configuration has a lot of different odatatypes
+                           
+                                
+                                
+
+                            https://graph.microsoft.com/beta/deviceManagement/groupPolicyConfigurations // ADMX template
+
+                            */
+
+
+                            // DEVICE CONFIGURATION POLICY
+                            // Consider not support device configuration policies for now
+
+
+                            if (policyType == "Device Configuration")
+                            {
+                                // Create a new device configuration object
+                                var requestBody = new DeviceConfiguration
+                                {
+                                    Description = txtboxDescription.Text
+                                };
+
+                            }
+
+
+
+                            
+
+
+
+                           
+
+
+
+                            // Update the progress bar
+                            pBarDeployProgress.Value++;
+
+                        }
+                    }
+                }
+
+            }
+
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                throw;
+            }
+
+        }
+
+
+        static void SetProperty(object obj, string propertyName, object value)
+        {
+            // Set the value of a property in an object
+
+
+            var property = obj.GetType().GetProperty(propertyName);
+            if (property != null)
+            {
+                property.SetValue(obj, value);
+            }
+            else
+            {
+                Console.WriteLine($"Property {propertyName} not found in {obj.GetType().Name}");
+            }
+        }
 
         async Task AssignSettingsCatalog(string policyID, string groupID)
         {
@@ -1220,6 +1535,12 @@ namespace IntuneAssignments
         private void dtgDisplayPolicy_CellClick(object sender, DataGridViewCellEventArgs e)
         {
 
+
+
+
+
+
+
             if (cbLookUpAssignment.Checked == true)
             {
                 pnlAssignedTo.Visible = true;
@@ -1273,6 +1594,29 @@ namespace IntuneAssignments
         private void pbHelpGuide_Click(object sender, EventArgs e)
         {
             HelpGuide();
+        }
+
+        private void btnDeployDescription_Click(object sender, EventArgs e)
+        {
+            UpdatePolicyDescription();
+        }
+
+        private void dtgDisplayPolicy_SelectionChanged(object sender, EventArgs e)
+        {
+            // This is needed to allow the user to select multiple rows in the datagridview
+
+            // Select the entire selected rows
+            foreach (DataGridViewCell cell in dtgDisplayPolicy.SelectedCells)
+            {
+                dtgDisplayPolicy.Rows[cell.RowIndex].Selected = true;
+            }
+
+            // Now, you can access the data of the selected rows if needed
+            foreach (DataGridViewRow selectedRow in dtgDisplayPolicy.SelectedRows)
+            {
+                // ...
+            }
+            
         }
     }
 }
