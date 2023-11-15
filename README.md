@@ -149,6 +149,7 @@ _NOTE - This currently only supports assignments for applications_
     - Policies
     - Applications
 - Handle the description property
+- Conditional Access
   
 
 - Applications
@@ -169,6 +170,7 @@ _NOTE - This currently only supports assignments for applications_
 
 - All Users and All Devices for application deployment
 - All Users and All Devices for policy deployment
+- Update Description property for applications
 
 ## Community feature requests
 
