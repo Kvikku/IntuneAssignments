@@ -23,6 +23,19 @@ using static System.Formats.Asn1.AsnWriter;
 using static System.Windows.Forms.DataFormats;
 
 
+/*
+    
+   TODO
+    - Clean up namespaces
+    - Rename form1
+    - Update images and icons
+    - Add comments
+    - Add error handling
+    - Add logging
+
+ 
+*/
+
 
 namespace IntuneAssignments
 {
@@ -153,6 +166,7 @@ namespace IntuneAssignments
 
             this.Hide();
             Policy policy = new Policy(this);
+            policy.Location = Form1Location;
             policy.Show();
 
 
@@ -2077,7 +2091,7 @@ namespace IntuneAssignments
             //TEST();
 
 
-            UpdateApplicationDescription();
+            //UpdateApplicationDescription();
 
 
         }

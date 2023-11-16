@@ -41,17 +41,6 @@ using System.Reflection;
 
 
 
-//TO DO
-
-// ALL USERS - acacacac-9df4-4c7d-9d50-4ef0226f57a9
-// "@odata.type": "#microsoft.graph.allLicensedUsersAssignmentTarget"
-
-
-
-
-// ALL DEVICES - adadadad-808e-44e2-905a-0b7873a8a531
-// "@odata.type": "#microsoft.graph.allDevicesAssignmentTarget"
-
 
 namespace IntuneAssignments
 {
@@ -59,6 +48,7 @@ namespace IntuneAssignments
     {
 
         private readonly Form1 _form1;
+        private ManagePolicyAssignments managePolicyAssignments;
 
         private void Policy_Load(object sender, EventArgs e)
         {
@@ -77,6 +67,29 @@ namespace IntuneAssignments
 
         }
 
+        protected override void OnLoad(EventArgs e)
+        {
+            // Necessary to copy the location of Form1
+            base.OnLoad(e);
+
+            // Set the location of the form to the position of Form1
+            if (_form1 != null)
+            {
+                Location = new Point(
+                    _form1.Location.X + (_form1.Width - Width) / 2,
+                    _form1.Location.Y + (_form1.Height - Height) / 2);
+            }
+
+
+
+        }
+
+
+        //public Policy(ManagePolicyAssignments managePolicyAssignments)
+        //{
+        //    this.managePolicyAssignments = managePolicyAssignments;
+        //}
+
         private void goHome()
         {
             this.Hide();
@@ -84,10 +97,18 @@ namespace IntuneAssignments
             form1.Show();
         }
 
+        private void viewManageAssignments()
+        {
+
+            this.Hide();
+            ManagePolicyAssignments managePolicyAssignments = new ManagePolicyAssignments(_form1);
+            managePolicyAssignments.Show();
+
+        }
 
         ////////////////////////////////////////////////////////////////////////  METHODS  /////////////////////////////////////////////////////////////////////////////////////////////
 
-        private string ExtractGroupID(string input)
+        public string ExtractGroupID(string input)
         {
             // Group ID for assignments is returned as the following format from Graph
 
@@ -197,7 +218,10 @@ namespace IntuneAssignments
                     //MessageBox.Show("No assignment found for " + profileName);
 
                     lblAssignmentPreview.Show();
-                    lblAssignmentPreview.Text = profileName + " does not have any assignments";
+                    lblAssignmentPreview.Text = profileName;
+                    lblAssignedTo.Text = "";
+                    rtbDeploymentSummary.SelectionColor = Color.Yellow;
+                    rtbAssignmentPreview.AppendText(profileName + " does not have any assignments" + "\n");
                 }
 
                 else if (assignmentList.Count >= 1)
@@ -210,7 +234,8 @@ namespace IntuneAssignments
                     // Loop through each assignment ID and find group name
 
                     lblAssignmentPreview.Show();
-                    lblAssignmentPreview.Text = profileName + " is assigned to:";
+                    lblAssignmentPreview.Text = profileName;
+                    lblAssignedTo.Text = "is assigned to:"; ;
 
 
                     foreach (var assignment in assignmentList)
@@ -385,6 +410,18 @@ namespace IntuneAssignments
         public string findSettingsCatalogPolicyType(string odatatype)
         {
             /* 
+                IMPORTANT!
+
+                This code is no longer needed, because settings catalog objects does not need to know the class name of the policy type, nor does it need to know the platform (Windows, iOS, etc...)
+                Keeping it here for future reference
+            
+
+
+
+
+
+
+
                 This method converts the odatatype property to the actual class name of the app and returns it
                 There are 4 different types of settings catalog in Intune, and each one has a different class name
                 
@@ -401,11 +438,25 @@ namespace IntuneAssignments
 
             */
 
+
+            var test = new DeviceManagementConfigurationPolicy
+            {
+                Platforms = DeviceManagementConfigurationPlatforms.Android
+            };
+
             switch (odatatype)
             {
-                case ("TEST"):
-                    // Code for TEST
-                    return "TEST";
+                case ("Windows10"):
+
+                    return "Windows";
+
+                case ("IOS"):
+
+                    return "iOS";
+
+                case ("MacOS"):
+
+                    return "MacOS";
 
                 default:
                     // Code for other cases or handle unexpected values
@@ -507,9 +558,9 @@ namespace IntuneAssignments
                     if (dtgDisplayPolicy.SelectedRows.Count > 0)
                     {
 
-                       
 
-                        
+
+
 
                         // Loop through each selected row in the datagridview
 
@@ -573,10 +624,11 @@ namespace IntuneAssignments
                                 SetProperty(requestBody, "Description", txtboxDescription.Text);
 
 
-                                // Update the policy
+                                // Update the description
                                 var result = await graphClient.Result.DeviceManagement.DeviceCompliancePolicies[policyID].PatchAsync((DeviceCompliancePolicy)requestBody);
 
                                 // write to the textbox
+                                rtbDeploymentSummary.SelectionColor = Color.Green;
                                 rtbDeploymentSummary.AppendText("Description for " + policyName + " has been updated" + Environment.NewLine);
 
                             }
@@ -588,12 +640,19 @@ namespace IntuneAssignments
                             if (policyType == "Settings Catalog")
                             {
 
+
                                 // Create a new settings catalog object
                                 var requestBody = new DeviceManagementConfigurationPolicy
                                 {
                                     Description = txtboxDescription.Text
                                 };
 
+                                // Update the description
+                                var result = await graphClient.Result.DeviceManagement.ConfigurationPolicies[policyID].PatchAsync(requestBody);
+
+                                // write to the textbox
+                                rtbDeploymentSummary.SelectionColor = Color.Green;
+                                rtbDeploymentSummary.AppendText("Description for " + policyName + " has been updated" + Environment.NewLine);
                             }
 
 
@@ -618,22 +677,19 @@ namespace IntuneAssignments
 
                             if (policyType == "Device Configuration")
                             {
+                                // Not implemented yet
+
                                 // Create a new device configuration object
-                                var requestBody = new DeviceConfiguration
-                                {
-                                    Description = txtboxDescription.Text
-                                };
+
+
+
+                                // Write to the textbox in yellow color to indicate that this is not supported yet
+                                rtbDeploymentSummary.SelectionColor = Color.Yellow;
+
+
+                                rtbDeploymentSummary.AppendText("Administrative templates are not supported yet. No changes have been made to " + policyName + Environment.NewLine);
 
                             }
-
-
-
-                            
-
-
-
-                           
-
 
 
                             // Update the progress bar
@@ -1262,7 +1318,7 @@ namespace IntuneAssignments
 
         }
 
-        public async void ListCompliancePolicies()
+        public async void ListCompliancePolicies(DataGridView dataGridView)
         {
 
             // This method lists all compliance policies in the tenant and displays them in a datagridview
@@ -1296,13 +1352,13 @@ namespace IntuneAssignments
             foreach (var policy in deviceCompliancePolicies)
             {
 
-                dtgDisplayPolicy.Rows.Add(policy.DisplayName, "Compliance", policy.OdataType, policy.Id);
+                dataGridView.Rows.Add(policy.DisplayName, "Compliance", policy.OdataType, policy.Id);
 
             }
 
         }
 
-        public async void ListConfigurationProfiles()
+        public async void ListConfigurationProfiles(DataGridView dataGridView)
         {
 
             // This method lists all configuration profiles in the tenant and displays them in a datagridview
@@ -1331,13 +1387,13 @@ namespace IntuneAssignments
             foreach (var profile in deviceConfigurationProfiles)
             {
 
-                dtgDisplayPolicy.Rows.Add(profile.DisplayName, "Device Configuration", profile.OdataType, profile.Id);
+                dataGridView.Rows.Add(profile.DisplayName, "Device Configuration", profile.OdataType, profile.Id);
 
             }
 
         }
 
-        public async void ListSettingsCatalog()
+        public async void ListSettingsCatalog(DataGridView dataGridView)
         {
             // This method lists all settings catalog in the tenant and displays them in a datagridview
 
@@ -1369,7 +1425,7 @@ namespace IntuneAssignments
             foreach (var policy in configurationPolicies)
             {
 
-                dtgDisplayPolicy.Rows.Add(policy.Name, "Settings Catalog", policy.Platforms, policy.Id);
+                dataGridView.Rows.Add(policy.Name, "Settings Catalog", policy.Platforms, policy.Id);
 
             }
 
@@ -1495,23 +1551,23 @@ namespace IntuneAssignments
 
             if (cbPolicyType.Text == "All types")
             {
-                ListCompliancePolicies();
-                ListConfigurationProfiles();
-                ListSettingsCatalog();
+                ListCompliancePolicies(dtgDisplayPolicy);
+                ListConfigurationProfiles(dtgDisplayPolicy);
+                ListSettingsCatalog(dtgDisplayPolicy);
             }
 
             else if (cbPolicyType.Text == "Compliance policy")
             {
-                ListCompliancePolicies();
+                ListCompliancePolicies(dtgDisplayPolicy);
             }
 
             else if (cbPolicyType.Text == "Administrative templates")
             {
-                ListConfigurationProfiles();
+                ListConfigurationProfiles(dtgDisplayPolicy);
             }
             else if (cbPolicyType.Text == "Settings catalog")
             {
-                ListSettingsCatalog();
+                ListSettingsCatalog(dtgDisplayPolicy);
             }
 
 
@@ -1547,7 +1603,7 @@ namespace IntuneAssignments
 
                 if (e.RowIndex == 0)
                 {
-                    MessageBox.Show("test");
+                    //MessageBox.Show("test");
                 }
 
                 if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
@@ -1616,7 +1672,12 @@ namespace IntuneAssignments
             {
                 // ...
             }
-            
+
+        }
+
+        private void pbViewAssignments_Click(object sender, EventArgs e)
+        {
+            viewManageAssignments();
         }
     }
 }

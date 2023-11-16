@@ -345,6 +345,9 @@ namespace IntuneAssignments
         public async void deleteAppAssignment()
         {
 
+            // Looks like a bug in the SDK. Issue has been raised on github
+
+
 
             // Authenticate to Graph
 

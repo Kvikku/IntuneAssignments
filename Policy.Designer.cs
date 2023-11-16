@@ -54,10 +54,12 @@
             txtboxSearchGroup = new TextBox();
             rtbAssignmentPreview = new RichTextBox();
             pnlAssignedTo = new Panel();
+            lblAssignedTo = new Label();
             lblAssignmentPreview = new Label();
             pnlSummary = new Panel();
             btnDeployDescription = new Button();
             rtbDeploymentSummary = new RichTextBox();
+            cbLookUpAssignment = new CheckBox();
             pBarDeployProgress = new ProgressBar();
             rtbSelectedGroups = new RichTextBox();
             rtbSelectedPolicies = new RichTextBox();
@@ -66,14 +68,14 @@
             btnResetDeployment = new Button();
             lblSelectedPolicies = new Label();
             btnPrepareDeployment = new Button();
-            cbLookUpAssignment = new CheckBox();
             pnlSearchGroup = new Panel();
             lblSelectGroups = new Label();
             toolTipPolicy = new ToolTip(components);
+            txtboxDescription = new TextBox();
             pbHelpGuide = new PictureBox();
             pnlDescription = new Panel();
-            txtboxDescription = new TextBox();
             label1 = new Label();
+            pbViewAssignments = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlSearchPolicy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
@@ -83,6 +85,7 @@
             pnlSearchGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbHelpGuide).BeginInit();
             pnlDescription.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbViewAssignments).BeginInit();
             SuspendLayout();
             // 
             // pbHome
@@ -331,41 +334,55 @@
             rtbAssignmentPreview.BackColor = Color.FromArgb(46, 51, 73);
             rtbAssignmentPreview.BorderStyle = BorderStyle.None;
             rtbAssignmentPreview.ForeColor = Color.Salmon;
-            rtbAssignmentPreview.Location = new Point(3, 38);
+            rtbAssignmentPreview.Location = new Point(10, 110);
             rtbAssignmentPreview.Name = "rtbAssignmentPreview";
-            rtbAssignmentPreview.Size = new Size(234, 159);
+            rtbAssignmentPreview.Size = new Size(327, 224);
             rtbAssignmentPreview.TabIndex = 2;
             rtbAssignmentPreview.Text = "";
             // 
             // pnlAssignedTo
             // 
             pnlAssignedTo.BorderStyle = BorderStyle.FixedSingle;
+            pnlAssignedTo.Controls.Add(lblAssignedTo);
             pnlAssignedTo.Controls.Add(lblAssignmentPreview);
             pnlAssignedTo.Controls.Add(rtbAssignmentPreview);
-            pnlAssignedTo.Location = new Point(1547, 45);
+            pnlAssignedTo.Location = new Point(1327, 28);
             pnlAssignedTo.Name = "pnlAssignedTo";
-            pnlAssignedTo.Size = new Size(357, 217);
+            pnlAssignedTo.Size = new Size(468, 344);
             pnlAssignedTo.TabIndex = 3;
+            // 
+            // lblAssignedTo
+            // 
+            lblAssignedTo.AutoSize = true;
+            lblAssignedTo.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lblAssignedTo.ForeColor = Color.Salmon;
+            lblAssignedTo.Location = new Point(5, 38);
+            lblAssignedTo.Name = "lblAssignedTo";
+            lblAssignedTo.Size = new Size(99, 20);
+            lblAssignedTo.TabIndex = 4;
+            lblAssignedTo.Text = "Is assigned to";
             // 
             // lblAssignmentPreview
             // 
             lblAssignmentPreview.AutoSize = true;
-            lblAssignmentPreview.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblAssignmentPreview.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
             lblAssignmentPreview.ForeColor = Color.Salmon;
-            lblAssignmentPreview.Location = new Point(3, 14);
+            lblAssignmentPreview.Location = new Point(3, 10);
             lblAssignmentPreview.Name = "lblAssignmentPreview";
-            lblAssignmentPreview.Size = new Size(103, 21);
+            lblAssignmentPreview.Size = new Size(101, 20);
             lblAssignmentPreview.TabIndex = 3;
-            lblAssignmentPreview.Text = "Assigned to:";
+            lblAssignmentPreview.Text = "NAMEOFAPP";
             // 
             // pnlSummary
             // 
             pnlSummary.BorderStyle = BorderStyle.FixedSingle;
             pnlSummary.Controls.Add(btnDeployDescription);
             pnlSummary.Controls.Add(rtbDeploymentSummary);
+            pnlSummary.Controls.Add(cbLookUpAssignment);
             pnlSummary.Controls.Add(pBarDeployProgress);
             pnlSummary.Controls.Add(rtbSelectedGroups);
             pnlSummary.Controls.Add(rtbSelectedPolicies);
+            pnlSummary.Controls.Add(pnlAssignedTo);
             pnlSummary.Controls.Add(lblSelectedGroups);
             pnlSummary.Controls.Add(btnDeployPolicyAssignment);
             pnlSummary.Controls.Add(btnResetDeployment);
@@ -373,7 +390,7 @@
             pnlSummary.Controls.Add(btnPrepareDeployment);
             pnlSummary.Location = new Point(97, 500);
             pnlSummary.Name = "pnlSummary";
-            pnlSummary.Size = new Size(1444, 384);
+            pnlSummary.Size = new Size(1807, 384);
             pnlSummary.TabIndex = 4;
             // 
             // btnDeployDescription
@@ -381,12 +398,12 @@
             btnDeployDescription.BackColor = Color.Salmon;
             btnDeployDescription.FlatStyle = FlatStyle.Flat;
             btnDeployDescription.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            btnDeployDescription.Location = new Point(1191, 3);
+            btnDeployDescription.Location = new Point(1094, 3);
             btnDeployDescription.Name = "btnDeployDescription";
             btnDeployDescription.Size = new Size(193, 58);
             btnDeployDescription.TabIndex = 10;
             btnDeployDescription.Text = "Add description";
-            toolTipPolicy.SetToolTip(btnDeployDescription, "Initiate deployment");
+            toolTipPolicy.SetToolTip(btnDeployDescription, "Overwrite each policies descrption property");
             btnDeployDescription.UseVisualStyleBackColor = false;
             btnDeployDescription.Click += btnDeployDescription_Click;
             // 
@@ -395,17 +412,29 @@
             rtbDeploymentSummary.BackColor = Color.FromArgb(46, 51, 73);
             rtbDeploymentSummary.BorderStyle = BorderStyle.None;
             rtbDeploymentSummary.ForeColor = Color.Salmon;
-            rtbDeploymentSummary.Location = new Point(893, 148);
+            rtbDeploymentSummary.Location = new Point(796, 139);
             rtbDeploymentSummary.Name = "rtbDeploymentSummary";
-            rtbDeploymentSummary.Size = new Size(539, 224);
+            rtbDeploymentSummary.Size = new Size(491, 224);
             rtbDeploymentSummary.TabIndex = 9;
             rtbDeploymentSummary.Text = "";
             toolTipPolicy.SetToolTip(rtbDeploymentSummary, "Output from the deployment process");
             rtbDeploymentSummary.WordWrap = false;
             // 
+            // cbLookUpAssignment
+            // 
+            cbLookUpAssignment.AutoSize = true;
+            cbLookUpAssignment.ForeColor = Color.Salmon;
+            cbLookUpAssignment.Location = new Point(1327, 3);
+            cbLookUpAssignment.Name = "cbLookUpAssignment";
+            cbLookUpAssignment.Size = new Size(212, 19);
+            cbLookUpAssignment.TabIndex = 8;
+            cbLookUpAssignment.Text = "Look up policy assignment on click";
+            toolTipPolicy.SetToolTip(cbLookUpAssignment, "Enable to look up existing assignments for policies when clicking them");
+            cbLookUpAssignment.UseVisualStyleBackColor = true;
+            // 
             // pBarDeployProgress
             // 
-            pBarDeployProgress.Location = new Point(893, 67);
+            pBarDeployProgress.Location = new Point(796, 67);
             pBarDeployProgress.Name = "pBarDeployProgress";
             pBarDeployProgress.Size = new Size(292, 39);
             pBarDeployProgress.TabIndex = 8;
@@ -416,9 +445,9 @@
             rtbSelectedGroups.BackColor = Color.FromArgb(46, 51, 73);
             rtbSelectedGroups.BorderStyle = BorderStyle.None;
             rtbSelectedGroups.ForeColor = Color.Salmon;
-            rtbSelectedGroups.Location = new Point(514, 139);
+            rtbSelectedGroups.Location = new Point(421, 139);
             rtbSelectedGroups.Name = "rtbSelectedGroups";
-            rtbSelectedGroups.Size = new Size(373, 224);
+            rtbSelectedGroups.Size = new Size(347, 224);
             rtbSelectedGroups.TabIndex = 6;
             rtbSelectedGroups.Text = "";
             toolTipPolicy.SetToolTip(rtbSelectedGroups, "The groups that will be used for deployment");
@@ -431,7 +460,7 @@
             rtbSelectedPolicies.ForeColor = Color.Salmon;
             rtbSelectedPolicies.Location = new Point(9, 139);
             rtbSelectedPolicies.Name = "rtbSelectedPolicies";
-            rtbSelectedPolicies.Size = new Size(450, 224);
+            rtbSelectedPolicies.Size = new Size(386, 224);
             rtbSelectedPolicies.TabIndex = 5;
             rtbSelectedPolicies.Text = "";
             toolTipPolicy.SetToolTip(rtbSelectedPolicies, "The applications that will be used for deployment");
@@ -442,7 +471,7 @@
             lblSelectedGroups.AutoSize = true;
             lblSelectedGroups.Font = new Font("Consolas", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
             lblSelectedGroups.ForeColor = Color.Salmon;
-            lblSelectedGroups.Location = new Point(514, 92);
+            lblSelectedGroups.Location = new Point(418, 92);
             lblSelectedGroups.Name = "lblSelectedGroups";
             lblSelectedGroups.Size = new Size(190, 24);
             lblSelectedGroups.TabIndex = 5;
@@ -454,7 +483,7 @@
             btnDeployPolicyAssignment.BackColor = Color.Salmon;
             btnDeployPolicyAssignment.FlatStyle = FlatStyle.Flat;
             btnDeployPolicyAssignment.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            btnDeployPolicyAssignment.Location = new Point(893, 3);
+            btnDeployPolicyAssignment.Location = new Point(796, 3);
             btnDeployPolicyAssignment.Name = "btnDeployPolicyAssignment";
             btnDeployPolicyAssignment.Size = new Size(292, 58);
             btnDeployPolicyAssignment.TabIndex = 5;
@@ -502,18 +531,6 @@
             btnPrepareDeployment.UseVisualStyleBackColor = false;
             btnPrepareDeployment.Click += btnPrepareDeployment_Click;
             // 
-            // cbLookUpAssignment
-            // 
-            cbLookUpAssignment.AutoSize = true;
-            cbLookUpAssignment.ForeColor = Color.Salmon;
-            cbLookUpAssignment.Location = new Point(1547, 20);
-            cbLookUpAssignment.Name = "cbLookUpAssignment";
-            cbLookUpAssignment.Size = new Size(212, 19);
-            cbLookUpAssignment.TabIndex = 8;
-            cbLookUpAssignment.Text = "Look up policy assignment on click";
-            toolTipPolicy.SetToolTip(cbLookUpAssignment, "Enable to look up existing assignments for policies when clicking them");
-            cbLookUpAssignment.UseVisualStyleBackColor = true;
-            // 
             // pnlSearchGroup
             // 
             pnlSearchGroup.BorderStyle = BorderStyle.FixedSingle;
@@ -539,6 +556,18 @@
             lblSelectGroups.Text = "Groups";
             toolTipPolicy.SetToolTip(lblSelectGroups, "Selected policies");
             // 
+            // txtboxDescription
+            // 
+            txtboxDescription.BackColor = Color.FromArgb(46, 51, 73);
+            txtboxDescription.BorderStyle = BorderStyle.FixedSingle;
+            txtboxDescription.ForeColor = Color.Salmon;
+            txtboxDescription.Location = new Point(6, 54);
+            txtboxDescription.Multiline = true;
+            txtboxDescription.Name = "txtboxDescription";
+            txtboxDescription.Size = new Size(339, 218);
+            txtboxDescription.TabIndex = 11;
+            toolTipPolicy.SetToolTip(txtboxDescription, "Enter a desired description. Leave blank to not add or change the description field. Existing description will be overwritten");
+            // 
             // pbHelpGuide
             // 
             pbHelpGuide.Image = Properties.Resources._121047815016345278514481_48;
@@ -555,21 +584,10 @@
             pnlDescription.BorderStyle = BorderStyle.FixedSingle;
             pnlDescription.Controls.Add(txtboxDescription);
             pnlDescription.Controls.Add(label1);
-            pnlDescription.Location = new Point(1547, 268);
+            pnlDescription.Location = new Point(1547, 12);
             pnlDescription.Name = "pnlDescription";
-            pnlDescription.Size = new Size(357, 244);
+            pnlDescription.Size = new Size(357, 468);
             pnlDescription.TabIndex = 4;
-            // 
-            // txtboxDescription
-            // 
-            txtboxDescription.BackColor = Color.FromArgb(46, 51, 73);
-            txtboxDescription.BorderStyle = BorderStyle.FixedSingle;
-            txtboxDescription.ForeColor = Color.Salmon;
-            txtboxDescription.Location = new Point(6, 54);
-            txtboxDescription.Multiline = true;
-            txtboxDescription.Name = "txtboxDescription";
-            txtboxDescription.Size = new Size(324, 174);
-            txtboxDescription.TabIndex = 11;
             // 
             // label1
             // 
@@ -582,18 +600,28 @@
             label1.TabIndex = 3;
             label1.Text = "Description";
             // 
+            // pbViewAssignments
+            // 
+            pbViewAssignments.Image = Properties.Resources._3271932871579761116_48;
+            pbViewAssignments.InitialImage = Properties.Resources._121047815016345278514481_48;
+            pbViewAssignments.Location = new Point(12, 123);
+            pbViewAssignments.Name = "pbViewAssignments";
+            pbViewAssignments.Size = new Size(49, 47);
+            pbViewAssignments.TabIndex = 11;
+            pbViewAssignments.TabStop = false;
+            pbViewAssignments.Click += pbViewAssignments_Click;
+            // 
             // Policy
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1912, 901);
+            Controls.Add(pbViewAssignments);
             Controls.Add(pnlDescription);
             Controls.Add(pbHelpGuide);
             Controls.Add(pnlSearchGroup);
-            Controls.Add(cbLookUpAssignment);
             Controls.Add(pnlSummary);
-            Controls.Add(pnlAssignedTo);
             Controls.Add(pnlSearchPolicy);
             Controls.Add(pbHome);
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -613,8 +641,8 @@
             ((System.ComponentModel.ISupportInitialize)pbHelpGuide).EndInit();
             pnlDescription.ResumeLayout(false);
             pnlDescription.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbViewAssignments).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -659,5 +687,7 @@
         private Panel pnlDescription;
         private TextBox txtboxDescription;
         private Label label1;
+        private Label lblAssignedTo;
+        private PictureBox pbViewAssignments;
     }
 }

@@ -940,7 +940,7 @@
             // 
             tstbtn001.Location = new Point(19, 448);
             tstbtn001.Name = "tstbtn001";
-            tstbtn001.Size = new Size(92, 72);
+            tstbtn001.Size = new Size(75, 33);
             tstbtn001.TabIndex = 22;
             tstbtn001.Text = "button1";
             tstbtn001.UseVisualStyleBackColor = true;
