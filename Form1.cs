@@ -1959,6 +1959,15 @@ namespace IntuneAssignments
 
             //sideBarTimer.Start();
 
+
+            Form1Location = Location;
+
+            this.Hide();
+            HomePage homePage = new HomePage();
+            homePage.Location = Form1Location;
+            homePage.Show();
+
+
         }
 
         private void btnSummarize_Click(object sender, EventArgs e)
