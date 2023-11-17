@@ -34,6 +34,8 @@ using static System.Windows.Forms.DataFormats;
     - Add logging
 
  
+
+    Make home page, move app to its own page
 */
 
 

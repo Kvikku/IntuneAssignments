@@ -56,7 +56,6 @@ C:\Github\IntuneAssignments\bin\Debug\net6.0-windows10.0.22621.0\WinRT.Runtime.d
 C:\Github\IntuneAssignments\obj\Debug\net6.0-windows10.0.22621.0\IntuneAssignments.csproj.AssemblyReference.cache
 C:\Github\IntuneAssignments\obj\Debug\net6.0-windows10.0.22621.0\IntuneAssignments.About.resources
 C:\Github\IntuneAssignments\obj\Debug\net6.0-windows10.0.22621.0\IntuneAssignments.Form1.resources
-C:\Github\IntuneAssignments\obj\Debug\net6.0-windows10.0.22621.0\IntuneAssignments.LoginForm.resources
 C:\Github\IntuneAssignments\obj\Debug\net6.0-windows10.0.22621.0\IntuneAssignments.Policy.resources
 C:\Github\IntuneAssignments\obj\Debug\net6.0-windows10.0.22621.0\IntuneAssignments.Properties.Resources.resources
 C:\Github\IntuneAssignments\obj\Debug\net6.0-windows10.0.22621.0\IntuneAssignments.Settings.resources
@@ -74,3 +73,4 @@ C:\Github\IntuneAssignments\obj\Debug\net6.0-windows10.0.22621.0\IntuneAssignmen
 C:\Github\IntuneAssignments\obj\Debug\net6.0-windows10.0.22621.0\ref\IntuneAssignments.dll
 C:\Github\IntuneAssignments\obj\Debug\net6.0-windows10.0.22621.0\IntuneAssignments.sourcelink.json
 C:\Github\IntuneAssignments\obj\Debug\net6.0-windows10.0.22621.0\IntuneAssignments.ManagePolicyAssignments.resources
+C:\Github\IntuneAssignments\obj\Debug\net6.0-windows10.0.22621.0\IntuneAssignments.HomePage.resources

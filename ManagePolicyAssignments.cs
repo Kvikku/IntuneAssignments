@@ -259,6 +259,11 @@ namespace IntuneAssignments
 
         public async void deletePolicyAssignment()
         {
+            
+            // Awaiting support ticket on github before proceeding with this
+            
+            
+            
             // Deletes all assignments for the selected policy
             
             
