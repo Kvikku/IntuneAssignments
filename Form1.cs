@@ -111,6 +111,8 @@ namespace IntuneAssignments
 
             // add data to dtgdisplayapp
 
+
+            // THIS HAS BEEN MOVED OVER - READY FOR DELETION
             createConfigurationFolder();
             createConfigurationFiles();
 
@@ -151,6 +153,9 @@ namespace IntuneAssignments
 
 
             // Load authentication settings from appsettings.json file
+
+
+            // THIS MUST BE MOVED TO HOMEPAGE FORM LOAD EVENT
             loadAuthenticationInfo();
 
             checkConnectionStatus();
