@@ -95,7 +95,7 @@ namespace IntuneAssignments
 
             // Clear the datagridview for older results
 
-            form1.ClearDataGridView(dtgDisplayApp);
+            FormUtilities.ClearDataGridView(dtgDisplayApp);
 
             // Make a call to Microsoft Graph
 
@@ -190,7 +190,7 @@ namespace IntuneAssignments
 
             // Clear the datagridview for older results
 
-            form1.ClearDataGridView(dtgDisplayApp);
+            FormUtilities.ClearDataGridView(dtgDisplayApp);
 
 
             // Create the list
@@ -433,7 +433,7 @@ namespace IntuneAssignments
 
 
             // Clear the datagridview for older results
-            _form1.ClearDataGridView(dtgGroupAssignment);
+            FormUtilities.ClearDataGridView(dtgGroupAssignment);
 
             // Refresh datagridview
             ListAllAssignedGroups();
@@ -531,7 +531,7 @@ namespace IntuneAssignments
         {
 
             // Clear the datagridview for older results
-            _form1.ClearDataGridView(dtgGroupAssignment);
+            FormUtilities.ClearDataGridView(dtgGroupAssignment);
 
 
 
@@ -547,13 +547,13 @@ namespace IntuneAssignments
         {
             // Clear the datagridview for older results
 
-            _form1.ClearDataGridView(dtgDisplayApp);
+            FormUtilities.ClearDataGridView(dtgDisplayApp);
         }
 
         private void pbpbClearDtgGroupAssignment_Click(object sender, EventArgs e)
         {
             // Clear the datagridview for older results
-            _form1.ClearDataGridView(dtgGroupAssignment);
+            FormUtilities.ClearDataGridView(dtgGroupAssignment);
         }
 
         private void tstbtn1_Click(object sender, EventArgs e)
@@ -568,7 +568,7 @@ namespace IntuneAssignments
                 deleteAppAssignment();
 
                 // Clear the datagridview for older results
-                _form1.ClearDataGridView(dtgGroupAssignment);
+                FormUtilities.ClearDataGridView(dtgGroupAssignment);
 
                 // Refresh datagridview
                 ListAllAssignedGroups();

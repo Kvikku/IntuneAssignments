@@ -45,6 +45,7 @@
             btnListAllPolices = new Button();
             btnSearchPolicy = new Button();
             pnlAssignments = new Panel();
+            lblPolicyType = new Label();
             lblViewAssignmentHeadline = new Label();
             btnDeleteAllAssignments = new Button();
             btnDeleteSelectedAssignment = new Button();
@@ -54,7 +55,6 @@
             dtgGroupAssignment = new DataGridView();
             GroupName = new DataGridViewTextBoxColumn();
             GroupID = new DataGridViewTextBoxColumn();
-            lblPolicyType = new Label();
             ((System.ComponentModel.ISupportInitialize)pbViewAssignments).BeginInit();
             pnlPolicies.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
@@ -70,7 +70,8 @@
             pbViewAssignments.InitialImage = Properties.Resources._121047815016345278514481_48;
             pbViewAssignments.Location = new Point(12, 12);
             pbViewAssignments.Name = "pbViewAssignments";
-            pbViewAssignments.Size = new Size(49, 47);
+            pbViewAssignments.Size = new Size(64, 64);
+            pbViewAssignments.SizeMode = PictureBoxSizeMode.StretchImage;
             pbViewAssignments.TabIndex = 12;
             pbViewAssignments.TabStop = false;
             pbViewAssignments.Click += pbViewAssignments_Click;
@@ -84,9 +85,9 @@
             pnlPolicies.Controls.Add(lblSelectPolicies);
             pnlPolicies.Controls.Add(btnListAllPolices);
             pnlPolicies.Controls.Add(btnSearchPolicy);
-            pnlPolicies.Location = new Point(67, 12);
+            pnlPolicies.Location = new Point(82, 12);
             pnlPolicies.Name = "pnlPolicies";
-            pnlPolicies.Size = new Size(553, 658);
+            pnlPolicies.Size = new Size(544, 658);
             pnlPolicies.TabIndex = 13;
             // 
             // dtgDisplayPolicy
@@ -223,6 +224,17 @@
             pnlAssignments.Size = new Size(470, 658);
             pnlAssignments.TabIndex = 14;
             // 
+            // lblPolicyType
+            // 
+            lblPolicyType.AutoSize = true;
+            lblPolicyType.Font = new Font("Consolas", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblPolicyType.ForeColor = Color.Salmon;
+            lblPolicyType.Location = new Point(7, 117);
+            lblPolicyType.Name = "lblPolicyType";
+            lblPolicyType.Size = new Size(108, 19);
+            lblPolicyType.TabIndex = 29;
+            lblPolicyType.Text = "{Policy ID}";
+            // 
             // lblViewAssignmentHeadline
             // 
             lblViewAssignmentHeadline.AutoSize = true;
@@ -337,17 +349,6 @@
             GroupID.Name = "GroupID";
             GroupID.ReadOnly = true;
             GroupID.Width = 300;
-            // 
-            // lblPolicyType
-            // 
-            lblPolicyType.AutoSize = true;
-            lblPolicyType.Font = new Font("Consolas", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            lblPolicyType.ForeColor = Color.Salmon;
-            lblPolicyType.Location = new Point(7, 117);
-            lblPolicyType.Name = "lblPolicyType";
-            lblPolicyType.Size = new Size(108, 19);
-            lblPolicyType.TabIndex = 29;
-            lblPolicyType.Text = "{Policy ID}";
             // 
             // ManagePolicyAssignments
             // 

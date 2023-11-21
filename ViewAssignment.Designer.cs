@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewAssignment));
             pnlSearchApp = new Panel();
             pbClearDtgDisplayApp = new PictureBox();
@@ -77,15 +77,15 @@
             pnlSearchApp.Controls.Add(txtboxSearchApp);
             pnlSearchApp.Controls.Add(btnSearchApp);
             pnlSearchApp.Controls.Add(btnAllGroups);
-            pnlSearchApp.Location = new Point(68, 12);
+            pnlSearchApp.Location = new Point(82, 12);
             pnlSearchApp.Name = "pnlSearchApp";
-            pnlSearchApp.Size = new Size(553, 658);
+            pnlSearchApp.Size = new Size(539, 658);
             pnlSearchApp.TabIndex = 0;
             // 
             // pbClearDtgDisplayApp
             // 
             pbClearDtgDisplayApp.Image = Properties.Resources._5358270771574330938_32;
-            pbClearDtgDisplayApp.Location = new Point(515, 143);
+            pbClearDtgDisplayApp.Location = new Point(473, 107);
             pbClearDtgDisplayApp.Name = "pbClearDtgDisplayApp";
             pbClearDtgDisplayApp.Size = new Size(36, 38);
             pbClearDtgDisplayApp.TabIndex = 18;
@@ -112,24 +112,24 @@
             dtgDisplayApp.BackgroundColor = Color.FromArgb(46, 51, 73);
             dtgDisplayApp.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dtgDisplayApp.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = Color.Salmon;
-            dataGridViewCellStyle5.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dtgDisplayApp.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.Salmon;
+            dataGridViewCellStyle1.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dtgDisplayApp.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dtgDisplayApp.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgDisplayApp.Columns.AddRange(new DataGridViewColumn[] { AppName, Platform, AppID });
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.FromArgb(46, 51, 73);
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle6.ForeColor = Color.Salmon;
-            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            dtgDisplayApp.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(46, 51, 73);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = Color.Salmon;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dtgDisplayApp.DefaultCellStyle = dataGridViewCellStyle2;
             dtgDisplayApp.EnableHeadersVisualStyles = false;
             dtgDisplayApp.Location = new Point(15, 187);
             dtgDisplayApp.Name = "dtgDisplayApp";
@@ -269,7 +269,7 @@
             // pbpbClearDtgGroupAssignment
             // 
             pbpbClearDtgGroupAssignment.Image = Properties.Resources._5358270771574330938_32;
-            pbpbClearDtgGroupAssignment.Location = new Point(427, 134);
+            pbpbClearDtgGroupAssignment.Location = new Point(385, 99);
             pbpbClearDtgGroupAssignment.Name = "pbpbClearDtgGroupAssignment";
             pbpbClearDtgGroupAssignment.Size = new Size(36, 38);
             pbpbClearDtgGroupAssignment.TabIndex = 19;
@@ -296,24 +296,24 @@
             dtgGroupAssignment.BackgroundColor = Color.FromArgb(46, 51, 73);
             dtgGroupAssignment.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dtgGroupAssignment.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = Color.Salmon;
-            dataGridViewCellStyle7.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle7.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            dtgGroupAssignment.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.Salmon;
+            dataGridViewCellStyle3.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dtgGroupAssignment.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dtgGroupAssignment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgGroupAssignment.Columns.AddRange(new DataGridViewColumn[] { GroupName, Intent, GroupID });
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = Color.FromArgb(46, 51, 73);
-            dataGridViewCellStyle8.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle8.ForeColor = Color.Salmon;
-            dataGridViewCellStyle8.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
-            dtgGroupAssignment.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(46, 51, 73);
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = Color.Salmon;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dtgGroupAssignment.DefaultCellStyle = dataGridViewCellStyle4;
             dtgGroupAssignment.EnableHeadersVisualStyles = false;
             dtgGroupAssignment.Location = new Point(12, 187);
             dtgGroupAssignment.Name = "dtgGroupAssignment";
@@ -345,10 +345,11 @@
             // 
             // pbHome
             // 
-            pbHome.Image = Properties.Resources._15536420761558096328_48;
+            pbHome.Image = Properties.Resources.application;
             pbHome.Location = new Point(12, 12);
             pbHome.Name = "pbHome";
-            pbHome.Size = new Size(50, 50);
+            pbHome.Size = new Size(64, 64);
+            pbHome.SizeMode = PictureBoxSizeMode.StretchImage;
             pbHome.TabIndex = 18;
             pbHome.TabStop = false;
             mainFormToolTip.SetToolTip(pbHome, "Home");
@@ -359,7 +360,8 @@
             pbHelpGuide.Image = Properties.Resources._121047815016345278514481_48;
             pbHelpGuide.Location = new Point(12, 72);
             pbHelpGuide.Name = "pbHelpGuide";
-            pbHelpGuide.Size = new Size(50, 46);
+            pbHelpGuide.Size = new Size(64, 64);
+            pbHelpGuide.SizeMode = PictureBoxSizeMode.StretchImage;
             pbHelpGuide.TabIndex = 19;
             pbHelpGuide.TabStop = false;
             pbHelpGuide.Click += pbHelpGuide_Click;

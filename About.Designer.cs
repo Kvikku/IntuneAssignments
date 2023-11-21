@@ -155,9 +155,9 @@
             label7.ForeColor = Color.Salmon;
             label7.Location = new Point(48, 202);
             label7.Name = "label7";
-            label7.Size = new Size(196, 14);
+            label7.Size = new Size(210, 14);
             label7.TabIndex = 9;
-            label7.Text = "You are running version 0.9";
+            label7.Text = "You are running version 0.2.0";
             // 
             // label8
             // 

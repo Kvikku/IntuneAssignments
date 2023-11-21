@@ -14,6 +14,8 @@ using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using static IntuneAssignments.MSGraphAuthenticator;
+using static IntuneAssignments.GlobalVariables;
 
 namespace IntuneAssignments
 {
@@ -52,7 +54,7 @@ namespace IntuneAssignments
         {
             // Retrieve data from appsettings.json and populate labels
 
-            string path = Form1.AppSettingsFile; //@"C:\ProgramData\IntuneAssignments" + @"\AppSettings.json";
+            string path = AppSettingsFile; //@"C:\ProgramData\IntuneAssignments" + @"\AppSettings.json";
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 //.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
@@ -62,16 +64,16 @@ namespace IntuneAssignments
 
 
             // Sets the variables to the values in the appsettings.json file
-            Form1.tenantID = configuration.GetSection("Entra:TenantId").Value;
-            Form1.clientID = configuration.GetSection("Entra:ClientId").Value;
-            Form1.clientSecret = configuration.GetSection("Entra:ClientSecret").Value;
-            Form1.authority = $"https://login.microsoftonline.com/{Form1.tenantID}";
+            tenantID = configuration.GetSection("Entra:TenantId").Value;
+            clientID = configuration.GetSection("Entra:ClientId").Value;
+            clientSecret = configuration.GetSection("Entra:ClientSecret").Value;
+            authority = $"https://login.microsoftonline.com/{tenantID}";
 
 
 
-            tBClientID.Text = Form1.clientID;
-            tBClientSecret.Text = Form1.clientSecret;
-            tBTenantID.Text = Form1.tenantID;
+            tBClientID.Text = clientID;
+            tBClientSecret.Text = clientSecret;
+            tBTenantID.Text = tenantID;
 
 
             //lblTenantIDString.Text = tenantID;
@@ -86,7 +88,7 @@ namespace IntuneAssignments
         {
             // Save the new settings to appsettings.json
 
-            string originalPath = Form1.AppSettingsFile;
+            string originalPath = AppSettingsFile;
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .AddJsonFile(originalPath)
@@ -100,10 +102,10 @@ namespace IntuneAssignments
 
             // Update global variables so that the rest of the application can use the new settings
 
-            Form1.tenantID = tBTenantID.Text;
-            Form1.clientID = tBClientID.Text;
-            Form1.clientSecret = tBClientSecret.Text;
-            Form1.authority = $"https://login.microsoftonline.com/{Form1.tenantID}";
+            tenantID = tBTenantID.Text;
+            clientID = tBClientID.Text;
+            clientSecret = tBClientSecret.Text;
+            authority = $"https://login.microsoftonline.com/{tenantID}";
 
             
 
@@ -135,18 +137,19 @@ namespace IntuneAssignments
                 // Do nothing
             }
 
-            pbButtonClick();
-
+            CheckConnection();
         }
 
 
-        private void pbButtonClick()
+        private void CheckConnection()
         {
+            // Call check connection method in homepage form to verify that the new settings work
 
-            Form1 form1 = System.Windows.Forms.Application.OpenForms["Form1"] as Form1;
-            form1?.SimulatePictureBoxClick();
+            HomePage homePage = System.Windows.Forms.Application.OpenForms["HomePage"] as HomePage;
+            homePage?.checkConnectionStatus();
+        }
 
-        }   
+       
 
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -181,7 +184,7 @@ namespace IntuneAssignments
                 };
 
 
-                var credential = new ClientSecretCredential(Form1.tenantID, Form1.clientID, Form1.clientSecret, options);
+                var credential = new ClientSecretCredential(tenantID, clientID, clientSecret, options);
 
                 var graphClient = new GraphServiceClient(credential, scopes);
 

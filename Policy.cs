@@ -19,6 +19,7 @@ using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
 using static IntuneAssignments.Form1;
 using System.Reflection;
+using static IntuneAssignments.FormUtilities;
 
 
 
@@ -56,33 +57,41 @@ namespace IntuneAssignments
             pnlAssignedTo.Visible = false;
         }
 
-        public Policy(Form1 form1)
+        //public Policy(Form1 form1)
+        //{
+        //    InitializeComponent();
+        //    _form1 = form1;
+
+        //    lblAssignmentPreview.Hide();
+
+        //    pnlAssignedTo.Hide();
+
+        //}
+
+        public Policy()
         {
+            this.FormBorderStyle = FormBorderStyle.FixedDialog; // Makes the form not resizable and the parent form not clickable
+            this.StartPosition = FormStartPosition.CenterScreen; // Center the form over its parent
+
             InitializeComponent();
-            _form1 = form1;
-
-            lblAssignmentPreview.Hide();
-
-            pnlAssignedTo.Hide();
-
         }
 
-        protected override void OnLoad(EventArgs e)
-        {
-            // Necessary to copy the location of Form1
-            base.OnLoad(e);
+        //protected override void OnLoad(EventArgs e)
+        //{
+        //    // Necessary to copy the location of Form1
+        //    base.OnLoad(e);
 
-            // Set the location of the form to the position of Form1
-            if (_form1 != null)
-            {
-                Location = new Point(
-                    _form1.Location.X + (_form1.Width - Width) / 2,
-                    _form1.Location.Y + (_form1.Height - Height) / 2);
-            }
+        //    // Set the location of the form to the position of Form1
+        //    if (_form1 != null)
+        //    {
+        //        Location = new Point(
+        //            _form1.Location.X + (_form1.Width - Width) / 2,
+        //            _form1.Location.Y + (_form1.Height - Height) / 2);
+        //    }
 
 
 
-        }
+        //}
 
 
         //public Policy(ManagePolicyAssignments managePolicyAssignments)
@@ -93,8 +102,8 @@ namespace IntuneAssignments
         private void goHome()
         {
             this.Hide();
-            Form1 form1 = new Form1();
-            form1.Show();
+            HomePage homePage = new HomePage();
+            homePage.Show();
         }
 
         private void viewManageAssignments()
@@ -346,9 +355,13 @@ namespace IntuneAssignments
 
             // Clears old content in the textbox
 
-            _form1.ClearRichTextBox(rtbSelectedPolicies);
-            _form1.ClearRichTextBox(rtbSelectedGroups);
+            // use method from FormUtilities.cs class
 
+            
+            ClearRichTextBox(rtbSelectedPolicies);
+            ClearRichTextBox(rtbSelectedGroups);
+
+            
 
 
             // Gather the values from the selected policies and selected groups
@@ -1546,7 +1559,7 @@ namespace IntuneAssignments
 
             // Clear the datagridview for older results
             // Note - this should not be done in each method, because that would remove all other results
-            form1.ClearDataGridView(dtgDisplayPolicy);
+            FormUtilities.ClearDataGridView(dtgDisplayPolicy);
 
 
             if (cbPolicyType.Text == "All types")
@@ -1582,7 +1595,7 @@ namespace IntuneAssignments
 
             // Clear the datagridview for older results
             // Note - this should not be done in each method, because that would remove all other results
-            form1.ClearDataGridView(dtgDisplayGroup);
+            FormUtilities.ClearDataGridView(dtgDisplayGroup);
 
             ListAllGroups();
 
@@ -1637,8 +1650,8 @@ namespace IntuneAssignments
 
         private void btnResetDeployment_Click(object sender, EventArgs e)
         {
-            _form1.ClearRichTextBox(rtbSelectedGroups);
-            _form1.ClearRichTextBox(rtbSelectedPolicies);
+            FormUtilities.ClearRichTextBox(rtbSelectedGroups);
+            FormUtilities.ClearRichTextBox(rtbSelectedPolicies);
             pBarDeployProgress.Value = 0;
         }
 

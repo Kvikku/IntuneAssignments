@@ -94,16 +94,9 @@
             lblSummarizeApps = new Label();
             sideBarTimer = new System.Windows.Forms.Timer(components);
             menuPanel = new Panel();
-            pbCheckConnection = new PictureBox();
-            lblTenantName = new Label();
-            lblConnectionStatus = new Label();
-            pBConnectionStatus = new PictureBox();
-            pBSettings = new PictureBox();
-            tstbtn001 = new Button();
-            pbInfo = new PictureBox();
             pictureBox3 = new PictureBox();
-            pictureBox2 = new PictureBox();
             mainFormToolTip = new ToolTip(components);
+            lblHeaderAppForm = new Label();
             panelTenantInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -119,12 +112,7 @@
             pnlIntent.SuspendLayout();
             panelSummary.SuspendLayout();
             menuPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pbCheckConnection).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pBConnectionStatus).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pBSettings).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pbInfo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // panelTenantInfo
@@ -185,10 +173,10 @@
             // pbView
             // 
             pbView.Image = Properties.Resources._3271932871579761116_48;
-            pbView.Location = new Point(11, 124);
+            pbView.Location = new Point(11, 84);
             pbView.Name = "pbView";
-            pbView.Size = new Size(48, 48);
-            pbView.SizeMode = PictureBoxSizeMode.AutoSize;
+            pbView.Size = new Size(64, 64);
+            pbView.SizeMode = PictureBoxSizeMode.StretchImage;
             pbView.TabIndex = 17;
             pbView.TabStop = false;
             mainFormToolTip.SetToolTip(pbView, "View app assignments");
@@ -196,14 +184,14 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.BackgroundImage = Properties.Resources._15536420761558096328_48;
+            pictureBox1.Image = Properties.Resources._15536420761558096328_48;
             pictureBox1.Location = new Point(11, 14);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(48, 50);
-            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            pictureBox1.Size = new Size(64, 64);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 13;
             pictureBox1.TabStop = false;
-            mainFormToolTip.SetToolTip(pictureBox1, "Applications");
+            mainFormToolTip.SetToolTip(pictureBox1, "Home");
             pictureBox1.Click += pictureBox1_Click;
             // 
             // dtgDisplayAppRightClick
@@ -286,7 +274,7 @@
             pnlSearchApp.Controls.Add(btnSearchApp);
             pnlSearchApp.Controls.Add(pnlSelectApps);
             pnlSearchApp.Controls.Add(btnAllGroups);
-            pnlSearchApp.Location = new Point(140, 34);
+            pnlSearchApp.Location = new Point(108, 46);
             pnlSearchApp.Name = "pnlSearchApp";
             pnlSearchApp.Size = new Size(754, 415);
             pnlSearchApp.TabIndex = 9;
@@ -298,9 +286,9 @@
             lblSelectAppType.ForeColor = Color.Salmon;
             lblSelectAppType.Location = new Point(3, 15);
             lblSelectAppType.Name = "lblSelectAppType";
-            lblSelectAppType.Size = new Size(106, 24);
+            lblSelectAppType.Size = new Size(154, 24);
             lblSelectAppType.TabIndex = 19;
-            lblSelectAppType.Text = "Platform";
+            lblSelectAppType.Text = "Applications";
             mainFormToolTip.SetToolTip(lblSelectAppType, "Platform");
             // 
             // cBAppType
@@ -437,7 +425,7 @@
             pnlSearchGroup.Controls.Add(txtboxSearchGroup);
             pnlSearchGroup.Controls.Add(btnListAllGroups);
             pnlSearchGroup.Controls.Add(pnlSelectGroup);
-            pnlSearchGroup.Location = new Point(881, 34);
+            pnlSearchGroup.Location = new Point(868, 46);
             pnlSearchGroup.Name = "pnlSearchGroup";
             pnlSearchGroup.Size = new Size(675, 414);
             pnlSearchGroup.TabIndex = 11;
@@ -451,7 +439,7 @@
             label1.Name = "label1";
             label1.Size = new Size(82, 24);
             label1.TabIndex = 20;
-            label1.Text = "Target";
+            label1.Text = "Groups";
             mainFormToolTip.SetToolTip(label1, "Target");
             // 
             // dtgDisplayGroup
@@ -583,7 +571,7 @@
             pnlIntent.Controls.Add(rbtnUninstall);
             pnlIntent.Controls.Add(rbtnRequired);
             pnlIntent.Controls.Add(rbtnAvailable);
-            pnlIntent.Location = new Point(1562, 34);
+            pnlIntent.Location = new Point(1549, 47);
             pnlIntent.Name = "pnlIntent";
             pnlIntent.Size = new Size(317, 414);
             pnlIntent.TabIndex = 12;
@@ -713,7 +701,7 @@
             panelSummary.Controls.Add(lblSummarizeIntent);
             panelSummary.Controls.Add(lblSummarizeGroups);
             panelSummary.Controls.Add(lblSummarizeApps);
-            panelSummary.Location = new Point(140, 459);
+            panelSummary.Location = new Point(108, 467);
             panelSummary.Name = "panelSummary";
             panelSummary.Size = new Size(1739, 426);
             panelSummary.TabIndex = 16;
@@ -861,15 +849,7 @@
             // menuPanel
             // 
             menuPanel.BorderStyle = BorderStyle.FixedSingle;
-            menuPanel.Controls.Add(pbCheckConnection);
-            menuPanel.Controls.Add(lblTenantName);
-            menuPanel.Controls.Add(lblConnectionStatus);
-            menuPanel.Controls.Add(pBConnectionStatus);
-            menuPanel.Controls.Add(pBSettings);
-            menuPanel.Controls.Add(tstbtn001);
-            menuPanel.Controls.Add(pbInfo);
             menuPanel.Controls.Add(pictureBox3);
-            menuPanel.Controls.Add(pictureBox2);
             menuPanel.Controls.Add(pictureBox1);
             menuPanel.Controls.Add(pbView);
             menuPanel.Controls.Add(panelTenantInfo);
@@ -878,109 +858,32 @@
             menuPanel.MaximumSize = new Size(400, 893);
             menuPanel.MinimumSize = new Size(102, 893);
             menuPanel.Name = "menuPanel";
-            menuPanel.Size = new Size(134, 893);
+            menuPanel.Size = new Size(102, 893);
             menuPanel.TabIndex = 18;
-            // 
-            // pbCheckConnection
-            // 
-            pbCheckConnection.Image = Properties.Resources.ic_sync_128_28843;
-            pbCheckConnection.Location = new Point(7, 710);
-            pbCheckConnection.Name = "pbCheckConnection";
-            pbCheckConnection.Size = new Size(35, 32);
-            pbCheckConnection.SizeMode = PictureBoxSizeMode.StretchImage;
-            pbCheckConnection.TabIndex = 27;
-            pbCheckConnection.TabStop = false;
-            mainFormToolTip.SetToolTip(pbCheckConnection, "Click to check connection status");
-            pbCheckConnection.Click += pbCheckConnection_Click;
-            // 
-            // lblTenantName
-            // 
-            lblTenantName.AutoSize = true;
-            lblTenantName.Font = new Font("Consolas", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            lblTenantName.ForeColor = Color.Salmon;
-            lblTenantName.Location = new Point(3, 769);
-            lblTenantName.Name = "lblTenantName";
-            lblTenantName.Size = new Size(108, 19);
-            lblTenantName.TabIndex = 26;
-            lblTenantName.Text = "TENANT NAME";
-            // 
-            // lblConnectionStatus
-            // 
-            lblConnectionStatus.AutoSize = true;
-            lblConnectionStatus.Font = new Font("Consolas", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            lblConnectionStatus.ForeColor = Color.Salmon;
-            lblConnectionStatus.Location = new Point(3, 745);
-            lblConnectionStatus.Name = "lblConnectionStatus";
-            lblConnectionStatus.Size = new Size(63, 19);
-            lblConnectionStatus.TabIndex = 25;
-            lblConnectionStatus.Text = "STATUS";
-            // 
-            // pBConnectionStatus
-            // 
-            pBConnectionStatus.Location = new Point(7, 791);
-            pBConnectionStatus.Name = "pBConnectionStatus";
-            pBConnectionStatus.Size = new Size(75, 87);
-            pBConnectionStatus.TabIndex = 24;
-            pBConnectionStatus.TabStop = false;
-            mainFormToolTip.SetToolTip(pBConnectionStatus, "Connection status to Azure tenant");
-            // 
-            // pBSettings
-            // 
-            pBSettings.Image = (Image)resources.GetObject("pBSettings.Image");
-            pBSettings.Location = new Point(11, 237);
-            pBSettings.Name = "pBSettings";
-            pBSettings.Size = new Size(48, 49);
-            pBSettings.SizeMode = PictureBoxSizeMode.StretchImage;
-            pBSettings.TabIndex = 23;
-            pBSettings.TabStop = false;
-            mainFormToolTip.SetToolTip(pBSettings, "Azure connection settings");
-            pBSettings.Click += pBSettings_Click;
-            // 
-            // tstbtn001
-            // 
-            tstbtn001.Location = new Point(19, 448);
-            tstbtn001.Name = "tstbtn001";
-            tstbtn001.Size = new Size(75, 33);
-            tstbtn001.TabIndex = 22;
-            tstbtn001.Text = "button1";
-            tstbtn001.UseVisualStyleBackColor = true;
-            tstbtn001.Click += tstbtn001_Click;
-            // 
-            // pbInfo
-            // 
-            pbInfo.Image = Properties.Resources._11016449961582988850_48__1_;
-            pbInfo.Location = new Point(11, 292);
-            pbInfo.Name = "pbInfo";
-            pbInfo.Size = new Size(48, 48);
-            pbInfo.SizeMode = PictureBoxSizeMode.AutoSize;
-            pbInfo.TabIndex = 21;
-            pbInfo.TabStop = false;
-            mainFormToolTip.SetToolTip(pbInfo, "About");
-            pbInfo.Click += pbInfo_Click;
             // 
             // pictureBox3
             // 
             pictureBox3.Image = Properties.Resources._121047815016345278514481_48;
-            pictureBox3.Location = new Point(11, 183);
+            pictureBox3.Location = new Point(11, 154);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(48, 48);
-            pictureBox3.SizeMode = PictureBoxSizeMode.AutoSize;
+            pictureBox3.Size = new Size(64, 64);
+            pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox3.TabIndex = 20;
             pictureBox3.TabStop = false;
             mainFormToolTip.SetToolTip(pictureBox3, "Help");
             pictureBox3.Click += pictureBox3_Click;
             // 
-            // pictureBox2
+            // lblHeaderAppForm
             // 
-            pictureBox2.Image = Properties.Resources._46291024716276567993766_48;
-            pictureBox2.Location = new Point(11, 70);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(48, 48);
-            pictureBox2.SizeMode = PictureBoxSizeMode.AutoSize;
-            pictureBox2.TabIndex = 18;
-            pictureBox2.TabStop = false;
-            mainFormToolTip.SetToolTip(pictureBox2, "Device policy");
-            pictureBox2.Click += pictureBox2_Click;
+            lblHeaderAppForm.AutoSize = true;
+            lblHeaderAppForm.Font = new Font("Consolas", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            lblHeaderAppForm.ForeColor = Color.Salmon;
+            lblHeaderAppForm.Location = new Point(108, 9);
+            lblHeaderAppForm.Name = "lblHeaderAppForm";
+            lblHeaderAppForm.Size = new Size(259, 28);
+            lblHeaderAppForm.TabIndex = 20;
+            lblHeaderAppForm.Text = "Deploy applications";
+            mainFormToolTip.SetToolTip(lblHeaderAppForm, "Applications");
             // 
             // Form1
             // 
@@ -988,6 +891,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1889, 897);
+            Controls.Add(lblHeaderAppForm);
             Controls.Add(panelSummary);
             Controls.Add(menuPanel);
             Controls.Add(pnlIntent);
@@ -1018,14 +922,9 @@
             panelSummary.ResumeLayout(false);
             panelSummary.PerformLayout();
             menuPanel.ResumeLayout(false);
-            menuPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pbCheckConnection).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pBConnectionStatus).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pBSettings).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pbInfo).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -1081,7 +980,6 @@
         private ComboBox cBAppType;
         private Label lblSelectAppType;
         private Label label1;
-        private PictureBox pictureBox2;
         private ToolTip mainFormToolTip;
         private DataGridViewTextBoxColumn AppName;
         private DataGridViewTextBoxColumn Platform;
@@ -1090,15 +988,9 @@
         private DataGridViewTextBoxColumn GroupID;
         private PictureBox pictureBox3;
         private Label lblSummary;
-        private PictureBox pbInfo;
-        private Button tstbtn001;
-        private PictureBox pBSettings;
-        private PictureBox pBConnectionStatus;
-        private Label lblConnectionStatus;
-        private Label lblTenantName;
-        private PictureBox pbCheckConnection;
         private Label lblDescription;
         private TextBox txtboxAppDescription;
         private Button btnDeployDescription;
+        private Label lblHeaderAppForm;
     }
 }
