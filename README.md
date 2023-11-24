@@ -85,7 +85,7 @@ https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0
 
 Download the latest release version to your device, unzip, and navigate to "bin\Debug\net6.0-windows10.0.22621.0", and launch "IntuneAssignments.exe".
 
-- (Alternatively you can just clone the repository and run the application, but you may encounter more bugs from work in progress code).
+
 
 
 When launching the application the first time you will have to enter the following info from your tenant and app registration:
