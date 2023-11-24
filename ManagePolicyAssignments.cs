@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static IntuneAssignments.Form1;
 using static System.Windows.Forms.DataFormats;
+using static IntuneAssignments.MSGraphAuthenticator;
+using static IntuneAssignments.GlobalVariables;
 
 namespace IntuneAssignments
 {
@@ -23,29 +25,33 @@ namespace IntuneAssignments
         public ManagePolicyAssignments(Form1 form1)
         {
             InitializeComponent();
-            _form1 = form1;
+
+            this.FormBorderStyle = FormBorderStyle.FixedDialog; // Makes the form not resizable and the parent form not clickable
+            this.StartPosition = FormStartPosition.CenterScreen; // Center the form over its parent
+
+            //_form1 = form1;
         }
 
 
-        protected override void OnLoad(EventArgs e)
-        {
+        //protected override void OnLoad(EventArgs e)
+        //{
 
-            // Necessary to copy the location of Form1
-            base.OnLoad(e);
+        //    // Necessary to copy the location of Form1
+        //    base.OnLoad(e);
 
-            // Set the location of the form to the position of Form1
-            if (_form1 != null)
-            {
-                Location = new Point(
-                    _form1.Location.X + (_form1.Width - Width) / 2,
-                    _form1.Location.Y + (_form1.Height - Height) / 2);
-            }
+        //    // Set the location of the form to the position of Form1
+        //    if (_form1 != null)
+        //    {
+        //        Location = new Point(
+        //            _form1.Location.X + (_form1.Width - Width) / 2,
+        //            _form1.Location.Y + (_form1.Height - Height) / 2);
+        //    }
 
-            lblPolicyID.Text = "";
-            lblPolicyName.Text = "";
-            lblPolicyType.Text = "";
+        //    lblPolicyID.Text = "";
+        //    lblPolicyName.Text = "";
+        //    lblPolicyType.Text = "";
 
-        }
+        //}
 
 
         private void viewPolicyAssignments()
@@ -55,8 +61,8 @@ namespace IntuneAssignments
 
 
             this.Hide();
-            Form1 form1 = new Form1();
-            form1.Show();
+            Policy policy = new Policy();
+            policy.Show();
 
 
 
@@ -73,7 +79,7 @@ namespace IntuneAssignments
 
         void listAllCompliancePolicies()
         {
-            Policy policy = new Policy(_form1);
+            Policy policy = new Policy();
 
 
             policy.ListCompliancePolicies(dtgDisplayPolicy);
@@ -82,7 +88,7 @@ namespace IntuneAssignments
 
         void listAllSettingsCatalogPolicies()
         {
-            Policy policy = new Policy(_form1);
+            Policy policy = new Policy();
 
             policy.ListSettingsCatalog(dtgDisplayPolicy);
 
@@ -91,7 +97,7 @@ namespace IntuneAssignments
 
         void listAllDeviceConfigurationPolicies()
         {
-            Policy policy = new Policy(_form1);
+            Policy policy = new Policy();
 
             policy.ListConfigurationProfiles(dtgDisplayPolicy);
 
@@ -124,18 +130,18 @@ namespace IntuneAssignments
 
         async Task findPolicyAssignment()
         {
-            Policy policy = new Policy(_form1);
+            Policy policy = new Policy();
 
             // Take app ID from datagridview
             // This is the Application ID for which we query assignments
-            var policyPlatform = _form1.getAppIdFromDtg(dtgDisplayPolicy, 2);
-            var appname = _form1.getAppIdFromDtg(dtgDisplayPolicy, 0);
-            var appType = _form1.getAppIdFromDtg(dtgDisplayPolicy, 1);
-            var policyID = _form1.getAppIdFromDtg(dtgDisplayPolicy, 3);
+            var policyPlatform = getPolicyIdFromDtg(dtgDisplayPolicy, 2);
+            var appname = getPolicyIdFromDtg(dtgDisplayPolicy, 0);
+            var appType = getPolicyIdFromDtg(dtgDisplayPolicy, 1);
+            var policyID = getPolicyIdFromDtg(dtgDisplayPolicy, 3);
 
 
             // Load the MS Graph assembly for class lookup
-            var assembly = Assembly.Load(_form1.graphAssembly);
+            var assembly = Assembly.Load(graphAssembly);
 
             // Update labels
             lblPolicyID.Text = policyID;
@@ -342,7 +348,7 @@ namespace IntuneAssignments
                 deletePolicyAssignment();
 
                 // Clear the datagridview for older results
-                _form1.ClearDataGridView(dtgGroupAssignment);
+                FormUtilities.ClearDataGridView(dtgGroupAssignment);
 
                 // Refresh datagridview
                 findPolicyAssignment();

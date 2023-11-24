@@ -94,7 +94,8 @@ namespace IntuneAssignments
         {
 
             // change the application icon and use the ico file in resources folder
-
+            this.FormBorderStyle = FormBorderStyle.FixedDialog; // Makes the form not resizable and the parent form not clickable
+            this.StartPosition = FormStartPosition.CenterScreen; // Center the form over its parent
 
             InitializeComponent();
             txtboxSearchApp.KeyDown += TxtboxSearchApp_KeyDown;
@@ -102,6 +103,9 @@ namespace IntuneAssignments
 
         public void Form1_Load(object sender, EventArgs e)
         {
+            
+
+
             // Hides the login panel during application launch
             //HidePanel(panelTenantInfo);
             //HidePanel(menuPanel);
@@ -111,14 +115,16 @@ namespace IntuneAssignments
 
             // add data to dtgdisplayapp
 
-            createConfigurationFolder();
-            createConfigurationFiles();
+
+            // THIS HAS BEEN MOVED OVER - READY FOR DELETION
+            //createConfigurationFolder();
+            //createConfigurationFiles();
 
 
-            lblSignedInUser.Text = "You are not signed in!";
-            lblTenantID.Text = "";
-            lblConnectionStatus.Text = "";
-            lblTenantName.Text = "";
+            //lblSignedInUser.Text = "You are not signed in!";
+            //lblTenantID.Text = "";
+            //lblConnectionStatus.Text = "";
+            //lblTenantName.Text = "";
 
 
 
@@ -151,28 +157,18 @@ namespace IntuneAssignments
 
 
             // Load authentication settings from appsettings.json file
-            loadAuthenticationInfo();
 
-            checkConnectionStatus();
+
+            // THIS MUST BE MOVED TO HOMEPAGE FORM LOAD EVENT
+            //loadAuthenticationInfo();
+
+            //checkConnectionStatus();
         }
 
 
 
 
-        private void showPolicyAssignment()
-        {
-
-            // Switches to policy assignment form, and keeps the location of this form
-
-            Form1Location = Location;
-
-            this.Hide();
-            Policy policy = new Policy(this);
-            policy.Location = Form1Location;
-            policy.Show();
-
-
-        }
+        
 
         private void showViewAssignment()
         {
@@ -249,6 +245,7 @@ namespace IntuneAssignments
 
 
 
+        // CLEANUP - THIS METHOD IS NOT IN USE
 
         //public GraphServiceClient NewGetGraphClient(string SharedAccessToken)
         //{
@@ -274,82 +271,82 @@ namespace IntuneAssignments
 
 
 
-        public class MSGraphAuthenticator
-        {
+        //public class MSGraphAuthenticator
+        //{
 
-            // Test if this works
+        //    // Test if this works
 
-            public static async Task<GraphServiceClient> GetAuthenticatedGraphClient()
-            {
-                try
-                {
-                    ClientSecretCredential clientSecretCredential = new ClientSecretCredential(tenantID, clientID, clientSecret);
-                    GraphServiceClient graphclient = new GraphServiceClient(clientSecretCredential, newScopes);
+        //    public static async Task<GraphServiceClient> GetAuthenticatedGraphClient()
+        //    {
+        //        try
+        //        {
+        //            ClientSecretCredential clientSecretCredential = new ClientSecretCredential(tenantID, clientID, clientSecret);
+        //            GraphServiceClient graphclient = new GraphServiceClient(clientSecretCredential, newScopes);
 
 
 
-                    return graphclient;
+        //            return graphclient;
 
-                }
-                catch (Exception ex)
-                {
-                    //MessageBox.Show(ex.Message);
-                    throw;
-                }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            //MessageBox.Show(ex.Message);
+        //            throw;
+        //        }
 
-            }
+        //    }
 
-        }
+        //}
 
 
 
 
         /// ////////////////////////////////////// Configuration /////////////////////////////////////////////////////
 
-        private async Task checkConnectionStatus()
-        {
+        //private async Task checkConnectionStatus()
+        //{
 
-            // Checks if the authentication info in appsettings.json file grants access to Microsoft Graph
+        //    // Checks if the authentication info in appsettings.json file grants access to Microsoft Graph
 
-            try
-            {
+        //    try
+        //    {
 
-                // Create a graph service client object
-                var graphClient = await MSGraphAuthenticator.GetAuthenticatedGraphClient();
+        //        // Create a graph service client object
+        //        var graphClient = await MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
-                // Make a call to Microsoft Graph
-                var tenantInfo = await graphClient.Organization.GetAsync((requestConfiguration) =>
-                {
-                    requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
-                });
+        //        // Make a call to Microsoft Graph
+        //        var tenantInfo = await graphClient.Organization.GetAsync((requestConfiguration) =>
+        //        {
+        //            requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
+        //        });
 
-                // Put result in a list for processing
-                List<Organization> organizations = new List<Organization>();
-                organizations.AddRange(tenantInfo.Value);
+        //        // Put result in a list for processing
+        //        List<Organization> organizations = new List<Organization>();
+        //        organizations.AddRange(tenantInfo.Value);
 
-                // display tenant name in message box
-
-
-
-                // THIS DOESNT WORK YET
-                pBConnectionStatus.Image = Properties.Resources.check;
-                lblConnectionStatus.Text = "Connected to: ";
-                lblTenantName.Text = organizations[0].DisplayName;
-
-                //MessageBox.Show("You are connected to" + "\n" + organizations[0].DisplayName + "\n" + organizations[0].Id);
-
-            }
-            catch (Exception ex)
-            {
-                //Do nothing
-
-                //MessageBox.Show(ex.Message);
-                pBConnectionStatus.Image = Properties.Resources.cancel;
-                lblConnectionStatus.Text = "Not connected";
-            }
+        //        // display tenant name in message box
 
 
-        }
+
+        //        // THIS DOESNT WORK YET
+        //        pBConnectionStatus.Image = Properties.Resources.check;
+        //        lblConnectionStatus.Text = "Connected to: ";
+        //        lblTenantName.Text = organizations[0].DisplayName;
+
+        //        //MessageBox.Show("You are connected to" + "\n" + organizations[0].DisplayName + "\n" + organizations[0].Id);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //Do nothing
+
+        //        //MessageBox.Show(ex.Message);
+        //        pBConnectionStatus.Image = Properties.Resources.cancel;
+        //        lblConnectionStatus.Text = "Not connected";
+        //    }
+
+
+        //}
 
         private void loadAuthenticationInfo()
         {
@@ -376,10 +373,10 @@ namespace IntuneAssignments
         }
 
 
-        public void SimulatePictureBoxClick()
-        {
-            checkConnectionStatus();
-        }
+        //public void SimulatePictureBoxClick()
+        //{
+        //    checkConnectionStatus();
+        //}
 
         private void createConfigurationFolder()
         {
@@ -645,32 +642,32 @@ namespace IntuneAssignments
 
         }
 
-        public void ClearDataGridView(DataGridView dataGridView)
-        {
-            dataGridView.Rows.Clear();
-        }
+        //public void ClearDataGridView(DataGridView dataGridView)
+        //{
+        //    dataGridView.Rows.Clear();
+        //}
 
-        public void ClearCheckedListBox(CheckedListBox checkedListBox)
-        {
+        //public void ClearCheckedListBox(CheckedListBox checkedListBox)
+        //{
 
-            checkedListBox.Items.Clear();
+        //    checkedListBox.Items.Clear();
 
-        }
+        //}
 
+        //public void ClearRichTextBox(RichTextBox richTextBox)
+        //{
 
-        public void ClearRichTextBox(RichTextBox richTextBox)
-        {
+        //    richTextBox.Clear();
 
-            richTextBox.Clear();
-
-        }
+        //}
 
 
         public async void ListAllApps()
         {
 
-            ClearDataGridView(dtgDisplayApp);
-            ClearCheckedListBox(clbAppAssignments);
+            FormUtilities.ClearDataGridView(dtgDisplayApp);
+            FormUtilities.ClearCheckedListBox(clbAppAssignments);
+
 
             // Create a graph service client object
             var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
@@ -817,8 +814,8 @@ namespace IntuneAssignments
 
         public async void ListAllGroups()
         {
-            ClearDataGridView(dtgDisplayGroup);
-            ClearCheckedListBox(clbGroupAssignment);
+            FormUtilities.ClearDataGridView(dtgDisplayGroup);
+            FormUtilities.ClearCheckedListBox(clbGroupAssignment);
 
             // Create a graph service client object
             var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
@@ -842,8 +839,8 @@ namespace IntuneAssignments
         }
         public async void SearchForGroup()
         {
-            ClearDataGridView(dtgDisplayGroup);
-            ClearCheckedListBox(clbGroupAssignment);
+            FormUtilities.ClearDataGridView(dtgDisplayGroup);
+            FormUtilities.ClearCheckedListBox(clbGroupAssignment);
 
             string searchQuery = txtboxSearchGroup.Text;
 
@@ -878,8 +875,8 @@ namespace IntuneAssignments
         }
         public async void SearchForApp()
         {
-            ClearCheckedListBox(clbAppAssignments);
-            ClearDataGridView(dtgDisplayApp);
+            FormUtilities.ClearCheckedListBox(clbAppAssignments);
+            FormUtilities.ClearDataGridView(dtgDisplayApp);
 
             string searchquery = txtboxSearchApp.Text;
 
@@ -1959,6 +1956,15 @@ namespace IntuneAssignments
 
             //sideBarTimer.Start();
 
+
+            Form1Location = Location;
+
+            this.Hide();
+            HomePage homePage = new HomePage();
+            homePage.Location = Form1Location;
+            homePage.Show();
+
+
         }
 
         private void btnSummarize_Click(object sender, EventArgs e)
@@ -2017,10 +2023,7 @@ namespace IntuneAssignments
             txtboxSearchApp.Clear();
         }
 
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-            showPolicyAssignment();
-        }
+
 
         private void rbtnAvailable_Click(object sender, EventArgs e)
         {
@@ -2078,11 +2081,7 @@ namespace IntuneAssignments
             HelpGuide();
         }
 
-        private void pbInfo_Click(object sender, EventArgs e)
-        {
-            About about = new About();
-            about.ShowDialog(this);
-        }
+        
 
         private void tstbtn001_Click(object sender, EventArgs e)
         {
@@ -2105,7 +2104,7 @@ namespace IntuneAssignments
         public async Task TEST()
         {
 
-
+            //ye old faithful test method
 
             var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
@@ -2167,7 +2166,7 @@ namespace IntuneAssignments
         {
 
             checkConfigurationSettings();
-            checkConnectionStatus();
+            //checkConnectionStatus();
         }
 
         private void btnDeployDescription_Click(object sender, EventArgs e)

@@ -76,6 +76,7 @@
             pnlDescription = new Panel();
             label1 = new Label();
             pbViewAssignments = new PictureBox();
+            lblHeaderAppForm = new Label();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlSearchPolicy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
@@ -93,7 +94,8 @@
             pbHome.Image = Properties.Resources._15536420761558096328_48;
             pbHome.Location = new Point(12, 12);
             pbHome.Name = "pbHome";
-            pbHome.Size = new Size(49, 51);
+            pbHome.Size = new Size(64, 64);
+            pbHome.SizeMode = PictureBoxSizeMode.StretchImage;
             pbHome.TabIndex = 0;
             pbHome.TabStop = false;
             toolTipPolicy.SetToolTip(pbHome, "Home");
@@ -108,7 +110,7 @@
             pnlSearchPolicy.Controls.Add(btnSearchPolicy);
             pnlSearchPolicy.Controls.Add(txtboxSearchPolicy);
             pnlSearchPolicy.Controls.Add(cbPolicyType);
-            pnlSearchPolicy.Location = new Point(97, 12);
+            pnlSearchPolicy.Location = new Point(97, 31);
             pnlSearchPolicy.Name = "pnlSearchPolicy";
             pnlSearchPolicy.Size = new Size(795, 468);
             pnlSearchPolicy.TabIndex = 1;
@@ -388,7 +390,7 @@
             pnlSummary.Controls.Add(btnResetDeployment);
             pnlSummary.Controls.Add(lblSelectedPolicies);
             pnlSummary.Controls.Add(btnPrepareDeployment);
-            pnlSummary.Location = new Point(97, 500);
+            pnlSummary.Location = new Point(97, 505);
             pnlSummary.Name = "pnlSummary";
             pnlSummary.Size = new Size(1807, 384);
             pnlSummary.TabIndex = 4;
@@ -539,7 +541,7 @@
             pnlSearchGroup.Controls.Add(txtboxSearchGroup);
             pnlSearchGroup.Controls.Add(btnListAllGroups);
             pnlSearchGroup.Controls.Add(btnSearchGroup);
-            pnlSearchGroup.Location = new Point(898, 12);
+            pnlSearchGroup.Location = new Point(898, 31);
             pnlSearchGroup.Name = "pnlSearchGroup";
             pnlSearchGroup.Size = new Size(643, 468);
             pnlSearchGroup.TabIndex = 9;
@@ -572,9 +574,10 @@
             // 
             pbHelpGuide.Image = Properties.Resources._121047815016345278514481_48;
             pbHelpGuide.InitialImage = Properties.Resources._121047815016345278514481_48;
-            pbHelpGuide.Location = new Point(12, 70);
+            pbHelpGuide.Location = new Point(12, 81);
             pbHelpGuide.Name = "pbHelpGuide";
-            pbHelpGuide.Size = new Size(49, 47);
+            pbHelpGuide.Size = new Size(64, 64);
+            pbHelpGuide.SizeMode = PictureBoxSizeMode.StretchImage;
             pbHelpGuide.TabIndex = 10;
             pbHelpGuide.TabStop = false;
             pbHelpGuide.Click += pbHelpGuide_Click;
@@ -584,7 +587,7 @@
             pnlDescription.BorderStyle = BorderStyle.FixedSingle;
             pnlDescription.Controls.Add(txtboxDescription);
             pnlDescription.Controls.Add(label1);
-            pnlDescription.Location = new Point(1547, 12);
+            pnlDescription.Location = new Point(1547, 31);
             pnlDescription.Name = "pnlDescription";
             pnlDescription.Size = new Size(357, 468);
             pnlDescription.TabIndex = 4;
@@ -604,12 +607,24 @@
             // 
             pbViewAssignments.Image = Properties.Resources._3271932871579761116_48;
             pbViewAssignments.InitialImage = Properties.Resources._121047815016345278514481_48;
-            pbViewAssignments.Location = new Point(12, 123);
+            pbViewAssignments.Location = new Point(12, 151);
             pbViewAssignments.Name = "pbViewAssignments";
-            pbViewAssignments.Size = new Size(49, 47);
+            pbViewAssignments.Size = new Size(64, 64);
+            pbViewAssignments.SizeMode = PictureBoxSizeMode.StretchImage;
             pbViewAssignments.TabIndex = 11;
             pbViewAssignments.TabStop = false;
             pbViewAssignments.Click += pbViewAssignments_Click;
+            // 
+            // lblHeaderAppForm
+            // 
+            lblHeaderAppForm.AutoSize = true;
+            lblHeaderAppForm.Font = new Font("Consolas", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            lblHeaderAppForm.ForeColor = Color.Salmon;
+            lblHeaderAppForm.Location = new Point(97, 0);
+            lblHeaderAppForm.Name = "lblHeaderAppForm";
+            lblHeaderAppForm.Size = new Size(207, 28);
+            lblHeaderAppForm.TabIndex = 21;
+            lblHeaderAppForm.Text = "Deploy policies";
             // 
             // Policy
             // 
@@ -617,6 +632,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1912, 901);
+            Controls.Add(lblHeaderAppForm);
             Controls.Add(pbViewAssignments);
             Controls.Add(pnlDescription);
             Controls.Add(pbHelpGuide);
@@ -643,6 +659,7 @@
             pnlDescription.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbViewAssignments).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -689,5 +706,6 @@
         private Label label1;
         private Label lblAssignedTo;
         private PictureBox pbViewAssignments;
+        private Label lblHeaderAppForm;
     }
 }
