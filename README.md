@@ -98,7 +98,7 @@ When launching the application the first time you will have to enter the followi
 - Client ID
 - Client Secret
 
-Click the Wrench icon in the menu on the left side, enter your authentication info and click OK to save. 
+Click the Gear icon in the menu on the left side, enter your authentication info and click OK to save. 
 
 The app will now verify if what you entered is correct. 
 Status can be seen the lower left side.
@@ -110,7 +110,7 @@ There is a help guide throughout the application, represented with a book icon i
 
 ## Application deployment
 
-Application deployment is done on the home page (House icon)
+Application deployment is done on the application page (top left icon)
 
 1. First you find and double click the application(s) that you want to deploy. This will move them to the check list
 2. Then you do the same for the group(s) you want to deploy to.
@@ -119,7 +119,7 @@ Application deployment is done on the home page (House icon)
 
 ## Profile deployment
 
-Profile deployment is done on the profile page (Gear icon)
+Profile deployment is done on the profile page (Setting slider icon)
 
 1. First you find and highlight the profile(s) that you want to deploy.
 2. Then you do the same for the group(s) you want to deploy to
@@ -128,13 +128,14 @@ Profile deployment is done on the profile page (Gear icon)
 
 ## Manage assignments
 
-Managing existing assignments is done on the assignment page (Magnifying glass icon)
+Managing existing assignments is done on the assignment subpage (magnifying glass) from either Application or Settings page
 
-_NOTE - This currently only supports assignments for applications_
+
 
 1. First you find and double click the application you want to manage assignments for
 2. If the applications have existing assignments they will appear in the list to the right
 3. You can now delete assignments individually or in bulk
+- Deleting only works for applications for the time being
 
 
 # Planned features
