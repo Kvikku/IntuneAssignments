@@ -6,6 +6,8 @@ This application aims to solve one big issue I've had with Microsoft Intune for 
 
 Usually this process involves a lot of manual work and mouse clicks, which in turn increases the probability for human error.
 
+With this application you can now effectively deploy a large number of applications and policies to multiple groups in seconds. There are also additional functionality available, such as updating the description property of all objects. 
+
 And before you ask - No, we don't talk about policy sets in Intune to solve this. Shh!
 
 
