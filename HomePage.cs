@@ -32,7 +32,7 @@ namespace IntuneAssignments
 
         private void HomePage_Load(object sender, EventArgs e)
         {
-            WriteToLog("HomePage loaded");
+            
             
             
             // Hide this label until it is needed
@@ -41,6 +41,9 @@ namespace IntuneAssignments
 
             // Call methods to create configuration folder and files
             createConfigurationFolder();
+
+            WriteToLog("HomePage loaded");
+
             createConfigurationFiles();
 
             loadAuthenticationInfo();
