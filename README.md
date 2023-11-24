@@ -154,6 +154,7 @@ _NOTE - This currently only supports assignments for applications_
     - Applications
 - View and delete assignments for policies
 - Conditional Access
+- Windows Autopilot
   
   
 
