@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using static IntuneAssignments.MSGraphAuthenticator;
 using static IntuneAssignments.GlobalVariables;
+using static IntuneAssignments.FormUtilities;
 
 namespace IntuneAssignments
 {
@@ -52,6 +53,8 @@ namespace IntuneAssignments
 
         private void Settings_Load(object sender, EventArgs e)
         {
+            WriteToLog("Attempting to load authentication info from appsettings.json");
+            
             // Retrieve data from appsettings.json and populate labels
 
             string path = AppSettingsFile; //@"C:\ProgramData\IntuneAssignments" + @"\AppSettings.json";
@@ -86,6 +89,9 @@ namespace IntuneAssignments
 
         private void saveSettings()
         {
+            
+            WriteToLog("Saving settings to appsettings.json");
+            
             // Save the new settings to appsettings.json
 
             string originalPath = AppSettingsFile;
@@ -108,11 +114,14 @@ namespace IntuneAssignments
             authority = $"https://login.microsoftonline.com/{tenantID}";
 
             
+            WriteToLog("Asking the user if he wants to save the settings to the appsettings file");
 
             // Ask the user if he wants to save these settings for future use
             DialogResult dialogResult = MessageBox.Show("Do you want to save these settings for future use?", "Save settings", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
+
+                WriteToLog("User chose to save the settings to the appsettings file");
 
                 // Create a JSON object to represent the configuration data
                 var jsonConfig = new JObject();
@@ -134,6 +143,8 @@ namespace IntuneAssignments
 
             } else if (dialogResult == DialogResult.No)
             {
+                WriteToLog("User chose not to save the settings to the appsettings file");
+
                 // Do nothing
             }
 
@@ -164,9 +175,11 @@ namespace IntuneAssignments
 
         private void btnOpenFolder_Click(object sender, EventArgs e)
         {
+            
+            WriteToLog("Opening the configuration folder");
+
             // Open file explorer
             System.Diagnostics.Process.Start("explorer.exe", @"C:\ProgramData\IntuneAssignments");
-            this.Close();
         }
 
 
@@ -249,6 +262,8 @@ namespace IntuneAssignments
         {
             // Attempt to authenticate to Graph API with the current settings
 
+            WriteToLog("Attempting to authenticate to Graph API with the current settings");
+            WriteToLog("NOTE - This method is currently not implemented");
 
             //checkAPIPermissions();
 

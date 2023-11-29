@@ -38,12 +38,17 @@ namespace IntuneAssignments
             // Hide this label until it is needed
             lblAdditionalInfo.Hide();
 
+            // TEST ONLY- Purge the content of the log file - 
+            // DELETE THIS LINE BEFORE RELEASE
+            PurgeLogFileContent();
+
 
             // Call methods to create configuration folder and files
             createConfigurationFolder();
 
-            WriteToLog("HomePage loaded");
 
+            
+            
             createConfigurationFiles();
 
             loadAuthenticationInfo();
@@ -67,8 +72,28 @@ namespace IntuneAssignments
             {
                 // If it does not exist, create it
                 System.IO.Directory.CreateDirectory(configurationFolder);
+                WriteToLog("");
+                WriteToLog("");
+                WriteToLog("Launching application!");
+                WriteToLog("The configuration folder is missing. It may have been deleted or it is the first time the app is running on the system");
+                WriteToLog("Creating the configuration folder");
+                WriteToLog("Configuration folder created");
 
             }
+            else
+            {
+                WriteToLog("");
+                WriteToLog("");
+                WriteToLog("Launching application");
+                WriteSystemSummaryToLog();
+
+
+                WriteToLog("The configuration folder already exist. No need to create");
+            }
+
+
+
+
         }
 
         private void createConfigurationFiles()
@@ -82,12 +107,28 @@ namespace IntuneAssignments
                 string destinationDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "IntuneAssignments");
                 string destinationFilePath = Path.Combine(destinationDirectory, "AppSettings.json");
                 File.Copy(AppSettingsFile, destinationFilePath, false);  // The 'true' argument allows overwriting if the file already exists
+
+                WriteToLog("The configuration file is missing. It may have been deleted or it is the first time the app is running on the system");
+                WriteToLog("Creating the configuration file");
+                WriteToLog("Configuration file created");
+
+
             }
+            else
+            {
+                WriteToLog("The configuration file already exist. No need to create");
+            }
+
+            
+
 
             // does nothing if the file already exists
 
             if (!System.IO.File.Exists(MainLogFile))
             {
+                // Must implement logging here
+
+                
 
                 // Create the file
                 System.IO.File.Create(MainLogFile);
@@ -96,6 +137,7 @@ namespace IntuneAssignments
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(MainLogFile, true))
                 {
                     file.WriteLine("Log file created: " + DateTime.Now);
+
                 }
 
             }
@@ -106,6 +148,8 @@ namespace IntuneAssignments
         {
 
             // Reads the appsettings.json file and stores the information in variables
+
+            WriteToLog("Loading authentication info from appsettings.json file");
 
             string path = Form1.AppSettingsFile; //@"C:\ProgramData\IntuneAssignments" + @"\AppSettings.json";
 
@@ -133,6 +177,8 @@ namespace IntuneAssignments
 
             try
             {
+                WriteToLog("Checking connection status");
+
 
                 // Create a graph service client object
                 var graphClient = await GetAuthenticatedGraphClient();
@@ -147,15 +193,15 @@ namespace IntuneAssignments
                 List<Organization> organizations = new List<Organization>();
                 organizations.AddRange(tenantInfo.Value);
 
-                // display tenant name in message box
+              
 
-
-
-                // THIS DOESNT WORK YET
+                // If the call is successful, display the tenant name and the connection status
                 pBConnectionStatus.Image = Properties.Resources.check;
                 lblConnectionStatus.Text = "Connected to Azure tenant: ";
                 lblTenantName.Text = organizations[0].DisplayName;
                 lblAdditionalInfo.Hide();
+
+                WriteToLog("Successfully connected to Azure tenant: " + organizations[0].DisplayName);
 
                 //MessageBox.Show("You are connected to" + "\n" + organizations[0].DisplayName + "\n" + organizations[0].Id);
 
@@ -169,6 +215,8 @@ namespace IntuneAssignments
                 lblTenantName.Text = "Not connected";
                 lblAdditionalInfo.Show();
                 lblAdditionalInfo.Text = "Please click the cogwheel to view and manage the authentication info";
+
+                WriteToLog("Error connecting to the Azure tenant. Please troubleshoot and double check the authentication info in the appsettings.json file");
             }
 
 
@@ -183,7 +231,7 @@ namespace IntuneAssignments
             Form1 form1 = new Form1();
             form1.Show();
 
-
+           WriteToLog("Opening the application page");
 
 
         }
@@ -194,7 +242,7 @@ namespace IntuneAssignments
             Policy policy = new Policy();
             policy.Show();
 
-
+            WriteToLog("Opening the policy page");
 
 
 
@@ -202,22 +250,24 @@ namespace IntuneAssignments
 
         private void GoToAbout_Click(object sender, EventArgs e)
         {
+
+            WriteToLog("Opening the about page");
             About about = new About();
             about.ShowDialog(this);
 
 
-
+            
 
         }
 
         private void GoToSettings_Click(object sender, EventArgs e)
         {
-            
-            
+
+            WriteToLog("Opening the settings page");
             Settings settings = new Settings();
             settings.ShowDialog();
 
-
+            
         }
 
 

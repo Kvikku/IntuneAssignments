@@ -12,6 +12,7 @@ using System.Security.Policy;
 using Windows.Graphics.Printing.PrintSupport;
 using Microsoft.Graph.Beta.Models.Networkaccess;
 using static System.Net.WebRequestMethods;
+using static IntuneAssignments.FormUtilities;
 
 namespace IntuneAssignments
 {
@@ -26,8 +27,16 @@ namespace IntuneAssignments
             InitializeComponent();
         }
 
+
+        private void About_Load(object sender, EventArgs e)
+        {
+
+        }
+
         private void btnOk_Click(object sender, EventArgs e)
         {
+            WriteToLog("Closing the About page");
+            WriteToLog("Opening the Main Menu page");
             this.Close();
         }
 
@@ -44,6 +53,9 @@ namespace IntuneAssignments
                 UseShellExecute = true
             };
             Process.Start(psi);
+
+            WriteToLog("Opened the GitHub URL in the default browser");
+
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -60,11 +72,9 @@ namespace IntuneAssignments
             };
             Process.Start(psi);
 
-        }
-
-        private void About_Load(object sender, EventArgs e)
-        {
+            WriteToLog("Opened the MIT License URL in the default browser");
 
         }
+
     }
 }
