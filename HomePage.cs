@@ -40,7 +40,7 @@ namespace IntuneAssignments
 
             // TEST ONLY- Purge the content of the log file - 
             // DELETE THIS LINE BEFORE RELEASE
-            PurgeLogFileContent();
+            //PurgeLogFileContent();
 
 
             // Call methods to create configuration folder and files

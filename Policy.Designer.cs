@@ -216,6 +216,7 @@
             btnSearchPolicy.Text = "Search";
             toolTipPolicy.SetToolTip(btnSearchPolicy, "Search for applications");
             btnSearchPolicy.UseVisualStyleBackColor = false;
+            btnSearchPolicy.Click += btnSearchPolicy_Click;
             // 
             // txtboxSearchPolicy
             // 
@@ -229,6 +230,7 @@
             txtboxSearchPolicy.TabIndex = 1;
             txtboxSearchPolicy.Text = "Enter search here";
             toolTipPolicy.SetToolTip(txtboxSearchPolicy, "Enter search query here");
+            txtboxSearchPolicy.Click += txtboxSearchPolicy_Click;
             // 
             // cbPolicyType
             // 

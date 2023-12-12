@@ -949,7 +949,7 @@ namespace IntuneAssignments
 
                 }
 
-                if (cBAppType.Text == "All types (BETA)")
+                if (cBAppType.Text == "All platforms")
                 {
 
                     // Searching for all types of apps
@@ -2028,17 +2028,10 @@ namespace IntuneAssignments
         {
 
             if (cBAppType.Text == "")
-
-
             {
                 MessageBox.Show("Please select application type in the drop down menu");
             }
 
-            else if (cBAppType.Text == "All types (BETA)")
-
-            {
-                SearchForApp();
-            }
             else
             {
                 SearchForApp();

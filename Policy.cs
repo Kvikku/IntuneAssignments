@@ -357,11 +357,11 @@ namespace IntuneAssignments
 
             // use method from FormUtilities.cs class
 
-            
+
             ClearRichTextBox(rtbSelectedPolicies);
             ClearRichTextBox(rtbSelectedGroups);
 
-            
+
 
 
             // Gather the values from the selected policies and selected groups
@@ -1539,6 +1539,70 @@ namespace IntuneAssignments
 
         }
 
+
+        public async void SearchForCompliancePolicy()
+        {
+
+            // This method searches for a compliance policy based on the search term entered in the textbox
+
+            var searchquery = txtboxSearchPolicy.Text;
+
+
+            // Authenticate to Graph
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+
+
+            /*
+             * Make a call to Microsoft Graph
+             * 
+             * Note - this could be optimized by searching or filtering 
+             * in the query instead of retrieving all policies and 
+             * then filtering in the code
+             * 
+             * As of 12.12.2023 search is not supported for compliance policies
+             */
+
+            var result = await graphClient.Result.DeviceManagement.DeviceCompliancePolicies.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
+                requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
+            });
+
+
+
+            // Put result into a list for easy processing
+            List<DeviceCompliancePolicy> deviceCompliancePolicies = new List<DeviceCompliancePolicy>();
+
+            // Adds all the data from the graph query into the list
+            deviceCompliancePolicies.AddRange(result.Value);
+
+
+            // Use LINQ to filter the list based on the search query
+
+            var filteredPolicies = deviceCompliancePolicies
+                 .Where(policy => policy.DisplayName.Contains(searchquery, StringComparison.OrdinalIgnoreCase))
+                 .ToList();
+
+            // Display message if no results were found
+            if (filteredPolicies.Count == 0)
+            {
+                MessageBox.Show("No Compliance policies were found containing the word " + searchquery);
+            }
+            else
+            {
+                // Display the result in the datagridview
+                foreach (var policy in filteredPolicies)
+                {
+                    dtgDisplayPolicy.Rows.Add(policy.DisplayName, "Compliance", policy.OdataType, policy.Id);
+                }
+            }
+
+
+
+        }
+
+
         ////////////////////////////////////////////////////////////////////////  BUTTONS  /////////////////////////////////////////////////////////////////////////////////////////////
 
         // Rename all buttons before use
@@ -1691,6 +1755,16 @@ namespace IntuneAssignments
         private void pbViewAssignments_Click(object sender, EventArgs e)
         {
             viewManageAssignments();
+        }
+
+        private void btnSearchPolicy_Click(object sender, EventArgs e)
+        {
+            SearchForCompliancePolicy();
+        }
+
+        private void txtboxSearchPolicy_Click(object sender, EventArgs e)
+        {
+            txtboxSearchPolicy.Clear();
         }
     }
 }
