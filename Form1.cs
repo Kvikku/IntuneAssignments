@@ -32,10 +32,6 @@ using static System.Windows.Forms.DataFormats;
     - Add comments
     - Add error handling
     - Add logging
-
- 
-
-    Make home page, move app to its own page
 */
 
 
@@ -111,24 +107,12 @@ namespace IntuneAssignments
             //HidePanel(menuPanel);
             //delayLoginAnimation();
 
-            // Hides default text on labels
-
-            // add data to dtgdisplayapp
-
-
-            // THIS HAS BEEN MOVED OVER - READY FOR DELETION
-            //createConfigurationFolder();
-            //createConfigurationFiles();
-
 
             //lblSignedInUser.Text = "You are not signed in!";
             //lblTenantID.Text = "";
             //lblConnectionStatus.Text = "";
             //lblTenantName.Text = "";
 
-
-
-            //tstbtn001.Hide();
 
             //pnlIntent.Hide();
             //pnlSearchApp.Hide();
@@ -154,15 +138,6 @@ namespace IntuneAssignments
             //buttonGrowTimer = new System.Windows.Forms.Timer();
             //buttonGrowTimer.Interval = 16;
             //buttonGrowTimer.Tick += ButtonTimer_Tick;
-
-
-            // Load authentication settings from appsettings.json file
-
-
-            // THIS MUST BE MOVED TO HOMEPAGE FORM LOAD EVENT
-            //loadAuthenticationInfo();
-
-            //checkConnectionStatus();
         }
 
 
