@@ -20,6 +20,7 @@ using Microsoft.Graph.Beta.Models;
 using static IntuneAssignments.Form1;
 using System.Reflection;
 using static IntuneAssignments.FormUtilities;
+using static IntuneAssignments.GlobalVariables;
 
 
 
@@ -29,7 +30,6 @@ using static IntuneAssignments.FormUtilities;
 
 
 // Method to check @odata.type contains certain key word (macOS, Windows, etc)
-// Switch between main form and this form, keep location, reuse auth
 
 // For assignment of policy - create two lists with app name and ID, and group name and ID
 
@@ -1475,6 +1475,80 @@ namespace IntuneAssignments
 
         }
 
+        public async void SearchForGroup()
+        {
+
+            // This method searches for a group based on the search term entered in the textbox
+
+            var searchquery = txtboxSearchGroup.Text;
+
+            // Authenticate to Graph
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+
+
+            /*
+             * Make a call to Microsoft Graph
+             * 
+             * Note - this could be optimized by searching or filtering 
+             * in the query instead of retrieving all policies and 
+             * then filtering in the code
+             * 
+             * As of 13.12.2023 search is not supported
+             */
+
+
+            var result = await graphClient.Result.Groups
+                .GetAsync();
+
+
+            List<Group> listAllGroups = new List<Group>();
+
+            listAllGroups.AddRange(result.Value);
+
+            // add all users and all devices virtual groups to the result
+            // this is to ensure that they are included in the search results
+
+            Group AllUsers = new Group
+            {
+                DisplayName = allUsersGroupName,
+                Id = allUsersGroupID
+            };
+
+            Group AllDevices = new Group
+            {
+                DisplayName = allDevicesGroupName,
+                Id = allDevicesGroupID
+            };
+
+
+            listAllGroups.Add(AllUsers);
+            listAllGroups.Add(AllDevices);
+
+            // Use LINQ to query the result
+
+            var filteredGroups = listAllGroups
+                 .Where(group => group.DisplayName.Contains(searchquery, StringComparison.OrdinalIgnoreCase))
+                 .ToList();
+
+            // Display message if no results were found
+            if (filteredGroups.Count == 0)
+            {
+                MessageBox.Show("No groups were found containing the word " + searchquery);
+            }
+            else
+            {
+                // Display the result in the datagridview
+
+                foreach (var group in filteredGroups)
+                {
+                    dtgDisplayGroup.Rows.Add(group.DisplayName, group.Id);
+                }
+            }
+
+
+
+        }
         public void HelpGuide()
         {
 
@@ -1540,6 +1614,60 @@ namespace IntuneAssignments
         }
 
 
+        public async void SearchForSettingsCatalogPolicy()
+        {
+
+            // This method searches for a settings catalog policy based on the search term entered in the textbox
+
+            var searchquery = txtboxSearchPolicy.Text;
+
+            // Authenticate to Graph
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+            /*
+             * Make a call to Microsoft Graph
+             * 
+             * Note - this could be optimized by searching or filtering 
+             * in the query instead of retrieving all policies and 
+             * then filtering in the code
+             * 
+             * As of 12.12.2023 search is not supported
+             */
+
+            var result = await graphClient.Result.DeviceManagement.ConfigurationPolicies.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Select = new string[] { "id", "name", "platforms" };
+            });
+
+            // Put result into a list for easy processing
+            List<DeviceManagementConfigurationPolicy> settingsCatalogPolicies = new List<DeviceManagementConfigurationPolicy>();
+
+            // Adds all the data from the graph query into the list
+            settingsCatalogPolicies.AddRange(result.Value);
+
+            // Use LINQ to filter the list based on the search query
+
+            var filteredPolicies = settingsCatalogPolicies
+                 .Where(policy => policy.Name.Contains(searchquery, StringComparison.OrdinalIgnoreCase))
+                 .ToList();
+
+
+            // Display message if no results were found
+            if (filteredPolicies.Count == 0)
+            {
+                MessageBox.Show("No Settings catalog policies were found containing the word " + searchquery);
+            }
+            else
+            {
+                // Display the result in the datagridview
+                foreach (var policy in filteredPolicies)
+                {
+                    dtgDisplayPolicy.Rows.Add(policy.Name, "Settings catalog", policy.Platforms, policy.Id);
+                }
+            }
+
+        }
+
         public async void SearchForCompliancePolicy()
         {
 
@@ -1560,7 +1688,7 @@ namespace IntuneAssignments
              * in the query instead of retrieving all policies and 
              * then filtering in the code
              * 
-             * As of 12.12.2023 search is not supported for compliance policies
+             * As of 12.12.2023 search is not supported
              */
 
             var result = await graphClient.Result.DeviceManagement.DeviceCompliancePolicies.GetAsync((requestConfiguration) =>
@@ -1602,6 +1730,64 @@ namespace IntuneAssignments
 
         }
 
+        public async void SearchForDeviceConfigurationPolicy()
+        {
+
+            // This method searches for a device configuration policy (Administrative templates) based on the search term entered in the textbox
+
+            var searchquery = txtboxSearchPolicy.Text;
+
+            // Authenticate to Graph
+            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+
+
+            /*
+             * Make a call to Microsoft Graph
+             * 
+             * Note - this could be optimized by searching or filtering 
+             * in the query instead of retrieving all policies and 
+             * then filtering in the code
+             * 
+             * As of 12.12.2023 search is not supported
+             */
+
+            var result = await graphClient.Result.DeviceManagement.DeviceConfigurations.GetAsync((requestConfiguration) =>
+                {
+                    requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
+                    requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
+                });
+
+            // Put result into a list for easy processing
+            List<DeviceConfiguration> deviceConfigurationProfiles = new List<DeviceConfiguration>();
+
+            // Adds all the data from the graph query into the list
+            deviceConfigurationProfiles.AddRange(result.Value);
+
+
+            // Use LINQ to filter the list based on the search query
+
+            var filteredPolicies = deviceConfigurationProfiles
+                 .Where(policy => policy.DisplayName.Contains(searchquery, StringComparison.OrdinalIgnoreCase))
+                 .ToList();
+
+            // Display message if no results were found
+
+            if (filteredPolicies.Count == 0)
+            {
+                MessageBox.Show("No Device Configuration policies were found containing the word " + searchquery);
+            }
+            else
+            {
+                // Display the result in the datagridview
+                foreach (var policy in filteredPolicies)
+                {
+                    dtgDisplayPolicy.Rows.Add(policy.DisplayName, "Device Configuration", policy.OdataType, policy.Id);
+                }
+            }
+
+
+        }
 
         ////////////////////////////////////////////////////////////////////////  BUTTONS  /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1646,6 +1832,16 @@ namespace IntuneAssignments
             {
                 ListSettingsCatalog(dtgDisplayPolicy);
             }
+
+
+        }
+
+        private void btnSearchGroup_Click(object sender, EventArgs e)
+        {
+            // Clear the datagridview for older results
+            ClearDataGridView(dtgDisplayGroup);
+
+            SearchForGroup();
 
 
         }
@@ -1759,12 +1955,44 @@ namespace IntuneAssignments
 
         private void btnSearchPolicy_Click(object sender, EventArgs e)
         {
-            SearchForCompliancePolicy();
+            // Check what type of policy is selected in the combobox
+            // Then call the appropriate method to search for that policy type
+
+            ClearDataGridView(dtgDisplayPolicy);
+
+
+            if (cbPolicyType.Text == "All types")
+            {
+
+            }
+
+            else if (cbPolicyType.Text == "Compliance policy")
+            {
+                SearchForCompliancePolicy();
+            }
+
+            else if (cbPolicyType.Text == "Administrative templates")
+            {
+                SearchForDeviceConfigurationPolicy();
+            }
+
+            else if (cbPolicyType.Text == "Settings catalog")
+            {
+                SearchForSettingsCatalogPolicy();
+            }
+
+
+
         }
 
         private void txtboxSearchPolicy_Click(object sender, EventArgs e)
         {
             txtboxSearchPolicy.Clear();
+        }
+
+        private void txtboxSearchGroup_Click(object sender, EventArgs e)
+        {
+            txtboxSearchGroup.Clear();
         }
     }
 }

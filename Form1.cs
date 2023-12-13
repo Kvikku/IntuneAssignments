@@ -21,6 +21,8 @@ using Windows.ApplicationModel.VoiceCommands;
 using Windows.Foundation.Metadata;
 using static System.Formats.Asn1.AsnWriter;
 using static System.Windows.Forms.DataFormats;
+using static IntuneAssignments.GlobalVariables;
+using Tavis.UriTemplates;
 
 
 /*
@@ -826,27 +828,53 @@ namespace IntuneAssignments
 
             // Construct group query
 
+            var result = await graphClient.Result.Groups
+                .GetAsync();
 
-            // Make a call to Microsoft Graph
-            var allGroups = await graphClient.Result.Groups.GetAsync((requestConfiguration) =>
+            List<Group> listAllGroups = new List<Group>();
+
+            listAllGroups.AddRange(result.Value);
+
+            // add all users and all devices virtual groups to the result
+            // this is to ensure that they are included in the search results
+
+            Group AllUsers = new Group
             {
+                DisplayName = allUsersGroupName,
+                Id = allUsersGroupID
+            };
 
-                // This cannot be this easy, lol 
-
-                requestConfiguration.QueryParameters.Search = "\"displayName:" + searchQuery + "\"";
-                requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
-            });
-
-
-            // Make a list of all returned groups from the search
-            List<Group> groups = new List<Group>();
-            groups.AddRange(allGroups.Value);
-
-            foreach (var group in groups)
+            Group AllDevices = new Group
             {
-                dtgDisplayGroup.Rows.Add(group.DisplayName, group.Id);
-                //clbGroupAssignment.Items.Add(group.DisplayName);
+                DisplayName = allDevicesGroupName,
+                Id = allDevicesGroupID
+            };
+
+
+            listAllGroups.Add(AllUsers);
+            listAllGroups.Add(AllDevices);
+
+            // Use LINQ to query the result
+
+            var filteredGroups = listAllGroups
+                 .Where(group => group.DisplayName.Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+                 .ToList();
+
+            // Display message if no results were found
+            if (filteredGroups.Count == 0)
+            {
+                MessageBox.Show("No groups were found containing the word " + searchQuery);
             }
+            else
+            {
+                // Display the result in the datagridview
+
+                foreach (var group in filteredGroups)
+                {
+                    dtgDisplayGroup.Rows.Add(group.DisplayName, group.Id);
+                }
+            }
+
         }
         public async void SearchForApp()
         {

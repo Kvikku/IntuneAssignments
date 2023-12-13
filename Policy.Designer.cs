@@ -319,6 +319,7 @@
             btnSearchGroup.Text = "Search";
             toolTipPolicy.SetToolTip(btnSearchGroup, "Search for groups");
             btnSearchGroup.UseVisualStyleBackColor = false;
+            btnSearchGroup.Click += btnSearchGroup_Click;
             // 
             // txtboxSearchGroup
             // 
@@ -332,6 +333,7 @@
             txtboxSearchGroup.TabIndex = 6;
             txtboxSearchGroup.Text = "Enter search here";
             toolTipPolicy.SetToolTip(txtboxSearchGroup, "Enter search query here");
+            txtboxSearchGroup.Click += txtboxSearchGroup_Click;
             // 
             // rtbAssignmentPreview
             // 
@@ -576,7 +578,7 @@
             // 
             pbHelpGuide.Image = Properties.Resources._121047815016345278514481_48;
             pbHelpGuide.InitialImage = Properties.Resources._121047815016345278514481_48;
-            pbHelpGuide.Location = new Point(12, 81);
+            pbHelpGuide.Location = new Point(12, 159);
             pbHelpGuide.Name = "pbHelpGuide";
             pbHelpGuide.Size = new Size(64, 64);
             pbHelpGuide.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -609,7 +611,7 @@
             // 
             pbViewAssignments.Image = Properties.Resources._3271932871579761116_48;
             pbViewAssignments.InitialImage = Properties.Resources._121047815016345278514481_48;
-            pbViewAssignments.Location = new Point(12, 151);
+            pbViewAssignments.Location = new Point(12, 89);
             pbViewAssignments.Name = "pbViewAssignments";
             pbViewAssignments.Size = new Size(64, 64);
             pbViewAssignments.SizeMode = PictureBoxSizeMode.StretchImage;
