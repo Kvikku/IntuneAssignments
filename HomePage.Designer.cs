@@ -39,6 +39,7 @@
             lblConnectionStatus = new Label();
             toolTip1 = new ToolTip(components);
             lblAdditionalInfo = new Label();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)pbGoToApplication).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbGoToPolicy).BeginInit();
             ((System.ComponentModel.ISupportInitialize)GoToAbout).BeginInit();
@@ -135,12 +136,23 @@
             lblAdditionalInfo.TabIndex = 7;
             lblAdditionalInfo.Text = "Additional info";
             // 
+            // button1
+            // 
+            button1.Location = new Point(171, 114);
+            button1.Name = "button1";
+            button1.Size = new Size(170, 66);
+            button1.TabIndex = 8;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // HomePage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(484, 395);
+            Controls.Add(button1);
             Controls.Add(lblAdditionalInfo);
             Controls.Add(lblConnectionStatus);
             Controls.Add(pBConnectionStatus);
@@ -173,5 +185,6 @@
         private Label lblConnectionStatus;
         private ToolTip toolTip1;
         private Label lblAdditionalInfo;
+        private Button button1;
     }
 }
