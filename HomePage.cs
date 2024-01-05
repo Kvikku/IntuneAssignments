@@ -186,6 +186,12 @@ namespace IntuneAssignments
                 // Create a graph service client object
                 var graphClient = await GetAuthenticatedGraphClient();
 
+
+
+                // Decide how to handle the authentication when first launching the app
+
+                //var graphClient = CreateGraphServiceClient();
+
                 // Make a call to Microsoft Graph
                 var tenantInfo = await graphClient.Organization.GetAsync((requestConfiguration) =>
                 {
@@ -272,6 +278,16 @@ namespace IntuneAssignments
 
 
         }
+
+
+
+
+
+
+
+
+        // TESTING OF USER AUTHENTICATION BELOW THIS LINE//
+
 
 
         private void button1_Click(object sender, EventArgs e)

@@ -22,6 +22,7 @@ using Windows.Foundation.Metadata;
 using static System.Formats.Asn1.AsnWriter;
 using static System.Windows.Forms.DataFormats;
 using static IntuneAssignments.GlobalVariables;
+using static IntuneAssignments.GraphServiceClientCreator;
 using Tavis.UriTemplates;
 
 
@@ -512,6 +513,7 @@ namespace IntuneAssignments
                 // Create a graph service client object
                 var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
 
+                //var graphClient = CreateGraphServiceClient();
 
 
                 // Make a call to Microsoft Graph
@@ -647,14 +649,16 @@ namespace IntuneAssignments
 
 
             // Create a graph service client object
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            //var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+
+            var graphClient = CreateGraphServiceClient();
 
             var selectedPlatform = cBAppType.Text;
 
-
+            
 
             // Make a call to Microsoft Graph
-            var allApplications = await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
+            var allApplications = await graphClient.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.QueryParameters.Select = new string[] { "displayName", "id" };
             });
