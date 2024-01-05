@@ -18,6 +18,7 @@ using Windows.Foundation.Metadata;
 using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
 using static IntuneAssignments.Form1;
+using static IntuneAssignments.GraphServiceClientCreator;
 
 namespace IntuneAssignments
 {
@@ -91,7 +92,7 @@ namespace IntuneAssignments
 
             // Authenticate to Graph
 
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
             // Clear the datagridview for older results
 
@@ -99,7 +100,7 @@ namespace IntuneAssignments
 
             // Make a call to Microsoft Graph
 
-            var result = await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
+            var result = await graphClient.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.QueryParameters.Search = searchquery;
                 requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
@@ -200,13 +201,13 @@ namespace IntuneAssignments
 
             // Authenticate to Graph
 
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
 
 
             // Make a call to Microsoft Graph
 
-            var result = await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
+            var result = await graphClient.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
             });
@@ -289,10 +290,10 @@ namespace IntuneAssignments
 
             // Authenticate to Graph
 
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
 
-            var result = await graphClient.Result.DeviceAppManagement.MobileApps[value].Assignments.GetAsync((requestConfiguration) =>
+            var result = await graphClient.DeviceAppManagement.MobileApps[value].Assignments.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
             });
@@ -321,7 +322,7 @@ namespace IntuneAssignments
 
                     var resultList = new List<Group>();
 
-                    var findGroupName = await graphClient.Result.Groups[id].GetAsync((requestConfiguration) =>
+                    var findGroupName = await graphClient.Groups[id].GetAsync((requestConfiguration) =>
                     {
                         requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
                     });
@@ -351,14 +352,14 @@ namespace IntuneAssignments
 
             // Authenticate to Graph
 
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
 
             // Convert value og lblappid.text to mobile app ID
             var appID = lblAppID.Text;
 
             // Query graph for assignment ID for a given app
-            var result = await graphClient.Result.DeviceAppManagement.MobileApps[appID].Assignments.GetAsync((requestConfiguration) =>
+            var result = await graphClient.DeviceAppManagement.MobileApps[appID].Assignments.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.QueryParameters.Select = new string[] { "id", "intent" };
             });
@@ -375,7 +376,7 @@ namespace IntuneAssignments
             {
                 //MessageBox.Show(assignment.Id + " " + assignment.Intent);
 
-                await graphClient.Result.DeviceAppManagement.MobileApps[appID].Assignments[assignment.Id].DeleteAsync();
+                await graphClient.DeviceAppManagement.MobileApps[appID].Assignments[assignment.Id].DeleteAsync();
             }
 
 
@@ -390,12 +391,12 @@ namespace IntuneAssignments
 
             // Authenticate to Graph
 
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
             // Convert value og lblappid.text to mobile app ID
             var appID = lblAppID.Text;
 
-            var result = await graphClient.Result.DeviceAppManagement.MobileApps[appID].Assignments.GetAsync((requestConfiguration) =>
+            var result = await graphClient.DeviceAppManagement.MobileApps[appID].Assignments.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.QueryParameters.Select = new string[] { "id", "intent" };
             });
@@ -422,7 +423,7 @@ namespace IntuneAssignments
 
                     // Delete assignment
 
-                    await graphClient.Result.DeviceAppManagement.MobileApps[appID].Assignments[assignmentID.Id].DeleteAsync();
+                    await graphClient.DeviceAppManagement.MobileApps[appID].Assignments[assignmentID.Id].DeleteAsync();
 
 
                 }

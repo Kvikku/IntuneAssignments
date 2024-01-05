@@ -21,6 +21,7 @@ using static IntuneAssignments.Form1;
 using System.Reflection;
 using static IntuneAssignments.FormUtilities;
 using static IntuneAssignments.GlobalVariables;
+using static IntuneAssignments.GraphServiceClientCreator;
 
 
 
@@ -142,7 +143,7 @@ namespace IntuneAssignments
         {
 
             // Authenticate to Graph
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
 
             // Create a list to store the groups in
@@ -151,7 +152,7 @@ namespace IntuneAssignments
 
 
             // Make a call to Microsoft Graph
-            var result = await graphClient.Result.Groups.GetAsync((requestConfiguration) =>
+            var result = await graphClient.Groups.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.QueryParameters.Select = new string[] { "id", "displayname" };
                 requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
@@ -196,7 +197,7 @@ namespace IntuneAssignments
             // Troubleshoot only:
             // MessageBox.Show("Type is " + profileType);
 
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
             if (profileType != "")
             {
@@ -207,7 +208,7 @@ namespace IntuneAssignments
 
 
 
-                var result = await graphClient.Result.DeviceManagement.DeviceCompliancePolicies[profileID].Assignments.GetAsync((requestConfiguration) =>
+                var result = await graphClient.DeviceManagement.DeviceCompliancePolicies[profileID].Assignments.GetAsync((requestConfiguration) =>
                 {
                     requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
                 });
@@ -551,7 +552,7 @@ namespace IntuneAssignments
             {
 
                 // Authenticate to Graph
-                var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+                var graphClient = CreateGraphServiceClient();
 
 
 
@@ -638,7 +639,7 @@ namespace IntuneAssignments
 
 
                                 // Update the description
-                                var result = await graphClient.Result.DeviceManagement.DeviceCompliancePolicies[policyID].PatchAsync((DeviceCompliancePolicy)requestBody);
+                                var result = await graphClient.DeviceManagement.DeviceCompliancePolicies[policyID].PatchAsync((DeviceCompliancePolicy)requestBody);
 
                                 // write to the textbox
                                 rtbDeploymentSummary.SelectionColor = Color.Green;
@@ -661,7 +662,7 @@ namespace IntuneAssignments
                                 };
 
                                 // Update the description
-                                var result = await graphClient.Result.DeviceManagement.ConfigurationPolicies[policyID].PatchAsync(requestBody);
+                                var result = await graphClient.DeviceManagement.ConfigurationPolicies[policyID].PatchAsync(requestBody);
 
                                 // write to the textbox
                                 rtbDeploymentSummary.SelectionColor = Color.Green;
@@ -751,7 +752,7 @@ namespace IntuneAssignments
 
 
             // Authenticate to Graph
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
             // Create a group assignment target object
             var groupAssignmentTarget = new GroupAssignmentTarget
@@ -786,7 +787,7 @@ namespace IntuneAssignments
             // All existing assignments must be retrieved and added to the array in order to prevent them from being overwritten
 
             // Find all existing assignments by their group ID
-            var existingAssignments = await graphClient.Result.DeviceManagement.ConfigurationPolicies[policyID]
+            var existingAssignments = await graphClient.DeviceManagement.ConfigurationPolicies[policyID]
                 .Assignments
                 .GetAsync();
 
@@ -870,7 +871,7 @@ namespace IntuneAssignments
             try
             {
 
-                var result = await graphClient.Result.DeviceManagement.ConfigurationPolicies[policyID].Assign.PostAsync(requestBody);
+                var result = await graphClient.DeviceManagement.ConfigurationPolicies[policyID].Assign.PostAsync(requestBody);
 
 
             }
@@ -893,7 +894,7 @@ namespace IntuneAssignments
 
 
             // Authenticate to Graph
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
 
 
@@ -926,7 +927,7 @@ namespace IntuneAssignments
 
 
             // Find all existing assignments by their group ID
-            var existingAssignments = await graphClient.Result.DeviceManagement.DeviceCompliancePolicies[policyID]
+            var existingAssignments = await graphClient.DeviceManagement.DeviceCompliancePolicies[policyID]
                 .Assignments
                 .GetAsync();
 
@@ -1017,7 +1018,7 @@ namespace IntuneAssignments
             try
             {
 
-                var result = await graphClient.Result.DeviceManagement.DeviceCompliancePolicies[policyID].Assign.PostAsync(requestBody);
+                var result = await graphClient.DeviceManagement.DeviceCompliancePolicies[policyID].Assign.PostAsync(requestBody);
 
 
             }
@@ -1043,7 +1044,7 @@ namespace IntuneAssignments
             // the policy ID and group ID are passed as parameters to this method and used to create the assignment 
 
             // Authenticate to Graph
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
 
             // create a group assignment target object
@@ -1073,7 +1074,7 @@ namespace IntuneAssignments
             // All existing assignments must be retrieved and added to the array in order to prevent them from being overwritten
 
             // Find all existing assignments by their group ID
-            var existingAssignments = await graphClient.Result.DeviceManagement.DeviceConfigurations[policyID]
+            var existingAssignments = await graphClient.DeviceManagement.DeviceConfigurations[policyID]
                 .Assignments
                 .GetAsync();
 
@@ -1157,7 +1158,7 @@ namespace IntuneAssignments
             try
             {
 
-                var result = await graphClient.Result.DeviceManagement.DeviceConfigurations[policyID].Assign.PostAsync(requestBody);
+                var result = await graphClient.DeviceManagement.DeviceConfigurations[policyID].Assign.PostAsync(requestBody);
 
 
             }
@@ -1205,7 +1206,7 @@ namespace IntuneAssignments
             var defaultColor = rtbDeploymentSummary.ForeColor;
 
             // Authenticate to Graph
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
 
 
@@ -1345,11 +1346,11 @@ namespace IntuneAssignments
 
 
             // Authenticate to Graph
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
 
             // Make a call to Microsoft Graph
-            var result = await graphClient.Result.DeviceManagement.DeviceCompliancePolicies.GetAsync((requestConfiguration) =>
+            var result = await graphClient.DeviceManagement.DeviceCompliancePolicies.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
                 requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
@@ -1377,11 +1378,11 @@ namespace IntuneAssignments
             // This method lists all configuration profiles in the tenant and displays them in a datagridview
 
             // Authenticate to Graph
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
 
 
-            var result = await graphClient.Result.DeviceManagement.DeviceConfigurations.GetAsync((requestConfiguration) =>
+            var result = await graphClient.DeviceManagement.DeviceConfigurations.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
                 requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
@@ -1414,7 +1415,7 @@ namespace IntuneAssignments
             Form1 form1 = new Form1();
 
             // Authenticate to Graph
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
             var target = new DeviceManagementConfigurationPolicy
             {
@@ -1422,7 +1423,7 @@ namespace IntuneAssignments
             };
 
 
-            var result = await graphClient.Result.DeviceManagement.ConfigurationPolicies.GetAsync();
+            var result = await graphClient.DeviceManagement.ConfigurationPolicies.GetAsync();
             ;
 
             // Put result into a list for easy processing
@@ -1452,9 +1453,9 @@ namespace IntuneAssignments
             Form1 form1 = new Form1();
 
             // Authenticate to Graph
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
-            var result = await graphClient.Result.Groups
+            var result = await graphClient.Groups
                 .GetAsync();
 
 
@@ -1483,7 +1484,7 @@ namespace IntuneAssignments
             var searchquery = txtboxSearchGroup.Text;
 
             // Authenticate to Graph
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
 
 
@@ -1498,7 +1499,7 @@ namespace IntuneAssignments
              */
 
 
-            var result = await graphClient.Result.Groups
+            var result = await graphClient.Groups
                 .GetAsync();
 
 
@@ -1622,7 +1623,7 @@ namespace IntuneAssignments
             var searchquery = txtboxSearchPolicy.Text;
 
             // Authenticate to Graph
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
             /*
              * Make a call to Microsoft Graph
@@ -1634,7 +1635,7 @@ namespace IntuneAssignments
              * As of 12.12.2023 search is not supported
              */
 
-            var result = await graphClient.Result.DeviceManagement.ConfigurationPolicies.GetAsync((requestConfiguration) =>
+            var result = await graphClient.DeviceManagement.ConfigurationPolicies.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.QueryParameters.Select = new string[] { "id", "name", "platforms" };
             });
@@ -1677,7 +1678,7 @@ namespace IntuneAssignments
 
 
             // Authenticate to Graph
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
 
 
@@ -1691,7 +1692,7 @@ namespace IntuneAssignments
              * As of 12.12.2023 search is not supported
              */
 
-            var result = await graphClient.Result.DeviceManagement.DeviceCompliancePolicies.GetAsync((requestConfiguration) =>
+            var result = await graphClient.DeviceManagement.DeviceCompliancePolicies.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
                 requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
@@ -1738,7 +1739,7 @@ namespace IntuneAssignments
             var searchquery = txtboxSearchPolicy.Text;
 
             // Authenticate to Graph
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
 
 
@@ -1752,7 +1753,7 @@ namespace IntuneAssignments
              * As of 12.12.2023 search is not supported
              */
 
-            var result = await graphClient.Result.DeviceManagement.DeviceConfigurations.GetAsync((requestConfiguration) =>
+            var result = await graphClient.DeviceManagement.DeviceConfigurations.GetAsync((requestConfiguration) =>
                 {
                     requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
                     requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
