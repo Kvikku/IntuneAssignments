@@ -45,7 +45,7 @@ The application should look something like this:
 - Supported account types - Accounts in this organization only
 - Return URL - Mobile and desktop clients - use the default provided in the GUI
     - https://login.microsoftonline.com/common/oauth2/nativeclient
-    - msal48751b13-c91e-4132-b21a-dc763721f4d4://auth
+    - msal<YOUR TENANT ID>://auth
     - https://login.live.com/oauth20_desktop.srf
 
 ## 3 - API Permissions
