@@ -30,8 +30,8 @@ namespace IntuneAssignments
 
         // This class will be used to provide the access token to the GraphServiceClient object interactively, with authentication done in the browser
 
-        public static string clientID { get; set; } = "48751b13-c91e-4132-b21a-dc763721f4d4";
-        public static string tenantID { get; set; } = "d11f7a6b-df64-4e83-8461-2f8e3e6aba13";
+        public static string clientID { get; set; }
+        public static string tenantID { get; set; }
 
         public static string authority = $"https://login.microsoftonline.com/{tenantID}";
 

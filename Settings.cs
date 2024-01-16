@@ -17,6 +17,7 @@ using Newtonsoft.Json.Linq;
 using static IntuneAssignments.MSGraphAuthenticator;
 using static IntuneAssignments.GlobalVariables;
 using static IntuneAssignments.FormUtilities;
+using static IntuneAssignments.GraphServiceClientCreator;
 
 namespace IntuneAssignments
 {
@@ -53,6 +54,13 @@ namespace IntuneAssignments
 
         private void Settings_Load(object sender, EventArgs e)
         {
+
+            // These are no longer used, but I'm keeping them here for now in case I need them later
+            lblClientSecret.Hide();
+            tBClientSecret.Hide();
+            
+
+
             WriteToLog("Attempting to load authentication info from appsettings.json");
             
             // Retrieve data from appsettings.json and populate labels
@@ -104,14 +112,16 @@ namespace IntuneAssignments
 
             entraSettings["TenantId"] = tBTenantID.Text;
             entraSettings["ClientId"] = tBClientID.Text;
-            entraSettings["ClientSecret"] = tBClientSecret.Text;
+            //entraSettings["ClientSecret"] = tBClientSecret.Text;
 
             // Update global variables so that the rest of the application can use the new settings
 
-            tenantID = tBTenantID.Text;
-            clientID = tBClientID.Text;
-            clientSecret = tBClientSecret.Text;
-            authority = $"https://login.microsoftonline.com/{tenantID}";
+            
+
+            TokenProvider.tenantID = tBTenantID.Text;
+            TokenProvider.clientID = tBClientID.Text;
+            //clientSecret = tBClientSecret.Text;
+            TokenProvider.authority = $"https://login.microsoftonline.com/{TokenProvider.tenantID}";
 
             
             WriteToLog("Asking the user if he wants to save the settings to the appsettings file");
@@ -129,7 +139,7 @@ namespace IntuneAssignments
                 {
                     { "TenantId", entraSettings["TenantId"] },
                     { "ClientId", entraSettings["ClientId"] },
-                    { "ClientSecret", entraSettings["ClientSecret"] }
+                    //{ "ClientSecret", entraSettings["ClientSecret"] }
                 };
 
                 // Serialize the JSON object to a formatted string
@@ -148,7 +158,7 @@ namespace IntuneAssignments
                 // Do nothing
             }
 
-            CheckConnection();
+            
         }
 
 
@@ -160,16 +170,32 @@ namespace IntuneAssignments
             homePage?.checkConnectionStatus();
         }
 
-       
+
+        public static async Task AuthenticateToGraph()
+        {
+            // Create a Graph client 
+            var graphClient = CreateGraphServiceClient();
+
+            // Get the signed-in user's profile
+            var user = await graphClient.Me.GetAsync();
+
+            MessageBox.Show(user.DisplayName);
+
+        }
 
 
-        private void btnOK_Click(object sender, EventArgs e)
+        private async void btnOK_Click(object sender, EventArgs e)
         {
 
             saveSettings();
 
-            
-           
+            await AuthenticateToGraph();
+
+
+            CheckConnection();
+
+
+
             this.Close();
         }
 

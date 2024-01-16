@@ -36,10 +36,9 @@ namespace IntuneAssignments
         private void HomePage_Load(object sender, EventArgs e)
         {
 
+            ShowWarningOnStatusLabels();
 
-
-            // Hide this label until it is needed
-            lblAdditionalInfo.Hide();
+            
 
             // TEST ONLY- Purge the content of the log file - 
             // DELETE THIS LINE BEFORE RELEASE
@@ -55,15 +54,28 @@ namespace IntuneAssignments
             createConfigurationFiles();
 
             loadAuthenticationInfo();
-            checkConnectionStatus();
+            
+            
+            // Remove this line before release
+            //checkConnectionStatus();
 
 
-            // Continue migrating startup code from form1.cs to here.
+            
         }
 
 
         // START UP CONFIGURATION //
 
+
+        private void ShowWarningOnStatusLabels()
+        {
+            pBConnectionStatus.Image = Properties.Resources.cancel;
+            
+            //lblConnectionStatus.Text = "Not connected";
+            lblTenantName.Text = "Not connected";
+            lblAdditionalInfo.Text = "Please click the cogwheel to view and manage the authentication info";
+
+        }
 
         private void createConfigurationFolder()
         {
@@ -184,7 +196,7 @@ namespace IntuneAssignments
 
 
                 // Create a graph service client object
-                var graphClient = await GetAuthenticatedGraphClient();
+                var graphClient = CreateGraphServiceClient();
 
                 // Make a call to Microsoft Graph
                 var tenantInfo = await graphClient.Organization.GetAsync((requestConfiguration) =>
@@ -274,13 +286,7 @@ namespace IntuneAssignments
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-            Test();
-
-
-        }
+ 
 
 
 
