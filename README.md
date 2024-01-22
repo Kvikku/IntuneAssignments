@@ -19,3 +19,9 @@ __NOTE - This application is a work in progress. Errors, crashes and unexpected 
 # Getting started
 
 Please read the Wiki (https://github.com/Kvikku/IntuneAssignments/wiki) for help with the pre-reqs and how to use the app!
+
+
+
+# New releases!
+
+The newest release (0.2.0-beta) has a major change - user based authentication is now available, and client secret authentication has been removed. If you are coming from an earlier version of the app you must adjust to this change :)
