@@ -13,6 +13,7 @@ using static IntuneAssignments.Form1;
 using static System.Windows.Forms.DataFormats;
 using static IntuneAssignments.MSGraphAuthenticator;
 using static IntuneAssignments.GlobalVariables;
+using static IntuneAssignments.GraphServiceClientCreator;
 
 namespace IntuneAssignments
 {
@@ -152,7 +153,7 @@ namespace IntuneAssignments
 
             // Authenticate to Graph
 
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
 
 
@@ -184,7 +185,7 @@ namespace IntuneAssignments
                 // Look up assignments and display in datagridview
 
 
-                var result = await graphClient.Result.DeviceManagement.DeviceCompliancePolicies[policyID].Assignments.GetAsync();
+                var result = await graphClient.DeviceManagement.DeviceCompliancePolicies[policyID].Assignments.GetAsync();
 
                 // Store result in list
 
@@ -275,7 +276,7 @@ namespace IntuneAssignments
             
             // Authenticate to Graph
 
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
 
             // Convert value og lblappid.text to mobile app ID
@@ -292,7 +293,7 @@ namespace IntuneAssignments
 
                 // Query graph for assignment ID for a given policy
 
-                var result = await graphClient.Result.DeviceManagement.DeviceCompliancePolicies[policyID].Assignments.GetAsync();
+                var result = await graphClient.DeviceManagement.DeviceCompliancePolicies[policyID].Assignments.GetAsync();
 
 
                 // Add the result to a list of assignments
@@ -306,7 +307,7 @@ namespace IntuneAssignments
                 {
                     //MessageBox.Show(assignment.Id + " " + assignment.Intent);
 
-                    await graphClient.Result.DeviceManagement.DeviceCompliancePolicies[policyID].Assignments[assignment.Id].DeleteAsync();
+                    await graphClient.DeviceManagement.DeviceCompliancePolicies[policyID].Assignments[assignment.Id].DeleteAsync();
                 }
 
 

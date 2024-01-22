@@ -12,13 +12,16 @@ using System.Windows.Forms;
 using static IntuneAssignments.MSGraphAuthenticator;
 using static IntuneAssignments.GlobalVariables;
 using static IntuneAssignments.FormUtilities;
+using static IntuneAssignments.TokenProvider;
+using static IntuneAssignments.GraphServiceClientCreator;
 using Microsoft.IdentityModel.Logging;
+using Microsoft.Graph.Beta;
 
 namespace IntuneAssignments
 {
     public partial class HomePage : Form
     {
-        
+
 
 
         private readonly Form1 _form1;
@@ -32,11 +35,10 @@ namespace IntuneAssignments
 
         private void HomePage_Load(object sender, EventArgs e)
         {
+
+            ShowWarningOnStatusLabels();
+
             
-            
-            
-            // Hide this label until it is needed
-            lblAdditionalInfo.Hide();
 
             // TEST ONLY- Purge the content of the log file - 
             // DELETE THIS LINE BEFORE RELEASE
@@ -47,20 +49,33 @@ namespace IntuneAssignments
             createConfigurationFolder();
 
 
-            
-            
+
+
             createConfigurationFiles();
 
             loadAuthenticationInfo();
-            checkConnectionStatus();
+            
+            
+            // Remove this line before release
+            //checkConnectionStatus();
 
 
-            // Continue migrating startup code from form1.cs to here.
+            
         }
 
 
         // START UP CONFIGURATION //
 
+
+        private void ShowWarningOnStatusLabels()
+        {
+            pBConnectionStatus.Image = Properties.Resources.cancel;
+            
+            //lblConnectionStatus.Text = "Not connected";
+            lblTenantName.Text = "Not connected";
+            lblAdditionalInfo.Text = "Please click the cogwheel to view and manage the authentication info";
+
+        }
 
         private void createConfigurationFolder()
         {
@@ -119,7 +134,7 @@ namespace IntuneAssignments
                 WriteToLog("The configuration file already exist. No need to create");
             }
 
-            
+
 
 
             // does nothing if the file already exists
@@ -128,7 +143,7 @@ namespace IntuneAssignments
             {
                 // Must implement logging here
 
-                
+
 
                 // Create the file
                 System.IO.File.Create(MainLogFile);
@@ -160,10 +175,10 @@ namespace IntuneAssignments
 
             // Sets the variables to the values in the appsettings.json file
 
-            tenantID = configuration.GetSection("Entra:TenantId").Value;
-            clientID = configuration.GetSection("Entra:ClientId").Value;
-            clientSecret = configuration.GetSection("Entra:ClientSecret").Value;
-            authority = $"https://login.microsoftonline.com/{Form1.tenantID}";
+            MSGraphAuthenticator.tenantID = configuration.GetSection("Entra:TenantId").Value;
+            MSGraphAuthenticator.clientID = configuration.GetSection("Entra:ClientId").Value;
+            MSGraphAuthenticator.clientSecret = configuration.GetSection("Entra:ClientSecret").Value;
+            MSGraphAuthenticator.authority = $"https://login.microsoftonline.com/{Form1.tenantID}";
 
 
             // Testing only
@@ -181,7 +196,7 @@ namespace IntuneAssignments
 
 
                 // Create a graph service client object
-                var graphClient = await GetAuthenticatedGraphClient();
+                var graphClient = CreateGraphServiceClient();
 
                 // Make a call to Microsoft Graph
                 var tenantInfo = await graphClient.Organization.GetAsync((requestConfiguration) =>
@@ -193,7 +208,7 @@ namespace IntuneAssignments
                 List<Organization> organizations = new List<Organization>();
                 organizations.AddRange(tenantInfo.Value);
 
-              
+
 
                 // If the call is successful, display the tenant name and the connection status
                 pBConnectionStatus.Image = Properties.Resources.check;
@@ -231,7 +246,7 @@ namespace IntuneAssignments
             Form1 form1 = new Form1();
             form1.Show();
 
-           WriteToLog("Opening the application page");
+            WriteToLog("Opening the application page");
 
 
         }
@@ -256,7 +271,7 @@ namespace IntuneAssignments
             about.ShowDialog(this);
 
 
-            
+
 
         }
 
@@ -267,8 +282,30 @@ namespace IntuneAssignments
             Settings settings = new Settings();
             settings.ShowDialog();
 
-            
+
         }
+
+
+ 
+
+
+
+
+        public static async Task Test()
+        {
+
+            var graphClient = CreateGraphServiceClient();
+
+            var users = await graphClient.Users.GetAsync();
+
+            foreach (var user in users.Value)
+            {
+                MessageBox.Show(user.DisplayName);
+            }
+        }
+
+
+
 
 
     }

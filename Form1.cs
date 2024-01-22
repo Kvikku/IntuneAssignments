@@ -22,6 +22,7 @@ using Windows.Foundation.Metadata;
 using static System.Formats.Asn1.AsnWriter;
 using static System.Windows.Forms.DataFormats;
 using static IntuneAssignments.GlobalVariables;
+using static IntuneAssignments.GraphServiceClientCreator;
 using Tavis.UriTemplates;
 
 
@@ -510,12 +511,12 @@ namespace IntuneAssignments
             {
 
                 // Create a graph service client object
-                var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+                var graphClient = CreateGraphServiceClient();
 
 
 
                 // Make a call to Microsoft Graph
-                var tenantInfo = await graphClient.Result.Organization.GetAsync((requestConfiguration) =>
+                var tenantInfo = await graphClient.Organization.GetAsync((requestConfiguration) =>
                 {
                     //requestConfiguration.QueryParameters.Select = new string[] { "id" };
                 });
@@ -555,11 +556,11 @@ namespace IntuneAssignments
             {
 
                 // Create a graph service client object
-                var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+                var graphClient = CreateGraphServiceClient();
 
 
                 // Make a call to Microsoft Graph
-                var tenantInfo = await graphClient.Result.Organization.GetAsync((requestConfiguration) =>
+                var tenantInfo = await graphClient.Organization.GetAsync((requestConfiguration) =>
                 {
                     //requestConfiguration.QueryParameters.Select = new string[] { "id" };
                 });
@@ -583,7 +584,7 @@ namespace IntuneAssignments
                 // THIS NEEDS FIXING
 
                 // Make a call to Microsoft Graph to find logged in users display name
-                //var result = await graphClient.Result.Me.GetAsync((requestConfiguration) =>
+                //var result = await graphClient.Me.GetAsync((requestConfiguration) =>
                 //{
                 //  requestConfiguration.QueryParameters.Select = new string[] { "displayName" };
                 //});
@@ -647,14 +648,14 @@ namespace IntuneAssignments
 
 
             // Create a graph service client object
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
             var selectedPlatform = cBAppType.Text;
 
 
 
             // Make a call to Microsoft Graph
-            var allApplications = await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
+            var allApplications = await graphClient.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.QueryParameters.Select = new string[] { "displayName", "id" };
             });
@@ -795,9 +796,9 @@ namespace IntuneAssignments
             FormUtilities.ClearCheckedListBox(clbGroupAssignment);
 
             // Create a graph service client object
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
-            var groups = await graphClient.Result.Groups
+            var groups = await graphClient.Groups
                 .GetAsync();
 
 
@@ -823,12 +824,12 @@ namespace IntuneAssignments
 
 
             // Create a graph service client object
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
 
             // Construct group query
 
-            var result = await graphClient.Result.Groups
+            var result = await graphClient.Groups
                 .GetAsync();
 
             List<Group> listAllGroups = new List<Group>();
@@ -885,10 +886,10 @@ namespace IntuneAssignments
 
 
             // Create a graph service client object
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
             // Make a call to Microsoft Graph
-            var allApplications = await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
+            var allApplications = await graphClient.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.QueryParameters.Search = searchquery;
             });
@@ -1080,12 +1081,12 @@ namespace IntuneAssignments
             try
             {
                 // Create a graph service client object
-                var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+                var graphClient = CreateGraphServiceClient();
 
 
 
                 // Make a call to Microsoft Graph
-                var listOfApps = await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
+                var listOfApps = await graphClient.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
                 {
                     requestConfiguration.QueryParameters.Filter = $"id eq '{appID}'";
                 });
@@ -1272,7 +1273,7 @@ namespace IntuneAssignments
             {
 
                 // Create a graph service client object
-                var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+                var graphClient = CreateGraphServiceClient();
 
 
                 // Check if txtboxAppDescription is blank or not
@@ -1340,7 +1341,7 @@ namespace IntuneAssignments
 
 
                     // Here MobileApp class is used. This is the base class for all apps
-                    await graphClient.Result.DeviceAppManagement.MobileApps[mobileAppID].PatchAsync((MobileApp)requestBody);
+                    await graphClient.DeviceAppManagement.MobileApps[mobileAppID].PatchAsync((MobileApp)requestBody);
                     
                     // Update the progress bar value by 1 for each app in the checked list box
                     progressBar1.Value++;
@@ -1396,7 +1397,7 @@ namespace IntuneAssignments
             // Intent
 
             // Create a graph service client object
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
             // Sets the scope of the progress bar
 
@@ -1472,7 +1473,7 @@ namespace IntuneAssignments
 
                         // This might delete existing assignments
 
-                        await graphClient.Result.DeviceAppManagement.MobileApps[mobileAppID]
+                        await graphClient.DeviceAppManagement.MobileApps[mobileAppID]
                             .Assignments
                             .PostAsync(newAssignment);
 
@@ -1600,12 +1601,12 @@ namespace IntuneAssignments
 
 
             // Create a graph service client object
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
 
 
             // Query for all mobile apps
-            var result = await graphClient.Result.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
+            var result = await graphClient.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
             });
@@ -1640,12 +1641,12 @@ namespace IntuneAssignments
 
 
             // Create a graph service client object
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
 
 
             // Query for all mobile apps
-            var result = await graphClient.Result.Groups.GetAsync((requestConfiguration) =>
+            var result = await graphClient.Groups.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
             });
@@ -2102,9 +2103,9 @@ namespace IntuneAssignments
 
             //ye old faithful test method
 
-            var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            var graphClient = CreateGraphServiceClient();
 
-            var app = await graphClient.Result.DeviceAppManagement.MobileApps["156a5c8d-b98e-4984-993b-14de5fd76b06"].GetAsync();
+            var app = await graphClient.DeviceAppManagement.MobileApps["156a5c8d-b98e-4984-993b-14de5fd76b06"].GetAsync();
 
             // Show the app's description property
 
@@ -2117,19 +2118,19 @@ namespace IntuneAssignments
             };
 
 
-            await graphClient.Result.DeviceAppManagement.MobileApps["156a5c8d-b98e-4984-993b-14de5fd76b06"].PatchAsync(requestBody);
+            await graphClient.DeviceAppManagement.MobileApps["156a5c8d-b98e-4984-993b-14de5fd76b06"].PatchAsync(requestBody);
 
-            var app2 = await graphClient.Result.DeviceAppManagement.MobileApps["156a5c8d-b98e-4984-993b-14de5fd76b06"].GetAsync();
+            var app2 = await graphClient.DeviceAppManagement.MobileApps["156a5c8d-b98e-4984-993b-14de5fd76b06"].GetAsync();
 
             MessageBox.Show("New message:" + app2.Description);
 
             // write a function to update the app's description
 
 
-            //var graphClient = MSGraphAuthenticator.GetAuthenticatedGraphClient();
+            //var graphClient = CreateGraphServiceClient();
 
             //// Make a call to Microsoft Graph
-            //var tenantInfo = await graphClient.Result.Organization.GetAsync((requestConfiguration) =>
+            //var tenantInfo = await graphClient.Organization.GetAsync((requestConfiguration) =>
             //{
             //    //requestConfiguration.QueryParameters.Select = new string[] { "id" };
             //});

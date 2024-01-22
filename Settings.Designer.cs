@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             btnOK = new Button();
             lblHeader = new Label();
             lblTenantID = new Label();
@@ -39,6 +40,8 @@
             tBTenantID = new TextBox();
             tBClientID = new TextBox();
             tBClientSecret = new TextBox();
+            toolTip1 = new ToolTip(components);
+            checkBox1 = new CheckBox();
             SuspendLayout();
             // 
             // btnOK
@@ -47,11 +50,12 @@
             btnOK.FlatStyle = FlatStyle.Popup;
             btnOK.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
             btnOK.ForeColor = Color.FromArgb(46, 51, 73);
-            btnOK.Location = new Point(382, 351);
+            btnOK.Location = new Point(323, 337);
             btnOK.Name = "btnOK";
-            btnOK.Size = new Size(90, 32);
+            btnOK.Size = new Size(149, 32);
             btnOK.TabIndex = 0;
-            btnOK.Text = "OK";
+            btnOK.Text = "Login";
+            toolTip1.SetToolTip(btnOK, "Login to Microsoft Entra");
             btnOK.UseVisualStyleBackColor = false;
             btnOK.Click += btnOK_Click;
             // 
@@ -71,7 +75,7 @@
             lblTenantID.AutoSize = true;
             lblTenantID.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             lblTenantID.ForeColor = Color.Salmon;
-            lblTenantID.Location = new Point(12, 215);
+            lblTenantID.Location = new Point(11, 159);
             lblTenantID.Name = "lblTenantID";
             lblTenantID.Size = new Size(70, 15);
             lblTenantID.TabIndex = 2;
@@ -82,7 +86,7 @@
             lblClientID.AutoSize = true;
             lblClientID.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             lblClientID.ForeColor = Color.Salmon;
-            lblClientID.Location = new Point(12, 261);
+            lblClientID.Location = new Point(11, 205);
             lblClientID.Name = "lblClientID";
             lblClientID.Size = new Size(70, 15);
             lblClientID.TabIndex = 3;
@@ -93,7 +97,7 @@
             lblClientSecret.AutoSize = true;
             lblClientSecret.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             lblClientSecret.ForeColor = Color.Salmon;
-            lblClientSecret.Location = new Point(12, 305);
+            lblClientSecret.Location = new Point(11, 249);
             lblClientSecret.Name = "lblClientSecret";
             lblClientSecret.Size = new Size(98, 15);
             lblClientSecret.TabIndex = 4;
@@ -116,7 +120,7 @@
             btnOpenFolder.FlatStyle = FlatStyle.Popup;
             btnOpenFolder.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
             btnOpenFolder.ForeColor = Color.FromArgb(46, 51, 73);
-            btnOpenFolder.Location = new Point(228, 351);
+            btnOpenFolder.Location = new Point(190, 337);
             btnOpenFolder.Name = "btnOpenFolder";
             btnOpenFolder.Size = new Size(127, 32);
             btnOpenFolder.TabIndex = 9;
@@ -130,9 +134,9 @@
             button1.FlatStyle = FlatStyle.Popup;
             button1.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
             button1.ForeColor = Color.FromArgb(46, 51, 73);
-            button1.Location = new Point(12, 351);
+            button1.Location = new Point(11, 337);
             button1.Name = "button1";
-            button1.Size = new Size(185, 32);
+            button1.Size = new Size(172, 32);
             button1.TabIndex = 10;
             button1.Text = "Check permissions";
             button1.UseVisualStyleBackColor = false;
@@ -144,7 +148,7 @@
             tBTenantID.BorderStyle = BorderStyle.FixedSingle;
             tBTenantID.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             tBTenantID.ForeColor = Color.Salmon;
-            tBTenantID.Location = new Point(140, 207);
+            tBTenantID.Location = new Point(139, 151);
             tBTenantID.Name = "tBTenantID";
             tBTenantID.Size = new Size(297, 23);
             tBTenantID.TabIndex = 11;
@@ -155,7 +159,7 @@
             tBClientID.BorderStyle = BorderStyle.FixedSingle;
             tBClientID.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             tBClientID.ForeColor = Color.Salmon;
-            tBClientID.Location = new Point(140, 253);
+            tBClientID.Location = new Point(139, 197);
             tBClientID.Name = "tBClientID";
             tBClientID.Size = new Size(297, 23);
             tBClientID.TabIndex = 12;
@@ -166,10 +170,23 @@
             tBClientSecret.BorderStyle = BorderStyle.FixedSingle;
             tBClientSecret.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             tBClientSecret.ForeColor = Color.Salmon;
-            tBClientSecret.Location = new Point(140, 297);
+            tBClientSecret.Location = new Point(139, 241);
             tBClientSecret.Name = "tBClientSecret";
             tBClientSecret.Size = new Size(297, 23);
             tBClientSecret.TabIndex = 13;
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            checkBox1.ForeColor = Color.Salmon;
+            checkBox1.Location = new Point(323, 375);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(117, 19);
+            checkBox1.TabIndex = 14;
+            checkBox1.Text = "Save settings";
+            toolTip1.SetToolTip(checkBox1, "Save the current settings to a config file when logging in");
+            checkBox1.UseVisualStyleBackColor = true;
             // 
             // Settings
             // 
@@ -177,6 +194,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(484, 395);
+            Controls.Add(checkBox1);
             Controls.Add(tBClientSecret);
             Controls.Add(tBClientID);
             Controls.Add(tBTenantID);
@@ -208,5 +226,7 @@
         private TextBox tBTenantID;
         private TextBox tBClientID;
         private TextBox tBClientSecret;
+        private ToolTip toolTip1;
+        private CheckBox checkBox1;
     }
 }
