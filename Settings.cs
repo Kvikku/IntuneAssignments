@@ -19,6 +19,7 @@ using static IntuneAssignments.GlobalVariables;
 using static IntuneAssignments.FormUtilities;
 using static IntuneAssignments.GraphServiceClientCreator;
 
+
 namespace IntuneAssignments
 {
     public partial class Settings : Form
@@ -179,7 +180,7 @@ namespace IntuneAssignments
             // Get the signed-in user's profile
             var user = await graphClient.Me.GetAsync();
 
-            MessageBox.Show(user.DisplayName);
+            //MessageBox.Show(user.DisplayName);
 
         }
 
@@ -194,7 +195,7 @@ namespace IntuneAssignments
 
             CheckConnection();
 
-
+            CheckTokenLifetime();
 
             this.Close();
         }

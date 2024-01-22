@@ -28,6 +28,26 @@ namespace IntuneAssignments
     public class TokenProvider : IAccessTokenProvider
     {
 
+
+        
+        
+        public bool CheckTokenLifetime(DateTimeOffset tokenExpiryTime)
+        {
+
+            // This method will be used to check the lifetime of the token
+
+            // If the token is still valid, return true
+            if (tokenExpiryTime > DateTimeOffset.UtcNow)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
+
         // This class will be used to provide the access token to the GraphServiceClient object interactively, with authentication done in the browser
 
         public static string clientID { get; set; }
