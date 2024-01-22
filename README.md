@@ -16,13 +16,6 @@ And before you ask - No, we don't talk about policy sets in Intune. Policy sets 
 __NOTE - This application is a work in progress. Errors, crashes and unexpected behaviour can occur__
 
 
+# Getting started
 
-
-
-
-
-
-
-
-
-
+Please read the Wiki (https://github.com/Kvikku/IntuneAssignments/wiki) for help with the pre-reqs and how to use the app!
