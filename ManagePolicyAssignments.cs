@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static IntuneAssignments.Form1;
 using static System.Windows.Forms.DataFormats;
-using static IntuneAssignments.MSGraphAuthenticator;
 using static IntuneAssignments.GlobalVariables;
 using static IntuneAssignments.GraphServiceClientCreator;
 

@@ -14,10 +14,11 @@ using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using static IntuneAssignments.MSGraphAuthenticator;
 using static IntuneAssignments.GlobalVariables;
 using static IntuneAssignments.FormUtilities;
 using static IntuneAssignments.GraphServiceClientCreator;
+using static IntuneAssignments.TokenProvider;
+
 
 
 namespace IntuneAssignments
@@ -78,13 +79,13 @@ namespace IntuneAssignments
             // Sets the variables to the values in the appsettings.json file
             tenantID = configuration.GetSection("Entra:TenantId").Value;
             clientID = configuration.GetSection("Entra:ClientId").Value;
-            clientSecret = configuration.GetSection("Entra:ClientSecret").Value;
+            //clientSecret = configuration.GetSection("Entra:ClientSecret").Value;
             authority = $"https://login.microsoftonline.com/{tenantID}";
 
 
 
             tBClientID.Text = clientID;
-            tBClientSecret.Text = clientSecret;
+            //tBClientSecret.Text = clientSecret;
             tBTenantID.Text = tenantID;
 
 
@@ -124,15 +125,19 @@ namespace IntuneAssignments
             //clientSecret = tBClientSecret.Text;
             TokenProvider.authority = $"https://login.microsoftonline.com/{TokenProvider.tenantID}";
 
-            
-            WriteToLog("Asking the user if he wants to save the settings to the appsettings file");
 
-            // Ask the user if he wants to save these settings for future use
-            DialogResult dialogResult = MessageBox.Show("Do you want to save these settings for future use?", "Save settings", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.Yes)
+
+
+            if (cBSaveSettings.Checked == true)
             {
+                // User choose to save the settings to the appsettings file
 
                 WriteToLog("User chose to save the settings to the appsettings file");
+
+                // Save the new settings to the global variables
+
+                WriteToLog("Saving the new settings to the global variables");
+
 
                 // Create a JSON object to represent the configuration data
                 var jsonConfig = new JObject();
@@ -149,15 +154,19 @@ namespace IntuneAssignments
                 // Write the updated JSON string back to the original file
                 File.WriteAllText(originalPath, updatedJson);
 
-                
-
-
-            } else if (dialogResult == DialogResult.No)
-            {
-                WriteToLog("User chose not to save the settings to the appsettings file");
-
-                // Do nothing
             }
+            else if (cBSaveSettings.Checked == false)
+            {
+                // Do nothing
+
+                WriteToLog("User chose not to save the settings to the appsettings file");
+            }
+
+
+            
+
+
+
 
             
         }
@@ -174,11 +183,31 @@ namespace IntuneAssignments
 
         public static async Task AuthenticateToGraph()
         {
-            // Create a Graph client 
-            var graphClient = CreateGraphServiceClient();
+            
+            // First check if there exist a token that is valid
+            if ((CheckTokenLifetime(tokenExpirationTime)) == true)
+            {
 
-            // Get the signed-in user's profile
-            var user = await graphClient.Me.GetAsync();
+                // Token is still valid. No need to re-authenticate
+                
+
+            } else if ((CheckTokenLifetime(tokenExpirationTime)) == false)
+            {
+
+                // Token has expired. Must acquire new token.
+
+                // Create a Graph client 
+                var graphClient = CreateGraphServiceClient();
+
+                // Get the signed-in user's profile
+                var user = await graphClient.Me.GetAsync();
+
+            }
+                  
+            
+            
+
+            
 
             //MessageBox.Show(user.DisplayName);
 
@@ -195,7 +224,7 @@ namespace IntuneAssignments
 
             CheckConnection();
 
-            CheckTokenLifetime();
+            
 
             this.Close();
         }
@@ -210,38 +239,7 @@ namespace IntuneAssignments
         }
 
 
-        public async Task<GraphServiceClient> testAuth()
-
-        {
-
-            try
-            {
-                var scopes = new[] { "https://graph.microsoft.com/.default" };
-
-                var options = new ClientSecretCredentialOptions
-                {
-                    AuthorityHost = AzureAuthorityHosts.AzurePublicCloud
-                };
-
-
-                var credential = new ClientSecretCredential(tenantID, clientID, clientSecret, options);
-
-                var graphClient = new GraphServiceClient(credential, scopes);
-
-                return graphClient;
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(Text = "Authentication failed. Please check your settings and try again.", "Authentication failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
-            }
-
-
-
-
-
-
-        }
+        
 
 
         public async Task checkAPIPermissions()
@@ -250,37 +248,17 @@ namespace IntuneAssignments
             // Code to check if the app has the required API permissions
             // UNDER CONSTRUCTION
 
+            await AuthenticateToGraph();
 
+            // look up the permissions for the app
 
-            var graphClient = await testAuth();
+            /*
+             * TO DO
+             * Look up GUIDS for all permissions required and save those
+             * Make method to query the app ID and check if those permissions are granted
+             *
+             */
 
-
-            try
-            {
-                var result = await graphClient.Applications.GetAsync((requestConfiguration) =>
-                {
-                    requestConfiguration.QueryParameters.Filter = "appId eq 'f67679c6-4a23-42d8-84c6-bb3f9cf1f1c0'";
-
-                });
-
-                var appRoles = result.Value;
-
-                if (appRoles != null)
-                {
-                    foreach (var appRole in appRoles)
-                    {
-                        Console.WriteLine($"App Role: {appRole.DisplayName}, Description: {appRole.Description}");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("No app roles found.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
 
         }
 
@@ -292,9 +270,9 @@ namespace IntuneAssignments
             WriteToLog("Attempting to authenticate to Graph API with the current settings");
             WriteToLog("NOTE - This method is currently not implemented");
 
-            //checkAPIPermissions();
+            checkAPIPermissions();
 
-            MessageBox.Show("Feature not implemented yet         (╯°□°)╯︵ ┻━┻");
+            //MessageBox.Show("Feature not implemented yet         (╯°□°)╯︵ ┻━┻");
 
 
 

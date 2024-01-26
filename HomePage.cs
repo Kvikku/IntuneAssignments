@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static IntuneAssignments.MSGraphAuthenticator;
 using static IntuneAssignments.GlobalVariables;
 using static IntuneAssignments.FormUtilities;
 using static IntuneAssignments.TokenProvider;
@@ -53,7 +52,7 @@ namespace IntuneAssignments
 
             createConfigurationFiles();
 
-            loadAuthenticationInfo();
+            //loadAuthenticationInfo();
             
             
             // Remove this line before release
@@ -162,6 +161,10 @@ namespace IntuneAssignments
         private void loadAuthenticationInfo()
         {
 
+            
+            
+
+
             // Reads the appsettings.json file and stores the information in variables
 
             WriteToLog("Loading authentication info from appsettings.json file");
@@ -204,6 +207,10 @@ namespace IntuneAssignments
                     requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
                 });
 
+                var user = await graphClient.Me.GetAsync();
+
+
+
                 // Put result in a list for processing
                 List<Organization> organizations = new List<Organization>();
                 organizations.AddRange(tenantInfo.Value);
@@ -214,9 +221,9 @@ namespace IntuneAssignments
                 pBConnectionStatus.Image = Properties.Resources.check;
                 lblConnectionStatus.Text = "Connected to Azure tenant: ";
                 lblTenantName.Text = organizations[0].DisplayName;
-                lblAdditionalInfo.Hide();
+                lblAdditionalInfo.Text = user.UserPrincipalName;
 
-                WriteToLog("Successfully connected to Azure tenant: " + organizations[0].DisplayName);
+                WriteToLog("Successfully connected to Azure tenant: " + organizations[0].DisplayName + " as " + user.UserPrincipalName);
 
                 //MessageBox.Show("You are connected to" + "\n" + organizations[0].DisplayName + "\n" + organizations[0].Id);
 
@@ -284,29 +291,5 @@ namespace IntuneAssignments
 
 
         }
-
-
- 
-
-
-
-
-        public static async Task Test()
-        {
-
-            var graphClient = CreateGraphServiceClient();
-
-            var users = await graphClient.Users.GetAsync();
-
-            foreach (var user in users.Value)
-            {
-                MessageBox.Show(user.DisplayName);
-            }
-        }
-
-
-
-
-
     }
 }

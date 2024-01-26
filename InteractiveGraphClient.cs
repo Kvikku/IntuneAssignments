@@ -31,7 +31,7 @@ namespace IntuneAssignments
 
         
         
-        public bool CheckTokenLifetime(DateTimeOffset tokenExpiryTime)
+        public static bool CheckTokenLifetime(DateTimeOffset tokenExpiryTime)
         {
 
             // This method will be used to check the lifetime of the token
@@ -39,10 +39,12 @@ namespace IntuneAssignments
             // If the token is still valid, return true
             if (tokenExpiryTime > DateTimeOffset.UtcNow)
             {
+                WriteToLog("Token is still valid. Using existing token");
                 return true;
             }
             else
             {
+                WriteToLog("Token is expired. Must acquire new token");
                 return false;
             }
             
@@ -72,7 +74,7 @@ namespace IntuneAssignments
             
 
             // check if the token is still valid
-            if (tokenExpirationTime > DateTimeOffset.UtcNow.AddMinutes(5))
+            if (tokenExpirationTime > DateTimeOffset.UtcNow)
             {
                 WriteToLog("Token is still valid. Using existing token");
                 

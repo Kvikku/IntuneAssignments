@@ -41,7 +41,7 @@
             tBClientID = new TextBox();
             tBClientSecret = new TextBox();
             toolTip1 = new ToolTip(components);
-            checkBox1 = new CheckBox();
+            cBSaveSettings = new CheckBox();
             SuspendLayout();
             // 
             // btnOK
@@ -175,18 +175,18 @@
             tBClientSecret.Size = new Size(297, 23);
             tBClientSecret.TabIndex = 13;
             // 
-            // checkBox1
+            // cBSaveSettings
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            checkBox1.ForeColor = Color.Salmon;
-            checkBox1.Location = new Point(323, 375);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(117, 19);
-            checkBox1.TabIndex = 14;
-            checkBox1.Text = "Save settings";
-            toolTip1.SetToolTip(checkBox1, "Save the current settings to a config file when logging in");
-            checkBox1.UseVisualStyleBackColor = true;
+            cBSaveSettings.AutoSize = true;
+            cBSaveSettings.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            cBSaveSettings.ForeColor = Color.Salmon;
+            cBSaveSettings.Location = new Point(323, 375);
+            cBSaveSettings.Name = "cBSaveSettings";
+            cBSaveSettings.Size = new Size(117, 19);
+            cBSaveSettings.TabIndex = 14;
+            cBSaveSettings.Text = "Save settings";
+            toolTip1.SetToolTip(cBSaveSettings, "Save the current settings to a config file when logging in");
+            cBSaveSettings.UseVisualStyleBackColor = true;
             // 
             // Settings
             // 
@@ -194,7 +194,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(484, 395);
-            Controls.Add(checkBox1);
+            Controls.Add(cBSaveSettings);
             Controls.Add(tBClientSecret);
             Controls.Add(tBClientID);
             Controls.Add(tBTenantID);
@@ -227,6 +227,6 @@
         private TextBox tBClientID;
         private TextBox tBClientSecret;
         private ToolTip toolTip1;
-        private CheckBox checkBox1;
+        private CheckBox cBSaveSettings;
     }
 }
