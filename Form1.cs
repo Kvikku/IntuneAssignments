@@ -23,7 +23,7 @@ using static System.Formats.Asn1.AsnWriter;
 using static System.Windows.Forms.DataFormats;
 using static IntuneAssignments.GlobalVariables;
 using static IntuneAssignments.GraphServiceClientCreator;
-using Tavis.UriTemplates;
+
 
 
 /*

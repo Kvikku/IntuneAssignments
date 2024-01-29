@@ -63,7 +63,7 @@
             },
             "Microsoft.Graph.Beta": {
               "target": "Package",
-              "version": "[5.51.0-preview, )"
+              "version": "[5.63.0-preview, )"
             },
             "Microsoft.Identity.Client": {
               "target": "Package",

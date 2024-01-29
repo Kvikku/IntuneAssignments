@@ -37,7 +37,7 @@ namespace IntuneAssignments
 
             ShowWarningOnStatusLabels();
 
-            
+
 
             // TEST ONLY- Purge the content of the log file - 
             // DELETE THIS LINE BEFORE RELEASE
@@ -53,13 +53,13 @@ namespace IntuneAssignments
             createConfigurationFiles();
 
             //loadAuthenticationInfo();
-            
-            
+
+
             // Remove this line before release
             //checkConnectionStatus();
 
 
-            
+
         }
 
 
@@ -69,7 +69,7 @@ namespace IntuneAssignments
         private void ShowWarningOnStatusLabels()
         {
             pBConnectionStatus.Image = Properties.Resources.cancel;
-            
+
             //lblConnectionStatus.Text = "Not connected";
             lblTenantName.Text = "Not connected";
             lblAdditionalInfo.Text = "Please click the cogwheel to view and manage the authentication info";
@@ -161,8 +161,8 @@ namespace IntuneAssignments
         private void loadAuthenticationInfo()
         {
 
-            
-            
+
+
 
 
             // Reads the appsettings.json file and stores the information in variables
@@ -289,6 +289,20 @@ namespace IntuneAssignments
             Settings settings = new Settings();
             settings.ShowDialog();
 
+
+        }
+
+        private async void button1_Click(object sender, EventArgs e)
+        {
+            await FormUtilities.getAllEntraGroups();
+        }
+
+        private async void button2_Click(object sender, EventArgs e)
+        {
+            
+            var groupMembers = await filterGroupMembers("7ecf909c-50d1-4537-827b-cc055fde8b80");
+
+            MessageBox.Show(groupMembers.Count.ToString());
 
         }
     }

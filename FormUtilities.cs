@@ -1,9 +1,12 @@
 ﻿using Azure.Identity;
+using Microsoft.Graph.Beta.Models;
+using Microsoft.Kiota.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static IntuneAssignments.GraphServiceClientCreator;
 
 namespace IntuneAssignments
 {
@@ -77,6 +80,106 @@ namespace IntuneAssignments
 
             // Close the StreamWriter instance
             sw.Close();
+
+        }
+
+
+
+        public static async Task<List<Group>> getAllEntraGroups()
+        {
+
+            // Method to look up groups in the Entra ID
+
+
+            // Create a new instance of the GraphServiceClient class
+            var graphClient = CreateGraphServiceClient();
+
+
+            // Look up all groups in Entra ID and retrieve only the id, memberShipRule and displayName properties of the groups 
+
+            var result = await graphClient.Groups.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Select = new string[] { "id", "memberShipRule", "displayName" };
+            });
+
+
+            // Create a new list to store the groups in
+            List<Group> entraGroups = new List<Group>();
+
+
+            // Add the groups to the list
+            entraGroups.AddRange(result.Value);
+
+            return entraGroups;
+            
+        }
+
+
+        // TODO
+
+        // count group members
+        // show if user or device group (or both)
+        // show if group is dynamic or static, and show the membership rule if dynamic
+
+
+        // method to filter through all members in a group and separate into users and devices
+
+
+        public static async Task<List<DirectoryObject>> filterGroupMembers(string groupID)
+        {
+
+            // Create a new instance of the GraphServiceClient class
+            var graphClient = CreateGraphServiceClient();
+
+            var result = await graphClient.Groups[groupID].Members.GetAsync();
+
+            // Create list
+
+            List<DirectoryObject> groupMembers = new List<DirectoryObject>();
+
+            // Add to list
+
+            groupMembers.AddRange(result.Value);
+
+
+
+            return groupMembers;
+
+        }
+
+
+
+        public static async Task<List<Device>> getEntraGroupMembership(string groupID)
+        {
+            // Method to look up group membership in the Entra ID
+
+            // Create a new instance of the GraphServiceClient class
+            var graphClient = CreateGraphServiceClient();
+
+
+            // Look up all members of the group and retrieve only the id, displayName
+            // Use OData casts to specify the type of the object to be returned
+            // https://github.com/microsoftgraph/msgraph-sdk-dotnet/blob/dev/docs/upgrade-to-v5.md#support-for-odata-casts-in-request-builders
+
+
+            var result = await graphClient.Groups[groupID].Members.GraphDevice.GetAsync(); //OData cast to GraphDevice
+
+            
+
+            // create a new list to store the group members in
+
+            List<Device> groupMembers = new List<Device>();
+
+            // Add the group members to the list
+
+            groupMembers.AddRange(result.Value);
+
+            foreach (var member in groupMembers)
+            {
+                MessageBox.Show(member.DisplayName);
+            }
+            
+            return groupMembers;
 
         }
 

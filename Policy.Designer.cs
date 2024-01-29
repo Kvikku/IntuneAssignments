@@ -249,6 +249,7 @@
             // 
             dtgDisplayGroup.AllowUserToAddRows = false;
             dtgDisplayGroup.AllowUserToDeleteRows = false;
+            dtgDisplayGroup.AllowUserToResizeRows = false;
             dtgDisplayGroup.BackgroundColor = Color.FromArgb(46, 51, 73);
             dtgDisplayGroup.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
