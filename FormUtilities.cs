@@ -83,12 +83,21 @@ namespace IntuneAssignments
 
         }
 
-
+        
 
         public static async Task<List<Group>> getAllEntraGroups()
         {
 
-            // Method to look up groups in the Entra ID
+            
+
+            /*
+             * Method to look up groups in the Entra ID
+             * 
+             * TO DO
+             * 
+             * Replace other methods that look up groups in the Entra ID with this method
+             * 
+             */
 
 
             // Create a new instance of the GraphServiceClient class
@@ -99,7 +108,7 @@ namespace IntuneAssignments
 
             var result = await graphClient.Groups.GetAsync((requestConfiguration) =>
             {
-                requestConfiguration.QueryParameters.Select = new string[] { "id", "memberShipRule", "displayName" };
+                requestConfiguration.QueryParameters.Select = new string[] { "id", "memberShipRule", "displayName", "members" };
             });
 
 
@@ -117,7 +126,7 @@ namespace IntuneAssignments
 
         // TODO
 
-        // count group members
+        // OK -  count group members
         // show if user or device group (or both)
         // show if group is dynamic or static, and show the membership rule if dynamic
 
@@ -125,12 +134,17 @@ namespace IntuneAssignments
         // method to filter through all members in a group and separate into users and devices
 
 
-        public static async Task<List<DirectoryObject>> filterGroupMembers(string groupID)
+        public static async Task<List<DirectoryObject>> getGroupMembersFromGroup(string groupID)
         {
+
+            // Method to look up group membership in the Entra ID
+
+
 
             // Create a new instance of the GraphServiceClient class
             var graphClient = CreateGraphServiceClient();
 
+            // Look up all members of the group
             var result = await graphClient.Groups[groupID].Members.GetAsync();
 
             // Create list
@@ -141,13 +155,34 @@ namespace IntuneAssignments
 
             groupMembers.AddRange(result.Value);
 
-
+            // check odata type foreach member
 
             return groupMembers;
 
         }
 
 
+        // Method to process list of group members and sort into users and devices
+
+
+        public static void sortGroupMembers(DirectoryObject groupMember)
+        {
+
+            // Create lists to store users and devices in
+
+            
+            
+            
+
+
+            
+
+        }
+
+
+
+
+        // may need to delete this later:
 
         public static async Task<List<Device>> getEntraGroupMembership(string groupID)
         {

@@ -47,8 +47,6 @@
             txtboxSearchPolicy = new TextBox();
             cbPolicyType = new ComboBox();
             dtgDisplayGroup = new DataGridView();
-            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
             btnListAllGroups = new Button();
             btnSearchGroup = new Button();
             txtboxSearchGroup = new TextBox();
@@ -77,6 +75,9 @@
             label1 = new Label();
             pbViewAssignments = new PictureBox();
             lblHeaderAppForm = new Label();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            MemberCount = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlSearchPolicy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
@@ -261,7 +262,7 @@
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
             dtgDisplayGroup.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dtgDisplayGroup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dtgDisplayGroup.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2 });
+            dtgDisplayGroup.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, MemberCount, dataGridViewTextBoxColumn2 });
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = Color.FromArgb(46, 51, 73);
             dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
@@ -279,20 +280,6 @@
             dtgDisplayGroup.RowTemplate.Height = 25;
             dtgDisplayGroup.Size = new Size(679, 401);
             dtgDisplayGroup.TabIndex = 9;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            dataGridViewTextBoxColumn1.HeaderText = "Group name";
-            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            dataGridViewTextBoxColumn1.ReadOnly = true;
-            dataGridViewTextBoxColumn1.Width = 420;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            dataGridViewTextBoxColumn2.HeaderText = "Group ID";
-            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            dataGridViewTextBoxColumn2.ReadOnly = true;
-            dataGridViewTextBoxColumn2.Width = 300;
             // 
             // btnListAllGroups
             // 
@@ -574,6 +561,7 @@
             txtboxDescription.Size = new Size(339, 218);
             txtboxDescription.TabIndex = 11;
             toolTipPolicy.SetToolTip(txtboxDescription, "Enter a desired description. Leave blank to not add or change the description field. Existing description will be overwritten");
+            txtboxDescription.TextChanged += txtboxDescription_TextChanged;
             // 
             // pbHelpGuide
             // 
@@ -630,6 +618,26 @@
             lblHeaderAppForm.Size = new Size(207, 28);
             lblHeaderAppForm.TabIndex = 21;
             lblHeaderAppForm.Text = "Deploy policies";
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.HeaderText = "Group name";
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
+            dataGridViewTextBoxColumn1.Width = 250;
+            // 
+            // MemberCount
+            // 
+            MemberCount.HeaderText = "Count";
+            MemberCount.Name = "MemberCount";
+            MemberCount.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.HeaderText = "Group ID";
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
+            dataGridViewTextBoxColumn2.Width = 300;
             // 
             // Policy
             // 
@@ -693,8 +701,6 @@
         private Button btnResetDeployment;
         private CheckBox cbLookUpAssignment;
         private Panel pnlSearchGroup;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private ProgressBar pBarDeployProgress;
         private RichTextBox rtbDeploymentSummary;
         private DataGridViewTextBoxColumn PolicyName;
@@ -712,5 +718,8 @@
         private Label lblAssignedTo;
         private PictureBox pbViewAssignments;
         private Label lblHeaderAppForm;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn MemberCount;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
     }
 }

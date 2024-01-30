@@ -78,10 +78,10 @@ namespace IntuneAssignments
         public string graphClassNamePrefix = "Microsoft.Graph.Beta.Models.";
 
 
-        public string allUsersGroupID = "acacacac-9df4-4c7d-9d50-4ef0226f57a9";
+        //public string allUsersGroupID = "acacacac-9df4-4c7d-9d50-4ef0226f57a9";
         // "@odata.type": "#microsoft.graph.allLicensedUsersAssignmentTarget"
 
-        public string allDevicesGroupID = "adadadad-808e-44e2-905a-0b7873a8a531";
+        //public string allDevicesGroupID = "adadadad-808e-44e2-905a-0b7873a8a531";
         // "@odata.type": "#microsoft.graph.allDevicesAssignmentTarget"
 
 

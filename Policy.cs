@@ -1445,12 +1445,48 @@ namespace IntuneAssignments
 
         }
 
-        public async void ListAllGroups()
+
+        public async void ListAllGroupsV2()
         {
+
             // This method lists all groups in the tenant and displays them in a datagridview
 
-            // Create an object of form1 to use it's methods   
-            Form1 form1 = new Form1();
+            // Authenticate to Graph
+            var allGroups = await getAllEntraGroups();
+
+
+            foreach (var group in allGroups)
+            {
+                var memberCount = "0";
+                
+                if (group.Members != null)
+                {
+                    memberCount = group.Members.Count.ToString();
+                }
+                else if (group.Members == null)
+                {
+                    memberCount = "0";
+                }
+
+
+                dtgDisplayGroup.Rows.Add(group.DisplayName,memberCount, group.Id);
+            }
+
+            // Add All users and all devices virtual groups and IDs to the datagridview
+
+            dtgDisplayGroup.Rows.Add("All Users", allUsersGroupID);
+            dtgDisplayGroup.Rows.Add("All Devices", allDevicesGroupID);
+
+        }
+
+
+        public async void ListAllGroups()
+        {
+            // TO BE DELETED
+
+            // This method lists all groups in the tenant and displays them in a datagridview
+
+
 
             // Authenticate to Graph
             var graphClient = CreateGraphServiceClient();
@@ -1471,8 +1507,8 @@ namespace IntuneAssignments
 
             // Add All users and all devices virtual groups and IDs to the datagridview
 
-            dtgDisplayGroup.Rows.Add("All Users", form1.allUsersGroupID);
-            dtgDisplayGroup.Rows.Add("All Devices", form1.allDevicesGroupID);
+            dtgDisplayGroup.Rows.Add("All Users", allUsersGroupID);
+            dtgDisplayGroup.Rows.Add("All Devices", allDevicesGroupID);
 
         }
 
@@ -1853,15 +1889,12 @@ namespace IntuneAssignments
         private void btnListAllGroups_Click(object sender, EventArgs e)
         {
 
-            // Create an object of form1 to use it's methods   
-            Form1 form1 = new Form1();
-
 
             // Clear the datagridview for older results
             // Note - this should not be done in each method, because that would remove all other results
             FormUtilities.ClearDataGridView(dtgDisplayGroup);
 
-            ListAllGroups();
+            ListAllGroupsV2();
 
         }
 
@@ -1997,6 +2030,11 @@ namespace IntuneAssignments
         private void txtboxSearchGroup_Click(object sender, EventArgs e)
         {
             txtboxSearchGroup.Clear();
+        }
+
+        private void txtboxDescription_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
