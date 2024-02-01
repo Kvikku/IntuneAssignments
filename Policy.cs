@@ -1446,39 +1446,6 @@ namespace IntuneAssignments
         }
 
 
-        public async void ListAllGroupsV2()
-        {
-
-            // This method lists all groups in the tenant and displays them in a datagridview
-
-            // Authenticate to Graph
-            var allGroups = await getAllEntraGroups();
-
-
-            foreach (var group in allGroups)
-            {
-                var memberCount = "0";
-                
-                if (group.Members != null)
-                {
-                    memberCount = group.Members.Count.ToString();
-                }
-                else if (group.Members == null)
-                {
-                    memberCount = "0";
-                }
-
-
-                dtgDisplayGroup.Rows.Add(group.DisplayName,memberCount, group.Id);
-            }
-
-            // Add All users and all devices virtual groups and IDs to the datagridview
-
-            dtgDisplayGroup.Rows.Add("All Users", allUsersGroupID);
-            dtgDisplayGroup.Rows.Add("All Devices", allDevicesGroupID);
-
-        }
-
 
         public async void ListAllGroups()
         {
@@ -1886,7 +1853,7 @@ namespace IntuneAssignments
 
         }
 
-        private void btnListAllGroups_Click(object sender, EventArgs e)
+        private async void btnListAllGroups_Click(object sender, EventArgs e)
         {
 
 
@@ -1894,7 +1861,9 @@ namespace IntuneAssignments
             // Note - this should not be done in each method, because that would remove all other results
             FormUtilities.ClearDataGridView(dtgDisplayGroup);
 
-            ListAllGroupsV2();
+            
+
+            await Task.Run(() => ListAllGroupsV2(dtgDisplayGroup));
 
         }
 

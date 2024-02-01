@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static IntuneAssignments.GraphServiceClientCreator;
+using static IntuneAssignments.GlobalVariables;
 
 namespace IntuneAssignments
 {
@@ -84,14 +85,87 @@ namespace IntuneAssignments
         }
 
         
+        public static async Task <int> countGroupMembers(string groupID)
+        {
+            // Method to count the number of members in a group
+
+           
+
+            // Create a new instance of the GraphServiceClient class
+            var graphClient = CreateGraphServiceClient();
+
+            var groupMemberCount = await graphClient.Groups[groupID].Members.Count.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.Headers.Add("ConsistencyLevel", "eventual");
+            });
+
+            
+
+
+            var groupMemberCountInt = Convert.ToInt32(groupMemberCount);
+
+
+
+            return groupMemberCountInt;
+        }
+
+
+        public static async Task ListAllGroupsV2(DataGridView dataGridView)
+        {
+
+            WriteToLog("User clicked 'List all groups' in Policy page ");
+
+            // This method lists all groups in the tenant and displays them in a datagridview
+
+            // Authenticate to Graph
+            var allGroups = await getAllEntraGroups();
+
+
+            foreach (var group in allGroups)
+            {
+                var memberCount = Task.Run(() => countGroupMembers(group.Id).Result.ToString());
+
+
+                if (memberCount != null)
+                {
+                    
+                }
+                else if (memberCount == null)
+                {
+                    
+                }
+
+
+                // Sjekk siste fra chatGPT - 
+
+
+                dataGridView.Rows.Add(group.DisplayName, memberCount, group.Id);
+                
+
+                WriteToLog("Adding group " + group.DisplayName + " to view");
+            }
+
+
+
+
+            // Add All users and all devices virtual groups and IDs to the datagridview
+
+            dataGridView.Rows.Add("All Users", allUsersGroupID);
+            WriteToLog("Adding group " + allUsersGroupName + " to view");
+
+            dataGridView.Rows.Add("All Devices", allDevicesGroupID);
+            WriteToLog("Adding group " + allDevicesGroupName + " to view");
+
+        }
+
 
         public static async Task<List<Group>> getAllEntraGroups()
         {
 
-            
+            WriteToLog("Attempting to list all Entra groups");
 
             /*
-             * Method to look up groups in the Entra ID
+             * Method to look up groups in Entra ID
              * 
              * TO DO
              * 
@@ -108,8 +182,12 @@ namespace IntuneAssignments
 
             var result = await graphClient.Groups.GetAsync((requestConfiguration) =>
             {
-                requestConfiguration.QueryParameters.Select = new string[] { "id", "memberShipRule", "displayName", "members" };
+                requestConfiguration.Headers.Add("ConsistencyLevel", "eventual");
+                // requestConfiguration.QueryParameters.Select = new string[] { "id", "memberShipRule", "displayName", "members" };
             });
+
+
+            
 
 
             // Create a new list to store the groups in
