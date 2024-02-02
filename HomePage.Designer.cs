@@ -141,7 +141,7 @@
             // 
             button1.Location = new Point(337, 12);
             button1.Name = "button1";
-            button1.Size = new Size(135, 64);
+            button1.Size = new Size(135, 25);
             button1.TabIndex = 8;
             button1.Text = "Query groups";
             button1.UseVisualStyleBackColor = true;
@@ -149,9 +149,9 @@
             // 
             // button2
             // 
-            button2.Location = new Point(337, 83);
+            button2.Location = new Point(337, 43);
             button2.Name = "button2";
-            button2.Size = new Size(135, 55);
+            button2.Size = new Size(135, 28);
             button2.TabIndex = 9;
             button2.Text = "Query membership";
             button2.UseVisualStyleBackColor = true;

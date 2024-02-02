@@ -151,8 +151,11 @@ namespace IntuneAssignments
                     // Get the number of members in the group
                     var memberCount = await Task.Run(async () => countGroupMembers(group.Id).Result.ToString());
 
+                    // Get the group type
+                    var groupType = FormUtilities.groupType(group);
 
-                    dataGridView.Invoke(new Action(() => dataGridView.Rows.Add(group.DisplayName, memberCount, group.Id)));
+
+                    dataGridView.Invoke(new Action(() => dataGridView.Rows.Add(group.DisplayName, memberCount, groupType, group.Id)));
                     WriteToLog("Adding group " + group.DisplayName + " to view");
                 }
 
@@ -166,6 +169,42 @@ namespace IntuneAssignments
                 
 
             
+
+        }
+
+        public static string groupType(Group group)
+        {
+            // Method to determine what group type the group is
+            // Static, dynamic user or dynamic device
+
+            string groupType = "Unknown";
+
+
+            if (group.MembershipRule == null)
+            {
+                groupType = "Static";
+                return groupType;
+
+            } 
+            
+            else if (group.MembershipRule.StartsWith("(user."))
+            
+            {
+                groupType = "Dynamic User";
+                return groupType;
+            } 
+            
+            else if (group.MembershipRule.StartsWith("(device."))
+
+            {
+                groupType = "Dynamic Device";
+                return groupType;
+            }
+            else
+            {
+                return groupType;
+            }
+
 
         }
 
@@ -185,10 +224,14 @@ namespace IntuneAssignments
                 // Get the number of members in the group
                 var memberCount = await Task.Run(async () =>  countGroupMembers(group.Id).Result.ToString());
 
+                // Get the group type
+                var groupType = FormUtilities.groupType(group);
 
                 if (memberCount != null)
                 {
-                    dataGridView.Invoke(new Action(() => dataGridView.Rows.Add(group.DisplayName, memberCount, group.Id)));
+                    
+                    // Add the groups to the datagridview with all information available
+                    dataGridView.Invoke(new Action(() => dataGridView.Rows.Add(group.DisplayName, memberCount, groupType, group.Id)));
 
                     
 
@@ -208,10 +251,10 @@ namespace IntuneAssignments
 
             dataGridView.Invoke(new Action(() =>
             {
-                dataGridView.Rows.Add("All Users", "N/A" ,allUsersGroupID);
+                dataGridView.Rows.Add("All Users", "N/A" , "N/A", allUsersGroupID);
                 WriteToLog("Adding group " + allUsersGroupName + " to view");
 
-                dataGridView.Rows.Add("All Devices", "N/A", allDevicesGroupID);
+                dataGridView.Rows.Add("All Devices", "N/A", "N/A" , allDevicesGroupID);
                 WriteToLog("Adding group " + allDevicesGroupName + " to view");
             }));
 
@@ -221,6 +264,9 @@ namespace IntuneAssignments
            
 
         }
+
+        // Method to check memberShipRule property of a group and determine if the group is dynamic or static
+
 
 
         public static async Task<List<Group>> getAllEntraGroups()

@@ -270,9 +270,9 @@ namespace IntuneAssignments
             WriteToLog("Attempting to authenticate to Graph API with the current settings");
             WriteToLog("NOTE - This method is currently not implemented");
 
-            checkAPIPermissions();
+            //checkAPIPermissions();
 
-            //MessageBox.Show("Feature not implemented yet         (╯°□°)╯︵ ┻━┻");
+            MessageBox.Show("Feature not implemented yet         (╯°□°)╯︵ ┻━┻");
 
 
 

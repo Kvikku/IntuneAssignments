@@ -66,6 +66,7 @@
             dtgDisplayGroup = new DataGridView();
             GroupName = new DataGridViewTextBoxColumn();
             GroupMemberCount = new DataGridViewTextBoxColumn();
+            GroupType = new DataGridViewTextBoxColumn();
             GroupID = new DataGridViewTextBoxColumn();
             btnSearchGroup = new Button();
             txtboxSearchGroup = new TextBox();
@@ -460,7 +461,7 @@
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
             dtgDisplayGroup.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dtgDisplayGroup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dtgDisplayGroup.Columns.AddRange(new DataGridViewColumn[] { GroupName, GroupMemberCount, GroupID });
+            dtgDisplayGroup.Columns.AddRange(new DataGridViewColumn[] { GroupName, GroupMemberCount, GroupType, GroupID });
             dtgDisplayGroup.ContextMenuStrip = dtgDisplayAppRightClick;
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = Color.FromArgb(46, 51, 73);
@@ -476,7 +477,7 @@
             dtgDisplayGroup.ReadOnly = true;
             dtgDisplayGroup.RowHeadersVisible = false;
             dtgDisplayGroup.RowTemplate.Height = 25;
-            dtgDisplayGroup.Size = new Size(370, 306);
+            dtgDisplayGroup.Size = new Size(410, 306);
             dtgDisplayGroup.TabIndex = 14;
             mainFormToolTip.SetToolTip(dtgDisplayGroup, "Double click a group to prepare it for deployment");
             dtgDisplayGroup.CellDoubleClick += dtgDisplayGroup_CellDoubleClick;
@@ -493,6 +494,12 @@
             GroupMemberCount.HeaderText = "Members";
             GroupMemberCount.Name = "GroupMemberCount";
             GroupMemberCount.ReadOnly = true;
+            // 
+            // GroupType
+            // 
+            GroupType.HeaderText = "Type";
+            GroupType.Name = "GroupType";
+            GroupType.ReadOnly = true;
             // 
             // GroupID
             // 
@@ -547,9 +554,9 @@
             // 
             pnlSelectGroup.BorderStyle = BorderStyle.FixedSingle;
             pnlSelectGroup.Controls.Add(clbGroupAssignment);
-            pnlSelectGroup.Location = new Point(379, 135);
+            pnlSelectGroup.Location = new Point(419, 135);
             pnlSelectGroup.Name = "pnlSelectGroup";
-            pnlSelectGroup.Size = new Size(286, 312);
+            pnlSelectGroup.Size = new Size(246, 312);
             pnlSelectGroup.TabIndex = 11;
             // 
             // clbGroupAssignment
@@ -562,9 +569,9 @@
             clbGroupAssignment.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
             clbGroupAssignment.ForeColor = Color.Salmon;
             clbGroupAssignment.FormattingEnabled = true;
-            clbGroupAssignment.Location = new Point(12, 13);
+            clbGroupAssignment.Location = new Point(3, 13);
             clbGroupAssignment.Name = "clbGroupAssignment";
-            clbGroupAssignment.Size = new Size(258, 204);
+            clbGroupAssignment.Size = new Size(227, 204);
             clbGroupAssignment.TabIndex = 0;
             mainFormToolTip.SetToolTip(clbGroupAssignment, "All groups that you want to deploy to");
             clbGroupAssignment.MouseClick += clbGroupAssignment_MouseClick;
@@ -999,6 +1006,7 @@
         private Label lblHeaderAppForm;
         private DataGridViewTextBoxColumn GroupName;
         private DataGridViewTextBoxColumn GroupMemberCount;
+        private DataGridViewTextBoxColumn GroupType;
         private DataGridViewTextBoxColumn GroupID;
     }
 }

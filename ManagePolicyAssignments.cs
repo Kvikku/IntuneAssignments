@@ -265,14 +265,14 @@ namespace IntuneAssignments
 
         public async void deletePolicyAssignment()
         {
-            
+
             // Awaiting support ticket on github before proceeding with this
-            
-            
-            
+
+
+
             // Deletes all assignments for the selected policy
-            
-            
+
+
             // Authenticate to Graph
 
             var graphClient = CreateGraphServiceClient();
@@ -313,7 +313,7 @@ namespace IntuneAssignments
             }
 
 
-            
+
 
 
 
@@ -357,6 +357,11 @@ namespace IntuneAssignments
             {
                 // If user clicks no, do nothing
             }
+        }
+
+        private void btnSearchPolicy_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

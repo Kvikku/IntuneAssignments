@@ -161,7 +161,11 @@ namespace IntuneAssignments
         private void loadAuthenticationInfo()
         {
 
-
+            /*
+             * 02.02.2024
+             * This method has been replaced and is no longer in use
+             * This method is kept for reference and will be deleted in the future
+             */
 
 
 

@@ -207,6 +207,7 @@
             btnSearchPolicy.TabIndex = 16;
             btnSearchPolicy.Text = "Search";
             btnSearchPolicy.UseVisualStyleBackColor = false;
+            btnSearchPolicy.Click += btnSearchPolicy_Click;
             // 
             // pnlAssignments
             // 

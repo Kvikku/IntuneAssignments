@@ -12,13 +12,7 @@ namespace IntuneAssignments
 
     // 22.01.2024 - can this now be deleted? check back later.
 
-    /*
-     * 
-     * 
-     * Used by pretty much all forms to create a graph service client object
-     * 
-     *
-     */
+  
 
     public  class MSGraphAuthenticator
     {
