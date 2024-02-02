@@ -19,6 +19,8 @@ using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
 using static IntuneAssignments.Form1;
 using static IntuneAssignments.GraphServiceClientCreator;
+using static IntuneAssignments.FormUtilities;
+using static IntuneAssignments.GlobalVariables;
 
 namespace IntuneAssignments
 {
@@ -307,6 +309,7 @@ namespace IntuneAssignments
             {
                 // The list has zero members. Informing user
                 MessageBox.Show("No assignments found");
+                WriteToLog("No assignments found for application " + appname + " with ID " + value );
             }
 
             else if (assignmentsList.Count >= 1)
@@ -322,18 +325,33 @@ namespace IntuneAssignments
 
                     var resultList = new List<Group>();
 
-                    var findGroupName = await graphClient.Groups[id].GetAsync((requestConfiguration) =>
+
+                    try
                     {
-                        requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
-                    });
+                        var findGroupName = await graphClient.Groups[id].GetAsync((requestConfiguration) =>
+                        {
+                            requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
+                        });
 
-                    resultList.Add(findGroupName);
+                        resultList.Add(findGroupName);
 
 
-                    foreach (var group in resultList)
-                    {
-                        dtgGroupAssignment.Rows.Add(group.DisplayName, assignment.Intent, group.Id);
+                        foreach (var group in resultList)
+                        {
+                            dtgGroupAssignment.Rows.Add(group.DisplayName, assignment.Intent, group.Id);
+                        }
+
                     }
+                    catch (Exception ex)
+                    {
+                        WriteToLog("An error occurred when trying to look up the group name with group ID " + id);
+                        WriteToLog("The error message is: " + ex.Message);
+                        WriteToLog("This is usually because the group has been deleted from Entra, but the assignment for the group still exists in Intune");
+                        
+                    }
+
+
+                    
 
 
                 }
@@ -437,7 +455,7 @@ namespace IntuneAssignments
             FormUtilities.ClearDataGridView(dtgGroupAssignment);
 
             // Refresh datagridview
-            ListAllAssignedGroups();
+            await ListAllAssignedGroups();
 
 
 
@@ -528,7 +546,7 @@ namespace IntuneAssignments
             listAllApps();
         }
 
-        private void dtgDisplayApp_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        private async void dtgDisplayApp_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
 
             // Clear the datagridview for older results
@@ -537,7 +555,7 @@ namespace IntuneAssignments
 
 
 
-            ListAllAssignedGroups();
+           await ListAllAssignedGroups();
 
         }
 
@@ -557,7 +575,7 @@ namespace IntuneAssignments
             FormUtilities.ClearDataGridView(dtgGroupAssignment);
         }
 
-        private void tstbtn1_Click(object sender, EventArgs e)
+        private async void tstbtn1_Click(object sender, EventArgs e)
         {
 
             // Show message box with warning, and if statement based on what the user clicks
@@ -572,7 +590,7 @@ namespace IntuneAssignments
                 FormUtilities.ClearDataGridView(dtgGroupAssignment);
 
                 // Refresh datagridview
-                ListAllAssignedGroups();
+                await ListAllAssignedGroups();
             }
             else if (dialogResult == DialogResult.No)
             {

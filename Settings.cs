@@ -160,15 +160,7 @@ namespace IntuneAssignments
                 // Do nothing
 
                 WriteToLog("User chose not to save the settings to the appsettings file");
-            }
-
-
-            
-
-
-
-
-            
+            }  
         }
 
 

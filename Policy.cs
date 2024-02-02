@@ -1895,13 +1895,6 @@ namespace IntuneAssignments
 
         private void dtgDisplayPolicy_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-
-
-
-
-
-
-
             if (cbLookUpAssignment.Checked == true)
             {
                 pnlAssignedTo.Visible = true;
@@ -1919,8 +1912,6 @@ namespace IntuneAssignments
 
                     rtbAssignmentPreview.Clear();
 
-
-
                     // Pass the rowIndex to other method to allow processing
                     FindPolicyAssignments(e.RowIndex);
                 }
@@ -1930,8 +1921,6 @@ namespace IntuneAssignments
             {
 
             }
-
-
 
         }
 
