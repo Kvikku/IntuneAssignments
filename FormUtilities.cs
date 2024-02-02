@@ -312,16 +312,6 @@ namespace IntuneAssignments
         }
 
 
-        // TODO
-
-        // OK -  count group members
-        // show if user or device group (or both)
-        // show if group is dynamic or static, and show the membership rule if dynamic
-
-
-        // method to filter through all members in a group and separate into users and devices
-
-
         public static async Task<List<DirectoryObject>> getGroupMembersFromGroup(string groupID)
         {
 

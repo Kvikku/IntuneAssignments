@@ -72,7 +72,7 @@ namespace IntuneAssignments
 
             //lblConnectionStatus.Text = "Not connected";
             lblTenantName.Text = "Not connected";
-            lblAdditionalInfo.Text = "Please click the cogwheel to view and manage the authentication info";
+            lblAdditionalInfo.Text = "Please click the Cogwheel to authenticate";
 
         }
 
@@ -292,77 +292,6 @@ namespace IntuneAssignments
             WriteToLog("Opening the settings page");
             Settings settings = new Settings();
             settings.ShowDialog();
-
-
-        }
-
-        private async void button1_Click(object sender, EventArgs e)
-        {
-            await FormUtilities.getAllEntraGroups();
-        }
-
-        private async void button2_Click(object sender, EventArgs e)
- 
-        {
-
-
-            /*
-             * CONTINUE
-             * 
-             * group member count. use getGroupMembersFromGroup method to count and return the number of members in a group
-             * 
-             * 
-             * 
-             */
-
-
-
-            List<User> userList = new List<User>();
-
-            List<Device> deviceList = new List<Device>();
-
-            var groupMembers = await getGroupMembersFromGroup("7ecf909c-50d1-4537-827b-cc055fde8b80");
-
-
-            MessageBox.Show(groupMembers.Count.ToString());
-
-
-            foreach (var member in groupMembers)
-            {
-
-                if (member.OdataType == "#microsoft.graph.user")
-                {
-                    
-                    // Add to users list
-                    userList.Add((User)member);
-
-                }
-                else if (member.OdataType == "#microsoft.graph.device")
-                {
-                    // Add to devices list
-                    deviceList.Add((Device)member);
-                }
-                else
-                {
-                    // Unknown object
-                    MessageBox.Show("Unknown object type");
-                }
-
-
-
-            }
-
-
-            foreach (var user in userList)
-            {
-                MessageBox.Show(user.DisplayName + " " + user.UserPrincipalName);
-            }
-
-            foreach (var device in deviceList)
-            {
-                MessageBox.Show(device.DisplayName + " " + device.Model + " " + device.Platform);
-
-            }
 
 
         }
