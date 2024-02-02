@@ -89,7 +89,7 @@
             label2.Name = "label2";
             label2.Size = new Size(161, 14);
             label2.TabIndex = 3;
-            label2.Text = "© 2023 - Jørgen Sundet";
+            label2.Text = "© 2024 - Jørgen Sundet";
             // 
             // label3
             // 
