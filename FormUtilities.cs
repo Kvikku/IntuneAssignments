@@ -109,6 +109,66 @@ namespace IntuneAssignments
         }
 
 
+        public static async Task SearchForGroupV2(string groupName, DataGridView dataGridView)
+        {
+
+            // This method will be used to search for a group in the tenant and display the results in a datagridview
+
+            WriteToLog("User clicked 'Search for group' button in Policy page and is using the search query " + groupName);
+
+
+            // Authenticate to Graph
+            var graphClient = CreateGraphServiceClient();
+
+            // Look up the group by display name
+            var result = await graphClient.Groups.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Search = "\"displayName:" + groupName + "\"";
+                requestConfiguration.Headers.Add("ConsistencyLevel", "eventual"); 
+            });
+                
+            
+            if (result.Value.Capacity == 0)
+            {
+                // No groups found
+                WriteToLog("No groups found with the name " + groupName);
+                MessageBox.Show("No groups found with the name " + groupName);
+
+            }
+
+            else if (result.Value.Count != null)
+            {
+
+                // Create a new list to store the groups in
+                List<Group> groups = new List<Group>();
+
+                // Add the groups to the list
+                groups.AddRange(result.Value);
+
+                // Add the groups to the datagridview
+                foreach (var group in groups)
+                {
+                    // Get the number of members in the group
+                    var memberCount = await Task.Run(async () => countGroupMembers(group.Id).Result.ToString());
+
+
+                    dataGridView.Invoke(new Action(() => dataGridView.Rows.Add(group.DisplayName, memberCount, group.Id)));
+                    WriteToLog("Adding group " + group.DisplayName + " to view");
+                }
+
+            }
+            else
+            {
+                // Some error occured
+                WriteToLog("An error occured while searching for group " + groupName);
+                WriteToLog("Please troubleshoot");
+            }
+                
+
+            
+
+        }
+
         public static async Task ListAllGroupsV2(DataGridView dataGridView)
         {
 
@@ -122,6 +182,7 @@ namespace IntuneAssignments
 
             foreach (var group in allGroups)
             {
+                // Get the number of members in the group
                 var memberCount = await Task.Run(async () =>  countGroupMembers(group.Id).Result.ToString());
 
 

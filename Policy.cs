@@ -22,6 +22,7 @@ using System.Reflection;
 using static IntuneAssignments.FormUtilities;
 using static IntuneAssignments.GlobalVariables;
 using static IntuneAssignments.GraphServiceClientCreator;
+using Microsoft.IdentityModel.Tokens;
 
 
 
@@ -55,7 +56,10 @@ namespace IntuneAssignments
         private void Policy_Load(object sender, EventArgs e)
         {
             cbPolicyType.Text = "All types";
+            
             pnlAssignedTo.Visible = false;
+
+
         }
 
         //public Policy(Form1 form1)
@@ -1449,7 +1453,12 @@ namespace IntuneAssignments
 
         public async void ListAllGroups()
         {
-            // TO BE DELETED
+            /*
+             * 02.02.2024
+             * This method has been replace by SearchForGroupV2 in FormUtilities.cs
+             * The new method is more efficient and is shared across the entire application
+             * This method is kept for reference and will be deleted in the future
+             */
 
             // This method lists all groups in the tenant and displays them in a datagridview
 
@@ -1479,11 +1488,15 @@ namespace IntuneAssignments
 
         }
 
-
-
-
         public async void SearchForGroup()
         {
+
+            /*
+             * 02.02.2024
+             * This method has been replace by SearchForGroupV2 in FormUtilities.cs
+             * The new method is more efficient and is shared across the entire application
+             * This method is kept for reference and will be deleted in the future
+             */
 
             // This method searches for a group based on the search term entered in the textbox
 
@@ -1843,12 +1856,25 @@ namespace IntuneAssignments
 
         }
 
-        private void btnSearchGroup_Click(object sender, EventArgs e)
+        private async void btnSearchGroup_Click(object sender, EventArgs e)
         {
             // Clear the datagridview for older results
             ClearDataGridView(dtgDisplayGroup);
 
-            SearchForGroup();
+            var searchquery = txtboxSearchGroup.Text;
+
+            if (string.IsNullOrWhiteSpace(searchquery) || searchquery == "" || searchquery == "Enter search here")
+            {
+                MessageBox.Show("Invalid search query. Please try again");
+            }
+            else
+            {
+                await Task.Run(() => SearchForGroupV2(searchquery, dtgDisplayGroup));
+            }
+
+            
+
+            //SearchForGroup();
 
 
         }
