@@ -73,18 +73,17 @@ namespace IntuneAssignments
 
             // This method will be used to log data to the main log file
 
-            // Create a new instance of the StreamWriter class
-            System.IO.StreamWriter sw = new System.IO.StreamWriter(GlobalVariables.MainLogFile, true);
-
-            // Write the data to the log file
-            sw.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - {data}");
-
-            // Close the StreamWriter instance
-            sw.Close();
+            // Use the using statement to ensure proper disposal of StreamWriter
+            using (System.IO.StreamWriter sw = new System.IO.StreamWriter(GlobalVariables.MainLogFile, true))
+            {
+                // Write the data to the log file
+                sw.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - {data}");
+            }
+            // StreamWriter is automatically closed and disposed of when leaving the using block
 
         }
 
-        
+
         public static async Task <int> countGroupMembers(string groupID)
         {
             // Method to count the number of members in a group
@@ -123,38 +122,42 @@ namespace IntuneAssignments
 
             foreach (var group in allGroups)
             {
-                var memberCount = Task.Run(() => countGroupMembers(group.Id).Result.ToString());
+                var memberCount = await Task.Run(async () =>  countGroupMembers(group.Id).Result.ToString());
 
 
                 if (memberCount != null)
                 {
+                    dataGridView.Invoke(new Action(() => dataGridView.Rows.Add(group.DisplayName, memberCount, group.Id)));
+
                     
+
+                    WriteToLog("Adding group " + group.DisplayName + " to view");
+
                 }
                 else if (memberCount == null)
                 {
                     
+
                 }
-
-
                 // Sjekk siste fra chatGPT - 
-
-
-                dataGridView.Rows.Add(group.DisplayName, memberCount, group.Id);
-                
-
-                WriteToLog("Adding group " + group.DisplayName + " to view");
             }
-
-
 
 
             // Add All users and all devices virtual groups and IDs to the datagridview
 
-            dataGridView.Rows.Add("All Users", allUsersGroupID);
-            WriteToLog("Adding group " + allUsersGroupName + " to view");
+            dataGridView.Invoke(new Action(() =>
+            {
+                dataGridView.Rows.Add("All Users", "N/A" ,allUsersGroupID);
+                WriteToLog("Adding group " + allUsersGroupName + " to view");
 
-            dataGridView.Rows.Add("All Devices", allDevicesGroupID);
-            WriteToLog("Adding group " + allDevicesGroupName + " to view");
+                dataGridView.Rows.Add("All Devices", "N/A", allDevicesGroupID);
+                WriteToLog("Adding group " + allDevicesGroupName + " to view");
+            }));
+
+
+          
+
+           
 
         }
 
