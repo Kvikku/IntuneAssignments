@@ -23,6 +23,7 @@ using static System.Formats.Asn1.AsnWriter;
 using static System.Windows.Forms.DataFormats;
 using static IntuneAssignments.GlobalVariables;
 using static IntuneAssignments.GraphServiceClientCreator;
+using static IntuneAssignments.FormUtilities;
 
 
 
@@ -1846,17 +1847,42 @@ namespace IntuneAssignments
             ListAllApps();
         }
 
-        private void btnSearchGroup_Click(object sender, EventArgs e)
+        private async void btnSearchGroup_Click(object sender, EventArgs e)
         {
-            SearchForGroup();
+            // Clear the datagridview for older results
+            ClearDataGridView(dtgDisplayGroup);
+
+            var searchquery = txtboxSearchGroup.Text;
+
+            if (string.IsNullOrWhiteSpace(searchquery) || searchquery == "" || searchquery == "Enter search here")
+            {
+                MessageBox.Show("Invalid search query. Please try again");
+            }
+            else
+            {
+                await Task.Run(() => SearchForGroupV2(searchquery, dtgDisplayGroup));
+            }
 
 
 
+
+            //SearchForGroup
         }
 
-        private void btnListAllGroups_Click(object sender, EventArgs e)
+        private async void btnListAllGroups_Click(object sender, EventArgs e)
         {
-            ListAllGroups();
+
+            // Clear the datagridview for older results
+            // Note - this should not be done in each method, because that would remove all other results
+            FormUtilities.ClearDataGridView(dtgDisplayGroup);
+
+
+
+            await Task.Run(() => ListAllGroupsV2(dtgDisplayGroup));
+
+
+
+            //ListAllGroups();
         }
 
         private void dtgDisplayApp_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

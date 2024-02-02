@@ -65,6 +65,7 @@
             label1 = new Label();
             dtgDisplayGroup = new DataGridView();
             GroupName = new DataGridViewTextBoxColumn();
+            GroupMemberCount = new DataGridViewTextBoxColumn();
             GroupID = new DataGridViewTextBoxColumn();
             btnSearchGroup = new Button();
             txtboxSearchGroup = new TextBox();
@@ -459,7 +460,7 @@
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
             dtgDisplayGroup.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dtgDisplayGroup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dtgDisplayGroup.Columns.AddRange(new DataGridViewColumn[] { GroupName, GroupID });
+            dtgDisplayGroup.Columns.AddRange(new DataGridViewColumn[] { GroupName, GroupMemberCount, GroupID });
             dtgDisplayGroup.ContextMenuStrip = dtgDisplayAppRightClick;
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = Color.FromArgb(46, 51, 73);
@@ -485,7 +486,13 @@
             GroupName.HeaderText = "Group name";
             GroupName.Name = "GroupName";
             GroupName.ReadOnly = true;
-            GroupName.Width = 370;
+            GroupName.Width = 200;
+            // 
+            // GroupMemberCount
+            // 
+            GroupMemberCount.HeaderText = "Members";
+            GroupMemberCount.Name = "GroupMemberCount";
+            GroupMemberCount.ReadOnly = true;
             // 
             // GroupID
             // 
@@ -984,13 +991,14 @@
         private DataGridViewTextBoxColumn AppName;
         private DataGridViewTextBoxColumn Platform;
         private DataGridViewTextBoxColumn AppID;
-        private DataGridViewTextBoxColumn GroupName;
-        private DataGridViewTextBoxColumn GroupID;
         private PictureBox pictureBox3;
         private Label lblSummary;
         private Label lblDescription;
         private TextBox txtboxAppDescription;
         private Button btnDeployDescription;
         private Label lblHeaderAppForm;
+        private DataGridViewTextBoxColumn GroupName;
+        private DataGridViewTextBoxColumn GroupMemberCount;
+        private DataGridViewTextBoxColumn GroupID;
     }
 }
