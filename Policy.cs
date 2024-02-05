@@ -1823,17 +1823,24 @@ namespace IntuneAssignments
 
         private void btnListAllPolicy_Click(object sender, EventArgs e)
         {
-            // Create an object of form1 to use it's methods   
-            Form1 form1 = new Form1();
+            
+            /*
+             * 
+             * Method that lists policies based on the selected policy 
+             * 
+             */
 
+            WriteToLog("User clicked the List All Policies button");
 
             // Clear the datagridview for older results
-            // Note - this should not be done in each method, because that would remove all other results
             FormUtilities.ClearDataGridView(dtgDisplayPolicy);
 
 
             if (cbPolicyType.Text == "All types")
             {
+                
+                WriteToLog("User selected All types in the policy type combobox. Listing all policies");
+                
                 ListCompliancePolicies(dtgDisplayPolicy);
                 ListConfigurationProfiles(dtgDisplayPolicy);
                 ListSettingsCatalog(dtgDisplayPolicy);
@@ -1841,15 +1848,21 @@ namespace IntuneAssignments
 
             else if (cbPolicyType.Text == "Compliance policy")
             {
+                WriteToLog("User selected Compliance policy in the policy type combobox. Listing only compliance policies");
+
                 ListCompliancePolicies(dtgDisplayPolicy);
             }
 
             else if (cbPolicyType.Text == "Administrative templates")
             {
+                WriteToLog("User selected Administrative templates in the policy type combobox. Listing only device configuration policies");
+
                 ListConfigurationProfiles(dtgDisplayPolicy);
             }
             else if (cbPolicyType.Text == "Settings catalog")
             {
+                WriteToLog("User selected Settings catalog in the policy type combobox. Listing only settings catalog policies");
+
                 ListSettingsCatalog(dtgDisplayPolicy);
             }
 
@@ -1858,14 +1871,25 @@ namespace IntuneAssignments
 
         private async void btnSearchGroup_Click(object sender, EventArgs e)
         {
+
+            /*
+             * Method that searches for groups based on the search term entered in the textbox
+             * 
+             */
+            var searchquery = txtboxSearchGroup.Text;
+
+            WriteToLog("User clicked the Search Group button and is searching for " + searchquery);
+
             // Clear the datagridview for older results
             ClearDataGridView(dtgDisplayGroup);
 
-            var searchquery = txtboxSearchGroup.Text;
+            
 
             if (string.IsNullOrWhiteSpace(searchquery) || searchquery == "" || searchquery == "Enter search here")
             {
+                WriteToLog("User entered an invalid search query. The search query was " + searchquery);
                 MessageBox.Show("Invalid search query. Please try again");
+
             }
             else
             {
@@ -1881,13 +1905,18 @@ namespace IntuneAssignments
 
         private async void btnListAllGroups_Click(object sender, EventArgs e)
         {
-
+            /*
+             * Method that lists all groups in the tenant
+             * 
+             * 
+             */
 
             // Clear the datagridview for older results
-            // Note - this should not be done in each method, because that would remove all other results
+            
             FormUtilities.ClearDataGridView(dtgDisplayGroup);
 
-            
+
+            WriteToLog("User clicked the List All Groups button");
 
             await Task.Run(() => ListAllGroupsV2(dtgDisplayGroup));
 
@@ -1926,11 +1955,26 @@ namespace IntuneAssignments
 
         private void btnPrepareDeployment_Click(object sender, EventArgs e)
         {
+            /*
+             * This method prepares the deployment of policies to groups
+             * 
+             */
+
+            WriteToLog("User clicked the Prepare Deployment button");
+
             PreparePolicyDeployment();
         }
 
         private void btnResetDeployment_Click(object sender, EventArgs e)
         {
+            /*
+             * This method resets the deployment of policies to groups by
+             * clearing the selected groups and policies and 
+             * resetting the progress bar
+             */
+            
+            WriteToLog("User clicked the Reset Deployment button");
+            
             FormUtilities.ClearRichTextBox(rtbSelectedGroups);
             FormUtilities.ClearRichTextBox(rtbSelectedPolicies);
             pBarDeployProgress.Value = 0;
@@ -1938,6 +1982,8 @@ namespace IntuneAssignments
 
         private void btnDeployPolicyAssignment_Click(object sender, EventArgs e)
         {
+            WriteToLog("User clicked the Deploy button");
+
             AssignSelectedPolicies();
         }
 
@@ -1976,29 +2022,43 @@ namespace IntuneAssignments
 
         private void btnSearchPolicy_Click(object sender, EventArgs e)
         {
-            // Check what type of policy is selected in the combobox
-            // Then call the appropriate method to search for that policy type
+            /*
+             *
+             * Method that searches for policies based on the selected policy type
+             * Check what type of policy is selected in the combobox
+             * Then call the appropriate method to search for that policy type
+             * 
+             */
+
+            WriteToLog("User clicked the Search Policy button");
+
 
             ClearDataGridView(dtgDisplayPolicy);
 
 
             if (cbPolicyType.Text == "All types")
             {
-
+                WriteToLog("User selected All types in the policy type combobox. Searching for all policies");
             }
 
             else if (cbPolicyType.Text == "Compliance policy")
             {
+                WriteToLog("User selected Compliance policy in the policy type combobox. Searching for compliance policies");
+
                 SearchForCompliancePolicy();
             }
 
             else if (cbPolicyType.Text == "Administrative templates")
             {
+                WriteToLog("User selected Administrative templates in the policy type combobox. Searching for device configuration policies");
+
                 SearchForDeviceConfigurationPolicy();
             }
 
             else if (cbPolicyType.Text == "Settings catalog")
             {
+                WriteToLog("User selected Settings catalog in the policy type combobox. Searching for settings catalog policies");
+                
                 SearchForSettingsCatalogPolicy();
             }
 

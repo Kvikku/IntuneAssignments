@@ -109,6 +109,8 @@ namespace IntuneAssignments
                 {
                     result = await app.AcquireTokenInteractive(newScope)
                         .WithPrompt(Microsoft.Identity.Client.Prompt.SelectAccount)
+                        //.WithUseEmbeddedWebView(true)
+                        //.WithEmbeddedWebViewOptions(new EmbeddedWebViewOptions() { Title = "Sign in to your account" })
                         .ExecuteAsync();
                 }
 

@@ -114,8 +114,6 @@ namespace IntuneAssignments
 
             // This method will be used to search for a group in the tenant and display the results in a datagridview
 
-            WriteToLog("User clicked 'Search for group' button in Policy page and is using the search query " + groupName);
-
 
             // Authenticate to Graph
             var graphClient = CreateGraphServiceClient();
@@ -211,7 +209,7 @@ namespace IntuneAssignments
         public static async Task ListAllGroupsV2(DataGridView dataGridView)
         {
 
-            WriteToLog("User clicked 'List all groups' in Policy page ");
+            
 
             // This method lists all groups in the tenant and displays them in a datagridview
 
