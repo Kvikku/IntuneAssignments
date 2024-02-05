@@ -23,6 +23,7 @@ using static IntuneAssignments.FormUtilities;
 using static IntuneAssignments.GlobalVariables;
 using static IntuneAssignments.GraphServiceClientCreator;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Graph.Beta.Models.Networkaccess;
 
 
 
@@ -342,7 +343,7 @@ namespace IntuneAssignments
                 if (cell.RowIndex >= 0 && cell.ColumnIndex >= 0)
                 {
                     string key = dataGridView.Rows[cell.RowIndex].Cells[0].Value?.ToString() ?? string.Empty;
-                    string value = dataGridView.Rows[cell.RowIndex].Cells[1].Value?.ToString() ?? string.Empty;
+                    string value = dataGridView.Rows[cell.RowIndex].Cells[3].Value?.ToString() ?? string.Empty;
 
                     values[key] = value;
                 }
@@ -541,24 +542,19 @@ namespace IntuneAssignments
             // Set progress bar to 0
             pBarDeployProgress.Value = 0;
 
-
-
-
             // Create an instance of form1
             Form1 form1 = new Form1();
-
-
 
             // Load the MS Graph assembly for class lookup
             var assembly = Assembly.Load(form1.graphAssembly);
 
+            var description = txtboxDescription.Text;
+
+
             try
             {
-
                 // Authenticate to Graph
                 var graphClient = CreateGraphServiceClient();
-
-
 
                 // Check if text box is empty
                 if (string.IsNullOrEmpty(txtboxDescription.Text))
@@ -567,18 +563,10 @@ namespace IntuneAssignments
                     return;
                 }
 
-
-
                 else
                 {
-
-
                     if (dtgDisplayPolicy.SelectedRows.Count > 0)
                     {
-
-
-
-
 
                         // Loop through each selected row in the datagridview
 
@@ -645,6 +633,8 @@ namespace IntuneAssignments
                                 // Update the description
                                 var result = await graphClient.DeviceManagement.DeviceCompliancePolicies[policyID].PatchAsync((DeviceCompliancePolicy)requestBody);
 
+                                WriteToLog("Description for " + policyName + " has been updated with the following description: " + description.ToString());
+
                                 // write to the textbox
                                 rtbDeploymentSummary.SelectionColor = Color.Green;
                                 rtbDeploymentSummary.AppendText("Description for " + policyName + " has been updated" + Environment.NewLine);
@@ -668,6 +658,8 @@ namespace IntuneAssignments
                                 // Update the description
                                 var result = await graphClient.DeviceManagement.ConfigurationPolicies[policyID].PatchAsync(requestBody);
 
+                                WriteToLog("Description for " + policyName + " has been updated with the following description: " + description.ToString());
+
                                 // write to the textbox
                                 rtbDeploymentSummary.SelectionColor = Color.Green;
                                 rtbDeploymentSummary.AppendText("Description for " + policyName + " has been updated" + Environment.NewLine);
@@ -690,7 +682,7 @@ namespace IntuneAssignments
 
 
                             // DEVICE CONFIGURATION POLICY
-                            // Consider not support device configuration policies for now
+                            // Consider not supporting device configuration policies for now
 
 
                             if (policyType == "Device Configuration")
@@ -699,7 +691,7 @@ namespace IntuneAssignments
 
                                 // Create a new device configuration object
 
-
+                                WriteToLog("Device configuration policies are not supported yet. No changes have been made to " + policyName);
 
                                 // Write to the textbox in yellow color to indicate that this is not supported yet
                                 rtbDeploymentSummary.SelectionColor = Color.Yellow;
@@ -1185,6 +1177,7 @@ namespace IntuneAssignments
         async Task AssignSelectedPolicies()
         {
 
+            WriteToLog("Preparing to assign policies to groups");
 
             // Gather the values from the selected policies and selected groups
 
@@ -1205,6 +1198,7 @@ namespace IntuneAssignments
             int progressBarMaxValue = numberOfPolicies * numberOfGroups;
             pBarDeployProgress.Maximum = progressBarMaxValue;
 
+            WriteToLog("A total of " + numberOfPolicies + " policies will be assigned to " + numberOfGroups + " groups.");
 
             // Store default color for rich textbox
             var defaultColor = rtbDeploymentSummary.ForeColor;
@@ -1259,6 +1253,9 @@ namespace IntuneAssignments
                                     await AssignCompliancePolcy(policyID, groupID);
 
 
+                                    // Log status to the logfile
+                                    WriteToLog(policy + " has been assigned to " + group.Key);
+
                                     // Log status to the textbox
                                     rtbDeploymentSummary.ForeColor = Color.Green;
                                     rtbDeploymentSummary.AppendText(policy + " has been assigned to " + group.Key + Environment.NewLine);
@@ -1283,6 +1280,8 @@ namespace IntuneAssignments
                                     // Assignment for Settings Catalog
                                     await AssignSettingsCatalog(policyID, groupID);
 
+                                    // Log status to the logfile
+                                    WriteToLog(policy + " has been assigned to " + group.Key);
 
                                     // Log status to the textbox
                                     rtbDeploymentSummary.ForeColor = Color.Green;
@@ -1307,6 +1306,8 @@ namespace IntuneAssignments
                                     // Assignment for Device Configuration Policies
                                     await AssignDeviceConfiguration(policyID, groupID);
 
+                                    // Log status to the logfile
+                                    WriteToLog(policy + " has been assigned to " + group.Key);
 
                                     // Log status to the textbox
                                     rtbDeploymentSummary.ForeColor = Color.Green;
@@ -1321,6 +1322,11 @@ namespace IntuneAssignments
             }
             catch (ServiceException ex)
             {
+
+                // Log status to the logfile
+                WriteToLog("An error occurred during deployment. The error message is: ");
+                WriteToLog(ex.Message);
+
                 // Log error to the textbox
                 rtbDeploymentSummary.SelectionColor = Color.Red;
                 rtbDeploymentSummary.AppendText("An error occured when deploying policies. The error message is :" + Environment.NewLine);
@@ -1980,11 +1986,11 @@ namespace IntuneAssignments
             pBarDeployProgress.Value = 0;
         }
 
-        private void btnDeployPolicyAssignment_Click(object sender, EventArgs e)
+        private async void btnDeployPolicyAssignment_Click(object sender, EventArgs e)
         {
             WriteToLog("User clicked the Deploy button");
 
-            AssignSelectedPolicies();
+            await AssignSelectedPolicies();
         }
 
         private void pbHelpGuide_Click(object sender, EventArgs e)
@@ -1994,6 +2000,8 @@ namespace IntuneAssignments
 
         private void btnDeployDescription_Click(object sender, EventArgs e)
         {
+            WriteToLog("User clicked the Deploy Description button");
+
             UpdatePolicyDescription();
         }
 

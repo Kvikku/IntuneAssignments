@@ -73,6 +73,20 @@ namespace IntuneAssignments
 
             // This method will be used to log data to the main log file
 
+
+            // Read the last ten lines from the log file
+            List<string> lastTenLines = ReadLastLines(GlobalVariables.MainLogFile, 5);
+
+            // Check if any of the last ten lines are identical to the new data
+            if (lastTenLines.Any(line => line.Contains(data)))
+            {
+                // If duplicate found, you may choose to handle it as needed
+                //MessageBox.Show($"Duplicate entry: {data}");
+                return; // Optionally, you can exit the method to avoid writing the duplicate
+            }
+
+
+
             // Use the using statement to ensure proper disposal of StreamWriter
             using (System.IO.StreamWriter sw = new System.IO.StreamWriter(GlobalVariables.MainLogFile, true))
             {
@@ -82,6 +96,32 @@ namespace IntuneAssignments
             // StreamWriter is automatically closed and disposed of when leaving the using block
 
         }
+
+        public static List<string> ReadLastLines(string filePath, int lineCount)
+        {
+            List<string> lastLines = new List<string>();
+
+            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (StreamReader reader = new StreamReader(fs))
+            {
+                // Read all lines from the file and keep the last N lines
+                LinkedList<string> lines = new LinkedList<string>();
+                while (!reader.EndOfStream)
+                {
+                    lines.AddLast(reader.ReadLine());
+                    if (lines.Count > lineCount)
+                    {
+                        lines.RemoveFirst();
+                    }
+                }
+
+                lastLines.AddRange(lines);
+            }
+
+            return lastLines;
+        }
+
+
 
 
         public static async Task <int> countGroupMembers(string groupID)
