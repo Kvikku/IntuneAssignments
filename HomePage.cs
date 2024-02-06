@@ -35,6 +35,10 @@ namespace IntuneAssignments
         private void HomePage_Load(object sender, EventArgs e)
         {
 
+            createConfigurationFolder();
+
+            createConfigurationFiles();
+
             ShowWarningOnStatusLabels();
 
 
@@ -45,12 +49,12 @@ namespace IntuneAssignments
 
 
             // Call methods to create configuration folder and files
-            createConfigurationFolder();
+            
 
 
 
 
-            createConfigurationFiles();
+            
 
             //loadAuthenticationInfo();
 
@@ -86,6 +90,9 @@ namespace IntuneAssignments
             {
                 // If it does not exist, create it
                 System.IO.Directory.CreateDirectory(configurationFolder);
+
+                
+
                 WriteToLog("");
                 WriteToLog("");
                 WriteToLog("Launching application!");
@@ -94,20 +101,37 @@ namespace IntuneAssignments
                 WriteToLog("Configuration folder created");
 
             }
-            else
+            else if (!System.IO.File.Exists(MainLogFile))
             {
+                // Create configuration files
+
+                createPrimaryLogFile();
+
+
                 WriteToLog("");
                 WriteToLog("");
                 WriteToLog("Launching application");
                 WriteSystemSummaryToLog();
 
 
-                WriteToLog("The configuration folder already exist. No need to create");
+                
             }
 
 
 
 
+        }
+
+        private void createPrimaryLogFile()
+        {
+
+            using (FileStream fs = File.Create(MainLogFile))
+            {
+                // Do nothing
+            }
+            
+
+            // release the file
         }
 
         private void createConfigurationFiles()

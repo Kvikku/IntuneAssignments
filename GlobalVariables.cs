@@ -11,7 +11,7 @@ namespace IntuneAssignments
 
         public static string configurationFolder = @"C:\ProgramData\IntuneAssignments";
         public static string AppSettingsFile = @"C:\ProgramData\IntuneAssignments" + @"\AppSettings.json";
-        public static string MainLogFile = @"C:\ProgramData\IntuneAssignments" + @"\Primary logfile.log";
+        public static string MainLogFile = @"C:\ProgramData\IntuneAssignments" + @"\Primary Logfile.log";
         public static string graphAssembly = "Microsoft.Graph.Beta";
         public string graphClassNamePrefix = "Microsoft.Graph.Beta.Models.";
 
