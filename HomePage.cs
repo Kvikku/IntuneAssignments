@@ -15,6 +15,7 @@ using static IntuneAssignments.TokenProvider;
 using static IntuneAssignments.GraphServiceClientCreator;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.Graph.Beta;
+using System.Text.Json;
 
 namespace IntuneAssignments
 {
@@ -37,7 +38,7 @@ namespace IntuneAssignments
 
             createConfigurationFolder();
 
-            createConfigurationFiles();
+            createAppSettingsFile();
 
             ShowWarningOnStatusLabels();
 
@@ -86,12 +87,13 @@ namespace IntuneAssignments
 
 
             // Check if the folder in configurationFolder variable exists
-            if (!System.IO.Directory.Exists(configurationFolder))
+            if (!System.IO.Directory.Exists(appDataFolder))
             {
                 // If it does not exist, create it
-                System.IO.Directory.CreateDirectory(configurationFolder);
+                System.IO.Directory.CreateDirectory(appDataFolder);
 
-                
+                // Must also create log file here
+                createPrimaryLogFile();
 
                 WriteToLog("");
                 WriteToLog("");
@@ -101,7 +103,7 @@ namespace IntuneAssignments
                 WriteToLog("Configuration folder created");
 
             }
-            else if (!System.IO.File.Exists(MainLogFile))
+            else if (!System.IO.File.Exists(primaryLogFile))
             {
                 // Create configuration files
 
@@ -124,19 +126,57 @@ namespace IntuneAssignments
 
         private void createPrimaryLogFile()
         {
-
-            using (FileStream fs = File.Create(MainLogFile))
+            if (!System.IO.File.Exists(primaryLogFile))
             {
-                // Do nothing
+                using (FileStream fs = File.Create(primaryLogFile))
+                {
+                    // Do nothing
+                    WriteToLog("The log file is missing. It may have been deleted or it is the first time the app is running on the system");
+                    WriteToLog("Creating the log file");
+                }
+            }
+            else
+            {
+                WriteToLog("The log file already exists. No need to create");
             }
             
 
             // release the file
         }
 
+        private void createAppSettingsFile() 
+        {
+            if (!System.IO.File.Exists(appSettingsFile))
+            {
+                using (FileStream fs = File.Create(appSettingsFile))
+                {
+                    // Do nothing
+                    WriteToLog("The configuration file is missing. It may have been deleted or it is the first time the app is running on the system");
+                    WriteToLog("Creating the configuration file");
+
+
+                    // FIX CREATION OF THE FILE WITH JSON CONTENT
+                  
+                }
+            }
+            else
+            {
+                WriteToLog("The configuration file already exists. No need to create");
+            }
+            
+            
+        }
+
         private void createConfigurationFiles()
         {
+            // TO BE DELETED
             // Create configuration files in the configuration folder
+
+            using (FileStream fs = File.Create(appSettingsFile))
+            {
+                // Do nothing
+            }
+
 
             // check if the configuration file already exists
             if (!System.IO.File.Exists(AppSettingsFile))

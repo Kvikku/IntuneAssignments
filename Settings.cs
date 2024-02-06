@@ -67,7 +67,7 @@ namespace IntuneAssignments
             
             // Retrieve data from appsettings.json and populate labels
 
-            string path = AppSettingsFile; //@"C:\ProgramData\IntuneAssignments" + @"\AppSettings.json";
+            string path = appSettingsFile; //@"C:\ProgramData\IntuneAssignments" + @"\AppSettings.json";
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 //.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)

@@ -50,7 +50,7 @@ namespace IntuneAssignments
             // This method will be used to write a summary of the system to the log file
 
             // Create a new instance of the StreamWriter class
-            System.IO.StreamWriter sw = new System.IO.StreamWriter(GlobalVariables.MainLogFile, true);
+            System.IO.StreamWriter sw = new System.IO.StreamWriter(GlobalVariables.primaryLogFile, true);
 
             // Write the data to the log file
             sw.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - Beginning system summary");
@@ -75,7 +75,7 @@ namespace IntuneAssignments
 
 
             // Read the last ten lines from the log file
-            List<string> lastTenLines = ReadLastLines(GlobalVariables.MainLogFile, 5);
+            List<string> lastTenLines = ReadLastLines(GlobalVariables.primaryLogFile, 5);
 
             // Check if any of the last ten lines are identical to the new data
             if (lastTenLines.Any(line => line.Contains(data)))
@@ -88,7 +88,7 @@ namespace IntuneAssignments
 
 
             // Use the using statement to ensure proper disposal of StreamWriter
-            using (System.IO.StreamWriter sw = new System.IO.StreamWriter(GlobalVariables.MainLogFile, true))
+            using (System.IO.StreamWriter sw = new System.IO.StreamWriter(GlobalVariables.primaryLogFile, true))
             {
                 // Write the data to the log file
                 sw.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - {data}");
