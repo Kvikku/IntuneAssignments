@@ -144,20 +144,20 @@ namespace IntuneAssignments
             // release the file
         }
 
-        private void createAppSettingsFile() 
+        private async void createAppSettingsFile() 
         {
             if (!System.IO.File.Exists(appSettingsFile))
             {
-                using (FileStream fs = File.Create(appSettingsFile))
-                {
-                    // Do nothing
-                    WriteToLog("The configuration file is missing. It may have been deleted or it is the first time the app is running on the system");
-                    WriteToLog("Creating the configuration file");
+
+                // copy file from the appsettings.json file in the project to the configuration folder
+                string sourceFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppSettings.json");
+                string destinationDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "IntuneAssignments");
+                string destinationFilePath = Path.Combine(destinationDirectory, "AppSettings.json");
+                File.Copy(sourceFile, appSettingsFile, false);  // The 'true' argument allows overwriting if the file already exists
 
 
-                    // FIX CREATION OF THE FILE WITH JSON CONTENT
-                  
-                }
+
+                
             }
             else
             {

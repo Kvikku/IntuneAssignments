@@ -104,7 +104,7 @@ namespace IntuneAssignments
             
             // Save the new settings to appsettings.json
 
-            string originalPath = AppSettingsFile;
+            string originalPath = appSettingsFile;
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .AddJsonFile(originalPath)
