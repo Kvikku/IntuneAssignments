@@ -131,9 +131,13 @@ namespace IntuneAssignments
                 using (FileStream fs = File.Create(primaryLogFile))
                 {
                     // Do nothing
-                    WriteToLog("The log file is missing. It may have been deleted or it is the first time the app is running on the system");
-                    WriteToLog("Creating the log file");
+                    
+
+                    // Release the file
+
                 }
+
+
             }
             else
             {
