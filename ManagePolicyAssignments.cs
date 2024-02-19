@@ -1,16 +1,5 @@
 ﻿using Microsoft.Graph.Beta.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static IntuneAssignments.Form1;
-using static System.Windows.Forms.DataFormats;
 using static IntuneAssignments.GlobalVariables;
 using static IntuneAssignments.GraphServiceClientCreator;
 

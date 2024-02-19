@@ -1,11 +1,4 @@
-﻿using Azure.Identity;
-using Microsoft.Graph.Beta.Models;
-using Microsoft.Kiota.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Graph.Beta.Models;
 using static IntuneAssignments.GraphServiceClientCreator;
 using static IntuneAssignments.GlobalVariables;
 

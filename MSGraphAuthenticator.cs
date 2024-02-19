@@ -1,18 +1,12 @@
 ﻿using Azure.Identity;
-using Microsoft.Graph.Beta.Models.ManagedTenants;
 using Microsoft.Graph.Beta;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IntuneAssignments
 {
 
     // 22.01.2024 - can this now be deleted? check back later.
 
-  
+
 
     public  class MSGraphAuthenticator
     {

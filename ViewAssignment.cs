@@ -1,26 +1,7 @@
-﻿using System;
-using System.Net;
-using Microsoft.Graph;
-using Microsoft.Graph.Auth;
-using Microsoft.Identity.Client;
-using Microsoft.Graph.Core;
-using System.Net.Http.Headers;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Azure.Identity;
-using static System.Formats.Asn1.AsnWriter;
-using System.Security.Principal;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.VoiceCommands;
-using System.Windows.Forms;
-using System.Diagnostics.Eventing.Reader;
-using Windows.Foundation.Metadata;
-using Microsoft.Graph.Beta;
+﻿//using Microsoft.Graph.Auth;
 using Microsoft.Graph.Beta.Models;
-using static IntuneAssignments.Form1;
 using static IntuneAssignments.GraphServiceClientCreator;
 using static IntuneAssignments.FormUtilities;
-using static IntuneAssignments.GlobalVariables;
 
 namespace IntuneAssignments
 {

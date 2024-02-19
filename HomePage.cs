@@ -1,21 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Graph.Beta.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using static IntuneAssignments.GlobalVariables;
 using static IntuneAssignments.FormUtilities;
-using static IntuneAssignments.TokenProvider;
 using static IntuneAssignments.GraphServiceClientCreator;
-using Microsoft.IdentityModel.Logging;
-using Microsoft.Graph.Beta;
-using System.Text.Json;
 
 namespace IntuneAssignments
 {
