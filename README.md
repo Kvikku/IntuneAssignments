@@ -20,6 +20,7 @@ __NOTE - This application is a work in progress. Errors, crashes and unexpected 
 
 Please read the Wiki (https://github.com/Kvikku/IntuneAssignments/wiki) for help with the pre-reqs and how to use the app!
 
+An installer is now provided to help install all necessary dependencies and the application itself. 
 
 
 # New releases!
