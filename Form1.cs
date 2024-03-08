@@ -85,7 +85,7 @@ namespace IntuneAssignments
 
         public void Form1_Load(object sender, EventArgs e)
         {
-            
+
 
 
             // Hides the login panel during application launch
@@ -129,7 +129,7 @@ namespace IntuneAssignments
 
 
 
-        
+
 
         private void showViewAssignment()
         {
@@ -1325,13 +1325,13 @@ namespace IntuneAssignments
 
                     // Here MobileApp class is used. This is the base class for all apps
                     await graphClient.DeviceAppManagement.MobileApps[mobileAppID].PatchAsync((MobileApp)requestBody);
-                    
+
                     // Update the progress bar value by 1 for each app in the checked list box
                     progressBar1.Value++;
 
                     // Write the action to the summary textbox
                     rtbDeploymentSummary.AppendText("Updating description for " + app.ToString() + "\n");
-                
+
                 }
 
             }
@@ -1347,9 +1347,9 @@ namespace IntuneAssignments
 
         }
 
-        
 
-         static void SetProperty(object obj, string propertyName, object value)
+
+        static void SetProperty(object obj, string propertyName, object value)
         {
             // Set the value of a property in an object
 
@@ -2086,7 +2086,7 @@ namespace IntuneAssignments
             HelpGuide();
         }
 
-        
+
 
         private void tstbtn001_Click(object sender, EventArgs e)
         {
@@ -2176,10 +2176,28 @@ namespace IntuneAssignments
 
         private void btnDeployDescription_Click(object sender, EventArgs e)
         {
-            
-            
-            
+
+
+
             UpdateApplicationDescription();
+        }
+
+        private void btn_ClearProgressBar_Click(object sender, EventArgs e)
+        {
+            progressBar1.Value = 0;
+        }
+
+        private void addAllSelectedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            foreach (DataGridViewCell cell in dtgDisplayApp.SelectedCells)
+            {
+
+                // TODO - Test on large data sets
+
+                // Add the value to the checked list box
+                clbAppAssignments.Items.Add(cell.Value.ToString());
+            }
         }
     }
 }

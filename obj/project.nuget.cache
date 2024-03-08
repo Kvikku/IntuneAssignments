@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "XA0NftEV+2mHyfWgzuOp1/lnM9WAn5ivR3nUEmtxtppOQtYAUokl6qBA97Tj1ScArOgc6Rh3gEvH3nGHlCzMog==",
+  "dgSpecHash": "3DI/2GbMSklCZy/65WPQ985dyvIF83cbEzgwfG/jjVopDzZOuDJxlLLXEB4xnplzkdlSo8EEo/sLLyikjv0XkQ==",
   "success": true,
-  "projectFilePath": "C:\\Github\\IntuneAssignments\\IntuneAssignments.csproj",
+  "projectFilePath": "C:\\GitHub\\IntuneAssignments\\IntuneAssignments.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jorge\\.nuget\\packages\\azure.core\\1.36.0\\azure.core.1.36.0.nupkg.sha512",
     "C:\\Users\\jorge\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
@@ -64,7 +64,8 @@
     "C:\\Users\\jorge\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512",
     "C:\\Users\\jorge\\.nuget\\packages\\system.text.json\\8.0.0\\system.text.json.8.0.0.nupkg.sha512",
     "C:\\Users\\jorge\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
-    "C:\\Users\\jorge\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512"
+    "C:\\Users\\jorge\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
+    "C:\\Users\\jorge\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.22621.31\\microsoft.windows.sdk.net.ref.10.0.22621.31.nupkg.sha512"
   ],
   "logs": []
 }

@@ -43,6 +43,7 @@
             pictureBox1 = new PictureBox();
             dtgDisplayAppRightClick = new ContextMenuStrip(components);
             assignmentsToolStripMenuItem = new ToolStripMenuItem();
+            addAllSelectedToolStripMenuItem = new ToolStripMenuItem();
             clbAppAssignments = new CheckedListBox();
             cmsRemoveApps = new ContextMenuStrip(components);
             removeSelectedToolStripMenuItem = new ToolStripMenuItem();
@@ -83,6 +84,7 @@
             btnSummarize = new Button();
             btnReset = new Button();
             panelSummary = new Panel();
+            btn_ClearProgressBar = new Button();
             btnDeployDescription = new Button();
             lblSummary = new Label();
             rtbDeploymentSummary = new RichTextBox();
@@ -132,7 +134,7 @@
             // 
             SignIn.BackColor = Color.Salmon;
             SignIn.FlatStyle = FlatStyle.Popup;
-            SignIn.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            SignIn.Font = new Font("Consolas", 12F);
             SignIn.Location = new Point(12, 103);
             SignIn.Name = "SignIn";
             SignIn.Size = new Size(126, 41);
@@ -154,7 +156,7 @@
             // lblTenantInfo
             // 
             lblTenantInfo.AutoSize = true;
-            lblTenantInfo.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lblTenantInfo.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold);
             lblTenantInfo.ForeColor = Color.Salmon;
             lblTenantInfo.Location = new Point(12, 13);
             lblTenantInfo.Name = "lblTenantInfo";
@@ -198,15 +200,22 @@
             // 
             // dtgDisplayAppRightClick
             // 
-            dtgDisplayAppRightClick.Items.AddRange(new ToolStripItem[] { assignmentsToolStripMenuItem });
+            dtgDisplayAppRightClick.Items.AddRange(new ToolStripItem[] { assignmentsToolStripMenuItem, addAllSelectedToolStripMenuItem });
             dtgDisplayAppRightClick.Name = "dtgDisplayAppRightClick";
-            dtgDisplayAppRightClick.Size = new Size(143, 26);
+            dtgDisplayAppRightClick.Size = new Size(158, 48);
             // 
             // assignmentsToolStripMenuItem
             // 
             assignmentsToolStripMenuItem.Name = "assignmentsToolStripMenuItem";
-            assignmentsToolStripMenuItem.Size = new Size(142, 22);
+            assignmentsToolStripMenuItem.Size = new Size(157, 22);
             assignmentsToolStripMenuItem.Text = "Assignments";
+            // 
+            // addAllSelectedToolStripMenuItem
+            // 
+            addAllSelectedToolStripMenuItem.Name = "addAllSelectedToolStripMenuItem";
+            addAllSelectedToolStripMenuItem.Size = new Size(157, 22);
+            addAllSelectedToolStripMenuItem.Text = "Add all selected";
+            addAllSelectedToolStripMenuItem.Click += addAllSelectedToolStripMenuItem_Click;
             // 
             // clbAppAssignments
             // 
@@ -215,7 +224,7 @@
             clbAppAssignments.BorderStyle = BorderStyle.None;
             clbAppAssignments.CheckOnClick = true;
             clbAppAssignments.ContextMenuStrip = cmsRemoveApps;
-            clbAppAssignments.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            clbAppAssignments.Font = new Font("Consolas", 9F);
             clbAppAssignments.ForeColor = Color.Salmon;
             clbAppAssignments.FormattingEnabled = true;
             clbAppAssignments.Location = new Point(12, 13);
@@ -284,7 +293,7 @@
             // lblSelectAppType
             // 
             lblSelectAppType.AutoSize = true;
-            lblSelectAppType.Font = new Font("Consolas", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSelectAppType.Font = new Font("Consolas", 15.75F, FontStyle.Bold);
             lblSelectAppType.ForeColor = Color.Salmon;
             lblSelectAppType.Location = new Point(3, 15);
             lblSelectAppType.Name = "lblSelectAppType";
@@ -317,7 +326,7 @@
             dtgDisplayApp.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = Color.Salmon;
-            dataGridViewCellStyle1.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.Font = new Font("Consolas", 12F);
             dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
@@ -328,7 +337,7 @@
             dtgDisplayApp.ContextMenuStrip = dtgDisplayAppRightClick;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.FromArgb(46, 51, 73);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.75F);
             dataGridViewCellStyle2.ForeColor = Color.Salmon;
             dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
@@ -340,7 +349,6 @@
             dtgDisplayApp.Name = "dtgDisplayApp";
             dtgDisplayApp.ReadOnly = true;
             dtgDisplayApp.RowHeadersVisible = false;
-            dtgDisplayApp.RowTemplate.Height = 25;
             dtgDisplayApp.Size = new Size(517, 324);
             dtgDisplayApp.TabIndex = 10;
             mainFormToolTip.SetToolTip(dtgDisplayApp, "Double click an app to prepare it for deployment");
@@ -371,7 +379,7 @@
             // 
             txtboxSearchApp.BackColor = Color.FromArgb(46, 51, 73);
             txtboxSearchApp.BorderStyle = BorderStyle.FixedSingle;
-            txtboxSearchApp.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txtboxSearchApp.Font = new Font("Consolas", 12F);
             txtboxSearchApp.ForeColor = Color.Salmon;
             txtboxSearchApp.Location = new Point(194, 74);
             txtboxSearchApp.Name = "txtboxSearchApp";
@@ -385,7 +393,7 @@
             // 
             btnSearchApp.BackColor = Color.Salmon;
             btnSearchApp.FlatStyle = FlatStyle.Popup;
-            btnSearchApp.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSearchApp.Font = new Font("Consolas", 12F);
             btnSearchApp.Location = new Point(396, 68);
             btnSearchApp.Name = "btnSearchApp";
             btnSearchApp.Size = new Size(124, 30);
@@ -408,7 +416,7 @@
             // 
             btnAllGroups.BackColor = Color.Salmon;
             btnAllGroups.FlatStyle = FlatStyle.Popup;
-            btnAllGroups.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnAllGroups.Font = new Font("Consolas", 12F);
             btnAllGroups.Location = new Point(526, 68);
             btnAllGroups.Name = "btnAllGroups";
             btnAllGroups.Size = new Size(124, 30);
@@ -435,7 +443,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Consolas", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Font = new Font("Consolas", 15.75F, FontStyle.Bold);
             label1.ForeColor = Color.Salmon;
             label1.Location = new Point(8, 9);
             label1.Name = "label1";
@@ -454,7 +462,7 @@
             dtgDisplayGroup.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = Color.Salmon;
-            dataGridViewCellStyle3.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle3.Font = new Font("Consolas", 12F);
             dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
             dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
@@ -465,7 +473,7 @@
             dtgDisplayGroup.ContextMenuStrip = dtgDisplayAppRightClick;
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = Color.FromArgb(46, 51, 73);
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.75F);
             dataGridViewCellStyle4.ForeColor = Color.Salmon;
             dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
@@ -476,7 +484,6 @@
             dtgDisplayGroup.Name = "dtgDisplayGroup";
             dtgDisplayGroup.ReadOnly = true;
             dtgDisplayGroup.RowHeadersVisible = false;
-            dtgDisplayGroup.RowTemplate.Height = 25;
             dtgDisplayGroup.Size = new Size(410, 306);
             dtgDisplayGroup.TabIndex = 14;
             mainFormToolTip.SetToolTip(dtgDisplayGroup, "Double click a group to prepare it for deployment");
@@ -512,7 +519,7 @@
             // 
             btnSearchGroup.BackColor = Color.Salmon;
             btnSearchGroup.FlatStyle = FlatStyle.Popup;
-            btnSearchGroup.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSearchGroup.Font = new Font("Consolas", 12F);
             btnSearchGroup.Location = new Point(205, 69);
             btnSearchGroup.Name = "btnSearchGroup";
             btnSearchGroup.Size = new Size(124, 30);
@@ -526,7 +533,7 @@
             // 
             txtboxSearchGroup.BackColor = Color.FromArgb(46, 51, 73);
             txtboxSearchGroup.BorderStyle = BorderStyle.FixedSingle;
-            txtboxSearchGroup.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txtboxSearchGroup.Font = new Font("Consolas", 12F);
             txtboxSearchGroup.ForeColor = Color.Salmon;
             txtboxSearchGroup.Location = new Point(8, 73);
             txtboxSearchGroup.Name = "txtboxSearchGroup";
@@ -540,7 +547,7 @@
             // 
             btnListAllGroups.BackColor = Color.Salmon;
             btnListAllGroups.FlatStyle = FlatStyle.Popup;
-            btnListAllGroups.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnListAllGroups.Font = new Font("Consolas", 12F);
             btnListAllGroups.Location = new Point(335, 68);
             btnListAllGroups.Name = "btnListAllGroups";
             btnListAllGroups.Size = new Size(124, 32);
@@ -566,7 +573,7 @@
             clbGroupAssignment.BorderStyle = BorderStyle.None;
             clbGroupAssignment.CheckOnClick = true;
             clbGroupAssignment.ContextMenuStrip = cmsRemoveItems;
-            clbGroupAssignment.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            clbGroupAssignment.Font = new Font("Consolas", 9F);
             clbGroupAssignment.ForeColor = Color.Salmon;
             clbGroupAssignment.FormattingEnabled = true;
             clbGroupAssignment.Location = new Point(3, 13);
@@ -605,7 +612,7 @@
             // lblDescription
             // 
             lblDescription.AutoSize = true;
-            lblDescription.Font = new Font("Consolas", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            lblDescription.Font = new Font("Consolas", 15.75F, FontStyle.Bold);
             lblDescription.ForeColor = Color.Salmon;
             lblDescription.Location = new Point(14, 203);
             lblDescription.Name = "lblDescription";
@@ -617,7 +624,7 @@
             // lblIntentChoice
             // 
             lblIntentChoice.AutoSize = true;
-            lblIntentChoice.Font = new Font("Consolas", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            lblIntentChoice.Font = new Font("Consolas", 15.75F, FontStyle.Bold);
             lblIntentChoice.ForeColor = Color.Salmon;
             lblIntentChoice.Location = new Point(14, 15);
             lblIntentChoice.Name = "lblIntentChoice";
@@ -629,7 +636,7 @@
             // rbtnUninstall
             // 
             rbtnUninstall.AutoSize = true;
-            rbtnUninstall.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            rbtnUninstall.Font = new Font("Consolas", 12F);
             rbtnUninstall.ForeColor = Color.Salmon;
             rbtnUninstall.Location = new Point(14, 104);
             rbtnUninstall.Name = "rbtnUninstall";
@@ -644,7 +651,7 @@
             // rbtnRequired
             // 
             rbtnRequired.AutoSize = true;
-            rbtnRequired.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            rbtnRequired.Font = new Font("Consolas", 12F);
             rbtnRequired.ForeColor = Color.Salmon;
             rbtnRequired.Location = new Point(14, 75);
             rbtnRequired.Name = "rbtnRequired";
@@ -659,7 +666,7 @@
             // rbtnAvailable
             // 
             rbtnAvailable.AutoSize = true;
-            rbtnAvailable.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            rbtnAvailable.Font = new Font("Consolas", 12F);
             rbtnAvailable.ForeColor = Color.Salmon;
             rbtnAvailable.Location = new Point(14, 46);
             rbtnAvailable.Name = "rbtnAvailable";
@@ -676,7 +683,7 @@
             btnSummarize.BackColor = Color.Salmon;
             btnSummarize.FlatAppearance.BorderColor = Color.White;
             btnSummarize.FlatStyle = FlatStyle.Popup;
-            btnSummarize.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSummarize.Font = new Font("Consolas", 12F);
             btnSummarize.Location = new Point(12, 55);
             btnSummarize.Name = "btnSummarize";
             btnSummarize.Size = new Size(215, 38);
@@ -689,7 +696,7 @@
             // 
             btnReset.BackColor = Color.Salmon;
             btnReset.FlatStyle = FlatStyle.Popup;
-            btnReset.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnReset.Font = new Font("Consolas", 12F);
             btnReset.Location = new Point(233, 55);
             btnReset.Name = "btnReset";
             btnReset.Size = new Size(131, 38);
@@ -702,6 +709,7 @@
             // panelSummary
             // 
             panelSummary.BorderStyle = BorderStyle.FixedSingle;
+            panelSummary.Controls.Add(btn_ClearProgressBar);
             panelSummary.Controls.Add(btnDeployDescription);
             panelSummary.Controls.Add(lblSummary);
             panelSummary.Controls.Add(rtbDeploymentSummary);
@@ -720,12 +728,28 @@
             panelSummary.Size = new Size(1739, 426);
             panelSummary.TabIndex = 16;
             // 
+            // btn_ClearProgressBar
+            // 
+            btn_ClearProgressBar.BackColor = Color.Salmon;
+            btn_ClearProgressBar.FlatAppearance.BorderSize = 0;
+            btn_ClearProgressBar.FlatStyle = FlatStyle.Popup;
+            btn_ClearProgressBar.Font = new Font("Consolas", 12F);
+            btn_ClearProgressBar.ForeColor = SystemColors.ControlText;
+            btn_ClearProgressBar.Location = new Point(1259, 67);
+            btn_ClearProgressBar.Name = "btn_ClearProgressBar";
+            btn_ClearProgressBar.Size = new Size(156, 28);
+            btn_ClearProgressBar.TabIndex = 22;
+            btn_ClearProgressBar.Text = "Clear progress bar";
+            mainFormToolTip.SetToolTip(btn_ClearProgressBar, "Reset the progress bar in case of errors");
+            btn_ClearProgressBar.UseVisualStyleBackColor = false;
+            btn_ClearProgressBar.Click += btn_ClearProgressBar_Click;
+            // 
             // btnDeployDescription
             // 
             btnDeployDescription.BackColor = Color.Salmon;
             btnDeployDescription.FlatAppearance.BorderSize = 0;
             btnDeployDescription.FlatStyle = FlatStyle.Popup;
-            btnDeployDescription.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnDeployDescription.Font = new Font("Consolas", 12F);
             btnDeployDescription.ForeColor = SystemColors.ControlText;
             btnDeployDescription.Location = new Point(1259, 22);
             btnDeployDescription.Name = "btnDeployDescription";
@@ -739,7 +763,7 @@
             // lblSummary
             // 
             lblSummary.AutoSize = true;
-            lblSummary.Font = new Font("Consolas", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSummary.Font = new Font("Consolas", 15.75F, FontStyle.Bold);
             lblSummary.ForeColor = Color.Salmon;
             lblSummary.Location = new Point(12, 10);
             lblSummary.Name = "lblSummary";
@@ -772,7 +796,7 @@
             btnDeployAssignments.BackColor = Color.Salmon;
             btnDeployAssignments.FlatAppearance.BorderSize = 0;
             btnDeployAssignments.FlatStyle = FlatStyle.Popup;
-            btnDeployAssignments.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnDeployAssignments.Font = new Font("Consolas", 12F);
             btnDeployAssignments.ForeColor = SystemColors.ControlText;
             btnDeployAssignments.Location = new Point(961, 22);
             btnDeployAssignments.Name = "btnDeployAssignments";
@@ -822,7 +846,7 @@
             // lblSummarizeIntent
             // 
             lblSummarizeIntent.AutoSize = true;
-            lblSummarizeIntent.Font = new Font("Consolas", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSummarizeIntent.Font = new Font("Consolas", 12F, FontStyle.Bold);
             lblSummarizeIntent.ForeColor = Color.Salmon;
             lblSummarizeIntent.Location = new Point(799, 106);
             lblSummarizeIntent.Name = "lblSummarizeIntent";
@@ -834,7 +858,7 @@
             // lblSummarizeGroups
             // 
             lblSummarizeGroups.AutoSize = true;
-            lblSummarizeGroups.Font = new Font("Consolas", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSummarizeGroups.Font = new Font("Consolas", 12F, FontStyle.Bold);
             lblSummarizeGroups.ForeColor = Color.Salmon;
             lblSummarizeGroups.Location = new Point(446, 106);
             lblSummarizeGroups.Name = "lblSummarizeGroups";
@@ -846,7 +870,7 @@
             // lblSummarizeApps
             // 
             lblSummarizeApps.AutoSize = true;
-            lblSummarizeApps.Font = new Font("Consolas", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSummarizeApps.Font = new Font("Consolas", 12F, FontStyle.Bold);
             lblSummarizeApps.ForeColor = Color.Salmon;
             lblSummarizeApps.Location = new Point(12, 106);
             lblSummarizeApps.Name = "lblSummarizeApps";
@@ -890,7 +914,7 @@
             // lblHeaderAppForm
             // 
             lblHeaderAppForm.AutoSize = true;
-            lblHeaderAppForm.Font = new Font("Consolas", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            lblHeaderAppForm.Font = new Font("Consolas", 18F, FontStyle.Bold);
             lblHeaderAppForm.ForeColor = Color.Salmon;
             lblHeaderAppForm.Location = new Point(108, 9);
             lblHeaderAppForm.Name = "lblHeaderAppForm";
@@ -1008,5 +1032,7 @@
         private DataGridViewTextBoxColumn GroupMemberCount;
         private DataGridViewTextBoxColumn GroupType;
         private DataGridViewTextBoxColumn GroupID;
+        private Button btn_ClearProgressBar;
+        private ToolStripMenuItem addAllSelectedToolStripMenuItem;
     }
 }

@@ -38,7 +38,7 @@ namespace IntuneAssignments
         private void Policy_Load(object sender, EventArgs e)
         {
             cbPolicyType.Text = "All types";
-            
+
             pnlAssignedTo.Visible = false;
 
 
@@ -1810,7 +1810,7 @@ namespace IntuneAssignments
 
         private void btnListAllPolicy_Click(object sender, EventArgs e)
         {
-            
+
             /*
              * 
              * Method that lists policies based on the selected policy 
@@ -1825,9 +1825,9 @@ namespace IntuneAssignments
 
             if (cbPolicyType.Text == "All types")
             {
-                
+
                 WriteToLog("User selected All types in the policy type combobox. Listing all policies");
-                
+
                 ListCompliancePolicies(dtgDisplayPolicy);
                 ListConfigurationProfiles(dtgDisplayPolicy);
                 ListSettingsCatalog(dtgDisplayPolicy);
@@ -1870,7 +1870,7 @@ namespace IntuneAssignments
             // Clear the datagridview for older results
             ClearDataGridView(dtgDisplayGroup);
 
-            
+
 
             if (string.IsNullOrWhiteSpace(searchquery) || searchquery == "" || searchquery == "Enter search here")
             {
@@ -1883,7 +1883,7 @@ namespace IntuneAssignments
                 await Task.Run(() => SearchForGroupV2(searchquery, dtgDisplayGroup));
             }
 
-            
+
 
             //SearchForGroup();
 
@@ -1899,7 +1899,7 @@ namespace IntuneAssignments
              */
 
             // Clear the datagridview for older results
-            
+
             FormUtilities.ClearDataGridView(dtgDisplayGroup);
 
 
@@ -1959,9 +1959,9 @@ namespace IntuneAssignments
              * clearing the selected groups and policies and 
              * resetting the progress bar
              */
-            
+
             WriteToLog("User clicked the Reset Deployment button");
-            
+
             FormUtilities.ClearRichTextBox(rtbSelectedGroups);
             FormUtilities.ClearRichTextBox(rtbSelectedPolicies);
             pBarDeployProgress.Value = 0;
@@ -2047,7 +2047,7 @@ namespace IntuneAssignments
             else if (cbPolicyType.Text == "Settings catalog")
             {
                 WriteToLog("User selected Settings catalog in the policy type combobox. Searching for settings catalog policies");
-                
+
                 SearchForSettingsCatalogPolicy();
             }
 
@@ -2068,6 +2068,11 @@ namespace IntuneAssignments
         private void txtboxDescription_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btn_ResetProgressBar_Click(object sender, EventArgs e)
+        {
+            pBarDeployProgress.Value = 0;
         }
     }
 }
