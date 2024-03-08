@@ -2,6 +2,7 @@
 using Microsoft.Graph.Beta.Models;
 using static IntuneAssignments.GraphServiceClientCreator;
 using static IntuneAssignments.FormUtilities;
+using System.Windows.Forms;
 
 namespace IntuneAssignments
 {
@@ -290,7 +291,7 @@ namespace IntuneAssignments
             {
                 // The list has zero members. Informing user
                 MessageBox.Show("No assignments found");
-                WriteToLog("No assignments found for application " + appname + " with ID " + value );
+                WriteToLog("No assignments found for application " + appname + " with ID " + value);
             }
 
             else if (assignmentsList.Count >= 1)
@@ -328,11 +329,11 @@ namespace IntuneAssignments
                         WriteToLog("An error occurred when trying to look up the group name with group ID " + id);
                         WriteToLog("The error message is: " + ex.Message);
                         WriteToLog("This is usually because the group has been deleted from Entra, but the assignment for the group still exists in Intune");
-                        
+
                     }
 
 
-                    
+
 
 
                 }
@@ -456,6 +457,54 @@ namespace IntuneAssignments
             }
         }
 
+        public async Task deleteSelectedAppAssignments()
+        {
+
+
+            // NOTE - This method is not yet complete. It is a work in progress
+            // Think about reusing code from deleteSelectedAppAssignment method
+            // Will also be used for future delete ALL assignments method
+
+
+            /*
+             * This method will delete all assignments for all selected apps in the datagridview dtgDisplayApp
+             */
+
+            // Authenticate to Graph
+
+            var graphClient = CreateGraphServiceClient();
+
+            // store all app IDs in a list
+            List<string> appIDs = new List<string>();
+
+            // IDs are at index 2 in the datagridview
+            foreach (DataGridViewRow selectedRow in dtgDisplayApp.SelectedRows)
+            {
+                // Make sure the row is not a new row (if your DataGridView allows adding new rows)
+                if (!selectedRow.IsNewRow)
+                {
+                    appIDs.Add(selectedRow.Cells[2].Value.ToString());
+                }
+            }
+
+            // Testing only
+            MessageBox.Show(appIDs.Count.ToString());
+
+
+            // Process the list and delete all assignments for each app
+
+            foreach (var appID in appIDs)
+            {
+                // Query graph for assignment ID for a given app
+                var result = await graphClient.DeviceAppManagement.MobileApps[appID].Assignments.GetAsync((requestConfiguration) =>
+                {
+                    requestConfiguration.QueryParameters.Select = new string[] { "id", "intent" };
+                });
+            }
+
+
+
+        }
 
         public void HelpGuide()
         {
@@ -536,7 +585,7 @@ namespace IntuneAssignments
 
 
 
-           await ListAllAssignedGroups();
+            await ListAllAssignedGroups();
 
         }
 
@@ -602,6 +651,24 @@ namespace IntuneAssignments
         private void pbHelpGuide_Click(object sender, EventArgs e)
         {
             HelpGuide();
+        }
+
+        private async void button1_Click(object sender, EventArgs e)
+        {
+            await deleteSelectedAppAssignments();
+        }
+
+        private void dtgDisplayApp_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Check if the clicked cell is not the header cell
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                // Clear the previous selection
+                dtgDisplayApp.ClearSelection();
+
+                // Select the entire row
+                dtgDisplayApp.Rows[e.RowIndex].Selected = true;
+            }
         }
     }
 }

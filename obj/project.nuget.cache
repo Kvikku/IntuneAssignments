@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3DI/2GbMSklCZy/65WPQ985dyvIF83cbEzgwfG/jjVopDzZOuDJxlLLXEB4xnplzkdlSo8EEo/sLLyikjv0XkQ==",
+  "dgSpecHash": "Xa03yPIzLse7UjLcBQrvVzafWE2zi2dCo5umeJWz1e+DdiKy/mshEyo9GbfIXNI8vohCSiNVNShwmdOLNDLIbQ==",
   "success": true,
-  "projectFilePath": "C:\\GitHub\\IntuneAssignments\\IntuneAssignments.csproj",
+  "projectFilePath": "C:\\Github\\IntuneAssignments\\IntuneAssignments.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jorge\\.nuget\\packages\\azure.core\\1.36.0\\azure.core.1.36.0.nupkg.sha512",
     "C:\\Users\\jorge\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

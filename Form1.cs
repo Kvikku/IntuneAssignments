@@ -1490,6 +1490,7 @@ namespace IntuneAssignments
                         rtbDeploymentSummary.AppendText("Error when adding " + app.ToString() + " to " + group.ToString() + " as " + intent + "\n");
                         rtbDeploymentSummary.AppendText($"Error message: " + desiredMessage);
                         rtbDeploymentSummary.SelectionColor = rtbDeploymentSummary.ForeColor;
+                        progressBar1.Value++;
 
                     }
 
@@ -2185,6 +2186,7 @@ namespace IntuneAssignments
         private void btn_ClearProgressBar_Click(object sender, EventArgs e)
         {
             progressBar1.Value = 0;
+            rtbDeploymentSummary.Clear();
         }
 
         private void addAllSelectedToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2197,6 +2199,18 @@ namespace IntuneAssignments
 
                 // Add the value to the checked list box
                 clbAppAssignments.Items.Add(cell.Value.ToString());
+            }
+        }
+
+        private void addAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewCell cell in dtgDisplayGroup.SelectedCells)
+            {
+
+                // TODO - Test on large data sets
+
+                // Add the value to the checked list box
+                clbGroupAssignment.Items.Add(cell.Value.ToString());
             }
         }
     }

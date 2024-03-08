@@ -1313,7 +1313,8 @@ namespace IntuneAssignments
                 rtbDeploymentSummary.AppendText("An error occured when deploying policies. The error message is :" + Environment.NewLine);
                 rtbDeploymentSummary.AppendText(ex.Message + Environment.NewLine);
                 rtbDeploymentSummary.SelectionColor = rtbDeploymentSummary.ForeColor;
-                throw;
+                pBarDeployProgress.Value++;
+                //throw;
             }
 
 
@@ -2073,6 +2074,7 @@ namespace IntuneAssignments
         private void btn_ResetProgressBar_Click(object sender, EventArgs e)
         {
             pBarDeployProgress.Value = 0;
+            rtbDeploymentSummary.Clear();
         }
     }
 }
