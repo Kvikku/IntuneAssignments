@@ -37,6 +37,7 @@
             pnlSearchApp = new Panel();
             pbClearDtgDisplayApp = new PictureBox();
             lblSearchApp = new Label();
+            btnDeleteAssignmentForSelectedApps = new Button();
             dtgDisplayApp = new DataGridView();
             AppName = new DataGridViewTextBoxColumn();
             Platform = new DataGridViewTextBoxColumn();
@@ -59,7 +60,6 @@
             mainFormToolTip = new ToolTip(components);
             btnClearSummary = new Button();
             pbHelpGuide = new PictureBox();
-            btnDeleteAssignmentForSelectedApps = new Button();
             rtbSummary = new RichTextBox();
             panel2 = new Panel();
             pnlSearchApp.SuspendLayout();
@@ -91,7 +91,7 @@
             // pbClearDtgDisplayApp
             // 
             pbClearDtgDisplayApp.Image = Properties.Resources._5358270771574330938_32;
-            pbClearDtgDisplayApp.Location = new Point(473, 107);
+            pbClearDtgDisplayApp.Location = new Point(498, 3);
             pbClearDtgDisplayApp.Name = "pbClearDtgDisplayApp";
             pbClearDtgDisplayApp.Size = new Size(36, 38);
             pbClearDtgDisplayApp.TabIndex = 18;
@@ -109,6 +109,21 @@
             lblSearchApp.Size = new Size(262, 24);
             lblSearchApp.TabIndex = 17;
             lblSearchApp.Text = "Select application(s)";
+            // 
+            // btnDeleteAssignmentForSelectedApps
+            // 
+            btnDeleteAssignmentForSelectedApps.BackColor = Color.Salmon;
+            btnDeleteAssignmentForSelectedApps.FlatStyle = FlatStyle.Flat;
+            btnDeleteAssignmentForSelectedApps.Font = new Font("Consolas", 12F);
+            btnDeleteAssignmentForSelectedApps.Location = new Point(357, 115);
+            btnDeleteAssignmentForSelectedApps.Margin = new Padding(3, 2, 3, 2);
+            btnDeleteAssignmentForSelectedApps.Name = "btnDeleteAssignmentForSelectedApps";
+            btnDeleteAssignmentForSelectedApps.Size = new Size(177, 30);
+            btnDeleteAssignmentForSelectedApps.TabIndex = 20;
+            btnDeleteAssignmentForSelectedApps.Text = "Delete selected";
+            mainFormToolTip.SetToolTip(btnDeleteAssignmentForSelectedApps, "This will delete ALL assignments from EVERY app you have selected");
+            btnDeleteAssignmentForSelectedApps.UseVisualStyleBackColor = false;
+            btnDeleteAssignmentForSelectedApps.Click += btnDeleteAssignmentForSelectedApps_Click;
             // 
             // dtgDisplayApp
             // 
@@ -189,7 +204,7 @@
             btnSearchApp.BackColor = Color.Salmon;
             btnSearchApp.FlatStyle = FlatStyle.Popup;
             btnSearchApp.Font = new Font("Consolas", 12F);
-            btnSearchApp.Location = new Point(260, 151);
+            btnSearchApp.Location = new Point(285, 151);
             btnSearchApp.Name = "btnSearchApp";
             btnSearchApp.Size = new Size(119, 30);
             btnSearchApp.TabIndex = 15;
@@ -203,7 +218,7 @@
             btnAllGroups.BackColor = Color.Salmon;
             btnAllGroups.FlatStyle = FlatStyle.Popup;
             btnAllGroups.Font = new Font("Consolas", 12F);
-            btnAllGroups.Location = new Point(385, 151);
+            btnAllGroups.Location = new Point(410, 150);
             btnAllGroups.Name = "btnAllGroups";
             btnAllGroups.Size = new Size(124, 30);
             btnAllGroups.TabIndex = 13;
@@ -281,7 +296,7 @@
             // pbpbClearDtgGroupAssignment
             // 
             pbpbClearDtgGroupAssignment.Image = Properties.Resources._5358270771574330938_32;
-            pbpbClearDtgGroupAssignment.Location = new Point(385, 99);
+            pbpbClearDtgGroupAssignment.Location = new Point(429, 3);
             pbpbClearDtgGroupAssignment.Name = "pbpbClearDtgGroupAssignment";
             pbpbClearDtgGroupAssignment.Size = new Size(36, 38);
             pbpbClearDtgGroupAssignment.TabIndex = 19;
@@ -395,16 +410,6 @@
             pbHelpGuide.TabIndex = 19;
             pbHelpGuide.TabStop = false;
             pbHelpGuide.Click += pbHelpGuide_Click;
-            // 
-            // btnDeleteAssignmentForSelectedApps
-            // 
-            btnDeleteAssignmentForSelectedApps.Location = new Point(260, 103);
-            btnDeleteAssignmentForSelectedApps.Margin = new Padding(3, 2, 3, 2);
-            btnDeleteAssignmentForSelectedApps.Name = "btnDeleteAssignmentForSelectedApps";
-            btnDeleteAssignmentForSelectedApps.Size = new Size(151, 34);
-            btnDeleteAssignmentForSelectedApps.TabIndex = 20;
-            btnDeleteAssignmentForSelectedApps.Text = "Nuke";
-            btnDeleteAssignmentForSelectedApps.UseVisualStyleBackColor = true;
             // 
             // rtbSummary
             // 

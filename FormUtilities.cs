@@ -436,19 +436,32 @@ namespace IntuneAssignments
             // Create a new instance of the GraphServiceClient class
             var graphClient = CreateGraphServiceClient();
 
-            // Look up the group by the ID
-            var group = await graphClient.Groups[groupID].GetAsync();
-
-            // check if the group is null
-            if (group == null)
+            try
             {
-                WriteToLog("No group found with ID" + groupID);
-                return "Group not found";
+                // Look up the group by the ID
+                var group = await graphClient.Groups[groupID].GetAsync();
+
+                // check if the group is null
+                if (group == null)
+                {
+                    WriteToLog("No group found with ID" + groupID);
+                    return "Group not found";
+                }
+
+                string groupName = group.DisplayName;
+
+                return groupName;
+            }
+            catch (Exception ex)
+            {
+                WriteToLog("An error occured while looking up group name from group ID. The error message is: ");
+                WriteToLog(ex.Message);
+
+                return "ERROR LOOKING UP GROUP NAME FROM GROUP ID";
+                throw;
             }
 
-            string groupName = group.DisplayName;
-
-            return groupName;
+            
         }
 
         public static async Task<string> FindGroupNameFromAppAssignmentID (string applicationID, string assignmentID)
@@ -483,6 +496,12 @@ namespace IntuneAssignments
                 // Look up the group by the ID
 
                 string groupName = await FindGroupNameFromGroupID(id);
+
+                if (groupName == "ERROR LOOKING UP GROUP NAME FROM GROUP ID")
+                {
+                    
+                    return "ERROR LOOKING UP GROUP NAME FROM GROUP ID";
+                }
 
                 WriteToLog("Group name is " + groupName);
 

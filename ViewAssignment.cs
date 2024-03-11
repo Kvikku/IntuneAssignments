@@ -4,6 +4,7 @@ using static IntuneAssignments.GraphServiceClientCreator;
 using static IntuneAssignments.FormUtilities;
 using static IntuneAssignments.GlobalVariables;
 using System.Windows.Forms;
+using System.Threading.Tasks.Dataflow;
 
 namespace IntuneAssignments
 {
@@ -319,7 +320,7 @@ namespace IntuneAssignments
                     {
                         WriteToLog("Group name is All Devices (virtual group)");
                         dtgGroupAssignment.Rows.Add("All Devices (virtual group)", assignment.Intent, allDevicesGroupID);
-                        
+
                     }
                     else
                     {
@@ -344,10 +345,17 @@ namespace IntuneAssignments
                             WriteToLog("An error occurred when trying to look up the group name with group ID " + id);
                             WriteToLog("The error message is: " + ex.Message);
                             WriteToLog("This is usually because the group has been deleted from Entra, but the assignment for the group still exists in Intune");
+                            
+                            rtbSummary.AppendText("An error occurred when trying to look up the group name with group ID " + id);
+                            rtbSummary.AppendText("\n");
+                            rtbSummary.AppendText("The error message is: " + ex.Message);
+                            rtbSummary.AppendText("\n");
+                            rtbSummary.AppendText("This is usually because the group has been deleted from Entra, but the assignment for the group still exists in Intune");
+                            rtbSummary.AppendText("\n");
 
                         }
                     }
-                    
+
 
 
 
@@ -415,7 +423,7 @@ namespace IntuneAssignments
             // Clear the datagridview for older results
             FormUtilities.ClearDataGridView(dtgGroupAssignment);
 
-            
+
 
 
         }
@@ -579,11 +587,6 @@ namespace IntuneAssignments
         {
 
 
-            // NOTE - This method is not yet complete. It is a work in progress
-            // Think about reusing code from deleteSelectedAppAssignment method
-            // Will also be used for future delete ALL assignments method
-
-
             /*
              * This method will delete all assignments for all selected apps in the datagridview dtgDisplayApp
              */
@@ -605,19 +608,75 @@ namespace IntuneAssignments
                 }
             }
 
-            // Testing only
-            MessageBox.Show(appIDs.Count.ToString());
+            int numberOfApps = appIDs.Count;
+            WriteToLog("Number of apps selected for deleting assignments is " + numberOfApps);
+            rtbSummary.AppendText("Number of apps selected for deleting assignments is " + numberOfApps);
+            rtbSummary.AppendText("\n");
+            
 
 
             // Process the list and delete all assignments for each app
 
             foreach (var appID in appIDs)
             {
+                
+                // find the app name
+                var appName = dtgDisplayApp.SelectedRows[0].Cells[0].Value.ToString();
+
+                WriteToLog("Begin deleting assignments for app " + appName + " with app id " + appID);
+                rtbSummary.AppendText("Begin deleting assignments for app " + appName + " with app id " + appID);
+                rtbSummary.AppendText("\n");
+                
+                
                 // Query graph for assignment ID for a given app
                 var result = await graphClient.DeviceAppManagement.MobileApps[appID].Assignments.GetAsync((requestConfiguration) =>
                 {
                     requestConfiguration.QueryParameters.Select = new string[] { "id", "intent" };
                 });
+
+                // Add the result to a list of assignments
+                List<MobileAppAssignment> assignmentsList = new List<MobileAppAssignment>();
+                assignmentsList.AddRange(result.Value);
+
+                // check if the result is null
+                if (result.Value.Count == 0)
+                {
+                    WriteToLog("No assignments found for app " + appName);
+                    rtbSummary.AppendText("No assignments found for app + " + appName);
+                    rtbSummary.AppendText("\n");
+                    return;
+                }
+
+                // count how many assignments are found
+                int numberOfAssignments = assignmentsList.Count;
+
+                WriteToLog("Number of assignments found for app" + appName + " is " + numberOfAssignments);
+                rtbSummary.AppendText("Number of assignments found for app" + appName + " is " + numberOfAssignments);
+                rtbSummary.AppendText("\n");
+
+                // Loop through the list and delete each assignment
+
+                foreach (var assignment in assignmentsList)
+                {
+                    // find the group name
+                    var groupName = await FindGroupNameFromAppAssignmentID(appID, assignment.Id);
+
+                    if (groupName == "ERROR LOOKING UP GROUP NAME FROM GROUP ID")
+                    {
+                        WriteToLog("Group ID + " + assignment.Id + " does not exist in Entra. This is most likely because the group has been deleted. Skipping");
+                        rtbSummary.AppendText("Group ID + " + assignment.Id + " does not exist in Entra. This is most likely because the group has been deleted. Skipping");
+                        rtbSummary.AppendText("\n");
+                        return;
+                    }
+
+                    // Delete assignment
+                    await graphClient.DeviceAppManagement.MobileApps[appID].Assignments[assignment.Id].DeleteAsync();
+
+                    WriteToLog("Assignment for group " + groupName + " has been deleted");
+                    rtbSummary.AppendText("Assignment for group " + groupName + " has been deleted");
+                    rtbSummary.AppendText("\n");
+
+                }
             }
 
 
@@ -789,5 +848,9 @@ namespace IntuneAssignments
             ClearRichTextBox(rtbSummary);
         }
 
+        private async void btnDeleteAssignmentForSelectedApps_Click(object sender, EventArgs e)
+        {
+            await deleteSelectedAppAssignments();
+        }
     }
 }

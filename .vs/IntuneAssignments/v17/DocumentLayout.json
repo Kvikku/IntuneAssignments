@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Github\\IntuneAssignments\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|C:\\Github\\IntuneAssignments\\formutilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -22,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,12 +38,12 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "ViewAssignment.cs [Design]",
               "DocumentMoniker": "C:\\Github\\IntuneAssignments\\ViewAssignment.cs",
               "RelativeDocumentMoniker": "ViewAssignment.cs",
-              "ToolTip": "C:\\Github\\IntuneAssignments\\ViewAssignment.cs [Design]",
-              "RelativeToolTip": "ViewAssignment.cs [Design]",
+              "ToolTip": "C:\\Github\\IntuneAssignments\\ViewAssignment.cs [Design]*",
+              "RelativeToolTip": "ViewAssignment.cs [Design]*",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-11T08:35:36.467Z",
               "EditorCaption": " [Design]"
@@ -56,20 +56,20 @@
               "RelativeDocumentMoniker": "FormUtilities.cs",
               "ToolTip": "C:\\Github\\IntuneAssignments\\FormUtilities.cs",
               "RelativeToolTip": "FormUtilities.cs",
-              "ViewState": "AQIAALcBAAAAAAAAAAAMwMYBAAAIAAAA",
+              "ViewState": "AQIAAOQBAAAAAAAAAAAhwPEBAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-11T06:58:10.444Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "ViewAssignment.cs",
               "DocumentMoniker": "C:\\Github\\IntuneAssignments\\ViewAssignment.cs",
               "RelativeDocumentMoniker": "ViewAssignment.cs",
-              "ToolTip": "C:\\Github\\IntuneAssignments\\ViewAssignment.cs",
-              "RelativeToolTip": "ViewAssignment.cs",
-              "ViewState": "AQIAAMkCAAAAAAAAAAAswNcCAAAAAAAA",
+              "ToolTip": "C:\\Github\\IntuneAssignments\\ViewAssignment.cs*",
+              "RelativeToolTip": "ViewAssignment.cs*",
+              "ViewState": "AQIAAHgCAAAAAAAAAAAUwJQCAAA0AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-08T12:09:05.004Z",
               "EditorCaption": ""
