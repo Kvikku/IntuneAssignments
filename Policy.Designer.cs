@@ -95,10 +95,9 @@
             // pbHome
             // 
             pbHome.Image = Properties.Resources._15536420761558096328_48;
-            pbHome.Location = new Point(14, 16);
-            pbHome.Margin = new Padding(3, 4, 3, 4);
+            pbHome.Location = new Point(12, 12);
             pbHome.Name = "pbHome";
-            pbHome.Size = new Size(73, 85);
+            pbHome.Size = new Size(64, 64);
             pbHome.SizeMode = PictureBoxSizeMode.StretchImage;
             pbHome.TabIndex = 0;
             pbHome.TabStop = false;
@@ -114,10 +113,9 @@
             pnlSearchPolicy.Controls.Add(btnSearchPolicy);
             pnlSearchPolicy.Controls.Add(txtboxSearchPolicy);
             pnlSearchPolicy.Controls.Add(cbPolicyType);
-            pnlSearchPolicy.Location = new Point(111, 41);
-            pnlSearchPolicy.Margin = new Padding(3, 4, 3, 4);
+            pnlSearchPolicy.Location = new Point(97, 31);
             pnlSearchPolicy.Name = "pnlSearchPolicy";
-            pnlSearchPolicy.Size = new Size(908, 623);
+            pnlSearchPolicy.Size = new Size(795, 468);
             pnlSearchPolicy.TabIndex = 1;
             // 
             // lblSelectApps
@@ -125,9 +123,9 @@
             lblSelectApps.AutoSize = true;
             lblSelectApps.Font = new Font("Consolas", 15.75F, FontStyle.Bold);
             lblSelectApps.ForeColor = Color.Salmon;
-            lblSelectApps.Location = new Point(10, 13);
+            lblSelectApps.Location = new Point(9, 10);
             lblSelectApps.Name = "lblSelectApps";
-            lblSelectApps.Size = new Size(134, 32);
+            lblSelectApps.Size = new Size(106, 24);
             lblSelectApps.TabIndex = 10;
             lblSelectApps.Text = "Policies";
             toolTipPolicy.SetToolTip(lblSelectApps, "Selected policies");
@@ -158,13 +156,12 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             dtgDisplayPolicy.DefaultCellStyle = dataGridViewCellStyle2;
             dtgDisplayPolicy.EnableHeadersVisualStyles = false;
-            dtgDisplayPolicy.Location = new Point(10, 131);
-            dtgDisplayPolicy.Margin = new Padding(3, 4, 3, 4);
+            dtgDisplayPolicy.Location = new Point(9, 98);
             dtgDisplayPolicy.Name = "dtgDisplayPolicy";
             dtgDisplayPolicy.ReadOnly = true;
             dtgDisplayPolicy.RowHeadersVisible = false;
             dtgDisplayPolicy.RowHeadersWidth = 51;
-            dtgDisplayPolicy.Size = new Size(893, 539);
+            dtgDisplayPolicy.Size = new Size(781, 404);
             dtgDisplayPolicy.TabIndex = 4;
             dtgDisplayPolicy.CellClick += dtgDisplayPolicy_CellClick;
             dtgDisplayPolicy.SelectionChanged += dtgDisplayPolicy_SelectionChanged;
@@ -206,10 +203,9 @@
             btnListAllPolicy.BackColor = Color.Salmon;
             btnListAllPolicy.FlatStyle = FlatStyle.Flat;
             btnListAllPolicy.Font = new Font("Consolas", 12F);
-            btnListAllPolicy.Location = new Point(757, 56);
-            btnListAllPolicy.Margin = new Padding(3, 4, 3, 4);
+            btnListAllPolicy.Location = new Point(662, 42);
             btnListAllPolicy.Name = "btnListAllPolicy";
-            btnListAllPolicy.Size = new Size(146, 55);
+            btnListAllPolicy.Size = new Size(128, 41);
             btnListAllPolicy.TabIndex = 3;
             btnListAllPolicy.Text = "List all";
             toolTipPolicy.SetToolTip(btnListAllPolicy, "List all applications");
@@ -221,10 +217,9 @@
             btnSearchPolicy.BackColor = Color.Salmon;
             btnSearchPolicy.FlatStyle = FlatStyle.Flat;
             btnSearchPolicy.Font = new Font("Consolas", 12F);
-            btnSearchPolicy.Location = new Point(603, 56);
-            btnSearchPolicy.Margin = new Padding(3, 4, 3, 4);
+            btnSearchPolicy.Location = new Point(528, 42);
             btnSearchPolicy.Name = "btnSearchPolicy";
-            btnSearchPolicy.Size = new Size(146, 55);
+            btnSearchPolicy.Size = new Size(128, 41);
             btnSearchPolicy.TabIndex = 2;
             btnSearchPolicy.Text = "Search";
             toolTipPolicy.SetToolTip(btnSearchPolicy, "Search for applications");
@@ -237,10 +232,9 @@
             txtboxSearchPolicy.BorderStyle = BorderStyle.FixedSingle;
             txtboxSearchPolicy.Font = new Font("Consolas", 12F);
             txtboxSearchPolicy.ForeColor = Color.Salmon;
-            txtboxSearchPolicy.Location = new Point(215, 65);
-            txtboxSearchPolicy.Margin = new Padding(3, 4, 3, 4);
+            txtboxSearchPolicy.Location = new Point(188, 49);
             txtboxSearchPolicy.Name = "txtboxSearchPolicy";
-            txtboxSearchPolicy.Size = new Size(212, 31);
+            txtboxSearchPolicy.Size = new Size(186, 26);
             txtboxSearchPolicy.TabIndex = 1;
             txtboxSearchPolicy.Text = "Enter search here";
             toolTipPolicy.SetToolTip(txtboxSearchPolicy, "Enter search query here");
@@ -253,10 +247,9 @@
             cbPolicyType.FlatStyle = FlatStyle.Popup;
             cbPolicyType.FormattingEnabled = true;
             cbPolicyType.Items.AddRange(new object[] { "All types", "Compliance policy", "Administrative templates", "Settings catalog" });
-            cbPolicyType.Location = new Point(10, 68);
-            cbPolicyType.Margin = new Padding(3, 4, 3, 4);
+            cbPolicyType.Location = new Point(9, 51);
             cbPolicyType.Name = "cbPolicyType";
-            cbPolicyType.Size = new Size(186, 28);
+            cbPolicyType.Size = new Size(163, 23);
             cbPolicyType.TabIndex = 0;
             toolTipPolicy.SetToolTip(cbPolicyType, "Filter on type");
             // 
@@ -287,13 +280,12 @@
             dtgDisplayGroup.DefaultCellStyle = dataGridViewCellStyle4;
             dtgDisplayGroup.EnableHeadersVisualStyles = false;
             dtgDisplayGroup.GridColor = Color.Salmon;
-            dtgDisplayGroup.Location = new Point(3, 131);
-            dtgDisplayGroup.Margin = new Padding(3, 4, 3, 4);
+            dtgDisplayGroup.Location = new Point(3, 98);
             dtgDisplayGroup.Name = "dtgDisplayGroup";
             dtgDisplayGroup.ReadOnly = true;
             dtgDisplayGroup.RowHeadersVisible = false;
             dtgDisplayGroup.RowHeadersWidth = 51;
-            dtgDisplayGroup.Size = new Size(776, 535);
+            dtgDisplayGroup.Size = new Size(679, 401);
             dtgDisplayGroup.TabIndex = 9;
             // 
             // dataGridViewTextBoxColumn1
@@ -333,10 +325,9 @@
             btnListAllGroups.BackColor = Color.Salmon;
             btnListAllGroups.FlatStyle = FlatStyle.Flat;
             btnListAllGroups.Font = new Font("Consolas", 12F);
-            btnListAllGroups.Location = new Point(575, 56);
-            btnListAllGroups.Margin = new Padding(3, 4, 3, 4);
+            btnListAllGroups.Location = new Point(503, 42);
             btnListAllGroups.Name = "btnListAllGroups";
-            btnListAllGroups.Size = new Size(146, 55);
+            btnListAllGroups.Size = new Size(128, 41);
             btnListAllGroups.TabIndex = 8;
             btnListAllGroups.Text = "List all";
             toolTipPolicy.SetToolTip(btnListAllGroups, "List all groups");
@@ -348,10 +339,9 @@
             btnSearchGroup.BackColor = Color.Salmon;
             btnSearchGroup.FlatStyle = FlatStyle.Flat;
             btnSearchGroup.Font = new Font("Consolas", 12F);
-            btnSearchGroup.Location = new Point(422, 56);
-            btnSearchGroup.Margin = new Padding(3, 4, 3, 4);
+            btnSearchGroup.Location = new Point(369, 42);
             btnSearchGroup.Name = "btnSearchGroup";
-            btnSearchGroup.Size = new Size(146, 55);
+            btnSearchGroup.Size = new Size(128, 41);
             btnSearchGroup.TabIndex = 7;
             btnSearchGroup.Text = "Search";
             toolTipPolicy.SetToolTip(btnSearchGroup, "Search for groups");
@@ -364,10 +354,9 @@
             txtboxSearchGroup.BorderStyle = BorderStyle.FixedSingle;
             txtboxSearchGroup.Font = new Font("Consolas", 12F);
             txtboxSearchGroup.ForeColor = Color.Salmon;
-            txtboxSearchGroup.Location = new Point(3, 76);
-            txtboxSearchGroup.Margin = new Padding(3, 4, 3, 4);
+            txtboxSearchGroup.Location = new Point(3, 57);
             txtboxSearchGroup.Name = "txtboxSearchGroup";
-            txtboxSearchGroup.Size = new Size(185, 31);
+            txtboxSearchGroup.Size = new Size(162, 26);
             txtboxSearchGroup.TabIndex = 6;
             txtboxSearchGroup.Text = "Enter search here";
             toolTipPolicy.SetToolTip(txtboxSearchGroup, "Enter search query here");
@@ -378,10 +367,9 @@
             rtbAssignmentPreview.BackColor = Color.FromArgb(46, 51, 73);
             rtbAssignmentPreview.BorderStyle = BorderStyle.None;
             rtbAssignmentPreview.ForeColor = Color.Salmon;
-            rtbAssignmentPreview.Location = new Point(11, 147);
-            rtbAssignmentPreview.Margin = new Padding(3, 4, 3, 4);
+            rtbAssignmentPreview.Location = new Point(10, 110);
             rtbAssignmentPreview.Name = "rtbAssignmentPreview";
-            rtbAssignmentPreview.Size = new Size(374, 299);
+            rtbAssignmentPreview.Size = new Size(327, 224);
             rtbAssignmentPreview.TabIndex = 2;
             rtbAssignmentPreview.Text = "";
             // 
@@ -391,10 +379,9 @@
             pnlAssignedTo.Controls.Add(lblAssignedTo);
             pnlAssignedTo.Controls.Add(lblAssignmentPreview);
             pnlAssignedTo.Controls.Add(rtbAssignmentPreview);
-            pnlAssignedTo.Location = new Point(1517, 37);
-            pnlAssignedTo.Margin = new Padding(3, 4, 3, 4);
+            pnlAssignedTo.Location = new Point(1327, 28);
             pnlAssignedTo.Name = "pnlAssignedTo";
-            pnlAssignedTo.Size = new Size(535, 458);
+            pnlAssignedTo.Size = new Size(468, 344);
             pnlAssignedTo.TabIndex = 3;
             // 
             // lblAssignedTo
@@ -402,9 +389,9 @@
             lblAssignedTo.AutoSize = true;
             lblAssignedTo.Font = new Font("Segoe UI", 11.25F);
             lblAssignedTo.ForeColor = Color.Salmon;
-            lblAssignedTo.Location = new Point(6, 51);
+            lblAssignedTo.Location = new Point(5, 38);
             lblAssignedTo.Name = "lblAssignedTo";
-            lblAssignedTo.Size = new Size(126, 25);
+            lblAssignedTo.Size = new Size(99, 20);
             lblAssignedTo.TabIndex = 4;
             lblAssignedTo.Text = "Is assigned to";
             // 
@@ -413,9 +400,9 @@
             lblAssignmentPreview.AutoSize = true;
             lblAssignmentPreview.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             lblAssignmentPreview.ForeColor = Color.Salmon;
-            lblAssignmentPreview.Location = new Point(3, 13);
+            lblAssignmentPreview.Location = new Point(3, 10);
             lblAssignmentPreview.Name = "lblAssignmentPreview";
-            lblAssignmentPreview.Size = new Size(128, 25);
+            lblAssignmentPreview.Size = new Size(101, 20);
             lblAssignmentPreview.TabIndex = 3;
             lblAssignmentPreview.Text = "NAMEOFAPP";
             // 
@@ -435,10 +422,9 @@
             pnlSummary.Controls.Add(btnResetDeployment);
             pnlSummary.Controls.Add(lblSelectedPolicies);
             pnlSummary.Controls.Add(btnPrepareDeployment);
-            pnlSummary.Location = new Point(111, 673);
-            pnlSummary.Margin = new Padding(3, 4, 3, 4);
+            pnlSummary.Location = new Point(97, 505);
             pnlSummary.Name = "pnlSummary";
-            pnlSummary.Size = new Size(2065, 511);
+            pnlSummary.Size = new Size(1807, 384);
             pnlSummary.TabIndex = 4;
             // 
             // btn_ResetProgressBar
@@ -446,10 +432,9 @@
             btn_ResetProgressBar.BackColor = Color.Salmon;
             btn_ResetProgressBar.FlatStyle = FlatStyle.Flat;
             btn_ResetProgressBar.Font = new Font("Consolas", 12F);
-            btn_ResetProgressBar.Location = new Point(1250, 89);
-            btn_ResetProgressBar.Margin = new Padding(3, 4, 3, 4);
+            btn_ResetProgressBar.Location = new Point(1094, 67);
             btn_ResetProgressBar.Name = "btn_ResetProgressBar";
-            btn_ResetProgressBar.Size = new Size(221, 52);
+            btn_ResetProgressBar.Size = new Size(193, 39);
             btn_ResetProgressBar.TabIndex = 11;
             btn_ResetProgressBar.Text = "Clear output";
             toolTipPolicy.SetToolTip(btn_ResetProgressBar, "Reset the progress bar in case of errors");
@@ -461,10 +446,9 @@
             btnDeployDescription.BackColor = Color.Salmon;
             btnDeployDescription.FlatStyle = FlatStyle.Flat;
             btnDeployDescription.Font = new Font("Consolas", 12F);
-            btnDeployDescription.Location = new Point(1250, 4);
-            btnDeployDescription.Margin = new Padding(3, 4, 3, 4);
+            btnDeployDescription.Location = new Point(1094, 3);
             btnDeployDescription.Name = "btnDeployDescription";
-            btnDeployDescription.Size = new Size(221, 77);
+            btnDeployDescription.Size = new Size(193, 58);
             btnDeployDescription.TabIndex = 10;
             btnDeployDescription.Text = "Add description";
             toolTipPolicy.SetToolTip(btnDeployDescription, "Overwrite each policies descrption property");
@@ -476,10 +460,9 @@
             rtbDeploymentSummary.BackColor = Color.FromArgb(46, 51, 73);
             rtbDeploymentSummary.BorderStyle = BorderStyle.None;
             rtbDeploymentSummary.ForeColor = Color.Salmon;
-            rtbDeploymentSummary.Location = new Point(910, 185);
-            rtbDeploymentSummary.Margin = new Padding(3, 4, 3, 4);
+            rtbDeploymentSummary.Location = new Point(796, 139);
             rtbDeploymentSummary.Name = "rtbDeploymentSummary";
-            rtbDeploymentSummary.Size = new Size(561, 299);
+            rtbDeploymentSummary.Size = new Size(491, 224);
             rtbDeploymentSummary.TabIndex = 9;
             rtbDeploymentSummary.Text = "";
             toolTipPolicy.SetToolTip(rtbDeploymentSummary, "Output from the deployment process");
@@ -489,10 +472,9 @@
             // 
             cbLookUpAssignment.AutoSize = true;
             cbLookUpAssignment.ForeColor = Color.Salmon;
-            cbLookUpAssignment.Location = new Point(1517, 4);
-            cbLookUpAssignment.Margin = new Padding(3, 4, 3, 4);
+            cbLookUpAssignment.Location = new Point(1327, 3);
             cbLookUpAssignment.Name = "cbLookUpAssignment";
-            cbLookUpAssignment.Size = new Size(261, 24);
+            cbLookUpAssignment.Size = new Size(212, 19);
             cbLookUpAssignment.TabIndex = 8;
             cbLookUpAssignment.Text = "Look up policy assignment on click";
             toolTipPolicy.SetToolTip(cbLookUpAssignment, "Enable to look up existing assignments for policies when clicking them");
@@ -500,10 +482,9 @@
             // 
             // pBarDeployProgress
             // 
-            pBarDeployProgress.Location = new Point(910, 89);
-            pBarDeployProgress.Margin = new Padding(3, 4, 3, 4);
+            pBarDeployProgress.Location = new Point(796, 67);
             pBarDeployProgress.Name = "pBarDeployProgress";
-            pBarDeployProgress.Size = new Size(334, 52);
+            pBarDeployProgress.Size = new Size(292, 39);
             pBarDeployProgress.TabIndex = 8;
             toolTipPolicy.SetToolTip(pBarDeployProgress, "Because you gotta have a progress bar");
             // 
@@ -512,10 +493,9 @@
             rtbSelectedGroups.BackColor = Color.FromArgb(46, 51, 73);
             rtbSelectedGroups.BorderStyle = BorderStyle.None;
             rtbSelectedGroups.ForeColor = Color.Salmon;
-            rtbSelectedGroups.Location = new Point(481, 185);
-            rtbSelectedGroups.Margin = new Padding(3, 4, 3, 4);
+            rtbSelectedGroups.Location = new Point(421, 139);
             rtbSelectedGroups.Name = "rtbSelectedGroups";
-            rtbSelectedGroups.Size = new Size(397, 299);
+            rtbSelectedGroups.Size = new Size(347, 224);
             rtbSelectedGroups.TabIndex = 6;
             rtbSelectedGroups.Text = "";
             toolTipPolicy.SetToolTip(rtbSelectedGroups, "The groups that will be used for deployment");
@@ -526,10 +506,9 @@
             rtbSelectedPolicies.BackColor = Color.FromArgb(46, 51, 73);
             rtbSelectedPolicies.BorderStyle = BorderStyle.None;
             rtbSelectedPolicies.ForeColor = Color.Salmon;
-            rtbSelectedPolicies.Location = new Point(10, 185);
-            rtbSelectedPolicies.Margin = new Padding(3, 4, 3, 4);
+            rtbSelectedPolicies.Location = new Point(9, 139);
             rtbSelectedPolicies.Name = "rtbSelectedPolicies";
-            rtbSelectedPolicies.Size = new Size(441, 299);
+            rtbSelectedPolicies.Size = new Size(386, 224);
             rtbSelectedPolicies.TabIndex = 5;
             rtbSelectedPolicies.Text = "";
             toolTipPolicy.SetToolTip(rtbSelectedPolicies, "The applications that will be used for deployment");
@@ -540,9 +519,9 @@
             lblSelectedGroups.AutoSize = true;
             lblSelectedGroups.Font = new Font("Consolas", 15.75F, FontStyle.Bold);
             lblSelectedGroups.ForeColor = Color.Salmon;
-            lblSelectedGroups.Location = new Point(478, 123);
+            lblSelectedGroups.Location = new Point(418, 92);
             lblSelectedGroups.Name = "lblSelectedGroups";
-            lblSelectedGroups.Size = new Size(239, 32);
+            lblSelectedGroups.Size = new Size(190, 24);
             lblSelectedGroups.TabIndex = 5;
             lblSelectedGroups.Text = "Selected Groups";
             toolTipPolicy.SetToolTip(lblSelectedGroups, "Selected Groups");
@@ -552,10 +531,9 @@
             btnDeployPolicyAssignment.BackColor = Color.Salmon;
             btnDeployPolicyAssignment.FlatStyle = FlatStyle.Flat;
             btnDeployPolicyAssignment.Font = new Font("Consolas", 12F);
-            btnDeployPolicyAssignment.Location = new Point(910, 4);
-            btnDeployPolicyAssignment.Margin = new Padding(3, 4, 3, 4);
+            btnDeployPolicyAssignment.Location = new Point(796, 3);
             btnDeployPolicyAssignment.Name = "btnDeployPolicyAssignment";
-            btnDeployPolicyAssignment.Size = new Size(334, 77);
+            btnDeployPolicyAssignment.Size = new Size(292, 58);
             btnDeployPolicyAssignment.TabIndex = 5;
             btnDeployPolicyAssignment.Text = "Add assignment";
             toolTipPolicy.SetToolTip(btnDeployPolicyAssignment, "Initiate deployment");
@@ -567,10 +545,9 @@
             btnResetDeployment.BackColor = Color.Salmon;
             btnResetDeployment.FlatStyle = FlatStyle.Flat;
             btnResetDeployment.Font = new Font("Consolas", 12F);
-            btnResetDeployment.Location = new Point(269, 4);
-            btnResetDeployment.Margin = new Padding(3, 4, 3, 4);
+            btnResetDeployment.Location = new Point(235, 3);
             btnResetDeployment.Name = "btnResetDeployment";
-            btnResetDeployment.Size = new Size(110, 77);
+            btnResetDeployment.Size = new Size(96, 58);
             btnResetDeployment.TabIndex = 7;
             btnResetDeployment.Text = "Reset";
             btnResetDeployment.UseVisualStyleBackColor = false;
@@ -581,9 +558,9 @@
             lblSelectedPolicies.AutoSize = true;
             lblSelectedPolicies.Font = new Font("Consolas", 15.75F, FontStyle.Bold);
             lblSelectedPolicies.ForeColor = Color.Salmon;
-            lblSelectedPolicies.Location = new Point(10, 123);
+            lblSelectedPolicies.Location = new Point(9, 92);
             lblSelectedPolicies.Name = "lblSelectedPolicies";
-            lblSelectedPolicies.Size = new Size(269, 32);
+            lblSelectedPolicies.Size = new Size(214, 24);
             lblSelectedPolicies.TabIndex = 4;
             lblSelectedPolicies.Text = "Selected policies";
             toolTipPolicy.SetToolTip(lblSelectedPolicies, "Selected policies");
@@ -593,10 +570,9 @@
             btnPrepareDeployment.BackColor = Color.Salmon;
             btnPrepareDeployment.FlatStyle = FlatStyle.Flat;
             btnPrepareDeployment.Font = new Font("Consolas", 12F);
-            btnPrepareDeployment.Location = new Point(10, 4);
-            btnPrepareDeployment.Margin = new Padding(3, 4, 3, 4);
+            btnPrepareDeployment.Location = new Point(9, 3);
             btnPrepareDeployment.Name = "btnPrepareDeployment";
-            btnPrepareDeployment.Size = new Size(251, 77);
+            btnPrepareDeployment.Size = new Size(220, 58);
             btnPrepareDeployment.TabIndex = 6;
             btnPrepareDeployment.Text = "Prepare deployment";
             toolTipPolicy.SetToolTip(btnPrepareDeployment, "Click to prepare selected applications and groups for deployment");
@@ -611,10 +587,9 @@
             pnlSearchGroup.Controls.Add(txtboxSearchGroup);
             pnlSearchGroup.Controls.Add(btnListAllGroups);
             pnlSearchGroup.Controls.Add(btnSearchGroup);
-            pnlSearchGroup.Location = new Point(1026, 41);
-            pnlSearchGroup.Margin = new Padding(3, 4, 3, 4);
+            pnlSearchGroup.Location = new Point(898, 31);
             pnlSearchGroup.Name = "pnlSearchGroup";
-            pnlSearchGroup.Size = new Size(735, 623);
+            pnlSearchGroup.Size = new Size(643, 468);
             pnlSearchGroup.TabIndex = 9;
             // 
             // lblSelectGroups
@@ -622,9 +597,9 @@
             lblSelectGroups.AutoSize = true;
             lblSelectGroups.Font = new Font("Consolas", 15.75F, FontStyle.Bold);
             lblSelectGroups.ForeColor = Color.Salmon;
-            lblSelectGroups.Location = new Point(3, 13);
+            lblSelectGroups.Location = new Point(3, 10);
             lblSelectGroups.Name = "lblSelectGroups";
-            lblSelectGroups.Size = new Size(104, 32);
+            lblSelectGroups.Size = new Size(82, 24);
             lblSelectGroups.TabIndex = 11;
             lblSelectGroups.Text = "Groups";
             toolTipPolicy.SetToolTip(lblSelectGroups, "Selected policies");
@@ -634,11 +609,10 @@
             txtboxDescription.BackColor = Color.FromArgb(46, 51, 73);
             txtboxDescription.BorderStyle = BorderStyle.FixedSingle;
             txtboxDescription.ForeColor = Color.Salmon;
-            txtboxDescription.Location = new Point(7, 72);
-            txtboxDescription.Margin = new Padding(3, 4, 3, 4);
+            txtboxDescription.Location = new Point(6, 54);
             txtboxDescription.Multiline = true;
             txtboxDescription.Name = "txtboxDescription";
-            txtboxDescription.Size = new Size(387, 290);
+            txtboxDescription.Size = new Size(339, 218);
             txtboxDescription.TabIndex = 11;
             toolTipPolicy.SetToolTip(txtboxDescription, "Enter a desired description. Leave blank to not add or change the description field. Existing description will be overwritten");
             txtboxDescription.TextChanged += txtboxDescription_TextChanged;
@@ -647,10 +621,9 @@
             // 
             pbHelpGuide.Image = Properties.Resources._121047815016345278514481_48;
             pbHelpGuide.InitialImage = Properties.Resources._121047815016345278514481_48;
-            pbHelpGuide.Location = new Point(14, 212);
-            pbHelpGuide.Margin = new Padding(3, 4, 3, 4);
+            pbHelpGuide.Location = new Point(12, 159);
             pbHelpGuide.Name = "pbHelpGuide";
-            pbHelpGuide.Size = new Size(73, 85);
+            pbHelpGuide.Size = new Size(64, 64);
             pbHelpGuide.SizeMode = PictureBoxSizeMode.StretchImage;
             pbHelpGuide.TabIndex = 10;
             pbHelpGuide.TabStop = false;
@@ -661,10 +634,9 @@
             pnlDescription.BorderStyle = BorderStyle.FixedSingle;
             pnlDescription.Controls.Add(txtboxDescription);
             pnlDescription.Controls.Add(label1);
-            pnlDescription.Location = new Point(1768, 41);
-            pnlDescription.Margin = new Padding(3, 4, 3, 4);
+            pnlDescription.Location = new Point(1547, 31);
             pnlDescription.Name = "pnlDescription";
-            pnlDescription.Size = new Size(408, 623);
+            pnlDescription.Size = new Size(357, 468);
             pnlDescription.TabIndex = 4;
             // 
             // label1
@@ -672,9 +644,9 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label1.ForeColor = Color.Salmon;
-            label1.Location = new Point(3, 19);
+            label1.Location = new Point(3, 14);
             label1.Name = "label1";
-            label1.Size = new Size(121, 28);
+            label1.Size = new Size(98, 21);
             label1.TabIndex = 3;
             label1.Text = "Description";
             // 
@@ -682,10 +654,9 @@
             // 
             pbViewAssignments.Image = Properties.Resources._3271932871579761116_48;
             pbViewAssignments.InitialImage = Properties.Resources._121047815016345278514481_48;
-            pbViewAssignments.Location = new Point(14, 119);
-            pbViewAssignments.Margin = new Padding(3, 4, 3, 4);
+            pbViewAssignments.Location = new Point(12, 89);
             pbViewAssignments.Name = "pbViewAssignments";
-            pbViewAssignments.Size = new Size(73, 85);
+            pbViewAssignments.Size = new Size(64, 64);
             pbViewAssignments.SizeMode = PictureBoxSizeMode.StretchImage;
             pbViewAssignments.TabIndex = 11;
             pbViewAssignments.TabStop = false;
@@ -696,18 +667,18 @@
             lblHeaderAppForm.AutoSize = true;
             lblHeaderAppForm.Font = new Font("Consolas", 18F, FontStyle.Bold);
             lblHeaderAppForm.ForeColor = Color.Salmon;
-            lblHeaderAppForm.Location = new Point(111, 0);
+            lblHeaderAppForm.Location = new Point(97, 0);
             lblHeaderAppForm.Name = "lblHeaderAppForm";
-            lblHeaderAppForm.Size = new Size(255, 36);
+            lblHeaderAppForm.Size = new Size(207, 28);
             lblHeaderAppForm.TabIndex = 21;
             lblHeaderAppForm.Text = "Deploy policies";
             // 
             // Policy
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
-            ClientSize = new Size(1924, 1055);
+            ClientSize = new Size(1684, 791);
             Controls.Add(lblHeaderAppForm);
             Controls.Add(pbViewAssignments);
             Controls.Add(pnlDescription);
@@ -717,7 +688,6 @@
             Controls.Add(pnlSearchPolicy);
             Controls.Add(pbHome);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(3, 4, 3, 4);
             Name = "Policy";
             Load += Policy_Load;
             ((System.ComponentModel.ISupportInitialize)pbHome).EndInit();
