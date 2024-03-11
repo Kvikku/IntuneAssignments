@@ -31,7 +31,7 @@
         public static string allUsersGroupName = "All Users";
         public static string allDevicesGroupName = "All Devices";
 
-
+        
         public static string allDevicesGroupID = "adadadad-808e-44e2-905a-0b7873a8a531";
         // "@odata.type": "#microsoft.graph.allDevicesAssignmentTarget"
 

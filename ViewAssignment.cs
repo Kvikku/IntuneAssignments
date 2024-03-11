@@ -12,6 +12,7 @@ namespace IntuneAssignments
     {
 
         private readonly Form1 _form1;
+        public int numberOfAssignmentsDeleted = 0;
 
         public ViewAssignment(Form1 form1)
         {
@@ -36,17 +37,13 @@ namespace IntuneAssignments
             // Removes dummy text in labels when launching the app
             UpdateLabel(lblAppID, "");
             UpdateLabel(lblAppName, "");
+            UpdateLabel(lblNumberOfAssignmentsDeleted, "");
+            lblDeleteStatusText.Hide();
 
         }
 
-        private void ViewAssignment_Load(object sender, EventArgs e)
-        {
 
-        }
-
-
-
-
+        
 
         ////////////////////////////////////////// Classes ///////////////////////////////////////////////////////////////////
 
@@ -371,8 +368,11 @@ namespace IntuneAssignments
         public async void deleteAppAssignment()
         {
 
-            // Looks like a bug in the SDK. Issue has been raised on github
+            // show label
 
+            lblDeleteStatusText.Show();
+            lblNumberOfAssignmentsDeleted.Text = 0.ToString();
+            numberOfAssignmentsDeleted = 0;
 
 
             // Authenticate to Graph
@@ -418,6 +418,11 @@ namespace IntuneAssignments
                 WriteToLog("Assignment for group " + groupName + " has been deleted");
                 rtbSummary.AppendText("Assignment for group " + groupName + " has been deleted");
                 rtbSummary.AppendText("\n");
+
+                // Update the label with the number of assignments deleted
+                numberOfAssignmentsDeleted++;
+                lblNumberOfAssignmentsDeleted.Text = numberOfAssignmentsDeleted.ToString();
+
             }
 
             // Clear the datagridview for older results
@@ -431,7 +436,11 @@ namespace IntuneAssignments
 
         public async void deleteSelectedAppAssignment(DataGridView dataGridView)
         {
+            // show label
 
+            lblDeleteStatusText.Show();
+            lblNumberOfAssignmentsDeleted.Text = 0.ToString();
+            numberOfAssignmentsDeleted = 0;
 
             // Authenticate to Graph
 
@@ -477,6 +486,10 @@ namespace IntuneAssignments
 
                     rtbSummary.AppendText("Assignment for group " + groupName + " has been deleted");
                     rtbSummary.AppendText("\n");
+
+                    // Update the label with the number of assignments deleted
+                    numberOfAssignmentsDeleted++;
+                    lblNumberOfAssignmentsDeleted.Text = numberOfAssignmentsDeleted.ToString();
 
                 }
 
@@ -586,6 +599,11 @@ namespace IntuneAssignments
         public async Task deleteSelectedAppAssignments()
         {
 
+            // show label
+
+            lblDeleteStatusText.Show();
+            lblNumberOfAssignmentsDeleted.Text = 0.ToString();
+            numberOfAssignmentsDeleted = 0;
 
             /*
              * This method will delete all assignments for all selected apps in the datagridview dtgDisplayApp
@@ -644,39 +662,49 @@ namespace IntuneAssignments
                     WriteToLog("No assignments found for app " + appName);
                     rtbSummary.AppendText("No assignments found for app + " + appName);
                     rtbSummary.AppendText("\n");
-                    return;
+
                 }
-
-                // count how many assignments are found
-                int numberOfAssignments = assignmentsList.Count;
-
-                WriteToLog("Number of assignments found for app" + appName + " is " + numberOfAssignments);
-                rtbSummary.AppendText("Number of assignments found for app" + appName + " is " + numberOfAssignments);
-                rtbSummary.AppendText("\n");
-
-                // Loop through the list and delete each assignment
-
-                foreach (var assignment in assignmentsList)
+                else
                 {
-                    // find the group name
-                    var groupName = await FindGroupNameFromAppAssignmentID(appID, assignment.Id);
+                    // count how many assignments are found
+                    int numberOfAssignments = assignmentsList.Count;
 
-                    if (groupName == "ERROR LOOKING UP GROUP NAME FROM GROUP ID")
-                    {
-                        WriteToLog("Group ID + " + assignment.Id + " does not exist in Entra. This is most likely because the group has been deleted. Skipping");
-                        rtbSummary.AppendText("Group ID + " + assignment.Id + " does not exist in Entra. This is most likely because the group has been deleted. Skipping");
-                        rtbSummary.AppendText("\n");
-                        return;
-                    }
-
-                    // Delete assignment
-                    await graphClient.DeviceAppManagement.MobileApps[appID].Assignments[assignment.Id].DeleteAsync();
-
-                    WriteToLog("Assignment for group " + groupName + " has been deleted");
-                    rtbSummary.AppendText("Assignment for group " + groupName + " has been deleted");
+                    WriteToLog("Number of assignments found for app" + appName + " is " + numberOfAssignments);
+                    rtbSummary.AppendText("Number of assignments found for app" + appName + " is " + numberOfAssignments);
                     rtbSummary.AppendText("\n");
 
+                    // Loop through the list and delete each assignment
+
+                    foreach (var assignment in assignmentsList)
+                    {
+                        // find the group name
+                        var groupName = await FindGroupNameFromAppAssignmentID(appID, assignment.Id);
+
+                        if (groupName == "ERROR LOOKING UP GROUP NAME FROM GROUP ID")
+                        {
+                            WriteToLog("Group ID + " + assignment.Id + " does not exist in Entra. This is most likely because the group has been deleted. Skipping");
+                            rtbSummary.AppendText("Group ID + " + assignment.Id + " does not exist in Entra. This is most likely because the group has been deleted. Skipping");
+                            rtbSummary.AppendText("\n");
+                        }
+                        else
+                        {
+                            // Delete assignment
+                            await graphClient.DeviceAppManagement.MobileApps[appID].Assignments[assignment.Id].DeleteAsync();
+
+                            WriteToLog("Assignment for group " + groupName + " has been deleted");
+                            rtbSummary.AppendText("Assignment for group " + groupName + " has been deleted");
+                            rtbSummary.AppendText("\n");
+
+                            // Update the label with the number of assignments deleted
+                            numberOfAssignmentsDeleted++;
+                            lblNumberOfAssignmentsDeleted.Text = numberOfAssignmentsDeleted.ToString();
+                        }
+                        
+
+                    }
                 }
+
+                
             }
 
 
@@ -850,7 +878,20 @@ namespace IntuneAssignments
 
         private async void btnDeleteAssignmentForSelectedApps_Click(object sender, EventArgs e)
         {
-            await deleteSelectedAppAssignments();
+            // Show message box with warning, and if statement based on what the user clicks
+
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete ALL assignments for ALL selected apps?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+            if (dialogResult == DialogResult.Yes)
+            {
+                // If user clicks yes, delete all assignments
+                await deleteSelectedAppAssignments();
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                // If user clicks no, do nothing
+            }
+            
+            
         }
     }
 }

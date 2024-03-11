@@ -59,6 +59,8 @@
             pbHome = new PictureBox();
             mainFormToolTip = new ToolTip(components);
             btnClearSummary = new Button();
+            lblNumberOfAssignmentsDeleted = new Label();
+            lblDeleteStatusText = new Label();
             pbHelpGuide = new PictureBox();
             rtbSummary = new RichTextBox();
             panel2 = new Panel();
@@ -91,7 +93,7 @@
             // pbClearDtgDisplayApp
             // 
             pbClearDtgDisplayApp.Image = Properties.Resources._5358270771574330938_32;
-            pbClearDtgDisplayApp.Location = new Point(498, 3);
+            pbClearDtgDisplayApp.Location = new Point(501, 115);
             pbClearDtgDisplayApp.Name = "pbClearDtgDisplayApp";
             pbClearDtgDisplayApp.Size = new Size(36, 38);
             pbClearDtgDisplayApp.TabIndex = 18;
@@ -115,12 +117,12 @@
             btnDeleteAssignmentForSelectedApps.BackColor = Color.Salmon;
             btnDeleteAssignmentForSelectedApps.FlatStyle = FlatStyle.Flat;
             btnDeleteAssignmentForSelectedApps.Font = new Font("Consolas", 12F);
-            btnDeleteAssignmentForSelectedApps.Location = new Point(357, 115);
+            btnDeleteAssignmentForSelectedApps.Location = new Point(246, 156);
             btnDeleteAssignmentForSelectedApps.Margin = new Padding(3, 2, 3, 2);
             btnDeleteAssignmentForSelectedApps.Name = "btnDeleteAssignmentForSelectedApps";
-            btnDeleteAssignmentForSelectedApps.Size = new Size(177, 30);
+            btnDeleteAssignmentForSelectedApps.Size = new Size(249, 28);
             btnDeleteAssignmentForSelectedApps.TabIndex = 20;
-            btnDeleteAssignmentForSelectedApps.Text = "Delete selected";
+            btnDeleteAssignmentForSelectedApps.Text = "Delete assignments";
             mainFormToolTip.SetToolTip(btnDeleteAssignmentForSelectedApps, "This will delete ALL assignments from EVERY app you have selected");
             btnDeleteAssignmentForSelectedApps.UseVisualStyleBackColor = false;
             btnDeleteAssignmentForSelectedApps.Click += btnDeleteAssignmentForSelectedApps_Click;
@@ -192,7 +194,7 @@
             txtboxSearchApp.BackColor = Color.FromArgb(46, 51, 73);
             txtboxSearchApp.Font = new Font("Consolas", 12F);
             txtboxSearchApp.ForeColor = Color.Salmon;
-            txtboxSearchApp.Location = new Point(16, 155);
+            txtboxSearchApp.Location = new Point(15, 121);
             txtboxSearchApp.Name = "txtboxSearchApp";
             txtboxSearchApp.Size = new Size(225, 26);
             txtboxSearchApp.TabIndex = 14;
@@ -204,7 +206,7 @@
             btnSearchApp.BackColor = Color.Salmon;
             btnSearchApp.FlatStyle = FlatStyle.Popup;
             btnSearchApp.Font = new Font("Consolas", 12F);
-            btnSearchApp.Location = new Point(285, 151);
+            btnSearchApp.Location = new Point(246, 121);
             btnSearchApp.Name = "btnSearchApp";
             btnSearchApp.Size = new Size(119, 30);
             btnSearchApp.TabIndex = 15;
@@ -218,7 +220,7 @@
             btnAllGroups.BackColor = Color.Salmon;
             btnAllGroups.FlatStyle = FlatStyle.Popup;
             btnAllGroups.Font = new Font("Consolas", 12F);
-            btnAllGroups.Location = new Point(410, 150);
+            btnAllGroups.Location = new Point(371, 121);
             btnAllGroups.Name = "btnAllGroups";
             btnAllGroups.Size = new Size(124, 30);
             btnAllGroups.TabIndex = 13;
@@ -258,9 +260,9 @@
             btnDeleteAllAssignments.BackColor = Color.Salmon;
             btnDeleteAllAssignments.FlatStyle = FlatStyle.Popup;
             btnDeleteAllAssignments.Font = new Font("Consolas", 12F);
-            btnDeleteAllAssignments.Location = new Point(269, 143);
+            btnDeleteAllAssignments.Location = new Point(334, 155);
             btnDeleteAllAssignments.Name = "btnDeleteAllAssignments";
-            btnDeleteAllAssignments.Size = new Size(152, 30);
+            btnDeleteAllAssignments.Size = new Size(130, 30);
             btnDeleteAllAssignments.TabIndex = 19;
             btnDeleteAllAssignments.Text = "Delete all";
             mainFormToolTip.SetToolTip(btnDeleteAllAssignments, "Click to delete all group assignments");
@@ -272,9 +274,9 @@
             btnDeleteSelectedAssignment.BackColor = Color.Salmon;
             btnDeleteSelectedAssignment.FlatStyle = FlatStyle.Popup;
             btnDeleteSelectedAssignment.Font = new Font("Consolas", 12F);
-            btnDeleteSelectedAssignment.Location = new Point(111, 143);
+            btnDeleteSelectedAssignment.Location = new Point(175, 155);
             btnDeleteSelectedAssignment.Name = "btnDeleteSelectedAssignment";
-            btnDeleteSelectedAssignment.Size = new Size(152, 30);
+            btnDeleteSelectedAssignment.Size = new Size(153, 30);
             btnDeleteSelectedAssignment.TabIndex = 20;
             btnDeleteSelectedAssignment.Text = "Delete selected";
             mainFormToolTip.SetToolTip(btnDeleteSelectedAssignment, "Click to delete the selected group assignments");
@@ -296,7 +298,7 @@
             // pbpbClearDtgGroupAssignment
             // 
             pbpbClearDtgGroupAssignment.Image = Properties.Resources._5358270771574330938_32;
-            pbpbClearDtgGroupAssignment.Location = new Point(429, 3);
+            pbpbClearDtgGroupAssignment.Location = new Point(428, 96);
             pbpbClearDtgGroupAssignment.Name = "pbpbClearDtgGroupAssignment";
             pbpbClearDtgGroupAssignment.Size = new Size(36, 38);
             pbpbClearDtgGroupAssignment.TabIndex = 19;
@@ -400,6 +402,30 @@
             btnClearSummary.UseVisualStyleBackColor = false;
             btnClearSummary.Click += btnClearSummary_Click;
             // 
+            // lblNumberOfAssignmentsDeleted
+            // 
+            lblNumberOfAssignmentsDeleted.AutoSize = true;
+            lblNumberOfAssignmentsDeleted.Font = new Font("Consolas", 12F, FontStyle.Bold);
+            lblNumberOfAssignmentsDeleted.ForeColor = Color.Salmon;
+            lblNumberOfAssignmentsDeleted.Location = new Point(9, 31);
+            lblNumberOfAssignmentsDeleted.Name = "lblNumberOfAssignmentsDeleted";
+            lblNumberOfAssignmentsDeleted.Size = new Size(288, 19);
+            lblNumberOfAssignmentsDeleted.TabIndex = 22;
+            lblNumberOfAssignmentsDeleted.Text = "{NUMBER OF DELETED ASSIGNMENTS}";
+            mainFormToolTip.SetToolTip(lblNumberOfAssignmentsDeleted, "The selected applications ID");
+            // 
+            // lblDeleteStatusText
+            // 
+            lblDeleteStatusText.AutoSize = true;
+            lblDeleteStatusText.Font = new Font("Consolas", 12F, FontStyle.Bold);
+            lblDeleteStatusText.ForeColor = Color.Salmon;
+            lblDeleteStatusText.Location = new Point(9, 12);
+            lblDeleteStatusText.Name = "lblDeleteStatusText";
+            lblDeleteStatusText.Size = new Size(279, 19);
+            lblDeleteStatusText.TabIndex = 23;
+            lblDeleteStatusText.Text = "Number of assignments deleted:";
+            mainFormToolTip.SetToolTip(lblDeleteStatusText, "The selected applications ID");
+            // 
             // pbHelpGuide
             // 
             pbHelpGuide.Image = Properties.Resources._121047815016345278514481_48;
@@ -424,6 +450,8 @@
             // 
             // panel2
             // 
+            panel2.Controls.Add(lblDeleteStatusText);
+            panel2.Controls.Add(lblNumberOfAssignmentsDeleted);
             panel2.Controls.Add(btnClearSummary);
             panel2.Controls.Add(rtbSummary);
             panel2.Location = new Point(627, 405);
@@ -444,7 +472,6 @@
             Controls.Add(pnlSearchApp);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "ViewAssignment";
-            Load += ViewAssignment_Load;
             pnlSearchApp.ResumeLayout(false);
             pnlSearchApp.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbClearDtgDisplayApp).EndInit();
@@ -456,6 +483,7 @@
             ((System.ComponentModel.ISupportInitialize)pbHome).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbHelpGuide).EndInit();
             panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -489,5 +517,7 @@
         private RichTextBox rtbSummary;
         private Panel panel2;
         private Button btnClearSummary;
+        private Label lblNumberOfAssignmentsDeleted;
+        private Label lblDeleteStatusText;
     }
 }
