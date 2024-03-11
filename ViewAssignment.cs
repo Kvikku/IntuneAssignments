@@ -2,6 +2,7 @@
 using Microsoft.Graph.Beta.Models;
 using static IntuneAssignments.GraphServiceClientCreator;
 using static IntuneAssignments.FormUtilities;
+using static IntuneAssignments.GlobalVariables;
 using System.Windows.Forms;
 
 namespace IntuneAssignments
@@ -307,30 +308,46 @@ namespace IntuneAssignments
 
                     var resultList = new List<Group>();
 
-
-                    try
+                    // check if the ID is for All Users or All Devices virtual groups
+                    if (id.StartsWith("acacac"))
                     {
-                        var findGroupName = await graphClient.Groups[id].GetAsync((requestConfiguration) =>
+                        WriteToLog("Group name is All Users (virtual group)");
+                        dtgGroupAssignment.Rows.Add("All Users (virtual group)", assignment.Intent, allUsersGroupID);
+                    }
+
+                    else if (id.StartsWith("adadad"))
+                    {
+                        WriteToLog("Group name is All Devices (virtual group)");
+                        dtgGroupAssignment.Rows.Add("All Devices (virtual group)", assignment.Intent, allDevicesGroupID);
+                        
+                    }
+                    else
+                    {
+                        try
                         {
-                            requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
-                        });
+                            var findGroupName = await graphClient.Groups[id].GetAsync((requestConfiguration) =>
+                            {
+                                requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
+                            });
 
-                        resultList.Add(findGroupName);
+                            resultList.Add(findGroupName);
 
 
-                        foreach (var group in resultList)
-                        {
-                            dtgGroupAssignment.Rows.Add(group.DisplayName, assignment.Intent, group.Id);
+                            foreach (var group in resultList)
+                            {
+                                dtgGroupAssignment.Rows.Add(group.DisplayName, assignment.Intent, group.Id);
+                            }
+
                         }
+                        catch (Exception ex)
+                        {
+                            WriteToLog("An error occurred when trying to look up the group name with group ID " + id);
+                            WriteToLog("The error message is: " + ex.Message);
+                            WriteToLog("This is usually because the group has been deleted from Entra, but the assignment for the group still exists in Intune");
 
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        WriteToLog("An error occurred when trying to look up the group name with group ID " + id);
-                        WriteToLog("The error message is: " + ex.Message);
-                        WriteToLog("This is usually because the group has been deleted from Entra, but the assignment for the group still exists in Intune");
-
-                    }
+                    
 
 
 
@@ -376,10 +393,29 @@ namespace IntuneAssignments
             {
                 //MessageBox.Show(assignment.Id + " " + assignment.Intent);
 
+                var id = assignment.Id;
+
+                // Find group id from assignment id
+
+                var groupID = id.Substring(0, id.Length - 4);
+
+                // Find group name from group ID
+
+                var groupName = await FindGroupNameFromAppAssignmentID(appID, id);
+
+                // Delete assignment
+
                 await graphClient.DeviceAppManagement.MobileApps[appID].Assignments[assignment.Id].DeleteAsync();
+
+                WriteToLog("Assignment for group " + groupName + " has been deleted");
+                rtbSummary.AppendText("Assignment for group " + groupName + " has been deleted");
+                rtbSummary.AppendText("\n");
             }
 
+            // Clear the datagridview for older results
+            FormUtilities.ClearDataGridView(dtgGroupAssignment);
 
+            
 
 
         }
@@ -421,10 +457,18 @@ namespace IntuneAssignments
                     // Find assignment ID for a given group ID
                     var assignmentID = assignmentsList.FirstOrDefault(x => x.Id.Contains(groupID));
 
+
+                    // Find group name from group ID
+                    var groupName = await FindGroupNameFromAppAssignmentID(appID, assignmentID.Id);
+
                     // Delete assignment
 
                     await graphClient.DeviceAppManagement.MobileApps[appID].Assignments[assignmentID.Id].DeleteAsync();
 
+
+
+                    rtbSummary.AppendText("Assignment for group " + groupName + " has been deleted");
+                    rtbSummary.AppendText("\n");
 
                 }
 
@@ -456,6 +500,80 @@ namespace IntuneAssignments
                 label.Text = text;
             }
         }
+
+
+        public async Task DeleteAppAssignment(string appID)
+        {
+
+            /*
+             * This method will delete all assignments for a given app
+             * Pass the app ID as a parameter
+             */
+
+            WriteToLog("Attempting to delete all assignments for app with ID " + appID);
+
+            // Authenticate to Graph
+
+            var graphClient = CreateGraphServiceClient();
+
+
+            // Query graph for assignment ID for the given app
+            var result = await graphClient.DeviceAppManagement.MobileApps[appID].Assignments.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Select = new string[] { "id", "intent" };
+            });
+
+            // check if the result is null
+            if (result.Value == null)
+            {
+                WriteToLog("No assignments found for app with ID " + appID);
+                return;
+            }
+
+
+
+
+            // Add the result to a list of assignments
+
+            List<MobileAppAssignment> assignmentsList = new List<MobileAppAssignment>();
+            assignmentsList.AddRange(result.Value);
+
+            // count how many assignments are found
+            int numberOfAssignments = assignmentsList.Count;
+
+            // log the number of assignments found
+            WriteToLog("Number of assignments found for app with ID " + appID + " is " + numberOfAssignments);
+
+
+            foreach (var assignment in assignmentsList)
+            {
+
+                try
+                {
+                    // Get the assignment group name
+
+                    var groupName = FindGroupNameFromAppAssignmentID(appID, assignment.Id);
+
+                    WriteToLog("Group ID for the assignment is " + assignment.Id);
+                    WriteToLog("Attempting to delete the assignment");
+
+                    // Delete the assignment
+                    await graphClient.DeviceAppManagement.MobileApps[appID].Assignments[assignment.Id].DeleteAsync();
+
+                    WriteToLog("Assignment with ID " + assignment.Id + " has been deleted");
+                    WriteToLog(" ");
+                }
+                catch (Exception)
+                {
+                    WriteToLog("An error occurred when trying to delete the assignment with ID " + assignment.Id);
+                    throw;
+                }
+
+
+            }
+
+        }
+
 
         public async Task deleteSelectedAppAssignments()
         {
@@ -619,8 +737,6 @@ namespace IntuneAssignments
                 // Clear the datagridview for older results
                 FormUtilities.ClearDataGridView(dtgGroupAssignment);
 
-                // Refresh datagridview
-                await ListAllAssignedGroups();
             }
             else if (dialogResult == DialogResult.No)
             {
@@ -653,10 +769,7 @@ namespace IntuneAssignments
             HelpGuide();
         }
 
-        private async void button1_Click(object sender, EventArgs e)
-        {
-            await deleteSelectedAppAssignments();
-        }
+
 
         private void dtgDisplayApp_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -670,5 +783,11 @@ namespace IntuneAssignments
                 dtgDisplayApp.Rows[e.RowIndex].Selected = true;
             }
         }
+
+        private void btnClearSummary_Click(object sender, EventArgs e)
+        {
+            ClearRichTextBox(rtbSummary);
+        }
+
     }
 }

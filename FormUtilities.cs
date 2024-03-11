@@ -428,5 +428,68 @@ namespace IntuneAssignments
         }
 
 
+        public static async Task<string>FindGroupNameFromGroupID(string groupID)
+        {
+            // Method to look up the group name from the group ID
+            // Must pass in the group ID
+
+            // Create a new instance of the GraphServiceClient class
+            var graphClient = CreateGraphServiceClient();
+
+            // Look up the group by the ID
+            var group = await graphClient.Groups[groupID].GetAsync();
+
+            // check if the group is null
+            if (group == null)
+            {
+                WriteToLog("No group found with ID" + groupID);
+                return "Group not found";
+            }
+
+            string groupName = group.DisplayName;
+
+            return groupName;
+        }
+
+        public static async Task<string> FindGroupNameFromAppAssignmentID (string applicationID, string assignmentID)
+        {
+            // Method to look up the group name from the application assignment ID
+            // Must pass in application ID and assignment ID
+
+            // Create a new instance of the GraphServiceClient class
+
+            var graphClient = CreateGraphServiceClient();
+
+            // Check if the ID is All Users og All Devices
+
+            if (assignmentID.StartsWith("acacac"))
+            {
+                WriteToLog("Group name is All Users (virtual group)");
+                return allUsersGroupName;
+            }
+
+            else if (assignmentID.StartsWith("adadad"))
+            {
+                WriteToLog("Group name is All Devices (virtual group)");
+                return allDevicesGroupName;
+            }
+
+            else
+            {
+                // Convert the assignment ID to the group ID
+                var id = assignmentID.Substring(0, assignmentID.Length - 4);
+
+
+                // Look up the group by the ID
+
+                string groupName = await FindGroupNameFromGroupID(id);
+
+                WriteToLog("Group name is " + groupName);
+
+                return groupName;
+            }
+
+
+        }
     }
 }

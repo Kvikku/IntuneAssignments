@@ -57,8 +57,11 @@
             GroupID = new DataGridViewTextBoxColumn();
             pbHome = new PictureBox();
             mainFormToolTip = new ToolTip(components);
+            btnClearSummary = new Button();
             pbHelpGuide = new PictureBox();
-            button1 = new Button();
+            btnDeleteAssignmentForSelectedApps = new Button();
+            rtbSummary = new RichTextBox();
+            panel2 = new Panel();
             pnlSearchApp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbClearDtgDisplayApp).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayApp).BeginInit();
@@ -67,6 +70,7 @@
             ((System.ComponentModel.ISupportInitialize)dtgGroupAssignment).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbHelpGuide).BeginInit();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // pnlSearchApp
@@ -74,23 +78,22 @@
             pnlSearchApp.BorderStyle = BorderStyle.FixedSingle;
             pnlSearchApp.Controls.Add(pbClearDtgDisplayApp);
             pnlSearchApp.Controls.Add(lblSearchApp);
+            pnlSearchApp.Controls.Add(btnDeleteAssignmentForSelectedApps);
             pnlSearchApp.Controls.Add(dtgDisplayApp);
             pnlSearchApp.Controls.Add(txtboxSearchApp);
             pnlSearchApp.Controls.Add(btnSearchApp);
             pnlSearchApp.Controls.Add(btnAllGroups);
-            pnlSearchApp.Location = new Point(94, 16);
-            pnlSearchApp.Margin = new Padding(3, 4, 3, 4);
+            pnlSearchApp.Location = new Point(82, 12);
             pnlSearchApp.Name = "pnlSearchApp";
-            pnlSearchApp.Size = new Size(616, 877);
+            pnlSearchApp.Size = new Size(539, 747);
             pnlSearchApp.TabIndex = 0;
             // 
             // pbClearDtgDisplayApp
             // 
             pbClearDtgDisplayApp.Image = Properties.Resources._5358270771574330938_32;
-            pbClearDtgDisplayApp.Location = new Point(541, 143);
-            pbClearDtgDisplayApp.Margin = new Padding(3, 4, 3, 4);
+            pbClearDtgDisplayApp.Location = new Point(473, 107);
             pbClearDtgDisplayApp.Name = "pbClearDtgDisplayApp";
-            pbClearDtgDisplayApp.Size = new Size(41, 51);
+            pbClearDtgDisplayApp.Size = new Size(36, 38);
             pbClearDtgDisplayApp.TabIndex = 18;
             pbClearDtgDisplayApp.TabStop = false;
             mainFormToolTip.SetToolTip(pbClearDtgDisplayApp, "Clear the view");
@@ -101,9 +104,9 @@
             lblSearchApp.AutoSize = true;
             lblSearchApp.Font = new Font("Consolas", 15.75F, FontStyle.Bold);
             lblSearchApp.ForeColor = Color.Salmon;
-            lblSearchApp.Location = new Point(17, 19);
+            lblSearchApp.Location = new Point(15, 14);
             lblSearchApp.Name = "lblSearchApp";
-            lblSearchApp.Size = new Size(329, 32);
+            lblSearchApp.Size = new Size(262, 24);
             lblSearchApp.TabIndex = 17;
             lblSearchApp.Text = "Select application(s)";
             // 
@@ -134,15 +137,13 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             dtgDisplayApp.DefaultCellStyle = dataGridViewCellStyle2;
             dtgDisplayApp.EnableHeadersVisualStyles = false;
-            dtgDisplayApp.Location = new Point(17, 249);
-            dtgDisplayApp.Margin = new Padding(3, 4, 3, 4);
+            dtgDisplayApp.Location = new Point(15, 187);
             dtgDisplayApp.Name = "dtgDisplayApp";
             dtgDisplayApp.ReadOnly = true;
             dtgDisplayApp.RowHeadersVisible = false;
             dtgDisplayApp.RowHeadersWidth = 51;
-            dtgDisplayApp.RowTemplate.Height = 25;
             dtgDisplayApp.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgDisplayApp.Size = new Size(615, 745);
+            dtgDisplayApp.Size = new Size(538, 579);
             dtgDisplayApp.TabIndex = 16;
             dtgDisplayApp.CellClick += dtgDisplayApp_CellClick;
             dtgDisplayApp.CellMouseDoubleClick += dtgDisplayApp_CellMouseDoubleClick;
@@ -176,10 +177,9 @@
             txtboxSearchApp.BackColor = Color.FromArgb(46, 51, 73);
             txtboxSearchApp.Font = new Font("Consolas", 12F);
             txtboxSearchApp.ForeColor = Color.Salmon;
-            txtboxSearchApp.Location = new Point(18, 207);
-            txtboxSearchApp.Margin = new Padding(3, 4, 3, 4);
+            txtboxSearchApp.Location = new Point(16, 155);
             txtboxSearchApp.Name = "txtboxSearchApp";
-            txtboxSearchApp.Size = new Size(257, 31);
+            txtboxSearchApp.Size = new Size(225, 26);
             txtboxSearchApp.TabIndex = 14;
             txtboxSearchApp.Text = "Enter search here";
             mainFormToolTip.SetToolTip(txtboxSearchApp, "Enter search query here");
@@ -189,10 +189,9 @@
             btnSearchApp.BackColor = Color.Salmon;
             btnSearchApp.FlatStyle = FlatStyle.Popup;
             btnSearchApp.Font = new Font("Consolas", 12F);
-            btnSearchApp.Location = new Point(297, 201);
-            btnSearchApp.Margin = new Padding(3, 4, 3, 4);
+            btnSearchApp.Location = new Point(260, 151);
             btnSearchApp.Name = "btnSearchApp";
-            btnSearchApp.Size = new Size(136, 40);
+            btnSearchApp.Size = new Size(119, 30);
             btnSearchApp.TabIndex = 15;
             btnSearchApp.Text = "Search";
             mainFormToolTip.SetToolTip(btnSearchApp, "Click to search for applications");
@@ -204,10 +203,9 @@
             btnAllGroups.BackColor = Color.Salmon;
             btnAllGroups.FlatStyle = FlatStyle.Popup;
             btnAllGroups.Font = new Font("Consolas", 12F);
-            btnAllGroups.Location = new Point(440, 201);
-            btnAllGroups.Margin = new Padding(3, 4, 3, 4);
+            btnAllGroups.Location = new Point(385, 151);
             btnAllGroups.Name = "btnAllGroups";
-            btnAllGroups.Size = new Size(142, 40);
+            btnAllGroups.Size = new Size(124, 30);
             btnAllGroups.TabIndex = 13;
             btnAllGroups.Text = "List all apps";
             mainFormToolTip.SetToolTip(btnAllGroups, "List all applications");
@@ -224,10 +222,9 @@
             pnllViewAssignments.Controls.Add(pbpbClearDtgGroupAssignment);
             pnllViewAssignments.Controls.Add(lblAppName);
             pnllViewAssignments.Controls.Add(dtgGroupAssignment);
-            pnllViewAssignments.Location = new Point(717, 16);
-            pnllViewAssignments.Margin = new Padding(3, 4, 3, 4);
+            pnllViewAssignments.Location = new Point(627, 12);
             pnllViewAssignments.Name = "pnllViewAssignments";
-            pnllViewAssignments.Size = new Size(537, 877);
+            pnllViewAssignments.Size = new Size(470, 387);
             pnllViewAssignments.TabIndex = 17;
             // 
             // label1
@@ -235,9 +232,9 @@
             label1.AutoSize = true;
             label1.Font = new Font("Consolas", 15.75F, FontStyle.Bold);
             label1.ForeColor = Color.Salmon;
-            label1.Location = new Point(14, 19);
+            label1.Location = new Point(12, 14);
             label1.Name = "label1";
-            label1.Size = new Size(449, 32);
+            label1.Size = new Size(358, 24);
             label1.TabIndex = 19;
             label1.Text = "View and delete assignment(s)";
             // 
@@ -246,10 +243,9 @@
             btnDeleteAllAssignments.BackColor = Color.Salmon;
             btnDeleteAllAssignments.FlatStyle = FlatStyle.Popup;
             btnDeleteAllAssignments.Font = new Font("Consolas", 12F);
-            btnDeleteAllAssignments.Location = new Point(307, 191);
-            btnDeleteAllAssignments.Margin = new Padding(3, 4, 3, 4);
+            btnDeleteAllAssignments.Location = new Point(269, 143);
             btnDeleteAllAssignments.Name = "btnDeleteAllAssignments";
-            btnDeleteAllAssignments.Size = new Size(174, 40);
+            btnDeleteAllAssignments.Size = new Size(152, 30);
             btnDeleteAllAssignments.TabIndex = 19;
             btnDeleteAllAssignments.Text = "Delete all";
             mainFormToolTip.SetToolTip(btnDeleteAllAssignments, "Click to delete all group assignments");
@@ -261,10 +257,9 @@
             btnDeleteSelectedAssignment.BackColor = Color.Salmon;
             btnDeleteSelectedAssignment.FlatStyle = FlatStyle.Popup;
             btnDeleteSelectedAssignment.Font = new Font("Consolas", 12F);
-            btnDeleteSelectedAssignment.Location = new Point(127, 191);
-            btnDeleteSelectedAssignment.Margin = new Padding(3, 4, 3, 4);
+            btnDeleteSelectedAssignment.Location = new Point(111, 143);
             btnDeleteSelectedAssignment.Name = "btnDeleteSelectedAssignment";
-            btnDeleteSelectedAssignment.Size = new Size(174, 40);
+            btnDeleteSelectedAssignment.Size = new Size(152, 30);
             btnDeleteSelectedAssignment.TabIndex = 20;
             btnDeleteSelectedAssignment.Text = "Delete selected";
             mainFormToolTip.SetToolTip(btnDeleteSelectedAssignment, "Click to delete the selected group assignments");
@@ -276,9 +271,9 @@
             lblAppID.AutoSize = true;
             lblAppID.Font = new Font("Consolas", 12F, FontStyle.Bold);
             lblAppID.ForeColor = Color.Salmon;
-            lblAppID.Location = new Point(9, 153);
+            lblAppID.Location = new Point(8, 115);
             lblAppID.Name = "lblAppID";
-            lblAppID.Size = new Size(98, 23);
+            lblAppID.Size = new Size(81, 19);
             lblAppID.TabIndex = 21;
             lblAppID.Text = "{APP ID}";
             mainFormToolTip.SetToolTip(lblAppID, "The selected applications ID");
@@ -286,10 +281,9 @@
             // pbpbClearDtgGroupAssignment
             // 
             pbpbClearDtgGroupAssignment.Image = Properties.Resources._5358270771574330938_32;
-            pbpbClearDtgGroupAssignment.Location = new Point(440, 132);
-            pbpbClearDtgGroupAssignment.Margin = new Padding(3, 4, 3, 4);
+            pbpbClearDtgGroupAssignment.Location = new Point(385, 99);
             pbpbClearDtgGroupAssignment.Name = "pbpbClearDtgGroupAssignment";
-            pbpbClearDtgGroupAssignment.Size = new Size(41, 51);
+            pbpbClearDtgGroupAssignment.Size = new Size(36, 38);
             pbpbClearDtgGroupAssignment.TabIndex = 19;
             pbpbClearDtgGroupAssignment.TabStop = false;
             mainFormToolTip.SetToolTip(pbpbClearDtgGroupAssignment, "Clear the view");
@@ -300,9 +294,9 @@
             lblAppName.AutoSize = true;
             lblAppName.Font = new Font("Consolas", 14.25F, FontStyle.Bold);
             lblAppName.ForeColor = Color.Salmon;
-            lblAppName.Location = new Point(9, 111);
+            lblAppName.Location = new Point(8, 83);
             lblAppName.Name = "lblAppName";
-            lblAppName.Size = new Size(129, 28);
+            lblAppName.Size = new Size(100, 22);
             lblAppName.TabIndex = 20;
             lblAppName.Text = "{APPNAME}";
             mainFormToolTip.SetToolTip(lblAppName, "The selected application");
@@ -333,14 +327,12 @@
             dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
             dtgGroupAssignment.DefaultCellStyle = dataGridViewCellStyle4;
             dtgGroupAssignment.EnableHeadersVisualStyles = false;
-            dtgGroupAssignment.Location = new Point(14, 249);
-            dtgGroupAssignment.Margin = new Padding(3, 4, 3, 4);
+            dtgGroupAssignment.Location = new Point(12, 187);
             dtgGroupAssignment.Name = "dtgGroupAssignment";
             dtgGroupAssignment.ReadOnly = true;
             dtgGroupAssignment.RowHeadersVisible = false;
             dtgGroupAssignment.RowHeadersWidth = 51;
-            dtgGroupAssignment.RowTemplate.Height = 25;
-            dtgGroupAssignment.Size = new Size(520, 745);
+            dtgGroupAssignment.Size = new Size(455, 559);
             dtgGroupAssignment.TabIndex = 16;
             // 
             // GroupName
@@ -370,51 +362,82 @@
             // pbHome
             // 
             pbHome.Image = Properties.Resources.application;
-            pbHome.Location = new Point(14, 16);
-            pbHome.Margin = new Padding(3, 4, 3, 4);
+            pbHome.Location = new Point(12, 12);
             pbHome.Name = "pbHome";
-            pbHome.Size = new Size(73, 85);
+            pbHome.Size = new Size(64, 64);
             pbHome.SizeMode = PictureBoxSizeMode.StretchImage;
             pbHome.TabIndex = 18;
             pbHome.TabStop = false;
             mainFormToolTip.SetToolTip(pbHome, "Home");
             pbHome.Click += pbHome_Click;
             // 
+            // btnClearSummary
+            // 
+            btnClearSummary.BackColor = Color.Salmon;
+            btnClearSummary.FlatStyle = FlatStyle.Popup;
+            btnClearSummary.Font = new Font("Consolas", 12F);
+            btnClearSummary.Location = new Point(313, 12);
+            btnClearSummary.Name = "btnClearSummary";
+            btnClearSummary.Size = new Size(152, 30);
+            btnClearSummary.TabIndex = 22;
+            btnClearSummary.Text = "Clear summary";
+            mainFormToolTip.SetToolTip(btnClearSummary, "Clears the summary of the page");
+            btnClearSummary.UseVisualStyleBackColor = false;
+            btnClearSummary.Click += btnClearSummary_Click;
+            // 
             // pbHelpGuide
             // 
             pbHelpGuide.Image = Properties.Resources._121047815016345278514481_48;
-            pbHelpGuide.Location = new Point(14, 96);
-            pbHelpGuide.Margin = new Padding(3, 4, 3, 4);
+            pbHelpGuide.Location = new Point(12, 72);
             pbHelpGuide.Name = "pbHelpGuide";
-            pbHelpGuide.Size = new Size(73, 85);
+            pbHelpGuide.Size = new Size(64, 64);
             pbHelpGuide.SizeMode = PictureBoxSizeMode.StretchImage;
             pbHelpGuide.TabIndex = 19;
             pbHelpGuide.TabStop = false;
             pbHelpGuide.Click += pbHelpGuide_Click;
             // 
-            // button1
+            // btnDeleteAssignmentForSelectedApps
             // 
-            button1.Location = new Point(289, 934);
-            button1.Name = "button1";
-            button1.Size = new Size(173, 46);
-            button1.TabIndex = 20;
-            button1.Text = "Nuke";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            btnDeleteAssignmentForSelectedApps.Location = new Point(260, 103);
+            btnDeleteAssignmentForSelectedApps.Margin = new Padding(3, 2, 3, 2);
+            btnDeleteAssignmentForSelectedApps.Name = "btnDeleteAssignmentForSelectedApps";
+            btnDeleteAssignmentForSelectedApps.Size = new Size(151, 34);
+            btnDeleteAssignmentForSelectedApps.TabIndex = 20;
+            btnDeleteAssignmentForSelectedApps.Text = "Nuke";
+            btnDeleteAssignmentForSelectedApps.UseVisualStyleBackColor = true;
+            // 
+            // rtbSummary
+            // 
+            rtbSummary.BackColor = Color.FromArgb(46, 51, 73);
+            rtbSummary.BorderStyle = BorderStyle.None;
+            rtbSummary.ForeColor = Color.Salmon;
+            rtbSummary.Location = new Point(3, 70);
+            rtbSummary.Name = "rtbSummary";
+            rtbSummary.Size = new Size(462, 281);
+            rtbSummary.TabIndex = 21;
+            rtbSummary.Text = "";
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(btnClearSummary);
+            panel2.Controls.Add(rtbSummary);
+            panel2.Location = new Point(627, 405);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(468, 354);
+            panel2.TabIndex = 22;
             // 
             // ViewAssignment
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
-            ClientSize = new Size(1273, 1055);
-            Controls.Add(button1);
+            ClientSize = new Size(1114, 791);
+            Controls.Add(panel2);
             Controls.Add(pbHelpGuide);
             Controls.Add(pbHome);
             Controls.Add(pnllViewAssignments);
             Controls.Add(pnlSearchApp);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(3, 4, 3, 4);
             Name = "ViewAssignment";
             Load += ViewAssignment_Load;
             pnlSearchApp.ResumeLayout(false);
@@ -427,6 +450,7 @@
             ((System.ComponentModel.ISupportInitialize)dtgGroupAssignment).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbHome).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbHelpGuide).EndInit();
+            panel2.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -456,6 +480,9 @@
         private ToolTip mainFormToolTip;
         private Label label1;
         private PictureBox pbHelpGuide;
-        private Button button1;
+        private Button btnDeleteAssignmentForSelectedApps;
+        private RichTextBox rtbSummary;
+        private Panel panel2;
+        private Button btnClearSummary;
     }
 }
