@@ -39,11 +39,13 @@ namespace IntuneAssignments
             UpdateLabel(lblAppName, "");
             UpdateLabel(lblNumberOfAssignmentsDeleted, "");
             lblDeleteStatusText.Hide();
+            lblProgress.Hide();
+            pbCalculate.Hide();
 
         }
 
 
-        
+
 
         ////////////////////////////////////////// Classes ///////////////////////////////////////////////////////////////////
 
@@ -342,7 +344,7 @@ namespace IntuneAssignments
                             WriteToLog("An error occurred when trying to look up the group name with group ID " + id);
                             WriteToLog("The error message is: " + ex.Message);
                             WriteToLog("This is usually because the group has been deleted from Entra, but the assignment for the group still exists in Intune");
-                            
+
                             rtbSummary.AppendText("An error occurred when trying to look up the group name with group ID " + id);
                             rtbSummary.AppendText("\n");
                             rtbSummary.AppendText("The error message is: " + ex.Message);
@@ -596,14 +598,67 @@ namespace IntuneAssignments
         }
 
 
+        public async Task CountNumberOfAssignmentsToBeDeleted()
+        {
+            int numberOfApps = 0;
+            int numberOfAssignments = 0;
+
+
+
+            // Authenticate to Graph
+            var graphClient = CreateGraphServiceClient();
+
+            // store all app IDs in a list
+            List<string> appIDs = new List<string>();
+
+            // IDs are at index 2 in the datagridview
+            foreach (DataGridViewRow selectedRow in dtgDisplayApp.SelectedRows)
+            {
+                // Make sure the row is not a new row (if your DataGridView allows adding new rows)
+                if (!selectedRow.IsNewRow)
+                {
+                    appIDs.Add(selectedRow.Cells[2].Value.ToString());
+
+                    // count the number of apps
+                    numberOfApps++;
+                }
+            }
+
+
+
+            // count the number of assignments for each app
+            foreach (var appID in appIDs)
+            {
+                // Query graph for assignment ID for a given app
+                var result = await graphClient.DeviceAppManagement.MobileApps[appID].Assignments.GetAsync((requestConfiguration) =>
+                {
+                    requestConfiguration.QueryParameters.Select = new string[] { "id", };
+                });
+
+                // Add the result to a list of assignments
+                List<MobileAppAssignment> assignmentsList = new List<MobileAppAssignment>();
+                assignmentsList.AddRange(result.Value);
+
+                // count how many assignments are found
+                numberOfAssignments += assignmentsList.Count;
+            }
+
+            MessageBox.Show("Number of apps selected for deleting assignments is " + numberOfApps);
+            MessageBox.Show("Number of assignments found for all selected apps is " + numberOfAssignments);
+
+        }
+
         public async Task deleteSelectedAppAssignments()
         {
 
             // show label
 
+            pbCalculate.Show();
+            lblProgress.Show();
             lblDeleteStatusText.Show();
             lblNumberOfAssignmentsDeleted.Text = 0.ToString();
             numberOfAssignmentsDeleted = 0;
+
 
             /*
              * This method will delete all assignments for all selected apps in the datagridview dtgDisplayApp
@@ -630,22 +685,24 @@ namespace IntuneAssignments
             WriteToLog("Number of apps selected for deleting assignments is " + numberOfApps);
             rtbSummary.AppendText("Number of apps selected for deleting assignments is " + numberOfApps);
             rtbSummary.AppendText("\n");
-            
+
+            // Set the progress bar maximum value
+            pbCalculate.Maximum = numberOfApps;
 
 
             // Process the list and delete all assignments for each app
 
             foreach (var appID in appIDs)
             {
-                
+
                 // find the app name
                 var appName = dtgDisplayApp.SelectedRows[0].Cells[0].Value.ToString();
 
                 WriteToLog("Begin deleting assignments for app " + appName + " with app id " + appID);
                 rtbSummary.AppendText("Begin deleting assignments for app " + appName + " with app id " + appID);
                 rtbSummary.AppendText("\n");
-                
-                
+
+
                 // Query graph for assignment ID for a given app
                 var result = await graphClient.DeviceAppManagement.MobileApps[appID].Assignments.GetAsync((requestConfiguration) =>
                 {
@@ -699,12 +756,12 @@ namespace IntuneAssignments
                             numberOfAssignmentsDeleted++;
                             lblNumberOfAssignmentsDeleted.Text = numberOfAssignmentsDeleted.ToString();
                         }
-                        
+
 
                     }
                 }
-
-                
+                // Update the progress bar
+                pbCalculate.Value++;
             }
 
 
@@ -890,8 +947,15 @@ namespace IntuneAssignments
             {
                 // If user clicks no, do nothing
             }
-            
-            
+
+
         }
+
+        private async void button1_Click(object sender, EventArgs e)
+        {
+            await CountNumberOfAssignmentsToBeDeleted();
+        }
+
+       
     }
 }

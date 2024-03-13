@@ -2206,6 +2206,7 @@ namespace IntuneAssignments
                     if (!clbAppAssignments.Items.Contains(selectedRow.Cells[0].Value.ToString()))
                     {
                         clbAppAssignments.Items.Add(selectedRow.Cells[0].Value.ToString());
+
                     }
                     
                 }
@@ -2255,6 +2256,7 @@ namespace IntuneAssignments
                 if (!clbGroupAssignment.Items.Contains(row.Cells[0].Value.ToString()))
                 {
                     clbGroupAssignment.Items.Add(row.Cells[0].Value.ToString());
+
                 }
             }
 

@@ -35,6 +35,7 @@
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewAssignment));
             pnlSearchApp = new Panel();
+            button1 = new Button();
             pbClearDtgDisplayApp = new PictureBox();
             lblSearchApp = new Label();
             btnDeleteAssignmentForSelectedApps = new Button();
@@ -61,9 +62,11 @@
             btnClearSummary = new Button();
             lblNumberOfAssignmentsDeleted = new Label();
             lblDeleteStatusText = new Label();
+            lblProgress = new Label();
             pbHelpGuide = new PictureBox();
             rtbSummary = new RichTextBox();
             panel2 = new Panel();
+            pbCalculate = new ProgressBar();
             pnlSearchApp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbClearDtgDisplayApp).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayApp).BeginInit();
@@ -78,6 +81,7 @@
             // pnlSearchApp
             // 
             pnlSearchApp.BorderStyle = BorderStyle.FixedSingle;
+            pnlSearchApp.Controls.Add(button1);
             pnlSearchApp.Controls.Add(pbClearDtgDisplayApp);
             pnlSearchApp.Controls.Add(lblSearchApp);
             pnlSearchApp.Controls.Add(btnDeleteAssignmentForSelectedApps);
@@ -89,6 +93,16 @@
             pnlSearchApp.Name = "pnlSearchApp";
             pnlSearchApp.Size = new Size(539, 747);
             pnlSearchApp.TabIndex = 0;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(378, 44);
+            button1.Name = "button1";
+            button1.Size = new Size(88, 37);
+            button1.TabIndex = 21;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // pbClearDtgDisplayApp
             // 
@@ -407,7 +421,7 @@
             lblNumberOfAssignmentsDeleted.AutoSize = true;
             lblNumberOfAssignmentsDeleted.Font = new Font("Consolas", 12F, FontStyle.Bold);
             lblNumberOfAssignmentsDeleted.ForeColor = Color.Salmon;
-            lblNumberOfAssignmentsDeleted.Location = new Point(9, 31);
+            lblNumberOfAssignmentsDeleted.Location = new Point(3, 80);
             lblNumberOfAssignmentsDeleted.Name = "lblNumberOfAssignmentsDeleted";
             lblNumberOfAssignmentsDeleted.Size = new Size(288, 19);
             lblNumberOfAssignmentsDeleted.TabIndex = 22;
@@ -419,12 +433,24 @@
             lblDeleteStatusText.AutoSize = true;
             lblDeleteStatusText.Font = new Font("Consolas", 12F, FontStyle.Bold);
             lblDeleteStatusText.ForeColor = Color.Salmon;
-            lblDeleteStatusText.Location = new Point(9, 12);
+            lblDeleteStatusText.Location = new Point(3, 61);
             lblDeleteStatusText.Name = "lblDeleteStatusText";
-            lblDeleteStatusText.Size = new Size(279, 19);
+            lblDeleteStatusText.Size = new Size(189, 19);
             lblDeleteStatusText.TabIndex = 23;
-            lblDeleteStatusText.Text = "Number of assignments deleted:";
+            lblDeleteStatusText.Text = "Assignments deleted:";
             mainFormToolTip.SetToolTip(lblDeleteStatusText, "The selected applications ID");
+            // 
+            // lblProgress
+            // 
+            lblProgress.AutoSize = true;
+            lblProgress.Font = new Font("Consolas", 12F, FontStyle.Bold);
+            lblProgress.ForeColor = Color.Salmon;
+            lblProgress.Location = new Point(9, 12);
+            lblProgress.Name = "lblProgress";
+            lblProgress.Size = new Size(81, 19);
+            lblProgress.TabIndex = 25;
+            lblProgress.Text = "Progress";
+            mainFormToolTip.SetToolTip(lblProgress, "The selected applications ID");
             // 
             // pbHelpGuide
             // 
@@ -442,14 +468,16 @@
             rtbSummary.BackColor = Color.FromArgb(46, 51, 73);
             rtbSummary.BorderStyle = BorderStyle.None;
             rtbSummary.ForeColor = Color.Salmon;
-            rtbSummary.Location = new Point(3, 70);
+            rtbSummary.Location = new Point(3, 102);
             rtbSummary.Name = "rtbSummary";
-            rtbSummary.Size = new Size(462, 281);
+            rtbSummary.Size = new Size(462, 249);
             rtbSummary.TabIndex = 21;
             rtbSummary.Text = "";
             // 
             // panel2
             // 
+            panel2.Controls.Add(lblProgress);
+            panel2.Controls.Add(pbCalculate);
             panel2.Controls.Add(lblDeleteStatusText);
             panel2.Controls.Add(lblNumberOfAssignmentsDeleted);
             panel2.Controls.Add(btnClearSummary);
@@ -458,6 +486,13 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(468, 354);
             panel2.TabIndex = 22;
+            // 
+            // pbCalculate
+            // 
+            pbCalculate.Location = new Point(9, 35);
+            pbCalculate.Name = "pbCalculate";
+            pbCalculate.Size = new Size(273, 23);
+            pbCalculate.TabIndex = 24;
             // 
             // ViewAssignment
             // 
@@ -519,5 +554,8 @@
         private Button btnClearSummary;
         private Label lblNumberOfAssignmentsDeleted;
         private Label lblDeleteStatusText;
+        private Button button1;
+        private ProgressBar pbCalculate;
+        private Label lblProgress;
     }
 }
