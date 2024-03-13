@@ -35,7 +35,6 @@
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewAssignment));
             pnlSearchApp = new Panel();
-            button1 = new Button();
             pbClearDtgDisplayApp = new PictureBox();
             lblSearchApp = new Label();
             btnDeleteAssignmentForSelectedApps = new Button();
@@ -81,7 +80,6 @@
             // pnlSearchApp
             // 
             pnlSearchApp.BorderStyle = BorderStyle.FixedSingle;
-            pnlSearchApp.Controls.Add(button1);
             pnlSearchApp.Controls.Add(pbClearDtgDisplayApp);
             pnlSearchApp.Controls.Add(lblSearchApp);
             pnlSearchApp.Controls.Add(btnDeleteAssignmentForSelectedApps);
@@ -93,16 +91,6 @@
             pnlSearchApp.Name = "pnlSearchApp";
             pnlSearchApp.Size = new Size(539, 747);
             pnlSearchApp.TabIndex = 0;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(378, 44);
-            button1.Name = "button1";
-            button1.Size = new Size(88, 37);
-            button1.TabIndex = 21;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
             // 
             // pbClearDtgDisplayApp
             // 
@@ -407,7 +395,7 @@
             btnClearSummary.BackColor = Color.Salmon;
             btnClearSummary.FlatStyle = FlatStyle.Popup;
             btnClearSummary.Font = new Font("Consolas", 12F);
-            btnClearSummary.Location = new Point(313, 12);
+            btnClearSummary.Location = new Point(313, 61);
             btnClearSummary.Name = "btnClearSummary";
             btnClearSummary.Size = new Size(152, 30);
             btnClearSummary.TabIndex = 22;
@@ -554,7 +542,6 @@
         private Button btnClearSummary;
         private Label lblNumberOfAssignmentsDeleted;
         private Label lblDeleteStatusText;
-        private Button button1;
         private ProgressBar pbCalculate;
         private Label lblProgress;
     }

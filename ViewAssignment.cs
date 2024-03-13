@@ -598,7 +598,7 @@ namespace IntuneAssignments
         }
 
 
-        public async Task CountNumberOfAssignmentsToBeDeleted()
+        public async Task<string> CountNumberOfAssignmentsToBeDeleted()
         {
             int numberOfApps = 0;
             int numberOfAssignments = 0;
@@ -643,15 +643,28 @@ namespace IntuneAssignments
                 numberOfAssignments += assignmentsList.Count;
             }
 
-            MessageBox.Show("Number of apps selected for deleting assignments is " + numberOfApps);
-            MessageBox.Show("Number of assignments found for all selected apps is " + numberOfAssignments);
+            //MessageBox.Show("Number of apps selected for deleting assignments is " + numberOfApps);
+            //MessageBox.Show("Number of assignments found for all selected apps is " + numberOfAssignments);
 
+            return "The number of applications are " + numberOfApps + " and the number of assignments are " + numberOfAssignments;
         }
 
         public async Task deleteSelectedAppAssignments()
         {
+            /*
+             * This method will delete all assignments for all selected apps in the datagridview dtgDisplayApp
+             */
 
-            // show label
+            
+
+            // Warn user before proceeding
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete ALL assignments for ALL selected apps?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+            if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+
+            // show necessary controls
 
             pbCalculate.Show();
             lblProgress.Show();
@@ -659,10 +672,9 @@ namespace IntuneAssignments
             lblNumberOfAssignmentsDeleted.Text = 0.ToString();
             numberOfAssignmentsDeleted = 0;
 
+            
 
-            /*
-             * This method will delete all assignments for all selected apps in the datagridview dtgDisplayApp
-             */
+            
 
             // Authenticate to Graph
 
@@ -935,6 +947,24 @@ namespace IntuneAssignments
 
         private async void btnDeleteAssignmentForSelectedApps_Click(object sender, EventArgs e)
         {
+            // show necessary controls
+            lblProgress.Show();
+            lblProgress.Text = "Processing the number of apps and assignments to be deleted...";
+            pbCalculate.Show();
+            pbCalculate.Style = ProgressBarStyle.Marquee;
+
+            // Show number of apps and assignments to be deleted
+            var status = await CountNumberOfAssignmentsToBeDeleted();
+
+
+            MessageBox.Show(status);
+
+            // hide necessary controls
+            lblProgress.Hide();
+            pbCalculate.Hide();
+            pbCalculate.Style = ProgressBarStyle.Blocks;
+
+
             // Show message box with warning, and if statement based on what the user clicks
 
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete ALL assignments for ALL selected apps?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
@@ -949,11 +979,6 @@ namespace IntuneAssignments
             }
 
 
-        }
-
-        private async void button1_Click(object sender, EventArgs e)
-        {
-            await CountNumberOfAssignmentsToBeDeleted();
         }
 
        
