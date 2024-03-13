@@ -6,6 +6,7 @@ using System.Reflection;
 using static IntuneAssignments.GlobalVariables;
 using static IntuneAssignments.GraphServiceClientCreator;
 using static IntuneAssignments.FormUtilities;
+using System.Windows.Forms;
 
 
 
@@ -627,7 +628,7 @@ namespace IntuneAssignments
         {
 
             FormUtilities.ClearDataGridView(dtgDisplayApp);
-            FormUtilities.ClearCheckedListBox(clbAppAssignments);
+            //FormUtilities.ClearCheckedListBox(clbAppAssignments);
 
 
             // Create a graph service client object
@@ -1859,6 +1860,8 @@ namespace IntuneAssignments
             // Note - this should not be done in each method, because that would remove all other results
             FormUtilities.ClearDataGridView(dtgDisplayGroup);
 
+            //FormUtilities.ClearCheckedListBox(clbGroupAssignment);
+
 
 
             await Task.Run(() => ListAllGroupsV2(dtgDisplayGroup));
@@ -2189,29 +2192,104 @@ namespace IntuneAssignments
             rtbDeploymentSummary.Clear();
         }
 
-        private void addAllSelectedToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void addSelectedToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            foreach (DataGridViewCell cell in dtgDisplayApp.SelectedCells)
+            foreach (DataGridViewRow selectedRow in dtgDisplayApp.SelectedRows)
             {
 
                 // TODO - Test on large data sets
+                if (!selectedRow.IsNewRow)
+                {
+                    // check if the item is already in the checked list box
+                    if (!clbAppAssignments.Items.Contains(selectedRow.Cells[0].Value.ToString()))
+                    {
+                        clbAppAssignments.Items.Add(selectedRow.Cells[0].Value.ToString());
+                    }
+                    
+                }
 
-                // Add the value to the checked list box
-                clbAppAssignments.Items.Add(cell.Value.ToString());
+            }
+
+        }
+
+        private void AddAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dtgDisplayApp.Rows)
+            {
+
+                // check if the item is already in the checked list box
+                if (!clbAppAssignments.Items.Contains(row.Cells[0].Value.ToString()))
+                {
+                    clbAppAssignments.Items.Add(row.Cells[0].Value.ToString());
+                }
+                
             }
         }
 
-        private void addAllToolStripMenuItem_Click(object sender, EventArgs e)
+        private void addSelectedGroupsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewCell cell in dtgDisplayGroup.SelectedCells)
+            foreach (DataGridViewRow selectedRow in dtgDisplayGroup.SelectedRows)
             {
 
                 // TODO - Test on large data sets
-
-                // Add the value to the checked list box
-                clbGroupAssignment.Items.Add(cell.Value.ToString());
+                if (!selectedRow.IsNewRow)
+                {
+                    // check if the item is already in the checked list box
+                    if (!clbGroupAssignment.Items.Contains(selectedRow.Cells[0].Value.ToString()))
+                    {
+                        clbGroupAssignment.Items.Add(selectedRow.Cells[0].Value.ToString());
+                    }
+                }
             }
+        }
+
+        private void addAllGroupsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+            foreach (DataGridViewRow row in dtgDisplayGroup.Rows)
+            {
+
+                // check if the item is already in the checked list box
+                if (!clbGroupAssignment.Items.Contains(row.Cells[0].Value.ToString()))
+                {
+                    clbGroupAssignment.Items.Add(row.Cells[0].Value.ToString());
+                }
+            }
+
+        }
+
+        private void cmsRemoveSelectedAppAssignments_Click(object sender, EventArgs e)
+        {
+            // This method removes the selected items from the checked list box
+            for (int i = clbAppAssignments.CheckedItems.Count - 1; i >= 0; i--)
+            {
+                clbAppAssignments.Items.Remove(clbAppAssignments.CheckedItems[i]);
+            }
+        }
+
+        private void cmsRemoveAllAppAssignments_Click(object sender, EventArgs e)
+        {
+
+            // This method removes all items from the checked list box
+            clbAppAssignments.Items.Clear();
+
+        }
+
+        private void cmsRemoveSelectedGroupAssignments_Click(object sender, EventArgs e)
+        {
+            // This method removes the selected items from the checked list box
+            for (int i = clbGroupAssignment.CheckedItems.Count - 1; i >= 0; i--)
+            {
+                clbGroupAssignment.Items.Remove(clbGroupAssignment.CheckedItems[i]);
+            }
+        }
+
+        private void cmsRemoveAllGroupAssignments_Click(object sender, EventArgs e)
+        {
+            // This method removes all items from the checked list box
+            clbGroupAssignment.Items.Clear();
         }
     }
 }

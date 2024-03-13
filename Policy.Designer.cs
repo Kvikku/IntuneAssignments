@@ -678,7 +678,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
-            ClientSize = new Size(1684, 791);
+            ClientSize = new Size(1885, 791);
             Controls.Add(lblHeaderAppForm);
             Controls.Add(pbViewAssignments);
             Controls.Add(pnlDescription);

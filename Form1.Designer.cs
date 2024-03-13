@@ -42,6 +42,9 @@
             pbView = new PictureBox();
             pictureBox1 = new PictureBox();
             clbAppAssignments = new CheckedListBox();
+            cmbRightClickAppAssignment = new ContextMenuStrip(components);
+            cmsRemoveSelectedAppAssignments = new ToolStripMenuItem();
+            cmsRemoveAllAppAssignments = new ToolStripMenuItem();
             pnlSearchApp = new Panel();
             lblSelectAppType = new Label();
             cBAppType = new ComboBox();
@@ -49,6 +52,9 @@
             AppName = new DataGridViewTextBoxColumn();
             Platform = new DataGridViewTextBoxColumn();
             AppID = new DataGridViewTextBoxColumn();
+            cmsRightClickAppList = new ContextMenuStrip(components);
+            addSelectedToolStripMenuItem = new ToolStripMenuItem();
+            AddAllToolStripMenuItem = new ToolStripMenuItem();
             txtboxSearchApp = new TextBox();
             btnSearchApp = new Button();
             pnlSelectApps = new Panel();
@@ -60,11 +66,17 @@
             GroupMemberCount = new DataGridViewTextBoxColumn();
             GroupType = new DataGridViewTextBoxColumn();
             GroupID = new DataGridViewTextBoxColumn();
+            cmsRightClickGroupList = new ContextMenuStrip(components);
+            addSelectedGroupsToolStripMenuItem1 = new ToolStripMenuItem();
+            addAllGroupsToolStripMenuItem1 = new ToolStripMenuItem();
             btnSearchGroup = new Button();
             txtboxSearchGroup = new TextBox();
             btnListAllGroups = new Button();
             pnlSelectGroup = new Panel();
             clbGroupAssignment = new CheckedListBox();
+            cmsRightClickGroupAssignment = new ContextMenuStrip(components);
+            cmsRemoveSelectedGroupAssignments = new ToolStripMenuItem();
+            cmsRemoveAllGroupAssignments = new ToolStripMenuItem();
             pnlIntent = new Panel();
             txtboxAppDescription = new TextBox();
             lblDescription = new Label();
@@ -95,12 +107,16 @@
             panelTenantInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            cmbRightClickAppAssignment.SuspendLayout();
             pnlSearchApp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayApp).BeginInit();
+            cmsRightClickAppList.SuspendLayout();
             pnlSelectApps.SuspendLayout();
             pnlSearchGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).BeginInit();
+            cmsRightClickGroupList.SuspendLayout();
             pnlSelectGroup.SuspendLayout();
+            cmsRightClickGroupAssignment.SuspendLayout();
             pnlIntent.SuspendLayout();
             panelSummary.SuspendLayout();
             menuPanel.SuspendLayout();
@@ -192,6 +208,7 @@
             clbAppAssignments.BackColor = Color.FromArgb(46, 51, 73);
             clbAppAssignments.BorderStyle = BorderStyle.None;
             clbAppAssignments.CheckOnClick = true;
+            clbAppAssignments.ContextMenuStrip = cmbRightClickAppAssignment;
             clbAppAssignments.Font = new Font("Consolas", 9F);
             clbAppAssignments.ForeColor = Color.Salmon;
             clbAppAssignments.FormattingEnabled = true;
@@ -201,6 +218,26 @@
             clbAppAssignments.TabIndex = 0;
             mainFormToolTip.SetToolTip(clbAppAssignments, "All apps that you want to deploy");
             clbAppAssignments.MouseClick += clbAppAssignments_MouseClick;
+            // 
+            // cmbRightClickAppAssignment
+            // 
+            cmbRightClickAppAssignment.Items.AddRange(new ToolStripItem[] { cmsRemoveSelectedAppAssignments, cmsRemoveAllAppAssignments });
+            cmbRightClickAppAssignment.Name = "cmbRightClickApp";
+            cmbRightClickAppAssignment.Size = new Size(164, 48);
+            // 
+            // cmsRemoveSelectedAppAssignments
+            // 
+            cmsRemoveSelectedAppAssignments.Name = "cmsRemoveSelectedAppAssignments";
+            cmsRemoveSelectedAppAssignments.Size = new Size(163, 22);
+            cmsRemoveSelectedAppAssignments.Text = "Remove selected";
+            cmsRemoveSelectedAppAssignments.Click += cmsRemoveSelectedAppAssignments_Click;
+            // 
+            // cmsRemoveAllAppAssignments
+            // 
+            cmsRemoveAllAppAssignments.Name = "cmsRemoveAllAppAssignments";
+            cmsRemoveAllAppAssignments.Size = new Size(163, 22);
+            cmsRemoveAllAppAssignments.Text = "Remove all";
+            cmsRemoveAllAppAssignments.Click += cmsRemoveAllAppAssignments_Click;
             // 
             // pnlSearchApp
             // 
@@ -215,7 +252,7 @@
             pnlSearchApp.Controls.Add(btnAllGroups);
             pnlSearchApp.Location = new Point(108, 46);
             pnlSearchApp.Name = "pnlSearchApp";
-            pnlSearchApp.Size = new Size(754, 415);
+            pnlSearchApp.Size = new Size(754, 535);
             pnlSearchApp.TabIndex = 9;
             // 
             // lblSelectAppType
@@ -262,6 +299,7 @@
             dtgDisplayApp.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dtgDisplayApp.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgDisplayApp.Columns.AddRange(new DataGridViewColumn[] { AppName, Platform, AppID });
+            dtgDisplayApp.ContextMenuStrip = cmsRightClickAppList;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.FromArgb(46, 51, 73);
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.75F);
@@ -277,6 +315,7 @@
             dtgDisplayApp.ReadOnly = true;
             dtgDisplayApp.RowHeadersVisible = false;
             dtgDisplayApp.RowHeadersWidth = 51;
+            dtgDisplayApp.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dtgDisplayApp.Size = new Size(517, 324);
             dtgDisplayApp.TabIndex = 10;
             mainFormToolTip.SetToolTip(dtgDisplayApp, "Double click an app to prepare it for deployment");
@@ -305,6 +344,26 @@
             AppID.Name = "AppID";
             AppID.ReadOnly = true;
             AppID.Width = 112;
+            // 
+            // cmsRightClickAppList
+            // 
+            cmsRightClickAppList.Items.AddRange(new ToolStripItem[] { addSelectedToolStripMenuItem, AddAllToolStripMenuItem });
+            cmsRightClickAppList.Name = "contextMenuStrip1";
+            cmsRightClickAppList.Size = new Size(143, 48);
+            // 
+            // addSelectedToolStripMenuItem
+            // 
+            addSelectedToolStripMenuItem.Name = "addSelectedToolStripMenuItem";
+            addSelectedToolStripMenuItem.Size = new Size(142, 22);
+            addSelectedToolStripMenuItem.Text = "Add selected";
+            addSelectedToolStripMenuItem.Click += addSelectedToolStripMenuItem_Click;
+            // 
+            // AddAllToolStripMenuItem
+            // 
+            AddAllToolStripMenuItem.Name = "AddAllToolStripMenuItem";
+            AddAllToolStripMenuItem.Size = new Size(142, 22);
+            AddAllToolStripMenuItem.Text = "Add all";
+            AddAllToolStripMenuItem.Click += AddAllToolStripMenuItem_Click;
             // 
             // txtboxSearchApp
             // 
@@ -401,6 +460,7 @@
             dtgDisplayGroup.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dtgDisplayGroup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgDisplayGroup.Columns.AddRange(new DataGridViewColumn[] { GroupName, GroupMemberCount, GroupType, GroupID });
+            dtgDisplayGroup.ContextMenuStrip = cmsRightClickGroupList;
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = Color.FromArgb(46, 51, 73);
             dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.75F);
@@ -415,6 +475,7 @@
             dtgDisplayGroup.ReadOnly = true;
             dtgDisplayGroup.RowHeadersVisible = false;
             dtgDisplayGroup.RowHeadersWidth = 51;
+            dtgDisplayGroup.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dtgDisplayGroup.Size = new Size(410, 306);
             dtgDisplayGroup.TabIndex = 14;
             mainFormToolTip.SetToolTip(dtgDisplayGroup, "Double click a group to prepare it for deployment");
@@ -451,6 +512,26 @@
             GroupID.Name = "GroupID";
             GroupID.ReadOnly = true;
             GroupID.Width = 200;
+            // 
+            // cmsRightClickGroupList
+            // 
+            cmsRightClickGroupList.Items.AddRange(new ToolStripItem[] { addSelectedGroupsToolStripMenuItem1, addAllGroupsToolStripMenuItem1 });
+            cmsRightClickGroupList.Name = "cmsRightClickGroupList";
+            cmsRightClickGroupList.Size = new Size(143, 48);
+            // 
+            // addSelectedGroupsToolStripMenuItem1
+            // 
+            addSelectedGroupsToolStripMenuItem1.Name = "addSelectedGroupsToolStripMenuItem1";
+            addSelectedGroupsToolStripMenuItem1.Size = new Size(142, 22);
+            addSelectedGroupsToolStripMenuItem1.Text = "Add selected";
+            addSelectedGroupsToolStripMenuItem1.Click += addSelectedGroupsToolStripMenuItem1_Click;
+            // 
+            // addAllGroupsToolStripMenuItem1
+            // 
+            addAllGroupsToolStripMenuItem1.Name = "addAllGroupsToolStripMenuItem1";
+            addAllGroupsToolStripMenuItem1.Size = new Size(142, 22);
+            addAllGroupsToolStripMenuItem1.Text = "Add all";
+            addAllGroupsToolStripMenuItem1.Click += addAllGroupsToolStripMenuItem1_Click;
             // 
             // btnSearchGroup
             // 
@@ -509,6 +590,7 @@
             clbGroupAssignment.BackColor = Color.FromArgb(46, 51, 73);
             clbGroupAssignment.BorderStyle = BorderStyle.None;
             clbGroupAssignment.CheckOnClick = true;
+            clbGroupAssignment.ContextMenuStrip = cmsRightClickGroupAssignment;
             clbGroupAssignment.Font = new Font("Consolas", 9F);
             clbGroupAssignment.ForeColor = Color.Salmon;
             clbGroupAssignment.FormattingEnabled = true;
@@ -518,6 +600,26 @@
             clbGroupAssignment.TabIndex = 0;
             mainFormToolTip.SetToolTip(clbGroupAssignment, "All groups that you want to deploy to");
             clbGroupAssignment.MouseClick += clbGroupAssignment_MouseClick;
+            // 
+            // cmsRightClickGroupAssignment
+            // 
+            cmsRightClickGroupAssignment.Items.AddRange(new ToolStripItem[] { cmsRemoveSelectedGroupAssignments, cmsRemoveAllGroupAssignments });
+            cmsRightClickGroupAssignment.Name = "cmsRemove";
+            cmsRightClickGroupAssignment.Size = new Size(164, 48);
+            // 
+            // cmsRemoveSelectedGroupAssignments
+            // 
+            cmsRemoveSelectedGroupAssignments.Name = "cmsRemoveSelectedGroupAssignments";
+            cmsRemoveSelectedGroupAssignments.Size = new Size(163, 22);
+            cmsRemoveSelectedGroupAssignments.Text = "Remove selected";
+            cmsRemoveSelectedGroupAssignments.Click += cmsRemoveSelectedGroupAssignments_Click;
+            // 
+            // cmsRemoveAllGroupAssignments
+            // 
+            cmsRemoveAllGroupAssignments.Name = "cmsRemoveAllGroupAssignments";
+            cmsRemoveAllGroupAssignments.Size = new Size(163, 22);
+            cmsRemoveAllGroupAssignments.Text = "Remove all";
+            cmsRemoveAllGroupAssignments.Click += cmsRemoveAllGroupAssignments_Click;
             // 
             // pnlIntent
             // 
@@ -864,7 +966,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
-            ClientSize = new Size(1684, 791);
+            ClientSize = new Size(1862, 911);
             Controls.Add(lblHeaderAppForm);
             Controls.Add(panelSummary);
             Controls.Add(menuPanel);
@@ -880,14 +982,18 @@
             panelTenantInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbView).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            cmbRightClickAppAssignment.ResumeLayout(false);
             pnlSearchApp.ResumeLayout(false);
             pnlSearchApp.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayApp).EndInit();
+            cmsRightClickAppList.ResumeLayout(false);
             pnlSelectApps.ResumeLayout(false);
             pnlSearchGroup.ResumeLayout(false);
             pnlSearchGroup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).EndInit();
+            cmsRightClickGroupList.ResumeLayout(false);
             pnlSelectGroup.ResumeLayout(false);
+            cmsRightClickGroupAssignment.ResumeLayout(false);
             pnlIntent.ResumeLayout(false);
             pnlIntent.PerformLayout();
             panelSummary.ResumeLayout(false);
@@ -969,5 +1075,17 @@
         private ToolStripMenuItem addAllSelectedToolStripMenuItem;
         private ContextMenuStrip dtgDisplayGroupRightClick;
         private ToolStripMenuItem addAllToolStripMenuItem;
+        private ContextMenuStrip cmsRightClickAppList;
+        private ToolStripMenuItem addSelectedToolStripMenuItem;
+        private ToolStripMenuItem AddAllToolStripMenuItem;
+        private ContextMenuStrip cmsRightClickGroupList;
+        private ToolStripMenuItem addSelectedGroupsToolStripMenuItem1;
+        private ToolStripMenuItem addAllGroupsToolStripMenuItem1;
+        private ContextMenuStrip cmbRightClickAppAssignment;
+        private ToolStripMenuItem cmsRemoveSelectedAppAssignments;
+        private ToolStripMenuItem cmsRemoveAllAppAssignments;
+        private ContextMenuStrip cmsRightClickGroupAssignment;
+        private ToolStripMenuItem cmsRemoveSelectedGroupAssignments;
+        private ToolStripMenuItem cmsRemoveAllGroupAssignments;
     }
 }
