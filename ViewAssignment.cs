@@ -198,11 +198,24 @@ namespace IntuneAssignments
             });
 
 
+            foreach (var app in result.Value)
+            {
+                // remove app protection app objects from the list
 
-            // Put result into a list for easy processing
+                if (!(app.OdataType.Contains("#microsoft.graph.managedAndroidStoreApp") || app.OdataType.Contains("#microsoft.graph.managedIOSStoreApp")))
+                {
+                    listAllApplications.Add(app);
+                }
+            }
+            
+            
+
+         
 
 
-            listAllApplications.AddRange(result.Value);
+            //listAllApplications.AddRange(result.Value);
+
+
 
 
             // Loop through the list
@@ -230,20 +243,24 @@ namespace IntuneAssignments
 
                 switch (appOS)
                 {
-                    case "#microsoft.graph.win32LobApp" or "#microsoft.graph.officeSuiteApp" or "#microsoft.graph.microsoftStoreForBusinessApp":
+                    case "#microsoft.graph.win32LobApp" or "#microsoft.graph.officeSuiteApp" or "#microsoft.graph.microsoftStoreForBusinessApp" or "#microsoft.graph.winGetApp" or "#microsoft.graph.windowsWebApp":
                         platform = "Windows";
                         break;
 
-                    case "#microsoft.graph.managedIOSStoreApp":
+                    case "#microsoft.graph.managedIOSStoreApp" or "#microsoft.graph.iosVppApp":
                         platform = "iOS";
                         break;
 
-                    case "#microsoft.graph.androidManagedStoreApp":
+                    case "#microsoft.graph.androidManagedStoreApp" or "#microsoft.graph.androidManagedStoreApp":
                         platform = "Android";
                         break;
 
-                    case "#microsoft.graph.macOSOfficeSuiteApp":
+                    case "#microsoft.graph.macOSOfficeSuiteApp" or "#microsoft.graph.macOSMicrosoftDefenderApp" or "#microsoft.graph.macOSMicrosoftEdgeApp" or "#microsoft.graph.macOSWebClip":
                         platform = "macOS";
+                        break;
+
+                    case "#microsoft.graph.webApp":
+                        platform = "Web link";
                         break;
 
                     default:
@@ -847,6 +864,8 @@ namespace IntuneAssignments
 
         private void btnAllGroups_Click(object sender, EventArgs e)
         {
+            ClearRichTextBox(rtbSummary);
+            pbCalculate.Value = 0;
             listAllApps();
         }
 

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IntuneAssignments")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7e38cc9a2a104ee8792f5b7cce6493aec07f280d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c848a9bb64020aff846eb6b5f4991edcbc1fd3ca")]
 [assembly: System.Reflection.AssemblyProductAttribute("IntuneAssignments")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IntuneAssignments")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
