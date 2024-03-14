@@ -966,15 +966,16 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
-            ClientSize = new Size(1862, 911);
+            ClientSize = new Size(1878, 911);
             Controls.Add(lblHeaderAppForm);
             Controls.Add(panelSummary);
             Controls.Add(menuPanel);
             Controls.Add(pnlIntent);
             Controls.Add(pnlSearchGroup);
             Controls.Add(pnlSearchApp);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
+            FormBorderStyle = FormBorderStyle.Fixed3D;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Load += Form1_Load;

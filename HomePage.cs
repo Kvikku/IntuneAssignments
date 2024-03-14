@@ -237,10 +237,11 @@ namespace IntuneAssignments
 
             // Sets the variables to the values in the appsettings.json file
 
-            MSGraphAuthenticator.tenantID = configuration.GetSection("Entra:TenantId").Value;
-            MSGraphAuthenticator.clientID = configuration.GetSection("Entra:ClientId").Value;
-            MSGraphAuthenticator.clientSecret = configuration.GetSection("Entra:ClientSecret").Value;
-            MSGraphAuthenticator.authority = $"https://login.microsoftonline.com/{Form1.tenantID}";
+            // Note - this is using the old msauth method.  
+            MSGraphAuthenticator.ZtenantID = configuration.GetSection("Entra:TenantId").Value;
+            MSGraphAuthenticator.ZclientID = configuration.GetSection("Entra:ClientId").Value;
+            MSGraphAuthenticator.ZclientSecret = configuration.GetSection("Entra:ClientSecret").Value;
+            MSGraphAuthenticator.Zauthority = $"https://login.microsoftonline.com/{Form1.tenantID}";
 
 
             // Testing only

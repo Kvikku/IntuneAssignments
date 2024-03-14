@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             btnOK = new Button();
             lblHeader = new Label();
             lblTenantID = new Label();
@@ -48,7 +49,7 @@
             // 
             btnOK.BackColor = Color.Salmon;
             btnOK.FlatStyle = FlatStyle.Popup;
-            btnOK.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnOK.Font = new Font("Consolas", 12F);
             btnOK.ForeColor = Color.FromArgb(46, 51, 73);
             btnOK.Location = new Point(323, 337);
             btnOK.Name = "btnOK";
@@ -62,7 +63,7 @@
             // lblHeader
             // 
             lblHeader.AutoSize = true;
-            lblHeader.Font = new Font("Consolas", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblHeader.Font = new Font("Consolas", 12F, FontStyle.Bold);
             lblHeader.ForeColor = Color.Salmon;
             lblHeader.Location = new Point(12, 46);
             lblHeader.Name = "lblHeader";
@@ -73,7 +74,7 @@
             // lblTenantID
             // 
             lblTenantID.AutoSize = true;
-            lblTenantID.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTenantID.Font = new Font("Consolas", 9.75F);
             lblTenantID.ForeColor = Color.Salmon;
             lblTenantID.Location = new Point(11, 159);
             lblTenantID.Name = "lblTenantID";
@@ -84,7 +85,7 @@
             // lblClientID
             // 
             lblClientID.AutoSize = true;
-            lblClientID.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lblClientID.Font = new Font("Consolas", 9.75F);
             lblClientID.ForeColor = Color.Salmon;
             lblClientID.Location = new Point(11, 205);
             lblClientID.Name = "lblClientID";
@@ -95,7 +96,7 @@
             // lblClientSecret
             // 
             lblClientSecret.AutoSize = true;
-            lblClientSecret.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lblClientSecret.Font = new Font("Consolas", 9.75F);
             lblClientSecret.ForeColor = Color.Salmon;
             lblClientSecret.Location = new Point(11, 249);
             lblClientSecret.Name = "lblClientSecret";
@@ -106,7 +107,7 @@
             // lblInfo
             // 
             lblInfo.AutoSize = true;
-            lblInfo.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lblInfo.Font = new Font("Consolas", 9.75F);
             lblInfo.ForeColor = Color.Salmon;
             lblInfo.Location = new Point(12, 95);
             lblInfo.Name = "lblInfo";
@@ -118,13 +119,14 @@
             // 
             btnOpenFolder.BackColor = Color.Salmon;
             btnOpenFolder.FlatStyle = FlatStyle.Popup;
-            btnOpenFolder.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnOpenFolder.Font = new Font("Consolas", 12F);
             btnOpenFolder.ForeColor = Color.FromArgb(46, 51, 73);
             btnOpenFolder.Location = new Point(190, 337);
             btnOpenFolder.Name = "btnOpenFolder";
             btnOpenFolder.Size = new Size(127, 32);
             btnOpenFolder.TabIndex = 9;
             btnOpenFolder.Text = "Open folder";
+            toolTip1.SetToolTip(btnOpenFolder, "Open the folder for logs and configuration");
             btnOpenFolder.UseVisualStyleBackColor = false;
             btnOpenFolder.Click += btnOpenFolder_Click;
             // 
@@ -132,7 +134,7 @@
             // 
             button1.BackColor = Color.Salmon;
             button1.FlatStyle = FlatStyle.Popup;
-            button1.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            button1.Font = new Font("Consolas", 12F);
             button1.ForeColor = Color.FromArgb(46, 51, 73);
             button1.Location = new Point(11, 337);
             button1.Name = "button1";
@@ -146,7 +148,7 @@
             // 
             tBTenantID.BackColor = Color.FromArgb(46, 51, 73);
             tBTenantID.BorderStyle = BorderStyle.FixedSingle;
-            tBTenantID.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            tBTenantID.Font = new Font("Consolas", 9.75F);
             tBTenantID.ForeColor = Color.Salmon;
             tBTenantID.Location = new Point(139, 151);
             tBTenantID.Name = "tBTenantID";
@@ -157,7 +159,7 @@
             // 
             tBClientID.BackColor = Color.FromArgb(46, 51, 73);
             tBClientID.BorderStyle = BorderStyle.FixedSingle;
-            tBClientID.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            tBClientID.Font = new Font("Consolas", 9.75F);
             tBClientID.ForeColor = Color.Salmon;
             tBClientID.Location = new Point(139, 197);
             tBClientID.Name = "tBClientID";
@@ -168,7 +170,7 @@
             // 
             tBClientSecret.BackColor = Color.FromArgb(46, 51, 73);
             tBClientSecret.BorderStyle = BorderStyle.FixedSingle;
-            tBClientSecret.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            tBClientSecret.Font = new Font("Consolas", 9.75F);
             tBClientSecret.ForeColor = Color.Salmon;
             tBClientSecret.Location = new Point(139, 241);
             tBClientSecret.Name = "tBClientSecret";
@@ -178,7 +180,7 @@
             // cBSaveSettings
             // 
             cBSaveSettings.AutoSize = true;
-            cBSaveSettings.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            cBSaveSettings.Font = new Font("Consolas", 9.75F);
             cBSaveSettings.ForeColor = Color.Salmon;
             cBSaveSettings.Location = new Point(323, 375);
             cBSaveSettings.Name = "cBSaveSettings";
@@ -206,6 +208,9 @@
             Controls.Add(lblTenantID);
             Controls.Add(lblHeader);
             Controls.Add(btnOK);
+            FormBorderStyle = FormBorderStyle.Fixed3D;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "Settings";
             Text = "Settings";
             Load += Settings_Load;

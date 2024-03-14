@@ -664,6 +664,7 @@ namespace IntuneAssignments
 
                     if (platForm == "Android")
                     {
+
                         dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
                     }
                 }
@@ -726,16 +727,17 @@ namespace IntuneAssignments
                 foreach (var result in listAllApplications)
                 {
 
-
                     // Need to translate odatatype to actual platform name
                     var platForm = FindAppPlatform(result.OdataType.ToString());
 
-                    dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                    if (platForm != "Unknown platform")
+                    {
+                        // prevent app protection app objects from appearing
+
+                        dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                    }
                 }
-
-
             }
-
         }
 
 
@@ -744,9 +746,13 @@ namespace IntuneAssignments
 
             // Translates odatatype property to human readable platform name for display in datagridview
 
+            // Note - the following two types are for app protection apps and should not be used for deployment:
+            // "#microsoft.graph.managedAndroidStoreApp"
+            // "#microsoft.graph.managedIOSStoreApp"
+
             string[] Windows = { "#microsoft.graph.win32LobApp", "#microsoft.graph.officeSuiteApp", "#microsoft.graph.microsoftStoreForBusinessApp", "#microsoft.graph.winGetApp", "#microsoft.graph.windowsMicrosoftEdgeApp", "#microsoft.graph.webApp", "#microsoft.graph.windowsWebApp" };
-            string[] Android = { "#microsoft.graph.managedAndroidStoreApp", "androidStoreApp", "#microsoft.graph.androidManagedStoreApp", "#microsoft.graph.webApp" };
-            string[] iOS = { "#microsoft.graph.managedIOSStoreApp", "iosStoreApp", "#microsoft.graph.iosVppApp", "#microsoft.graph.webApp" };
+            string[] Android = { "androidStoreApp", "#microsoft.graph.androidManagedStoreApp", "#microsoft.graph.webApp" };
+            string[] iOS = { "iosStoreApp", "#microsoft.graph.iosVppApp", "#microsoft.graph.webApp" };
             string[] macoS = { "#microsoft.graph.macOSOfficeSuiteApp", "macOSMicrosoftEdgeApp", "#microsoft.graph.macOSMicrosoftDefenderApp", "#microsoft.graph.macOSMicrosoftEdgeApp", "#microsoft.graph.macOSWebClip", "#microsoft.graph.webApp" };
 
             // search for odatatype in arrays and returns the platform name
@@ -768,7 +774,7 @@ namespace IntuneAssignments
             }
             else
             {
-                return "Unknown app type";
+                return "Unknown platform";
             }
         }
 

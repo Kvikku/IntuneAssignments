@@ -39,6 +39,10 @@
             lblConnectionStatus = new Label();
             toolTip1 = new ToolTip(components);
             lblAdditionalInfo = new Label();
+            lblManageApplicationHeader = new Label();
+            lblManageProfilesHeader = new Label();
+            lblManageAppSettingsHeader = new Label();
+            lblAboutHeader = new Label();
             ((System.ComponentModel.ISupportInitialize)pbGoToApplication).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbGoToPolicy).BeginInit();
             ((System.ComponentModel.ISupportInitialize)GoToAbout).BeginInit();
@@ -49,7 +53,7 @@
             // lblTenantName
             // 
             lblTenantName.AutoSize = true;
-            lblTenantName.Font = new Font("Consolas", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblTenantName.Font = new Font("Consolas", 12F, FontStyle.Bold);
             lblTenantName.ForeColor = Color.Salmon;
             lblTenantName.Location = new Point(91, 338);
             lblTenantName.Name = "lblTenantName";
@@ -116,7 +120,7 @@
             // lblConnectionStatus
             // 
             lblConnectionStatus.AutoSize = true;
-            lblConnectionStatus.Font = new Font("Consolas", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblConnectionStatus.Font = new Font("Consolas", 12F, FontStyle.Bold);
             lblConnectionStatus.ForeColor = Color.Salmon;
             lblConnectionStatus.Location = new Point(91, 319);
             lblConnectionStatus.Name = "lblConnectionStatus";
@@ -127,7 +131,7 @@
             // lblAdditionalInfo
             // 
             lblAdditionalInfo.AutoSize = true;
-            lblAdditionalInfo.Font = new Font("Consolas", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lblAdditionalInfo.Font = new Font("Consolas", 11.25F);
             lblAdditionalInfo.ForeColor = Color.Salmon;
             lblAdditionalInfo.Location = new Point(91, 357);
             lblAdditionalInfo.Name = "lblAdditionalInfo";
@@ -135,12 +139,61 @@
             lblAdditionalInfo.TabIndex = 7;
             lblAdditionalInfo.Text = "Additional info";
             // 
+            // lblManageApplicationHeader
+            // 
+            lblManageApplicationHeader.AutoSize = true;
+            lblManageApplicationHeader.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblManageApplicationHeader.ForeColor = Color.Salmon;
+            lblManageApplicationHeader.Location = new Point(91, 29);
+            lblManageApplicationHeader.Name = "lblManageApplicationHeader";
+            lblManageApplicationHeader.Size = new Size(217, 32);
+            lblManageApplicationHeader.TabIndex = 8;
+            lblManageApplicationHeader.Text = "Intune applications";
+            // 
+            // lblManageProfilesHeader
+            // 
+            lblManageProfilesHeader.AutoSize = true;
+            lblManageProfilesHeader.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblManageProfilesHeader.ForeColor = Color.Salmon;
+            lblManageProfilesHeader.Location = new Point(91, 100);
+            lblManageProfilesHeader.Name = "lblManageProfilesHeader";
+            lblManageProfilesHeader.Size = new Size(169, 32);
+            lblManageProfilesHeader.TabIndex = 9;
+            lblManageProfilesHeader.Text = "Intune profiles";
+            // 
+            // lblManageAppSettingsHeader
+            // 
+            lblManageAppSettingsHeader.AutoSize = true;
+            lblManageAppSettingsHeader.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblManageAppSettingsHeader.ForeColor = Color.Salmon;
+            lblManageAppSettingsHeader.Location = new Point(91, 170);
+            lblManageAppSettingsHeader.Name = "lblManageAppSettingsHeader";
+            lblManageAppSettingsHeader.Size = new Size(147, 32);
+            lblManageAppSettingsHeader.TabIndex = 10;
+            lblManageAppSettingsHeader.Text = "App settings";
+            // 
+            // lblAboutHeader
+            // 
+            lblAboutHeader.AutoSize = true;
+            lblAboutHeader.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblAboutHeader.ForeColor = Color.Salmon;
+            lblAboutHeader.Location = new Point(91, 238);
+            lblAboutHeader.Name = "lblAboutHeader";
+            lblAboutHeader.Size = new Size(79, 32);
+            lblAboutHeader.TabIndex = 11;
+            lblAboutHeader.Text = "About";
+            // 
             // HomePage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(484, 395);
+            Controls.Add(lblAboutHeader);
+            Controls.Add(lblManageAppSettingsHeader);
+            Controls.Add(lblManageProfilesHeader);
+            Controls.Add(lblManageApplicationHeader);
             Controls.Add(lblAdditionalInfo);
             Controls.Add(lblConnectionStatus);
             Controls.Add(pBConnectionStatus);
@@ -150,7 +203,11 @@
             Controls.Add(pbGoToApplication);
             Controls.Add(lblTenantName);
             ForeColor = Color.Black;
+            FormBorderStyle = FormBorderStyle.Fixed3D;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "HomePage";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "HomePage";
             Load += HomePage_Load;
             ((System.ComponentModel.ISupportInitialize)pbGoToApplication).EndInit();
@@ -173,5 +230,9 @@
         private Label lblConnectionStatus;
         private ToolTip toolTip1;
         private Label lblAdditionalInfo;
+        private Label lblManageApplicationHeader;
+        private Label lblManageProfilesHeader;
+        private Label lblManageAppSettingsHeader;
+        private Label lblAboutHeader;
     }
 }

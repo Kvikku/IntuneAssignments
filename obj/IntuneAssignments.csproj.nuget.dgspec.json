@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\GitHub\\IntuneAssignments\\IntuneAssignments.csproj": {}
+    "C:\\Github\\IntuneAssignments\\IntuneAssignments.csproj": {}
   },
   "projects": {
-    "C:\\GitHub\\IntuneAssignments\\IntuneAssignments.csproj": {
+    "C:\\Github\\IntuneAssignments\\IntuneAssignments.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitHub\\IntuneAssignments\\IntuneAssignments.csproj",
+        "projectUniqueName": "C:\\Github\\IntuneAssignments\\IntuneAssignments.csproj",
         "projectName": "IntuneAssignments",
-        "projectPath": "C:\\GitHub\\IntuneAssignments\\IntuneAssignments.csproj",
+        "projectPath": "C:\\Github\\IntuneAssignments\\IntuneAssignments.csproj",
         "packagesPath": "C:\\Users\\jorge\\.nuget\\packages\\",
-        "outputPath": "C:\\GitHub\\IntuneAssignments\\obj\\",
+        "outputPath": "C:\\Github\\IntuneAssignments\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\jorge\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

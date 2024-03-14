@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About));
             btnOk = new Button();
             lnklblGithubURL = new LinkLabel();
             label1 = new Label();
@@ -46,7 +47,7 @@
             // 
             btnOk.BackColor = Color.Salmon;
             btnOk.FlatStyle = FlatStyle.Popup;
-            btnOk.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnOk.Font = new Font("Consolas", 12F);
             btnOk.ForeColor = Color.FromArgb(46, 51, 73);
             btnOk.Location = new Point(382, 351);
             btnOk.Name = "btnOk";
@@ -59,7 +60,7 @@
             // lnklblGithubURL
             // 
             lnklblGithubURL.AutoSize = true;
-            lnklblGithubURL.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            lnklblGithubURL.Font = new Font("Consolas", 9F);
             lnklblGithubURL.LinkColor = Color.Salmon;
             lnklblGithubURL.Location = new Point(48, 341);
             lnklblGithubURL.Name = "lnklblGithubURL";
@@ -72,7 +73,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Consolas", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Font = new Font("Consolas", 12F, FontStyle.Bold);
             label1.ForeColor = Color.Salmon;
             label1.Location = new Point(48, 30);
             label1.Name = "label1";
@@ -83,7 +84,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.Font = new Font("Consolas", 9F);
             label2.ForeColor = Color.Salmon;
             label2.Location = new Point(48, 318);
             label2.Name = "label2";
@@ -94,7 +95,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label3.Font = new Font("Consolas", 9F);
             label3.ForeColor = Color.Salmon;
             label3.Location = new Point(48, 71);
             label3.Name = "label3";
@@ -105,7 +106,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label4.Font = new Font("Consolas", 9F);
             label4.ForeColor = Color.Salmon;
             label4.Location = new Point(48, 85);
             label4.Name = "label4";
@@ -116,7 +117,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label5.Font = new Font("Consolas", 9F);
             label5.ForeColor = Color.Salmon;
             label5.Location = new Point(48, 99);
             label5.Name = "label5";
@@ -127,7 +128,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Font = new Font("Consolas", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.Font = new Font("Consolas", 12F, FontStyle.Bold);
             label6.ForeColor = Color.Salmon;
             label6.Location = new Point(48, 292);
             label6.Name = "label6";
@@ -138,7 +139,7 @@
             // linkLabel1
             // 
             linkLabel1.AutoSize = true;
-            linkLabel1.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            linkLabel1.Font = new Font("Consolas", 9F);
             linkLabel1.LinkColor = Color.Salmon;
             linkLabel1.Location = new Point(48, 365);
             linkLabel1.Name = "linkLabel1";
@@ -151,18 +152,18 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label7.Font = new Font("Consolas", 9F);
             label7.ForeColor = Color.Salmon;
             label7.Location = new Point(48, 202);
             label7.Name = "label7";
-            label7.Size = new Size(210, 14);
+            label7.Size = new Size(245, 14);
             label7.TabIndex = 9;
-            label7.Text = "You are running version 0.2.0";
+            label7.Text = "You are running version 0.2.2-beta";
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Font = new Font("Consolas", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label8.Font = new Font("Consolas", 12F, FontStyle.Bold);
             label8.ForeColor = Color.Salmon;
             label8.Location = new Point(48, 173);
             label8.Name = "label8";
@@ -173,7 +174,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label9.Font = new Font("Consolas", 9F);
             label9.ForeColor = Color.Salmon;
             label9.Location = new Point(48, 225);
             label9.Name = "label9";
@@ -199,6 +200,9 @@
             Controls.Add(label1);
             Controls.Add(lnklblGithubURL);
             Controls.Add(btnOk);
+            FormBorderStyle = FormBorderStyle.Fixed3D;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "About";
             Text = "About";
             Load += About_Load;

@@ -678,7 +678,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
-            ClientSize = new Size(1885, 791);
+            ClientSize = new Size(1919, 791);
             Controls.Add(lblHeaderAppForm);
             Controls.Add(pbViewAssignments);
             Controls.Add(pnlDescription);
@@ -687,7 +687,9 @@
             Controls.Add(pnlSummary);
             Controls.Add(pnlSearchPolicy);
             Controls.Add(pbHome);
+            FormBorderStyle = FormBorderStyle.Fixed3D;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "Policy";
             Load += Policy_Load;
             ((System.ComponentModel.ISupportInitialize)pbHome).EndInit();

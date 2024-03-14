@@ -493,7 +493,9 @@
             Controls.Add(pbHome);
             Controls.Add(pnllViewAssignments);
             Controls.Add(pnlSearchApp);
+            FormBorderStyle = FormBorderStyle.Fixed3D;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "ViewAssignment";
             pnlSearchApp.ResumeLayout(false);
             pnlSearchApp.PerformLayout();

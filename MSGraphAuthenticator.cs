@@ -5,30 +5,31 @@ namespace IntuneAssignments
 {
 
     // 22.01.2024 - can this now be deleted? check back later.
-
+    // 14.03.2024 - Keeping this in case the need for client secret returns
+    // Added a Z character in front of variables to prevent conflicts with other variables
 
 
     public  class MSGraphAuthenticator
     {
         
-        public static string clientID { get; set; }
-        public static string tenantID { get; set; }
-        public static string clientSecret { get; set; }
-        public static string authority { get; set; }
+        public static string ZclientID { get; set; }
+        public static string ZtenantID { get; set; }
+        public static string ZclientSecret { get; set; }
+        public static string Zauthority { get; set; }
 
-        public static string[] newScopes = new string[]
+        public static string[] znewScopes = new string[]
        {
             "https://graph.microsoft.com/.default"
        };
 
         // Test if this works
 
-        public static async Task<GraphServiceClient> GetAuthenticatedGraphClient()
+        public static async Task<GraphServiceClient> ZGetAuthenticatedGraphClient()
         {
             try
             {
-                ClientSecretCredential clientSecretCredential = new ClientSecretCredential(tenantID, clientID, clientSecret);
-                GraphServiceClient graphclient = new GraphServiceClient(clientSecretCredential, newScopes);
+                ClientSecretCredential clientSecretCredential = new ClientSecretCredential(ZtenantID, ZclientID, ZclientSecret);
+                GraphServiceClient graphclient = new GraphServiceClient(clientSecretCredential, znewScopes);
 
 
 

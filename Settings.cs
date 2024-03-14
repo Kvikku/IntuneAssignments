@@ -196,7 +196,12 @@ namespace IntuneAssignments
         private async void btnOK_Click(object sender, EventArgs e)
         {
 
-            saveSettings();
+            if (cBSaveSettings.Checked == true)
+            {
+                saveSettings();
+            }
+
+            
 
             await AuthenticateToGraph();
 
