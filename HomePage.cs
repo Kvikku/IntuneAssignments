@@ -82,12 +82,13 @@ namespace IntuneAssignments
                 // Must also create log file here
                 createPrimaryLogFile();
 
-                WriteToLog("");
-                WriteToLog("");
+                WriteToLog("__");
+                WriteToLog("__");
                 WriteToLog("Launching application!");
-                WriteToLog("The configuration folder is missing. It may have been deleted or it is the first time the app is running on the system");
-                WriteToLog("Creating the configuration folder");
-                WriteToLog("Configuration folder created");
+                WriteToLog("The configuration folder is missing. It may have been deleted or this is the first time the app is launched on the system");
+                WriteToLog("Configuration folder created.");
+                WriteToLog("Configuration file created.");
+                WriteSystemSummaryToLog();
 
             }
             else if (!System.IO.File.Exists(primaryLogFile))
@@ -97,15 +98,19 @@ namespace IntuneAssignments
                 createPrimaryLogFile();
 
 
-                WriteToLog("");
-                WriteToLog("");
+                WriteToLog("__");
+                WriteToLog("__");
                 WriteToLog("Launching application");
                 WriteSystemSummaryToLog();
-
-
-                
             }
-
+            else
+            {
+                // All files exist
+                WriteToLog("__");
+                WriteToLog("__");
+                WriteToLog("Launching application");
+                WriteSystemSummaryToLog();
+            }
 
 
 
