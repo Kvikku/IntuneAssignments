@@ -1265,6 +1265,7 @@ namespace IntuneAssignments
                 // Create a graph service client object
                 var graphClient = CreateGraphServiceClient();
 
+                var newDescription = txtboxAppDescription.Text;
 
                 // Check if txtboxAppDescription is blank or not
                 if (string.IsNullOrEmpty(txtboxAppDescription.Text))
@@ -1314,30 +1315,51 @@ namespace IntuneAssignments
                     var classType = assembly.GetType(fullClassName);
 
 
+                    // Check if the class type is null
+
                     if (classType == null)
                     {
                         // troubleshoot if this happens
-                        MessageBox.Show("Class type is null");
+                        rtbDeploymentSummary.AppendText("Class type is null for " + app.ToString() + ". Skipping \n");
+                        WriteToLog("Class type is null for " + app.ToString() + ". Skipping \n");
+                        progressBar1.Value++;
+                    }
+
+
+                    // Check if the app is a store app or another app type with a read only description
+
+                    else if (Array.Exists(readOnlyDescription, element => element == classType.Name))
+                    {
+                        rtbDeploymentSummary.AppendText("Description property for store apps is read only. Skipping " + app + "\n");
+                        WriteToLog("Description property for store apps is read only. Skipping " + app);
+                        progressBar1.Value++;
+                    }
+
+
+                    else
+                    {
+                        // Create a new request body based on the app class name
+                        var requestBody = Activator.CreateInstance(classType);
+
+
+                        // Update the description property in the request body
+                        SetProperty(requestBody, "Description", txtboxAppDescription.Text);
+
+
+                        // Here MobileApp class is used. This is the base class for all apps
+                        await graphClient.DeviceAppManagement.MobileApps[mobileAppID].PatchAsync((MobileApp)requestBody);
+
+                        // Update the progress bar value by 1 for each app in the checked list box
+                        progressBar1.Value++;
+
+                        // Write the action to the summary textbox
+                        rtbDeploymentSummary.AppendText("Updating description for " + app.ToString() + "\n");
+                        WriteToLog("Updating description for " + app.ToString() + " with: " + newDescription);
                     }
 
 
 
-                    // Create a new request body based on the app class name
-                    var requestBody = Activator.CreateInstance(classType);
-
-
-                    // Update the description property in the request body
-                    SetProperty(requestBody, "Description", txtboxAppDescription.Text);
-
-
-                    // Here MobileApp class is used. This is the base class for all apps
-                    await graphClient.DeviceAppManagement.MobileApps[mobileAppID].PatchAsync((MobileApp)requestBody);
-
-                    // Update the progress bar value by 1 for each app in the checked list box
-                    progressBar1.Value++;
-
-                    // Write the action to the summary textbox
-                    rtbDeploymentSummary.AppendText("Updating description for " + app.ToString() + "\n");
+                    
 
                 }
 

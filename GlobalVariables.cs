@@ -36,6 +36,10 @@
         // "@odata.type": "#microsoft.graph.allDevicesAssignmentTarget"
 
 
+        // This variable is used to define apps that have read only descriptions, which cannot be modified by the user in the UI
+        public static string[] readOnlyDescription = new string[] { "AndroidManagedStoreApp", "ManagedAndroidStoreApp", "ManagedIOSStoreApp", "IosVppApp" };
+
+
         public static string MSGraphAssembly
         {
             get { return graphAssembly; }
