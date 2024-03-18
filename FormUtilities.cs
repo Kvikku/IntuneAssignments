@@ -90,6 +90,8 @@ namespace IntuneAssignments
 
         }
 
+
+
         public static List<string> ReadLastLines(string filePath, int lineCount)
         {
             List<string> lastLines = new List<string>();

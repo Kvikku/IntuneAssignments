@@ -1320,9 +1320,12 @@ namespace IntuneAssignments
                     if (classType == null)
                     {
                         // troubleshoot if this happens
+                        rtbDeploymentSummary.SelectionColor = Color.Yellow;
                         rtbDeploymentSummary.AppendText("Class type is null for " + app.ToString() + ". Skipping \n");
                         WriteToLog("Class type is null for " + app.ToString() + ". Skipping \n");
                         progressBar1.Value++;
+
+                        rtbDeploymentSummary.ForeColor = rtbDeploymentSummary.ForeColor;
                     }
 
 
@@ -1330,9 +1333,13 @@ namespace IntuneAssignments
 
                     else if (Array.Exists(readOnlyDescription, element => element == classType.Name))
                     {
+                        rtbDeploymentSummary.SelectionColor = Color.Yellow;
                         rtbDeploymentSummary.AppendText("Description property for store apps is read only. Skipping " + app + "\n");
+                        
                         WriteToLog("Description property for store apps is read only. Skipping " + app);
                         progressBar1.Value++;
+
+                        rtbDeploymentSummary.ForeColor = rtbDeploymentSummary.ForeColor;
                     }
 
 
@@ -1353,8 +1360,8 @@ namespace IntuneAssignments
                         progressBar1.Value++;
 
                         // Write the action to the summary textbox
-                        rtbDeploymentSummary.AppendText("Updating description for " + app.ToString() + "\n");
-                        WriteToLog("Updating description for " + app.ToString() + " with: " + newDescription);
+                        rtbDeploymentSummary.AppendText("Updated the description for " + app.ToString() + "\n");
+                        WriteToLog("Updated the description for " + app.ToString() + " with: " + newDescription);
                     }
 
 
