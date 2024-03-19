@@ -1,4 +1,7 @@
 ﻿using Microsoft.Graph;
+using Microsoft.Graph.Beta.DeviceAppManagement.IosLobAppProvisioningConfigurations.Item.Assign;
+using Microsoft.Graph.Beta.DeviceManagement.Templates.Item.CreateInstance;
+
 //using Microsoft.Graph.Auth;
 using Microsoft.Graph.Beta.Models;
 using System.Reflection;
@@ -1150,11 +1153,6 @@ namespace IntuneAssignments
 
 
 
-
-
-
-        }
-
         async Task AssignSelectedPolicies()
         {
 
@@ -1971,7 +1969,7 @@ namespace IntuneAssignments
         private async void btnDeployPolicyAssignment_Click(object sender, EventArgs e)
         {
             WriteToLog("User clicked the Deploy button");
-
+            pBarDeployProgress.Value = 0;
             await AssignSelectedPolicies();
         }
 
