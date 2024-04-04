@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "C:\\Github\\IntuneAssignments\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\managepolicyassignments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:managepolicyassignments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\managepolicyassignments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:managepolicyassignments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\managepolicyassignments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:managepolicyassignments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\policy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -42,45 +50,70 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ManagePolicyAssignments.cs",
-              "DocumentMoniker": "C:\\Github\\IntuneAssignments\\ManagePolicyAssignments.cs",
-              "RelativeDocumentMoniker": "ManagePolicyAssignments.cs",
-              "ToolTip": "C:\\Github\\IntuneAssignments\\ManagePolicyAssignments.cs",
-              "RelativeToolTip": "ManagePolicyAssignments.cs",
-              "ViewState": "AQIAAHEAAAAAAAAAAAAkwNoAAAARAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-04T10:16:23.44Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "ManagePolicyAssignments.cs [Design]",
               "DocumentMoniker": "C:\\Github\\IntuneAssignments\\ManagePolicyAssignments.cs",
               "RelativeDocumentMoniker": "ManagePolicyAssignments.cs",
               "ToolTip": "C:\\Github\\IntuneAssignments\\ManagePolicyAssignments.cs [Design]",
               "RelativeToolTip": "ManagePolicyAssignments.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-04T10:16:20.248Z",
+              "WhenOpened": "2024-04-04T10:35:41.111Z",
               "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "ManagePolicyAssignments.cs",
+              "DocumentMoniker": "C:\\Github\\IntuneAssignments\\ManagePolicyAssignments.cs",
+              "RelativeDocumentMoniker": "ManagePolicyAssignments.cs",
+              "ToolTip": "C:\\Github\\IntuneAssignments\\ManagePolicyAssignments.cs",
+              "RelativeToolTip": "ManagePolicyAssignments.cs",
+              "ViewState": "AQIAAG4BAAAAAAAAAAAtwI8BAABfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-04T10:16:23.44Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ViewAssignment.cs",
+              "DocumentMoniker": "C:\\Github\\IntuneAssignments\\ViewAssignment.cs",
+              "RelativeDocumentMoniker": "ViewAssignment.cs",
+              "ToolTip": "C:\\Github\\IntuneAssignments\\ViewAssignment.cs",
+              "RelativeToolTip": "ViewAssignment.cs",
+              "ViewState": "AQIAAPsCAAAAAAAAAAAAALwBAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-04T06:48:02.348Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ViewAssignment.cs [Design]",
+              "DocumentMoniker": "C:\\Github\\IntuneAssignments\\ViewAssignment.cs",
+              "RelativeDocumentMoniker": "ViewAssignment.cs",
+              "ToolTip": "C:\\Github\\IntuneAssignments\\ViewAssignment.cs [Design]",
+              "RelativeToolTip": "ViewAssignment.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-04T10:34:12.06Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Policy.cs",
               "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Policy.cs",
               "RelativeDocumentMoniker": "Policy.cs",
               "ToolTip": "C:\\Github\\IntuneAssignments\\Policy.cs",
               "RelativeToolTip": "Policy.cs",
-              "ViewState": "AQIAACUGAAAAAAAAAAAkwDQGAAArAAAA",
+              "ViewState": "AQIAACUGAAAAAAAAAAAkwDYGAACVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-04T06:51:25.381Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "Policy.cs [Design]",
               "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Policy.cs",
               "RelativeDocumentMoniker": "Policy.cs",

@@ -207,10 +207,10 @@ namespace IntuneAssignments
                     listAllApplications.Add(app);
                 }
             }
-            
-            
 
-         
+
+
+
 
 
             //listAllApplications.AddRange(result.Value);
@@ -691,9 +691,9 @@ namespace IntuneAssignments
             lblNumberOfAssignmentsDeleted.Text = 0.ToString();
             numberOfAssignmentsDeleted = 0;
 
-            
 
-            
+
+
 
             // Authenticate to Graph
 
@@ -1004,6 +1004,6 @@ namespace IntuneAssignments
 
         }
 
-       
+
     }
 }

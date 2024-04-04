@@ -24,7 +24,7 @@
 
 
         public static string graphAssembly = "Microsoft.Graph.Beta";
-        public string graphClassNamePrefix = "Microsoft.Graph.Beta.Models.";
+        public static string graphClassNamePrefix = "Microsoft.Graph.Beta.Models.";
 
         public static string allUsersGroupID = "acacacac-9df4-4c7d-9d50-4ef0226f57a9";
         // "@odata.type": "#microsoft.graph.allLicensedUsersAssignmentTarget"

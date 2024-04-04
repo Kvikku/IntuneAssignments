@@ -2,6 +2,7 @@
 using System.Reflection;
 using static IntuneAssignments.GlobalVariables;
 using static IntuneAssignments.GraphServiceClientCreator;
+using static IntuneAssignments.FormUtilities;
 
 namespace IntuneAssignments
 {
@@ -13,12 +14,17 @@ namespace IntuneAssignments
 
         public ManagePolicyAssignments(Form1 form1)
         {
+            // Load event
+
             InitializeComponent();
 
             this.FormBorderStyle = FormBorderStyle.FixedDialog; // Makes the form not resizable and the parent form not clickable
             this.StartPosition = FormStartPosition.CenterScreen; // Center the form over its parent
 
             //_form1 = form1;
+
+            pnlStatus.Hide();
+
         }
 
 
@@ -63,7 +69,13 @@ namespace IntuneAssignments
         }
 
 
+        void ListAllADMXTemplates()
+        {
+            Policy policy = new Policy();
 
+            policy.ListADMXTemplates(dtgDisplayPolicy);
+
+        }
 
 
         void listAllCompliancePolicies()
@@ -137,6 +149,14 @@ namespace IntuneAssignments
             lblPolicyName.Text = appname;
             lblPolicyType.Text = appType;
 
+            // Show status panel 
+            pnlStatus.Show();
+            rtbSummary.Show();
+            lblNumberOfAssignmentsDeleted.Hide();
+            lblDeleteStatusText.Hide();
+            lblProgress.Hide();
+            pBCalculate.Hide();
+            btnClearSummary.Show();
 
 
             // Authenticate to Graph
@@ -156,7 +176,7 @@ namespace IntuneAssignments
                 var policyClassName = policy.findCompliancePolicyType(policyPlatform);
 
                 // Create the full class name
-                var fullClassName = _form1.graphClassNamePrefix + policyClassName;
+                var fullClassName = graphClassNamePrefix + policyClassName;
 
                 // Create the class type
                 var classType = assembly.GetType(fullClassName);
@@ -183,9 +203,10 @@ namespace IntuneAssignments
 
                 if (assignmentList.Count == 0)
                 {
-
-                    MessageBox.Show("No assigments for this policy");
-
+                    WriteToLog("No assignments found for " + appname);
+                    rtbSummary.ForeColor = Color.Yellow;
+                    rtbSummary.AppendText("No assignments found for " + appname + Environment.NewLine);
+                    rtbSummary.ForeColor = Color.Salmon;
 
                 }
 
@@ -203,8 +224,6 @@ namespace IntuneAssignments
 
                         var groupID = policy.ExtractGroupID(assignment.Id.ToString());
 
-
-
                         // Look up Azure AD groups based on ID
 
                         List<Group> groups = await policy.LookUpGroup(groupID);
@@ -214,6 +233,7 @@ namespace IntuneAssignments
 
                             // Add the assigned group name and ID to the datagridview
                             dtgGroupAssignment.Rows.Add(group.DisplayName, group.Id);
+                            WriteToLog("Group assignment for " + appname + " found : " + group.DisplayName + ". ID is : " + group.Id);
                         }
                     }
                 }
@@ -221,35 +241,81 @@ namespace IntuneAssignments
 
             if (appType == "Settings catalog")
             {
-
-
-
-
-
+                // To be implemented
             }
 
             if (appType == "Device configuration")
             {
-
-
-
-
-
+                // To be implemented
             }
 
+            if (appType == "Administrative Templates")
+            {
+                // This method lists all ADMX templates (called groupPolicyConfigurations in Graph API) assignments
 
+                // Query graph for assignment ID for a given policy
+
+                var result = await graphClient.DeviceManagement.GroupPolicyConfigurations[policyID].Assignments.GetAsync();
+
+
+                // Add the result to a list of assignments
+                List<GroupPolicyConfigurationAssignment> assignmentsList = new List<GroupPolicyConfigurationAssignment>();
+                assignmentsList.AddRange(result.Value);
+
+
+                // Loop through the list and display each assignment
+
+                if (assignmentsList.Count == 0)
+                {
+                    WriteToLog("No assignments found for " + appname);
+                    rtbSummary.ForeColor = Color.Yellow;
+                    rtbSummary.AppendText("No assignments found for " + appname + Environment.NewLine);
+                    rtbSummary.ForeColor = Color.Salmon;
+                }
+
+                else if (assignmentsList.Count > 0)
+
+                {
+                    // Clear the datagridview
+                    dtgGroupAssignment.Rows.Clear();
+
+                    foreach (var assignment in assignmentsList)
+                    {
+
+                        // Need to parse the JSON data and grab target - GroupID field
+
+                        var groupID = policy.ExtractGroupID(assignment.Id.ToString());
+
+                        // Look up Azure AD groups based on ID
+
+                        List<Group> groups = await policy.LookUpGroup(groupID);
+
+                        foreach (var group in groups)
+                        {
+                            // Add the assigned group name and ID to the datagridview
+                            dtgGroupAssignment.Rows.Add(group.DisplayName, group.Id);
+                            WriteToLog("Group assignment for " + appname + " found : " + group.DisplayName + ". ID is : " + group.Id);
+                        }
+                    }
+                }
+            }
         }
 
 
-        public async void deletePolicyAssignment()
+        public async Task deletePolicyAssignment()
         {
 
-            // Awaiting support ticket on github before proceeding with this
-
-
-
             // Deletes all assignments for the selected policy
+            lblProgress.Show();
+            lblDeleteStatusText.Show();
+            lblNumberOfAssignmentsDeleted.Text = 0.ToString();
+            lblNumberOfAssignmentsDeleted.Show();
+            pBCalculate.Show();
 
+            // Declare variables
+
+            int numberOfPolicies;
+            int numberOfAssignmentsDeleted = 0;
 
             // Authenticate to Graph
 
@@ -259,9 +325,6 @@ namespace IntuneAssignments
             // Convert value og lblappid.text to mobile app ID
             var policyID = lblPolicyID.Text;
             var policyType = lblPolicyType.Text;
-
-
-
 
 
 
@@ -277,27 +340,67 @@ namespace IntuneAssignments
                 List<DeviceCompliancePolicyAssignment> assignmentsList = new List<DeviceCompliancePolicyAssignment>();
                 assignmentsList.AddRange(result.Value);
 
+                numberOfPolicies = assignmentsList.Count;
+                pBCalculate.Maximum = numberOfPolicies;
 
                 // Loop through the list and delete each assignment
 
                 foreach (var assignment in assignmentsList)
                 {
-                    //MessageBox.Show(assignment.Id + " " + assignment.Intent);
+                    var groupID = GetGroupIDFromAssignmentID(assignment.Id.ToString());
+                    var groupName = await FindGroupNameFromGroupID(groupID);
+
 
                     await graphClient.DeviceManagement.DeviceCompliancePolicies[policyID].Assignments[assignment.Id].DeleteAsync();
+                    WriteToLog("Assignment deleted for " + lblPolicyName.Text + " for group " + groupName);
+                    rtbSummary.AppendText("Assignment deleted for " + lblPolicyName.Text + " for group " + groupName + Environment.NewLine);
+                    pBCalculate.Value++;
+                    numberOfAssignmentsDeleted++;
+                    lblNumberOfAssignmentsDeleted.Text = numberOfAssignmentsDeleted.ToString(); 
                 }
-
-
             }
 
+            if (policyType == "Settings catalog")
+            {
+                // To be implemented
+            }
+
+            if (policyType == "Device configuration")
+            {
+                // To be implemented
+            }
+
+            if (policyType == "Administrative Templates")
+            {
+                // Query graph for assignment ID for a given policy
+
+                var result = await graphClient.DeviceManagement.GroupPolicyConfigurations[policyID].Assignments.GetAsync();
 
 
+                // Add the result to a list of assignments
+                List<GroupPolicyConfigurationAssignment> assignmentsList = new List<GroupPolicyConfigurationAssignment>();
+                assignmentsList.AddRange(result.Value);
 
+                numberOfPolicies = assignmentsList.Count;
+                pBCalculate.Maximum = numberOfPolicies;
 
+                // Loop through the list and delete each assignment
 
+                foreach (var assignment in assignmentsList)
+                {
+                    var groupID = GetGroupIDFromAssignmentID(assignment.Id.ToString());
+                    var groupName = await FindGroupNameFromGroupID(groupID);
+
+                    await graphClient.DeviceManagement.GroupPolicyConfigurations[policyID].Assignments[assignment.Id].DeleteAsync();
+
+                    WriteToLog("Assignment for group " + groupName + " has been deleted.");
+                    rtbSummary.AppendText("Assignment for group " + groupName + " has been deleted." + Environment.NewLine);
+                    pBCalculate.Value++;
+                    numberOfAssignmentsDeleted++;
+                    lblNumberOfAssignmentsDeleted.Text = numberOfAssignmentsDeleted.ToString();
+                }
+            }
         }
-
-
 
 
         private void btnListAllPolices_Click(object sender, EventArgs e)
@@ -305,6 +408,7 @@ namespace IntuneAssignments
             listAllCompliancePolicies();
             listAllSettingsCatalogPolicies();
             listAllDeviceConfigurationPolicies();
+            ListAllADMXTemplates();
         }
 
 
@@ -312,10 +416,12 @@ namespace IntuneAssignments
 
         private void dtgDisplayPolicy_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            ClearDataGridView(dtgGroupAssignment);
+            ClearRichTextBox(rtbSummary);
             findPolicyAssignment();
         }
 
-        private void btnDeleteAllAssignments_Click(object sender, EventArgs e)
+        private async void btnDeleteAllAssignments_Click(object sender, EventArgs e)
         {
             // Show message box with warning, and if statement based on what the user clicks
 
@@ -323,13 +429,13 @@ namespace IntuneAssignments
             if (dialogResult == DialogResult.Yes)
             {
                 // If user clicks yes, delete all assignments
-                deletePolicyAssignment();
+                await deletePolicyAssignment();
 
                 // Clear the datagridview for older results
                 FormUtilities.ClearDataGridView(dtgGroupAssignment);
 
                 // Refresh datagridview
-                findPolicyAssignment();
+                //findPolicyAssignment();
             }
             else if (dialogResult == DialogResult.No)
             {
@@ -345,6 +451,16 @@ namespace IntuneAssignments
         private void btnDeleteSelectedAssignment_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void ManagePolicyAssignments_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnClearSummary_Click(object sender, EventArgs e)
+        {
+            ClearRichTextBox(rtbSummary);
         }
     }
 }

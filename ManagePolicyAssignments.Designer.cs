@@ -57,6 +57,13 @@
             GroupName = new DataGridViewTextBoxColumn();
             GroupID = new DataGridViewTextBoxColumn();
             lblWIP = new Label();
+            pnlStatus = new Panel();
+            rtbSummary = new RichTextBox();
+            pBCalculate = new ProgressBar();
+            lblNumberOfAssignmentsDeleted = new Label();
+            lblDeleteStatusText = new Label();
+            lblProgress = new Label();
+            btnClearSummary = new Button();
             ((System.ComponentModel.ISupportInitialize)pbViewAssignments).BeginInit();
             pnlPolicies.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
@@ -64,6 +71,7 @@
             pnlAssignments.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbpbClearDtgGroupAssignment).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgGroupAssignment).BeginInit();
+            pnlStatus.SuspendLayout();
             SuspendLayout();
             // 
             // pbViewAssignments
@@ -89,7 +97,7 @@
             pnlPolicies.Controls.Add(btnSearchPolicy);
             pnlPolicies.Location = new Point(82, 12);
             pnlPolicies.Name = "pnlPolicies";
-            pnlPolicies.Size = new Size(544, 658);
+            pnlPolicies.Size = new Size(544, 724);
             pnlPolicies.TabIndex = 13;
             // 
             // dtgDisplayPolicy
@@ -178,7 +186,7 @@
             lblSelectPolicies.AutoSize = true;
             lblSelectPolicies.Font = new Font("Consolas", 15.75F, FontStyle.Bold);
             lblSelectPolicies.ForeColor = Color.Salmon;
-            lblSelectPolicies.Location = new Point(15, 23);
+            lblSelectPolicies.Location = new Point(12, 11);
             lblSelectPolicies.Name = "lblSelectPolicies";
             lblSelectPolicies.Size = new Size(190, 24);
             lblSelectPolicies.TabIndex = 18;
@@ -223,7 +231,7 @@
             pnlAssignments.Controls.Add(dtgGroupAssignment);
             pnlAssignments.Location = new Point(632, 12);
             pnlAssignments.Name = "pnlAssignments";
-            pnlAssignments.Size = new Size(470, 658);
+            pnlAssignments.Size = new Size(470, 404);
             pnlAssignments.TabIndex = 14;
             // 
             // lblPolicyType
@@ -231,7 +239,7 @@
             lblPolicyType.AutoSize = true;
             lblPolicyType.Font = new Font("Consolas", 12F, FontStyle.Bold);
             lblPolicyType.ForeColor = Color.Salmon;
-            lblPolicyType.Location = new Point(7, 117);
+            lblPolicyType.Location = new Point(7, 90);
             lblPolicyType.Name = "lblPolicyType";
             lblPolicyType.Size = new Size(108, 19);
             lblPolicyType.TabIndex = 29;
@@ -242,7 +250,7 @@
             lblViewAssignmentHeadline.AutoSize = true;
             lblViewAssignmentHeadline.Font = new Font("Consolas", 15.75F, FontStyle.Bold);
             lblViewAssignmentHeadline.ForeColor = Color.Salmon;
-            lblViewAssignmentHeadline.Location = new Point(7, 28);
+            lblViewAssignmentHeadline.Location = new Point(7, 11);
             lblViewAssignmentHeadline.Name = "lblViewAssignmentHeadline";
             lblViewAssignmentHeadline.Size = new Size(358, 24);
             lblViewAssignmentHeadline.TabIndex = 23;
@@ -253,7 +261,7 @@
             btnDeleteAllAssignments.BackColor = Color.Salmon;
             btnDeleteAllAssignments.FlatStyle = FlatStyle.Popup;
             btnDeleteAllAssignments.Font = new Font("Consolas", 12F);
-            btnDeleteAllAssignments.Location = new Point(264, 157);
+            btnDeleteAllAssignments.Location = new Point(264, 119);
             btnDeleteAllAssignments.Name = "btnDeleteAllAssignments";
             btnDeleteAllAssignments.Size = new Size(152, 30);
             btnDeleteAllAssignments.TabIndex = 24;
@@ -266,7 +274,7 @@
             btnDeleteSelectedAssignment.BackColor = Color.Salmon;
             btnDeleteSelectedAssignment.FlatStyle = FlatStyle.Popup;
             btnDeleteSelectedAssignment.Font = new Font("Consolas", 12F);
-            btnDeleteSelectedAssignment.Location = new Point(106, 157);
+            btnDeleteSelectedAssignment.Location = new Point(106, 119);
             btnDeleteSelectedAssignment.Name = "btnDeleteSelectedAssignment";
             btnDeleteSelectedAssignment.Size = new Size(152, 30);
             btnDeleteSelectedAssignment.TabIndex = 26;
@@ -279,7 +287,7 @@
             lblPolicyID.AutoSize = true;
             lblPolicyID.Font = new Font("Consolas", 12F, FontStyle.Bold);
             lblPolicyID.ForeColor = Color.Salmon;
-            lblPolicyID.Location = new Point(7, 98);
+            lblPolicyID.Location = new Point(7, 71);
             lblPolicyID.Name = "lblPolicyID";
             lblPolicyID.Size = new Size(108, 19);
             lblPolicyID.TabIndex = 28;
@@ -288,7 +296,7 @@
             // pbpbClearDtgGroupAssignment
             // 
             pbpbClearDtgGroupAssignment.Image = Properties.Resources._5358270771574330938_32;
-            pbpbClearDtgGroupAssignment.Location = new Point(422, 148);
+            pbpbClearDtgGroupAssignment.Location = new Point(422, 110);
             pbpbClearDtgGroupAssignment.Name = "pbpbClearDtgGroupAssignment";
             pbpbClearDtgGroupAssignment.Size = new Size(36, 38);
             pbpbClearDtgGroupAssignment.TabIndex = 25;
@@ -299,7 +307,7 @@
             lblPolicyName.AutoSize = true;
             lblPolicyName.Font = new Font("Consolas", 14.25F, FontStyle.Bold);
             lblPolicyName.ForeColor = Color.Salmon;
-            lblPolicyName.Location = new Point(7, 76);
+            lblPolicyName.Location = new Point(7, 49);
             lblPolicyName.Name = "lblPolicyName";
             lblPolicyName.Size = new Size(140, 22);
             lblPolicyName.TabIndex = 27;
@@ -331,11 +339,11 @@
             dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
             dtgGroupAssignment.DefaultCellStyle = dataGridViewCellStyle4;
             dtgGroupAssignment.EnableHeadersVisualStyles = false;
-            dtgGroupAssignment.Location = new Point(7, 201);
+            dtgGroupAssignment.Location = new Point(7, 155);
             dtgGroupAssignment.Name = "dtgGroupAssignment";
             dtgGroupAssignment.ReadOnly = true;
             dtgGroupAssignment.RowHeadersVisible = false;
-            dtgGroupAssignment.Size = new Size(455, 559);
+            dtgGroupAssignment.Size = new Size(455, 272);
             dtgGroupAssignment.TabIndex = 22;
             // 
             // GroupName
@@ -357,11 +365,90 @@
             lblWIP.AutoSize = true;
             lblWIP.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblWIP.ForeColor = Color.Yellow;
-            lblWIP.Location = new Point(362, 706);
+            lblWIP.Location = new Point(361, 765);
             lblWIP.Name = "lblWIP";
             lblWIP.Size = new Size(430, 32);
             lblWIP.TabIndex = 15;
             lblWIP.Text = "THIS PAGE IS A WORK IN PROGRESS";
+            // 
+            // pnlStatus
+            // 
+            pnlStatus.BorderStyle = BorderStyle.FixedSingle;
+            pnlStatus.Controls.Add(rtbSummary);
+            pnlStatus.Controls.Add(pBCalculate);
+            pnlStatus.Controls.Add(lblNumberOfAssignmentsDeleted);
+            pnlStatus.Controls.Add(lblDeleteStatusText);
+            pnlStatus.Controls.Add(lblProgress);
+            pnlStatus.Controls.Add(btnClearSummary);
+            pnlStatus.Location = new Point(632, 422);
+            pnlStatus.Name = "pnlStatus";
+            pnlStatus.Size = new Size(470, 314);
+            pnlStatus.TabIndex = 16;
+            // 
+            // rtbSummary
+            // 
+            rtbSummary.BackColor = Color.FromArgb(46, 51, 73);
+            rtbSummary.BorderStyle = BorderStyle.None;
+            rtbSummary.ForeColor = Color.Salmon;
+            rtbSummary.Location = new Point(8, 113);
+            rtbSummary.Name = "rtbSummary";
+            rtbSummary.ReadOnly = true;
+            rtbSummary.Size = new Size(451, 189);
+            rtbSummary.TabIndex = 34;
+            rtbSummary.Text = "";
+            // 
+            // pBCalculate
+            // 
+            pBCalculate.Location = new Point(8, 33);
+            pBCalculate.Name = "pBCalculate";
+            pBCalculate.Size = new Size(283, 23);
+            pBCalculate.TabIndex = 33;
+            // 
+            // lblNumberOfAssignmentsDeleted
+            // 
+            lblNumberOfAssignmentsDeleted.AutoSize = true;
+            lblNumberOfAssignmentsDeleted.Font = new Font("Consolas", 12F, FontStyle.Bold);
+            lblNumberOfAssignmentsDeleted.ForeColor = Color.Salmon;
+            lblNumberOfAssignmentsDeleted.Location = new Point(3, 78);
+            lblNumberOfAssignmentsDeleted.Name = "lblNumberOfAssignmentsDeleted";
+            lblNumberOfAssignmentsDeleted.Size = new Size(288, 19);
+            lblNumberOfAssignmentsDeleted.TabIndex = 32;
+            lblNumberOfAssignmentsDeleted.Text = "{NUMBER OF DELETED ASSIGNMENTS}";
+            // 
+            // lblDeleteStatusText
+            // 
+            lblDeleteStatusText.AutoSize = true;
+            lblDeleteStatusText.Font = new Font("Consolas", 12F, FontStyle.Bold);
+            lblDeleteStatusText.ForeColor = Color.Salmon;
+            lblDeleteStatusText.Location = new Point(3, 59);
+            lblDeleteStatusText.Name = "lblDeleteStatusText";
+            lblDeleteStatusText.Size = new Size(189, 19);
+            lblDeleteStatusText.TabIndex = 31;
+            lblDeleteStatusText.Text = "Assignments deleted:";
+            // 
+            // lblProgress
+            // 
+            lblProgress.AutoSize = true;
+            lblProgress.Font = new Font("Consolas", 12F, FontStyle.Bold);
+            lblProgress.ForeColor = Color.Salmon;
+            lblProgress.Location = new Point(8, 12);
+            lblProgress.Name = "lblProgress";
+            lblProgress.Size = new Size(81, 19);
+            lblProgress.TabIndex = 30;
+            lblProgress.Text = "Progress";
+            // 
+            // btnClearSummary
+            // 
+            btnClearSummary.BackColor = Color.Salmon;
+            btnClearSummary.FlatStyle = FlatStyle.Popup;
+            btnClearSummary.Font = new Font("Consolas", 12F);
+            btnClearSummary.Location = new Point(307, 53);
+            btnClearSummary.Name = "btnClearSummary";
+            btnClearSummary.Size = new Size(152, 30);
+            btnClearSummary.TabIndex = 30;
+            btnClearSummary.Text = "Clear summary";
+            btnClearSummary.UseVisualStyleBackColor = false;
+            btnClearSummary.Click += btnClearSummary_Click;
             // 
             // ManagePolicyAssignments
             // 
@@ -369,6 +456,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1114, 836);
+            Controls.Add(pnlStatus);
             Controls.Add(lblWIP);
             Controls.Add(pnlAssignments);
             Controls.Add(pnlPolicies);
@@ -387,6 +475,8 @@
             pnlAssignments.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbpbClearDtgGroupAssignment).EndInit();
             ((System.ComponentModel.ISupportInitialize)dtgGroupAssignment).EndInit();
+            pnlStatus.ResumeLayout(false);
+            pnlStatus.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -417,5 +507,12 @@
         private DataGridViewTextBoxColumn GroupID;
         private Label lblPolicyType;
         private Label lblWIP;
+        private Panel pnlStatus;
+        private Label lblProgress;
+        private Button btnClearSummary;
+        private Label lblNumberOfAssignmentsDeleted;
+        private Label lblDeleteStatusText;
+        private ProgressBar pBCalculate;
+        private RichTextBox rtbSummary;
     }
 }

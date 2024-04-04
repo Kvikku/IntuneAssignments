@@ -509,7 +509,49 @@ namespace IntuneAssignments
 
                 return groupName;
             }
+        }
 
+        public static string GetGroupIDFromAssignmentID (string assignmentID)
+        {
+            /* Method to get the group ID from the an assignment ID
+
+            The assignment ID consists of the ID of the policy or application followed by an underscore and the ID of the group
+
+            Example: 12345678_ababab
+
+            Where 12345678 is the ID of the policy or application and ababab is the ID of the group
+             
+            It is often useful to extract the group ID from the assignment ID and look up the group by the ID to get the group name
+
+            */
+
+
+
+            if (assignmentID.Contains(allUsersGroupID))
+            {
+                WriteToLog("Group name is All Users (virtual group)");
+                return allUsersGroupName;
+            }
+
+            else if (assignmentID.Contains(allDevicesGroupID))
+            {
+                WriteToLog("Group name is All Devices (virtual group)");
+                return allDevicesGroupName;
+            }
+
+            else
+            {
+
+                int underscoreIndex = assignmentID.IndexOf('_');
+                if (underscoreIndex != -1 && underscoreIndex < assignmentID.Length - 1)
+                {
+                    return assignmentID.Substring(underscoreIndex + 1);
+                }
+                else
+                {
+                    return "ERROR GETTING GROUP ID FROM ASSIGNMENT ID";
+                }
+            }
 
         }
     }
