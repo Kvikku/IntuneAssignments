@@ -1436,7 +1436,25 @@ namespace IntuneAssignments
 
         }
 
+        public async void ListADMXTemplates(DataGridView dataGridView)
+        {
+            // This method lists all ADMX templates (called groupPolicyConfigurations in Graph API) in the tenant and displays them in a datagridview
 
+            // Authenticate to Graph
+            var graphClient = CreateGraphServiceClient();
+
+            // Make a call to Microsoft Graph
+            var result = await graphClient.DeviceManagement.GroupPolicyConfigurations.GetAsync();
+
+            // Put result into a list for easy processing
+            List<GroupPolicyConfiguration> groupPolicyConfigurations = new List<GroupPolicyConfiguration>();
+
+            groupPolicyConfigurations.AddRange(result.Value);
+            foreach (var policy in groupPolicyConfigurations)
+            {
+                dataGridView.Rows.Add(policy.DisplayName, "Administrative Templates", "Windows", policy.Id);
+            }
+        }
 
         public async void ListAllGroups()
         {
@@ -1831,6 +1849,7 @@ namespace IntuneAssignments
                 ListCompliancePolicies(dtgDisplayPolicy);
                 ListConfigurationProfiles(dtgDisplayPolicy);
                 ListSettingsCatalog(dtgDisplayPolicy);
+                ListADMXTemplates(dtgDisplayPolicy);
             }
 
             else if (cbPolicyType.Text == "Compliance policy")
@@ -1844,6 +1863,7 @@ namespace IntuneAssignments
             {
                 WriteToLog("User selected Administrative templates in the policy type combobox. Listing only device configuration policies");
 
+                ListADMXTemplates(dtgDisplayPolicy);
                 ListConfigurationProfiles(dtgDisplayPolicy);
             }
             else if (cbPolicyType.Text == "Settings catalog")
