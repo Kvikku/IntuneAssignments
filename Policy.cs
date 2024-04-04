@@ -786,10 +786,18 @@ namespace IntuneAssignments
                 {
                     string extractedText = group.Id.Substring(underscoreIndex + 1);
 
-                    // Add each existing assignment to the array of assignments
+                    
 
-                    Array.Resize(ref groupIDs, groupIDs.Length + 1);
-                    groupIDs[groupIDs.Length - 1] = extractedText;
+                    // check if the assignment is already in the list
+                    // if it is, don't add it again
+                    if (!groupIDs.Contains(extractedText))
+                    {
+                        Array.Resize(ref groupIDs, groupIDs.Length + 1);
+                        groupIDs[groupIDs.Length - 1] = extractedText;
+                    }
+
+                    //Array.Resize(ref groupIDs, groupIDs.Length + 1);
+                    //groupIDs[groupIDs.Length - 1] = extractedText;
                 }
             }
 
@@ -810,6 +818,8 @@ namespace IntuneAssignments
                         GroupId = group
                     }
                 };
+
+                
 
                 // Add each assignment object to the list of assignments
                 assignments.Add(assignment);
@@ -1408,6 +1418,32 @@ namespace IntuneAssignments
                                     rtbDeploymentSummary.AppendText(policy + " has been assigned to " + group.Key + Environment.NewLine);
                                     pBarDeployProgress.Value++;
                                     rtbDeploymentSummary.ForeColor = defaultColor;
+                                }
+                            }
+
+                            // Assignments for Administrative Templates
+                            if (type == "Administrative Templates")
+                            {
+                                
+                                // Loop through each selected group and assign the policy to each group
+                                foreach (var group in SelectedGroups)
+                                {
+
+                                    string groupName = group.Key;
+                                    string groupID = group.Value;
+
+                                    // Assignment for Administrative Templates
+                                    await AssignADMXTemplate(policyID, groupID);
+
+                                    // Log status to the logfile
+                                    WriteToLog(policy + " has been assigned to " + group.Key);
+
+                                    // Log status to the textbox
+                                    rtbDeploymentSummary.ForeColor = Color.Green;
+                                    rtbDeploymentSummary.AppendText(policy + " has been assigned to " + group.Key + Environment.NewLine);
+                                    pBarDeployProgress.Value++;
+                                    rtbDeploymentSummary.ForeColor = defaultColor;
+
                                 }
                             }
                         }
