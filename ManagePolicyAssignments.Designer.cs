@@ -56,6 +56,7 @@
             dtgGroupAssignment = new DataGridView();
             GroupName = new DataGridViewTextBoxColumn();
             GroupID = new DataGridViewTextBoxColumn();
+            lblWIP = new Label();
             ((System.ComponentModel.ISupportInitialize)pbViewAssignments).BeginInit();
             pnlPolicies.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
@@ -271,6 +272,7 @@
             btnDeleteSelectedAssignment.TabIndex = 26;
             btnDeleteSelectedAssignment.Text = "Delete selected";
             btnDeleteSelectedAssignment.UseVisualStyleBackColor = false;
+            btnDeleteSelectedAssignment.Click += btnDeleteSelectedAssignment_Click;
             // 
             // lblPolicyID
             // 
@@ -350,12 +352,24 @@
             GroupID.ReadOnly = true;
             GroupID.Width = 300;
             // 
+            // lblWIP
+            // 
+            lblWIP.AutoSize = true;
+            lblWIP.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblWIP.ForeColor = Color.Yellow;
+            lblWIP.Location = new Point(362, 706);
+            lblWIP.Name = "lblWIP";
+            lblWIP.Size = new Size(430, 32);
+            lblWIP.TabIndex = 15;
+            lblWIP.Text = "THIS PAGE IS A WORK IN PROGRESS";
+            // 
             // ManagePolicyAssignments
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1114, 836);
+            Controls.Add(lblWIP);
             Controls.Add(pnlAssignments);
             Controls.Add(pnlPolicies);
             Controls.Add(pbViewAssignments);
@@ -374,6 +388,7 @@
             ((System.ComponentModel.ISupportInitialize)pbpbClearDtgGroupAssignment).EndInit();
             ((System.ComponentModel.ISupportInitialize)dtgGroupAssignment).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -401,5 +416,6 @@
         private DataGridViewTextBoxColumn GroupName;
         private DataGridViewTextBoxColumn GroupID;
         private Label lblPolicyType;
+        private Label lblWIP;
     }
 }

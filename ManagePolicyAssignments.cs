@@ -214,20 +214,9 @@ namespace IntuneAssignments
 
                             // Add the assigned group name and ID to the datagridview
                             dtgGroupAssignment.Rows.Add(group.DisplayName, group.Id);
-
-
                         }
                     }
-
-
-
-
-
                 }
-
-
-
-
             }
 
             if (appType == "Settings catalog")
@@ -349,6 +338,11 @@ namespace IntuneAssignments
         }
 
         private void btnSearchPolicy_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDeleteSelectedAssignment_Click(object sender, EventArgs e)
         {
 
         }
