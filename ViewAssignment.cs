@@ -672,7 +672,9 @@ namespace IntuneAssignments
              * This method will delete all assignments for all selected apps in the datagridview dtgDisplayApp
              */
 
-            
+            // Store default color for rich textbox
+            var defaultColor = rtbSummary.ForeColor;
+
 
             // Warn user before proceeding
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete ALL assignments for ALL selected apps?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
@@ -769,8 +771,10 @@ namespace IntuneAssignments
                         if (groupName == "ERROR LOOKING UP GROUP NAME FROM GROUP ID")
                         {
                             WriteToLog("Group ID + " + assignment.Id + " does not exist in Entra. This is most likely because the group has been deleted. Skipping");
+                            rtbSummary.ForeColor = Color.Yellow;
                             rtbSummary.AppendText("Group ID + " + assignment.Id + " does not exist in Entra. This is most likely because the group has been deleted. Skipping");
                             rtbSummary.AppendText("\n");
+                            rtbSummary.ForeColor = defaultColor;
                         }
                         else
                         {

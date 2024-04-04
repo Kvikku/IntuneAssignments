@@ -1147,6 +1147,7 @@ namespace IntuneAssignments
                 Console.WriteLine(ex.Message);
                 throw;
             }
+        }
 
 
 
