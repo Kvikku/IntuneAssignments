@@ -721,6 +721,120 @@ namespace IntuneAssignments
             }
         }
 
+        async Task AssignADMXTemplate(string policyID, string groupID)
+        {
+            // This methods assigns an administrative template to one or more groups
+
+            // The policy ID and group ID are passed as parameters to this method and used to create the assignment
+
+            // Authenticate to Graph
+            var graphClient = CreateGraphServiceClient();
+
+            // Create a group assignment target object
+            var groupAssignmentTarget = new GroupAssignmentTarget
+            {
+                GroupId = groupID
+                //DeviceAndAppManagementAssignmentFilterId = policyID
+
+            };
+
+            // Create an administrative template assignment object
+
+            var deviceADMXGroupAssignmentTarget = new GroupPolicyConfigurationAssignment
+            {
+
+                Target = groupAssignmentTarget,
+
+            };
+
+            // Create an array to store all group IDs
+            // Add the new group ID to the array, which is passed into this method as a parameter
+            // Existing group IDs are added to this array later in the code
+            string[] groupIDs = { groupID };
+
+            // create a list for temporarily storing existing group IDs for further processing
+
+            List<GroupPolicyConfigurationAssignment> groupIDList = new List<GroupPolicyConfigurationAssignment>();
+
+            // Find all existing assignments by their group ID
+            var existingAssignments = await graphClient.DeviceManagement.GroupPolicyConfigurations[policyID]
+                .Assignments
+                .GetAsync();
+
+
+            // Check if there are any existing assignments
+
+            if (existingAssignments.Value.Count >= 1)
+            {
+                // Add existing assignments to a list for further processing
+                foreach (var assignment in existingAssignments.Value)
+                {
+                    groupIDList.Add(assignment);
+                }
+            }
+
+            // Loop through each existing assignment, extract the group ID and add that to the array of group ID's
+            // This is to ensure that existing assignments are not overwritten and deleted by PostAsync() later in the code
+
+            foreach (var group in groupIDList)
+            {
+
+                // Extract the group ID from the ID property (which consists of the policy ID and the group ID joined by a "_" sign)
+                int underscoreIndex = group.Id.IndexOf('_');
+
+                if (underscoreIndex >= 0 && underscoreIndex < group.Id.Length - 1)
+                {
+                    string extractedText = group.Id.Substring(underscoreIndex + 1);
+
+                    // Add each existing assignment to the array of assignments
+
+                    Array.Resize(ref groupIDs, groupIDs.Length + 1);
+                    groupIDs[groupIDs.Length - 1] = extractedText;
+                }
+            }
+
+            // Create an empty list to store the assignments
+            List<GroupPolicyConfigurationAssignment> assignments = new List<GroupPolicyConfigurationAssignment>();
+
+            // Loop through each group ID and create an assignment object for each one
+
+            foreach (var group in groupIDs)
+            {
+                var assignment = new GroupPolicyConfigurationAssignment
+                {
+                    OdataType = "#microsoft.graph.groupPolicyConfigurationAssignment",
+                    Id = group,
+                    Target = new GroupAssignmentTarget
+                    {
+                        OdataType = "microsoft.graph.groupAssignmentTarget",
+                        GroupId = group
+                    }
+                };
+
+                // Add each assignment object to the list of assignments
+                assignments.Add(assignment);
+            }
+
+            // Create a request body object and add all assignment objects to it
+            var requestBody = new Microsoft.Graph.Beta.DeviceManagement.GroupPolicyConfigurations.Item.Assign.AssignPostRequestBody
+            {
+                Assignments = assignments
+            };
+
+            // Create a new assignment
+
+            try
+            {
+                var result = await graphClient.DeviceManagement.GroupPolicyConfigurations[policyID].Assign.PostAsync(requestBody);
+            }
+            catch (ServiceException ex)
+            {
+                MessageBox.Show(ex.Message);
+                throw;
+            }
+
+
+        }
         async Task AssignSettingsCatalog(string policyID, string groupID)
         {
             // Description
@@ -2094,6 +2208,13 @@ namespace IntuneAssignments
         {
             pBarDeployProgress.Value = 0;
             rtbDeploymentSummary.Clear();
+        }
+
+        private async void button1_Click(object sender, EventArgs e)
+        {
+
+            await AssignADMXTemplate("0607ba8a-ba99-4d88-9a0d-c96b49b64b81", "b5db2e2e-995b-49d5-948e-f97acfba1efe");
+
         }
     }
 }
