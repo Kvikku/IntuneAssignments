@@ -267,8 +267,8 @@ namespace IntuneAssignments
 
                 if (assignmentsList.Count == 0)
                 {
-                    WriteToLog("No assignments found for " + appname);
                     rtbSummary.ForeColor = Color.Yellow;
+                    WriteToLog("No assignments found for " + appname);
                     rtbSummary.AppendText("No assignments found for " + appname + Environment.NewLine);
                     rtbSummary.ForeColor = Color.Salmon;
                 }
@@ -304,7 +304,9 @@ namespace IntuneAssignments
                         // Add the assigned group name and ID to the datagridview
                         dtgGroupAssignment.Rows.Add(groupName, groupID);
                         WriteToLog("Group assignment for " + appname + " found : " + groupName + ". ID is : " + groupID);
-                        rtbSummary.AppendText("Group assignment for " + appname + " found : " + groupName + ". ID is : " + groupID + Environment.NewLine);
+                        
+                        // No need to log to the rich text box
+                        //rtbSummary.AppendText("Group assignment for " + appname + " found : " + groupName + ". ID is : " + groupID + Environment.NewLine);
                     }
                 }
             }

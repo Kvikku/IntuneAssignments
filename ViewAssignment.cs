@@ -392,6 +392,8 @@ namespace IntuneAssignments
             lblDeleteStatusText.Show();
             lblNumberOfAssignmentsDeleted.Text = 0.ToString();
             numberOfAssignmentsDeleted = 0;
+            pbCalculate.Show();
+            lblProgress.Show();
 
 
             // Authenticate to Graph
@@ -413,6 +415,8 @@ namespace IntuneAssignments
             List<MobileAppAssignment> assignmentsList = new List<MobileAppAssignment>();
             assignmentsList.AddRange(result.Value);
 
+            int numberOfAssignments = assignmentsList.Count;
+            pbCalculate.Maximum = numberOfAssignments;
 
             // Loop through the list and delete each assignment
 
@@ -440,6 +444,7 @@ namespace IntuneAssignments
 
                 // Update the label with the number of assignments deleted
                 numberOfAssignmentsDeleted++;
+                pbCalculate.Value++;
                 lblNumberOfAssignmentsDeleted.Text = numberOfAssignmentsDeleted.ToString();
 
             }
