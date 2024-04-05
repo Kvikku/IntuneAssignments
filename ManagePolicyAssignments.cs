@@ -284,18 +284,27 @@ namespace IntuneAssignments
 
                         // Need to parse the JSON data and grab target - GroupID field
 
-                        var groupID = policy.ExtractGroupID(assignment.Id.ToString());
+                        //var groupID = policy.ExtractGroupID(assignment.Id.ToString());
 
                         // Look up Azure AD groups based on ID
 
-                        List<Group> groups = await policy.LookUpGroup(groupID);
+                        //List<Group> groups = await policy.LookUpGroup(groupID);
 
-                        foreach (var group in groups)
-                        {
-                            // Add the assigned group name and ID to the datagridview
-                            dtgGroupAssignment.Rows.Add(group.DisplayName, group.Id);
-                            WriteToLog("Group assignment for " + appname + " found : " + group.DisplayName + ". ID is : " + group.Id);
-                        }
+
+
+
+
+                        // Get group ID from assignment ID
+                        var groupID = GetGroupIDFromAssignmentID(assignment.Id.ToString());
+
+                        // Get group name from group ID
+                        var groupName = await FindGroupNameFromGroupID(groupID);
+                        
+
+                        // Add the assigned group name and ID to the datagridview
+                        dtgGroupAssignment.Rows.Add(groupName, groupID);
+                        WriteToLog("Group assignment for " + appname + " found : " + groupName + ". ID is : " + groupID);
+                        rtbSummary.AppendText("Group assignment for " + appname + " found : " + groupName + ". ID is : " + groupID + Environment.NewLine);
                     }
                 }
             }

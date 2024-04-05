@@ -435,6 +435,16 @@ namespace IntuneAssignments
             // Method to look up the group name from the group ID
             // Must pass in the group ID
 
+            if (groupID == allUsersGroupID)
+            {
+                return allUsersGroupName;
+            }
+
+            else if (groupID == allDevicesGroupID)
+            {
+                return allDevicesGroupName;
+            }
+
             // Create a new instance of the GraphServiceClient class
             var graphClient = CreateGraphServiceClient();
 
@@ -450,9 +460,14 @@ namespace IntuneAssignments
                     return "Group not found";
                 }
 
-                string groupName = group.DisplayName;
+                else
+                {
+                    string groupName = group.DisplayName;
 
-                return groupName;
+                    return groupName;
+                }
+
+                
             }
             catch (Exception ex)
             {
@@ -530,13 +545,13 @@ namespace IntuneAssignments
             if (assignmentID.Contains(allUsersGroupID))
             {
                 WriteToLog("Group name is All Users (virtual group)");
-                return allUsersGroupName;
+                return allUsersGroupID;
             }
 
             else if (assignmentID.Contains(allDevicesGroupID))
             {
                 WriteToLog("Group name is All Devices (virtual group)");
-                return allDevicesGroupName;
+                return allDevicesGroupID;
             }
 
             else
