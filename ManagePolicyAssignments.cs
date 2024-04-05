@@ -349,7 +349,7 @@ namespace IntuneAssignments
                 listOfAssignments.Add(assignmentID);
             }
 
-            await TestDelete(listOfAssignments);
+            await DeletePolicyAssignment(listOfAssignments);
 
         }
 
@@ -360,15 +360,11 @@ namespace IntuneAssignments
         }
 
 
-        public async Task TestDelete(List<string> assignmentList)
+        public async Task DeletePolicyAssignment(List<string> assignmentList)
         {
 
 
             /* Test method to delete a given assignments for a given policy
-             * 
-             * Remaining:
-             * Progress bar update
-             * Delete all option
              */
 
 
