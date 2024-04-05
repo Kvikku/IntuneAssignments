@@ -241,9 +241,9 @@
             lblPolicyType.ForeColor = Color.Salmon;
             lblPolicyType.Location = new Point(7, 90);
             lblPolicyType.Name = "lblPolicyType";
-            lblPolicyType.Size = new Size(108, 19);
+            lblPolicyType.Size = new Size(126, 19);
             lblPolicyType.TabIndex = 29;
-            lblPolicyType.Text = "{Policy ID}";
+            lblPolicyType.Text = "{Policy Type}";
             // 
             // lblViewAssignmentHeadline
             // 
@@ -343,6 +343,7 @@
             dtgGroupAssignment.Name = "dtgGroupAssignment";
             dtgGroupAssignment.ReadOnly = true;
             dtgGroupAssignment.RowHeadersVisible = false;
+            dtgGroupAssignment.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dtgGroupAssignment.Size = new Size(455, 272);
             dtgGroupAssignment.TabIndex = 22;
             // 

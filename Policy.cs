@@ -113,7 +113,7 @@ namespace IntuneAssignments
 
             // PolicyID_GroupID
 
-            // This methode extracts the GroupID part and returns it
+            // This method extracts the GroupID part and returns it
 
 
             int underscoreIndex = input.IndexOf('_');

@@ -3,6 +3,7 @@ using System.Reflection;
 using static IntuneAssignments.GlobalVariables;
 using static IntuneAssignments.GraphServiceClientCreator;
 using static IntuneAssignments.FormUtilities;
+using Microsoft.Graph.Beta.Models.Networkaccess;
 
 namespace IntuneAssignments
 {
@@ -23,7 +24,11 @@ namespace IntuneAssignments
 
             //_form1 = form1;
 
+            // Hide the status panel and labels
             pnlStatus.Hide();
+            lblPolicyID.Hide();
+            lblPolicyType.Hide();
+            lblPolicyName.Hide();
 
         }
 
@@ -132,6 +137,12 @@ namespace IntuneAssignments
         async Task findPolicyAssignment()
         {
             Policy policy = new Policy();
+
+            // view the labels
+            lblPolicyID.Show();
+            lblPolicyName.Show();
+            lblPolicyType.Show();
+
 
             // Take app ID from datagridview
             // This is the Application ID for which we query assignments
@@ -312,11 +323,136 @@ namespace IntuneAssignments
             }
         }
 
+        public async Task deleteSelectedPolicyAssignment()
+        {
+            // Deletes the selected policy assignment for the selected policy
 
-        public async Task deletePolicyAssignment()
+            // Create the assignment ID for each row selected from the policy ID and group ID and store it in a variable
+
+            // Check if any rows are selected
+
+            if (dtgGroupAssignment.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("No rows are selected. Please select a row to delete.");
+                return;
+            }
+
+            var listOfAssignments = new List<string>();
+            // make a list of selected rows
+
+            foreach (DataGridViewRow selectedRow in dtgGroupAssignment.SelectedRows)
+            {
+                // Add the assignment ID to the list
+                var groupID = selectedRow.Cells[1].Value.ToString();
+                var policyID = lblPolicyID.Text;
+                var assignmentID = policyID + "_" + groupID;
+                listOfAssignments.Add(assignmentID);
+            }
+
+            await TestDelete(listOfAssignments);
+
+        }
+
+        public async Task deleteAllPolicyAssignments()
+        {
+            // Deletes all policy assignments for the selected policy
+
+        }
+
+
+        public async Task TestDelete(List<string> assignmentList)
         {
 
-            // Deletes all assignments for the selected policy
+
+            /* Test method to delete a given assignments for a given policy
+             * 
+             * Remaining:
+             * Progress bar update
+             * Delete all option
+             */
+
+
+            // reset the progress bar from any previous operations
+            pBCalculate.Value = 0;
+
+            // Declare variables
+            int numberOfAssignmentsDeleted = 0;
+
+            // Store the policy type
+            var policyType = lblPolicyType.Text;
+
+
+            // Authenticate to Graph
+            var graphClient = CreateGraphServiceClient();
+
+
+            // Count number of assignments to calculate size of progress bar
+            pBCalculate.Maximum = assignmentList.Count;
+
+
+            // Enable UI features to show progress
+            lblProgress.Show();
+            lblDeleteStatusText.Show();
+            lblNumberOfAssignmentsDeleted.Text = 0.ToString();
+            lblNumberOfAssignmentsDeleted.Show();
+            pBCalculate.Show();
+
+
+            // Check the policy type and delete the assignment
+
+            foreach (var policy in assignmentList)
+            {
+                // Split the policy ID and group ID
+                var policyID = policy.Split("_")[0];
+                var groupID = policy.Split("_")[1];
+                var assignmentID = policyID + "_" + groupID;
+
+                if (policyType == "Compliance")
+                {
+                    // Note - this currently does not work, even though the documenation says it should
+                    MessageBox.Show("Deleting compliance policy assignments is currently bugged, due to an error in the Graph API. I will implement the feature as soon as the error is fixed");
+                    return;
+                    // Delete the assignment
+                    await graphClient.DeviceManagement.DeviceCompliancePolicies[policyID].Assignments[assignmentID].DeleteAsync();
+                    WriteToLog("Assignment deleted for " + lblPolicyName.Text + " for group " + groupID);
+                    rtbSummary.AppendText("Assignment deleted for " + lblPolicyName.Text + " for group " + groupID + Environment.NewLine);
+                    pBCalculate.Value++;
+                    lblNumberOfAssignmentsDeleted.Text = 1.ToString();
+                }
+
+                if (policyType == "Settings catalog")
+                {
+                    // To be implemented
+                }
+
+                if (policyType == "Device configuration")
+                {
+                    // To be implemented
+                }
+
+                if (policyType == "Administrative Templates")
+                {
+                    // Delete the assignment
+                    await graphClient.DeviceManagement.GroupPolicyConfigurations[policyID].Assignments[assignmentID].DeleteAsync();
+                    WriteToLog("Assignment for group " + groupID + " has been deleted.");
+                    rtbSummary.AppendText("Assignment for group " + groupID + " has been deleted." + Environment.NewLine);
+                    pBCalculate.Value++;
+                    numberOfAssignmentsDeleted++;
+                    lblNumberOfAssignmentsDeleted.Text = numberOfAssignmentsDeleted.ToString();
+                }
+            }
+
+            
+        }
+
+        public async Task deletePolicyAssignment(string PolicyID)
+        {
+            // This method is no longer in use
+
+            // Deletes the selected policy assignment for the selected policy
+
+
+
             lblProgress.Show();
             lblDeleteStatusText.Show();
             lblNumberOfAssignmentsDeleted.Text = 0.ToString();
@@ -334,7 +470,7 @@ namespace IntuneAssignments
 
 
             // Convert value og lblappid.text to mobile app ID
-            var policyID = lblPolicyID.Text;
+            var policyID = PolicyID;
             var policyType = lblPolicyType.Text;
 
 
@@ -440,7 +576,7 @@ namespace IntuneAssignments
             if (dialogResult == DialogResult.Yes)
             {
                 // If user clicks yes, delete all assignments
-                await deletePolicyAssignment();
+                await deleteAllPolicyAssignments();
 
                 // Clear the datagridview for older results
                 FormUtilities.ClearDataGridView(dtgGroupAssignment);
@@ -459,9 +595,9 @@ namespace IntuneAssignments
 
         }
 
-        private void btnDeleteSelectedAssignment_Click(object sender, EventArgs e)
+        private async void btnDeleteSelectedAssignment_Click(object sender, EventArgs e)
         {
-
+            await deleteSelectedPolicyAssignment();
         }
 
         private void ManagePolicyAssignments_Load(object sender, EventArgs e)
