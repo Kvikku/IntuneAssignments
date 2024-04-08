@@ -35,6 +35,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManagePolicyAssignments));
             pbViewAssignments = new PictureBox();
             pnlPolicies = new Panel();
+            btnDeleteAssignmentForSelectedPolicies = new Button();
             dtgDisplayPolicy = new DataGridView();
             PolicyName = new DataGridViewTextBoxColumn();
             Platform = new DataGridViewTextBoxColumn();
@@ -89,6 +90,7 @@
             // pnlPolicies
             // 
             pnlPolicies.BorderStyle = BorderStyle.FixedSingle;
+            pnlPolicies.Controls.Add(btnDeleteAssignmentForSelectedPolicies);
             pnlPolicies.Controls.Add(dtgDisplayPolicy);
             pnlPolicies.Controls.Add(pbClearDtgDisplayPolicy);
             pnlPolicies.Controls.Add(txtboxSearchPolicy);
@@ -99,6 +101,19 @@
             pnlPolicies.Name = "pnlPolicies";
             pnlPolicies.Size = new Size(544, 724);
             pnlPolicies.TabIndex = 13;
+            // 
+            // btnDeleteAssignmentForSelectedPolicies
+            // 
+            btnDeleteAssignmentForSelectedPolicies.BackColor = Color.Salmon;
+            btnDeleteAssignmentForSelectedPolicies.FlatStyle = FlatStyle.Popup;
+            btnDeleteAssignmentForSelectedPolicies.Font = new Font("Consolas", 12F);
+            btnDeleteAssignmentForSelectedPolicies.Location = new Point(251, 151);
+            btnDeleteAssignmentForSelectedPolicies.Name = "btnDeleteAssignmentForSelectedPolicies";
+            btnDeleteAssignmentForSelectedPolicies.Size = new Size(249, 30);
+            btnDeleteAssignmentForSelectedPolicies.TabIndex = 22;
+            btnDeleteAssignmentForSelectedPolicies.Text = "Delete all assignments";
+            btnDeleteAssignmentForSelectedPolicies.UseVisualStyleBackColor = false;
+            btnDeleteAssignmentForSelectedPolicies.Click += btnDeleteAssignmentForSelectedPolicies_Click;
             // 
             // dtgDisplayPolicy
             // 
@@ -131,6 +146,7 @@
             dtgDisplayPolicy.Name = "dtgDisplayPolicy";
             dtgDisplayPolicy.ReadOnly = true;
             dtgDisplayPolicy.RowHeadersVisible = false;
+            dtgDisplayPolicy.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dtgDisplayPolicy.Size = new Size(574, 559);
             dtgDisplayPolicy.TabIndex = 21;
             dtgDisplayPolicy.CellDoubleClick += dtgDisplayPolicy_CellDoubleClick;
@@ -175,7 +191,7 @@
             txtboxSearchPolicy.BackColor = Color.FromArgb(46, 51, 73);
             txtboxSearchPolicy.Font = new Font("Consolas", 12F);
             txtboxSearchPolicy.ForeColor = Color.Salmon;
-            txtboxSearchPolicy.Location = new Point(20, 146);
+            txtboxSearchPolicy.Location = new Point(20, 119);
             txtboxSearchPolicy.Name = "txtboxSearchPolicy";
             txtboxSearchPolicy.Size = new Size(225, 26);
             txtboxSearchPolicy.TabIndex = 19;
@@ -197,7 +213,7 @@
             btnListAllPolices.BackColor = Color.Salmon;
             btnListAllPolices.FlatStyle = FlatStyle.Popup;
             btnListAllPolices.Font = new Font("Consolas", 12F);
-            btnListAllPolices.Location = new Point(376, 144);
+            btnListAllPolices.Location = new Point(376, 115);
             btnListAllPolices.Name = "btnListAllPolices";
             btnListAllPolices.Size = new Size(124, 30);
             btnListAllPolices.TabIndex = 17;
@@ -210,7 +226,7 @@
             btnSearchPolicy.BackColor = Color.Salmon;
             btnSearchPolicy.FlatStyle = FlatStyle.Popup;
             btnSearchPolicy.Font = new Font("Consolas", 12F);
-            btnSearchPolicy.Location = new Point(251, 143);
+            btnSearchPolicy.Location = new Point(251, 115);
             btnSearchPolicy.Name = "btnSearchPolicy";
             btnSearchPolicy.Size = new Size(119, 30);
             btnSearchPolicy.TabIndex = 16;
@@ -515,5 +531,6 @@
         private Label lblDeleteStatusText;
         private ProgressBar pBCalculate;
         private RichTextBox rtbSummary;
+        private Button btnDeleteAssignmentForSelectedPolicies;
     }
 }

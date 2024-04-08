@@ -310,18 +310,86 @@ namespace IntuneAssignments
 
                         // Get group name from group ID
                         var groupName = await FindGroupNameFromGroupID(groupID);
-                        
+
 
                         // Add the assigned group name and ID to the datagridview
                         dtgGroupAssignment.Rows.Add(groupName, groupID);
                         WriteToLog("Group assignment for " + appname + " found : " + groupName + ". ID is : " + groupID);
-                        
+
                         // No need to log to the rich text box
                         //rtbSummary.AppendText("Group assignment for " + appname + " found : " + groupName + ". ID is : " + groupID + Environment.NewLine);
                     }
                 }
             }
         }
+
+        public async Task DeleteAssignmentsFromSelectedPolicy()
+        {
+            // Deletes all assignments for the selected policies
+
+
+            // show necessary controls
+
+            pnlStatus.Show();
+            rtbSummary.Show();
+            lblNumberOfAssignmentsDeleted.Hide();
+            lblDeleteStatusText.Hide();
+            lblProgress.Hide();
+            pBCalculate.Hide();
+            btnClearSummary.Show();
+
+            // Count number of selected rows (policies)
+            var selectedRows = dtgDisplayPolicy.SelectedRows.Count;
+
+            // If no rows are selected, show a message box
+            if (selectedRows == 0)
+            {
+                MessageBox.Show("No rows are selected. Please select a row to delete.");
+                return;
+            }
+
+
+
+            // If rows are selected, warn user before proceeding
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete all assignments for the " + selectedRows + "  policies?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                // Make assignment list for each selected policy and pass it to the delete method
+
+                var listOfAssignments = new List<string>();
+                foreach (DataGridViewRow assignment in dtgDisplayPolicy.SelectedRows)
+                {
+                    var policyID = assignment.Cells[3].Value.ToString();
+                    var policyType = assignment.Cells[1].Value.ToString();
+                    var assignmentID = policyID + "_" + policyType;
+                    listOfAssignments.Add(assignmentID);
+
+
+                    // TO DO
+                    // fix assigmentID to be the correct value
+                    // must look up group ID for all assigned groups here
+
+
+                    await DeletePolicyAssignment(listOfAssignments, policyType);
+                }
+                
+                
+                
+                // If user clicks yes, delete all assignments
+                //await DeleteAssignmentsFromSelectedPolicy();
+
+                // Clear the datagridview for older results
+                FormUtilities.ClearDataGridView(dtgGroupAssignment);
+
+
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                // If user clicks no, do nothing
+            }
+        }
+
 
         public async Task deleteSelectedPolicyAssignment()
         {
@@ -338,6 +406,8 @@ namespace IntuneAssignments
             }
 
             var listOfAssignments = new List<string>();
+            var policyType = lblPolicyType.Text;
+
             // make a list of selected rows
 
             foreach (DataGridViewRow selectedRow in dtgGroupAssignment.SelectedRows)
@@ -349,7 +419,7 @@ namespace IntuneAssignments
                 listOfAssignments.Add(assignmentID);
             }
 
-            await DeletePolicyAssignment(listOfAssignments);
+            await DeletePolicyAssignment(listOfAssignments, policyType);
 
         }
 
@@ -357,14 +427,46 @@ namespace IntuneAssignments
         {
             // Deletes all policy assignments for the selected policy
 
+
+            // check if there are any rows in the datagridview
+
+            if (dtgGroupAssignment.Rows.Count == 0)
+            {
+                MessageBox.Show("There are no assignments for the selected app.");
+                return;
+            }
+
+
+            // make a list of all rows
+
+            var listOfAssignments = new List<string>();
+            var policyType = lblPolicyType.Text;
+
+
+            // Loop through all rows in the datagridview and add the assignment ID to the list
+
+            foreach (DataGridViewRow row in dtgGroupAssignment.Rows)
+            {
+                // Add the assignment ID to the list
+                var groupID = row.Cells[1].Value.ToString();
+                var policyID = lblPolicyID.Text;
+                var assignmentID = policyID + "_" + groupID;
+                listOfAssignments.Add(assignmentID);
+            }
+
+            // Call the delete method
+            await DeletePolicyAssignment(listOfAssignments, policyType);
+
         }
 
 
-        public async Task DeletePolicyAssignment(List<string> assignmentList)
+        public async Task DeletePolicyAssignment(List<string> assignmentList, string policyType)
         {
 
 
-            /* Test method to delete a given assignments for a given policy
+            /* 
+             * Test method to delete a given assignments for a given policy
+             * 
              */
 
 
@@ -375,7 +477,7 @@ namespace IntuneAssignments
             int numberOfAssignmentsDeleted = 0;
 
             // Store the policy type
-            var policyType = lblPolicyType.Text;
+            //var policyType = lblPolicyType.Text;
 
 
             // Authenticate to Graph
@@ -438,15 +540,12 @@ namespace IntuneAssignments
                 }
             }
 
-            
+
         }
 
         public async Task deletePolicyAssignment(string PolicyID)
         {
             // This method is no longer in use
-
-            // Deletes the selected policy assignment for the selected policy
-
 
 
             lblProgress.Show();
@@ -499,7 +598,7 @@ namespace IntuneAssignments
                     rtbSummary.AppendText("Assignment deleted for " + lblPolicyName.Text + " for group " + groupName + Environment.NewLine);
                     pBCalculate.Value++;
                     numberOfAssignmentsDeleted++;
-                    lblNumberOfAssignmentsDeleted.Text = numberOfAssignmentsDeleted.ToString(); 
+                    lblNumberOfAssignmentsDeleted.Text = numberOfAssignmentsDeleted.ToString();
                 }
             }
 
@@ -604,6 +703,13 @@ namespace IntuneAssignments
         private void btnClearSummary_Click(object sender, EventArgs e)
         {
             ClearRichTextBox(rtbSummary);
+        }
+
+        private async void btnDeleteAssignmentForSelectedPolicies_Click(object sender, EventArgs e)
+        {
+            await DeleteAssignmentsFromSelectedPolicy();
+
+            
         }
     }
 }
