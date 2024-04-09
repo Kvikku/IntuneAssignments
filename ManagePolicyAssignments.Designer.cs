@@ -111,7 +111,7 @@
             btnDeleteAssignmentForSelectedPolicies.Name = "btnDeleteAssignmentForSelectedPolicies";
             btnDeleteAssignmentForSelectedPolicies.Size = new Size(249, 30);
             btnDeleteAssignmentForSelectedPolicies.TabIndex = 22;
-            btnDeleteAssignmentForSelectedPolicies.Text = "Delete all assignments";
+            btnDeleteAssignmentForSelectedPolicies.Text = "Delete assignments";
             btnDeleteAssignmentForSelectedPolicies.UseVisualStyleBackColor = false;
             btnDeleteAssignmentForSelectedPolicies.Click += btnDeleteAssignmentForSelectedPolicies_Click;
             // 

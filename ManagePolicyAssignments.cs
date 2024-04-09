@@ -351,37 +351,91 @@ namespace IntuneAssignments
 
 
             // If rows are selected, warn user before proceeding
-            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete all assignments for the " + selectedRows + "  policies?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete all assignments for the " + selectedRows + " selected policies?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
 
             if (dialogResult == DialogResult.Yes)
             {
                 // Make assignment list for each selected policy and pass it to the delete method
 
                 var listOfAssignments = new List<string>();
+                
+                var graphClient = CreateGraphServiceClient();
+
                 foreach (DataGridViewRow assignment in dtgDisplayPolicy.SelectedRows)
                 {
+                    
+                    // clear the assignment list before adding new assignments
+                    listOfAssignments.Clear();
+
                     var policyID = assignment.Cells[3].Value.ToString();
                     var policyType = assignment.Cells[1].Value.ToString();
-                    var assignmentID = policyID + "_" + policyType;
-                    listOfAssignments.Add(assignmentID);
+                    string assignmentID = "";
+                    
+                    
+
+                    
+                    // Check the policy to make the right API call
+
+                    if (policyType == "Compliance")
+                    {
+                        WriteToLog("Deleting assignments for compliance policies are currently not implemented. Skipping...");
+                        rtbSummary.AppendText("Deleting assignments for compliance policies are currently not implemented. Skipping..." + Environment.NewLine);
+                        return;
+
+                        await DeletePolicyAssignment(listOfAssignments, policyType);
+                    }
+
+                    if (policyType == "Settings catalog")
+                    {
+                        WriteToLog("Deleting assignments for settings catalog policies are currently not implemented. Skipping...");
+                        rtbSummary.AppendText("Deleting assignments for settings catalog policies are currently not implemented. Skipping..." + Environment.NewLine);
+                        return;
+
+                        await DeletePolicyAssignment(listOfAssignments, policyType);
+                    }
+
+                    if (policyType == "Device configuration")
+                    {
+                        WriteToLog("Deleting assignments for device configuration policies are currently not implemented. Skipping...");
+                        rtbSummary.AppendText("Deleting assignments for device configuration policies are currently not implemented. Skipping..." + Environment.NewLine);
+                        return;
+
+                        await DeletePolicyAssignment(listOfAssignments, policyType);
+                    }
+
+                    if (policyType == "Administrative Templates")
+                    {
+                        // Get all assigned groups for the selected policy
+
+                        var result = await graphClient.DeviceManagement.GroupPolicyConfigurations[policyID].Assignments.GetAsync();
+                        
+                        // Check if there are any assignments
+
+                        if (result.Value.Count == 0)
+                        {
+                            WriteToLog("No assignments found for " + assignment.Cells[0].Value.ToString());
+                            rtbSummary.AppendText("No assignments found for " + assignment.Cells[0].Value.ToString() + Environment.NewLine);
+                            return;
+                        }
+                        
+                        // Add the result to a list of assignments
+
+                        foreach (var ID in result.Value)
+                        {
+                            // Add the assignment ID to the list
+                            listOfAssignments.Add(ID.Id);
+                        }
+
+                        await DeletePolicyAssignment(listOfAssignments, policyType);
+
+                    }
 
 
-                    // TO DO
-                    // fix assigmentID to be the correct value
-                    // must look up group ID for all assigned groups here
-
-
-                    await DeletePolicyAssignment(listOfAssignments, policyType);
+                    
                 }
-                
-                
-                
-                // If user clicks yes, delete all assignments
-                //await DeleteAssignmentsFromSelectedPolicy();
 
                 // Clear the datagridview for older results
-                FormUtilities.ClearDataGridView(dtgGroupAssignment);
-
+                //FormUtilities.ClearDataGridView(dtgGroupAssignment);
 
             }
             else if (dialogResult == DialogResult.No)
