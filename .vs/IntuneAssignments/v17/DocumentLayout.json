@@ -11,16 +11,16 @@
       "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:managepolicyassignments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|C:\\Github\\IntuneAssignments\\viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|C:\\Github\\IntuneAssignments\\formutilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:formutilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|C:\\Github\\IntuneAssignments\\viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|C:\\Github\\IntuneAssignments\\formutilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:formutilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|C:\\Github\\IntuneAssignments\\viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -45,8 +45,12 @@
               "Name": "ST:0:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "ViewAssignment.cs [Design]",
               "DocumentMoniker": "C:\\Github\\IntuneAssignments\\ViewAssignment.cs",
               "RelativeDocumentMoniker": "ViewAssignment.cs",
@@ -64,20 +68,20 @@
               "RelativeDocumentMoniker": "ViewAssignment.cs",
               "ToolTip": "C:\\Github\\IntuneAssignments\\ViewAssignment.cs",
               "RelativeToolTip": "ViewAssignment.cs",
-              "ViewState": "AQIAAHkCAAAAAAAAAAAwwG4CAABFAAAA",
+              "ViewState": "AQIAAMkCAAAAAAAAAADgv90CAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-05T06:45:23.399Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "FormUtilities.cs",
               "DocumentMoniker": "C:\\Github\\IntuneAssignments\\FormUtilities.cs",
               "RelativeDocumentMoniker": "FormUtilities.cs",
               "ToolTip": "C:\\Github\\IntuneAssignments\\FormUtilities.cs",
               "RelativeToolTip": "FormUtilities.cs",
-              "ViewState": "AQIAACECAAAAAAAAAAAtwDoCAAAIAAAA",
+              "ViewState": "AQIAABsCAAAAAAAAAADwvzoCAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-04T11:23:04.13Z",
               "EditorCaption": ""
@@ -88,8 +92,8 @@
               "Title": "ManagePolicyAssignments.cs [Design]",
               "DocumentMoniker": "C:\\Github\\IntuneAssignments\\ManagePolicyAssignments.cs",
               "RelativeDocumentMoniker": "ManagePolicyAssignments.cs",
-              "ToolTip": "C:\\Github\\IntuneAssignments\\ManagePolicyAssignments.cs [Design]",
-              "RelativeToolTip": "ManagePolicyAssignments.cs [Design]",
+              "ToolTip": "C:\\Github\\IntuneAssignments\\ManagePolicyAssignments.cs [Design]*",
+              "RelativeToolTip": "ManagePolicyAssignments.cs [Design]*",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-04T10:35:41.111Z",
               "EditorCaption": " [Design]"
@@ -100,9 +104,9 @@
               "Title": "ManagePolicyAssignments.cs",
               "DocumentMoniker": "C:\\Github\\IntuneAssignments\\ManagePolicyAssignments.cs",
               "RelativeDocumentMoniker": "ManagePolicyAssignments.cs",
-              "ToolTip": "C:\\Github\\IntuneAssignments\\ManagePolicyAssignments.cs",
-              "RelativeToolTip": "ManagePolicyAssignments.cs",
-              "ViewState": "AQIAAKEAAAAAAAAAAAAtwPwAAAAmAAAA",
+              "ToolTip": "C:\\Github\\IntuneAssignments\\ManagePolicyAssignments.cs*",
+              "RelativeToolTip": "ManagePolicyAssignments.cs*",
+              "ViewState": "AQIAAHwCAAAAAAAAAADgv5ACAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-04T10:16:23.44Z",
               "EditorCaption": ""

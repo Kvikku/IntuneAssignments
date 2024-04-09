@@ -296,9 +296,46 @@ namespace IntuneAssignments
 
             }
 
-            if (appType == "Device configuration")
+            if (appType == "Device Configuration")
             {
-                // To be implemented
+                // This code block lists all device configuration assignments
+
+                // Query graph for assignment ID for a given policy
+
+                var result = await graphClient.DeviceManagement.DeviceConfigurations[policyID].Assignments.GetAsync();
+
+
+                // Add the result to a list of assignments
+                List<DeviceConfigurationAssignment> assignmentsList = new List<DeviceConfigurationAssignment>();
+                assignmentsList.AddRange(result.Value);
+
+                // Check if there are any assignments
+
+                if (assignmentsList.Count == 0)
+                {
+                    WriteToLog("No assignments found for " + appname);
+                    rtbSummary.AppendText("No assignments found for " + appname + Environment.NewLine);
+                    return;
+                }
+
+                // Clear the datagridview
+                dtgGroupAssignment.Rows.Clear();
+
+                // Loop through the list and display each assignment
+
+                foreach (var assignment in assignmentsList)
+                {
+
+                    // Get group ID from assignment ID
+                    var groupID = GetGroupIDFromAssignmentID(assignment.Id.ToString());
+
+                    // Get group name from group ID
+                    var groupName = await FindGroupNameFromGroupID(groupID);
+
+                    dtgGroupAssignment.Rows.Add(groupName, groupID);
+                    WriteToLog("Group assignment for " + appname + " found : " + groupName + ". ID is : " + groupID);
+
+                }
             }
 
             if (appType == "Administrative Templates")
@@ -417,26 +454,47 @@ namespace IntuneAssignments
                     if (policyType == "Compliance")
                     {
                         WriteToLog("Deleting assignments for compliance policies are currently not implemented. Skipping...");
+                        rtbSummary.ForeColor = Color.Yellow;
                         rtbSummary.AppendText("Deleting assignments for compliance policies are currently not implemented. Skipping..." + Environment.NewLine);
-                        return;
+                        rtbSummary.ForeColor = Color.Salmon;
+                        
 
                         await DeletePolicyAssignment(listOfAssignments, policyType);
                     }
 
-                    if (policyType == "Settings catalog")
+                    if (policyType == "Settings Catalog")
                     {
                         WriteToLog("Deleting assignments for settings catalog policies are currently not implemented. Skipping...");
+                        rtbSummary.ForeColor = Color.Yellow;
                         rtbSummary.AppendText("Deleting assignments for settings catalog policies are currently not implemented. Skipping..." + Environment.NewLine);
-                        return;
+                        rtbSummary.ForeColor = Color.Salmon;
+                        
 
                         await DeletePolicyAssignment(listOfAssignments, policyType);
                     }
 
-                    if (policyType == "Device configuration")
+                    if (policyType == "Device Configuration")
                     {
-                        WriteToLog("Deleting assignments for device configuration policies are currently not implemented. Skipping...");
-                        rtbSummary.AppendText("Deleting assignments for device configuration policies are currently not implemented. Skipping..." + Environment.NewLine);
-                        return;
+                        // Get all assigned groups for the selected policy
+
+                        var result = await graphClient.DeviceManagement.DeviceConfigurations[policyID].Assignments.GetAsync();
+
+                        // Check if there are any assignments
+
+                        if (result.Value.Count == 0)
+                        {
+                            WriteToLog("No assignments found for " + assignment.Cells[0].Value.ToString());
+                            rtbSummary.AppendText("No assignments found for " + assignment.Cells[0].Value.ToString() + Environment.NewLine);
+                            return;
+                        }
+
+                        // Add the result to a list of assignments
+
+                        foreach (var ID in result.Value)
+                        {
+                            // Add the assignment ID to the list
+                            listOfAssignments.Add(ID.Id);
+                        }
 
                         await DeletePolicyAssignment(listOfAssignments, policyType);
                     }
@@ -596,12 +654,17 @@ namespace IntuneAssignments
                 var policyID = policy.Split("_")[0];
                 var groupID = policy.Split("_")[1];
                 var assignmentID = policyID + "_" + groupID;
+                
 
                 if (policyType == "Compliance")
                 {
-                    // Note - this currently does not work, even though the documenation says it should
-                    MessageBox.Show("Deleting compliance policy assignments is currently bugged, due to an error in the Graph API. I will implement the feature as soon as the error is fixed");
+                    WriteToLog("Deleting assignments for compliance policies are currently not implemented. Skipping...");
+                    rtbSummary.ForeColor = Color.Yellow;
+                    rtbSummary.AppendText("Deleting assignments for compliance policies are currently not implemented. Skipping..." + Environment.NewLine);
+                    rtbSummary.ForeColor = Color.Salmon;
                     return;
+
+
                     // Delete the assignment
                     await graphClient.DeviceManagement.DeviceCompliancePolicies[policyID].Assignments[assignmentID].DeleteAsync();
                     WriteToLog("Assignment deleted for " + lblPolicyName.Text + " for group " + groupID);
@@ -610,14 +673,34 @@ namespace IntuneAssignments
                     lblNumberOfAssignmentsDeleted.Text = 1.ToString();
                 }
 
-                if (policyType == "Settings catalog")
+                if (policyType == "Settings Catalog")
                 {
-                    // To be implemented
+                    
+                    WriteToLog("Deleting assignments for settings catalog policies are currently not implemented. Skipping...");
+                    
+                    rtbSummary.ForeColor = Color.Yellow;
+                    rtbSummary.AppendText("Deleting assignments for settings catalog policies are currently not implemented. Skipping..." + Environment.NewLine);
+                    rtbSummary.ForeColor = Color.Salmon;
+                    return;
+
+
+
+                    // Delete the assignment
+                    await graphClient.DeviceManagement.ConfigurationPolicies[policyID].Assignments[assignmentID].DeleteAsync();
+
                 }
 
-                if (policyType == "Device configuration")
+                if (policyType == "Device Configuration")
                 {
-                    // To be implemented
+                    // Delete the assignment
+                    await graphClient.DeviceManagement.DeviceConfigurations[policyID].Assignments[assignmentID].DeleteAsync();
+                    WriteToLog("Assignment for group " + groupID + " has been deleted.");
+                    rtbSummary.AppendText("Assignment for group " + groupID + " has been deleted." + Environment.NewLine);
+                    pBCalculate.Value++;
+                    numberOfAssignmentsDeleted++;
+                    lblNumberOfAssignmentsDeleted.Text = numberOfAssignmentsDeleted.ToString();
+
+
                 }
 
                 if (policyType == "Administrative Templates")
