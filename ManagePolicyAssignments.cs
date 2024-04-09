@@ -250,9 +250,50 @@ namespace IntuneAssignments
                 }
             }
 
-            if (appType == "Settings catalog")
+            if (appType == "Settings Catalog")
             {
-                // To be implemented
+                // This code block lists all settings catalog assignments
+
+                // Query graph for assignment ID for a given policy
+
+                var result = await graphClient.DeviceManagement.ConfigurationPolicies[policyID].Assignments.GetAsync();
+
+
+                // Add the result to a list of assignments
+                List<DeviceManagementConfigurationPolicyAssignment> assignmentsList = new List<DeviceManagementConfigurationPolicyAssignment>();
+                assignmentsList.AddRange(result.Value);
+
+                // Check if there are any assignments
+
+                if (assignmentsList.Count == 0)
+                {
+                    WriteToLog("No assignments found for " + appname);
+                    rtbSummary.AppendText("No assignments found for " + appname + Environment.NewLine);
+                    return;
+                }
+
+                
+                // Clear the datagridview
+                dtgGroupAssignment.Rows.Clear();
+
+                // Loop through the list and display each assignment
+
+                foreach (var assignment in assignmentsList)
+                {
+
+                    // Get group ID from assignment ID
+                    var groupID = GetGroupIDFromAssignmentID(assignment.Id.ToString());
+
+                    // Get group name from group ID
+                    var groupName = await FindGroupNameFromGroupID(groupID);
+
+
+                    // Add the assigned group name and ID to the datagridview
+                    dtgGroupAssignment.Rows.Add(groupName, groupID);
+                    WriteToLog("Group assignment for " + appname + " found : " + groupName + ". ID is : " + groupID);
+                    
+                }
+
             }
 
             if (appType == "Device configuration")
@@ -262,7 +303,7 @@ namespace IntuneAssignments
 
             if (appType == "Administrative Templates")
             {
-                // This method lists all ADMX templates (called groupPolicyConfigurations in Graph API) assignments
+                // This code block lists all ADMX templates (called groupPolicyConfigurations in Graph API) assignments
 
                 // Query graph for assignment ID for a given policy
 
@@ -369,11 +410,8 @@ namespace IntuneAssignments
 
                     var policyID = assignment.Cells[3].Value.ToString();
                     var policyType = assignment.Cells[1].Value.ToString();
-                    string assignmentID = "";
-                    
-                    
 
-                    
+
                     // Check the policy to make the right API call
 
                     if (policyType == "Compliance")
