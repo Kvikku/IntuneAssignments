@@ -1005,8 +1005,10 @@ namespace IntuneAssignments
             // Create a group assignment target object
             var groupAssignmentTarget = new GroupAssignmentTarget
             {
+                
                 GroupId = groupID
                 //DeviceAndAppManagementAssignmentFilterId = policyID
+
 
             };
 
@@ -1154,7 +1156,6 @@ namespace IntuneAssignments
             // create a group assignment target object
             var target = new GroupAssignmentTarget
             {
-
                 GroupId = groupID
             };
 
@@ -1238,8 +1239,6 @@ namespace IntuneAssignments
                     Target = new GroupAssignmentTarget
                     {
                         OdataType = "microsoft.graph.groupAssignmentTarget",
-                        //DeviceAndAppManagementAssignmentFilterId = null,
-                        //DeviceAndAppManagementAssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.None,
                         GroupId = group
 
                     },
