@@ -33,26 +33,6 @@ namespace IntuneAssignments
         }
 
 
-        //protected override void OnLoad(EventArgs e)
-        //{
-
-        //    // Necessary to copy the location of Form1
-        //    base.OnLoad(e);
-
-        //    // Set the location of the form to the position of Form1
-        //    if (_form1 != null)
-        //    {
-        //        Location = new Point(
-        //            _form1.Location.X + (_form1.Width - Width) / 2,
-        //            _form1.Location.Y + (_form1.Height - Height) / 2);
-        //    }
-
-        //    lblPolicyID.Text = "";
-        //    lblPolicyName.Text = "";
-        //    lblPolicyType.Text = "";
-
-        //}
-
 
         private void viewPolicyAssignments()
         {
@@ -143,14 +123,12 @@ namespace IntuneAssignments
             lblPolicyName.Show();
             lblPolicyType.Show();
 
-
             // Take app ID from datagridview
             // This is the Application ID for which we query assignments
             var policyPlatform = getPolicyIdFromDtg(dtgDisplayPolicy, 2);
             var appname = getPolicyIdFromDtg(dtgDisplayPolicy, 0);
             var appType = getPolicyIdFromDtg(dtgDisplayPolicy, 1);
             var policyID = getPolicyIdFromDtg(dtgDisplayPolicy, 3);
-
 
             // Load the MS Graph assembly for class lookup
             var assembly = Assembly.Load(graphAssembly);
@@ -173,10 +151,6 @@ namespace IntuneAssignments
             // Authenticate to Graph
 
             var graphClient = CreateGraphServiceClient();
-
-
-
-
 
             if (appType == "Compliance")
             {
@@ -370,18 +344,6 @@ namespace IntuneAssignments
 
                     foreach (var assignment in assignmentsList)
                     {
-
-                        // Need to parse the JSON data and grab target - GroupID field
-
-                        //var groupID = policy.ExtractGroupID(assignment.Id.ToString());
-
-                        // Look up Azure AD groups based on ID
-
-                        //List<Group> groups = await policy.LookUpGroup(groupID);
-
-
-
-
 
                         // Get group ID from assignment ID
                         var groupID = GetGroupIDFromAssignmentID(assignment.Id.ToString());
@@ -612,13 +574,9 @@ namespace IntuneAssignments
 
         public async Task DeletePolicyAssignment(List<string> assignmentList, string policyType)
         {
-
-
             /* 
-             * Test method to delete a given assignments for a given policy
-             * 
+             *  Method to delete a given assignments for a given policy
              */
-
 
             // reset the progress bar from any previous operations
             pBCalculate.Value = 0;
@@ -699,8 +657,6 @@ namespace IntuneAssignments
                     pBCalculate.Value++;
                     numberOfAssignmentsDeleted++;
                     lblNumberOfAssignmentsDeleted.Text = numberOfAssignmentsDeleted.ToString();
-
-
                 }
 
                 if (policyType == "Administrative Templates")
@@ -709,109 +665,6 @@ namespace IntuneAssignments
                     await graphClient.DeviceManagement.GroupPolicyConfigurations[policyID].Assignments[assignmentID].DeleteAsync();
                     WriteToLog("Assignment for group " + groupID + " has been deleted.");
                     rtbSummary.AppendText("Assignment for group " + groupID + " has been deleted." + Environment.NewLine);
-                    pBCalculate.Value++;
-                    numberOfAssignmentsDeleted++;
-                    lblNumberOfAssignmentsDeleted.Text = numberOfAssignmentsDeleted.ToString();
-                }
-            }
-
-
-        }
-
-        public async Task deletePolicyAssignment(string PolicyID)
-        {
-            // This method is no longer in use
-
-
-            lblProgress.Show();
-            lblDeleteStatusText.Show();
-            lblNumberOfAssignmentsDeleted.Text = 0.ToString();
-            lblNumberOfAssignmentsDeleted.Show();
-            pBCalculate.Show();
-
-            // Declare variables
-
-            int numberOfPolicies;
-            int numberOfAssignmentsDeleted = 0;
-
-            // Authenticate to Graph
-
-            var graphClient = CreateGraphServiceClient();
-
-
-            // Convert value og lblappid.text to mobile app ID
-            var policyID = PolicyID;
-            var policyType = lblPolicyType.Text;
-
-
-
-            if (policyType == "Compliance")
-            {
-
-                // Query graph for assignment ID for a given policy
-
-                var result = await graphClient.DeviceManagement.DeviceCompliancePolicies[policyID].Assignments.GetAsync();
-
-
-                // Add the result to a list of assignments
-                List<DeviceCompliancePolicyAssignment> assignmentsList = new List<DeviceCompliancePolicyAssignment>();
-                assignmentsList.AddRange(result.Value);
-
-                numberOfPolicies = assignmentsList.Count;
-                pBCalculate.Maximum = numberOfPolicies;
-
-                // Loop through the list and delete each assignment
-
-                foreach (var assignment in assignmentsList)
-                {
-                    var groupID = GetGroupIDFromAssignmentID(assignment.Id.ToString());
-                    var groupName = await FindGroupNameFromGroupID(groupID);
-
-
-                    await graphClient.DeviceManagement.DeviceCompliancePolicies[policyID].Assignments[assignment.Id].DeleteAsync();
-                    WriteToLog("Assignment deleted for " + lblPolicyName.Text + " for group " + groupName);
-                    rtbSummary.AppendText("Assignment deleted for " + lblPolicyName.Text + " for group " + groupName + Environment.NewLine);
-                    pBCalculate.Value++;
-                    numberOfAssignmentsDeleted++;
-                    lblNumberOfAssignmentsDeleted.Text = numberOfAssignmentsDeleted.ToString();
-                }
-            }
-
-            if (policyType == "Settings catalog")
-            {
-                // To be implemented
-            }
-
-            if (policyType == "Device configuration")
-            {
-                // To be implemented
-            }
-
-            if (policyType == "Administrative Templates")
-            {
-                // Query graph for assignment ID for a given policy
-
-                var result = await graphClient.DeviceManagement.GroupPolicyConfigurations[policyID].Assignments.GetAsync();
-
-
-                // Add the result to a list of assignments
-                List<GroupPolicyConfigurationAssignment> assignmentsList = new List<GroupPolicyConfigurationAssignment>();
-                assignmentsList.AddRange(result.Value);
-
-                numberOfPolicies = assignmentsList.Count;
-                pBCalculate.Maximum = numberOfPolicies;
-
-                // Loop through the list and delete each assignment
-
-                foreach (var assignment in assignmentsList)
-                {
-                    var groupID = GetGroupIDFromAssignmentID(assignment.Id.ToString());
-                    var groupName = await FindGroupNameFromGroupID(groupID);
-
-                    await graphClient.DeviceManagement.GroupPolicyConfigurations[policyID].Assignments[assignment.Id].DeleteAsync();
-
-                    WriteToLog("Assignment for group " + groupName + " has been deleted.");
-                    rtbSummary.AppendText("Assignment for group " + groupName + " has been deleted." + Environment.NewLine);
                     pBCalculate.Value++;
                     numberOfAssignmentsDeleted++;
                     lblNumberOfAssignmentsDeleted.Text = numberOfAssignmentsDeleted.ToString();
@@ -827,9 +680,6 @@ namespace IntuneAssignments
             listAllDeviceConfigurationPolicies();
             ListAllADMXTemplates();
         }
-
-
-
 
         private void dtgDisplayPolicy_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -883,8 +733,6 @@ namespace IntuneAssignments
         private async void btnDeleteAssignmentForSelectedPolicies_Click(object sender, EventArgs e)
         {
             await DeleteAssignmentsFromSelectedPolicy();
-
-            
         }
     }
 }

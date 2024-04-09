@@ -57,7 +57,6 @@
             dtgGroupAssignment = new DataGridView();
             GroupName = new DataGridViewTextBoxColumn();
             GroupID = new DataGridViewTextBoxColumn();
-            lblWIP = new Label();
             pnlStatus = new Panel();
             rtbSummary = new RichTextBox();
             pBCalculate = new ProgressBar();
@@ -377,17 +376,6 @@
             GroupID.ReadOnly = true;
             GroupID.Width = 300;
             // 
-            // lblWIP
-            // 
-            lblWIP.AutoSize = true;
-            lblWIP.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblWIP.ForeColor = Color.Yellow;
-            lblWIP.Location = new Point(361, 765);
-            lblWIP.Name = "lblWIP";
-            lblWIP.Size = new Size(430, 32);
-            lblWIP.TabIndex = 15;
-            lblWIP.Text = "THIS PAGE IS A WORK IN PROGRESS";
-            // 
             // pnlStatus
             // 
             pnlStatus.BorderStyle = BorderStyle.FixedSingle;
@@ -474,7 +462,6 @@
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1114, 836);
             Controls.Add(pnlStatus);
-            Controls.Add(lblWIP);
             Controls.Add(pnlAssignments);
             Controls.Add(pnlPolicies);
             Controls.Add(pbViewAssignments);
@@ -495,7 +482,6 @@
             pnlStatus.ResumeLayout(false);
             pnlStatus.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -523,7 +509,6 @@
         private DataGridViewTextBoxColumn GroupName;
         private DataGridViewTextBoxColumn GroupID;
         private Label lblPolicyType;
-        private Label lblWIP;
         private Panel pnlStatus;
         private Label lblProgress;
         private Button btnClearSummary;
