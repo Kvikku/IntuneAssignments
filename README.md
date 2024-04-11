@@ -25,4 +25,4 @@ An installer is now provided to help install all necessary dependencies and the 
 
 # New releases!
 
-The newest release (0.2.0-beta) has a major change - user based authentication is now available, and client secret authentication has been removed. If you are coming from an earlier version of the app you must adjust to this change :)
+Since version 0.2.0-beta, user based authentication is now the standard, and client secret authentication has been removed. If you are coming from an earlier version of the app you must adjust to this change :)
