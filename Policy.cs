@@ -4,6 +4,7 @@ using Microsoft.Graph.Beta.DeviceManagement.Templates.Item.CreateInstance;
 
 //using Microsoft.Graph.Auth;
 using Microsoft.Graph.Beta.Models;
+using Microsoft.Kiota.Abstractions;
 using System.Reflection;
 using static IntuneAssignments.FormUtilities;
 using static IntuneAssignments.GlobalVariables;
@@ -701,6 +702,115 @@ namespace IntuneAssignments
             }
         }
 
+        async Task AssignSecurityBaseline(string policyID, string groupID)
+        {
+            // This methods assigns a security baseline to one or more groups
+
+            // Important - this flow is incomplete. Must add check if the assignment already exists, because that will break
+
+
+
+
+            // The policy ID and group ID are passed as parameters to this method and used to create the assignment
+
+            // Authenticate to Graph
+            var graphClient = CreateGraphServiceClient();
+
+            // Create a group assignment target object
+            var groupAssignmentTarget = new GroupAssignmentTarget
+            {
+                GroupId = groupID
+                //DeviceAndAppManagementAssignmentFilterId = policyID
+
+            };
+
+            // Create a security baseline assignment object
+            var deviceSecurityBaselineAssignmentTarget = new DeviceManagementIntentAssignment
+            {
+
+                Target = groupAssignmentTarget
+
+            };
+
+            // Create an array to store all group IDs
+            // Add the new group ID to the array, which is passed into this method as a parameter
+            // Existing group IDs are added to this array later in the code
+            string[] groupIDs = { groupID };
+
+
+
+            // Find all existing assignments by their group ID
+            var existingAssignments = await graphClient.DeviceManagement.Intents[policyID].Assignments.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Select = new string[] { "id","target" };
+            });
+
+
+            // Create an empty list to store the assignments
+            List<DeviceManagementIntentAssignment> assignments = new List<DeviceManagementIntentAssignment>();
+
+            // Check if there are any existing assignments
+
+            if (existingAssignments.Value.Count >= 1)
+            {
+                // Add existing assignments to the list for further processing
+                foreach (var assignment in existingAssignments.Value)
+                {
+                    // check if the assignment is already in the list
+                    // if it is, don't add it again
+                    if (!assignments.Contains(assignment))
+                    {
+                        assignments.Add(assignment);
+                    }
+                }
+            }
+
+
+            // Loop through each group ID and create an assignment object for each one
+            foreach (var group in groupIDs)
+            {
+                var newAssignment = new DeviceManagementIntentAssignment
+                {
+                    OdataType = "#microsoft.graph.deviceManagementIntentAssignment",
+                    Id = group,
+                    Target = new GroupAssignmentTarget
+                    {
+                        OdataType = "#microsoft.graph.groupAssignmentTarget",
+                        GroupId = group,
+                    },
+                };
+
+                // check if the assignment is already in the list
+                // if it is, don't add it again
+                if (!assignments.Contains(newAssignment))
+                {
+                    // Add each assignment to the list of assignments
+                    assignments.Add(newAssignment);
+                }
+                
+            }
+
+
+            // Create a request body object and add all assignment objects to it
+            var requestBody = new Microsoft.Graph.Beta.DeviceManagement.Intents.Item.Assign.AssignPostRequestBody
+            {
+                Assignments = assignments
+            };
+
+
+            // Create a new assignment
+            try
+            {
+                await graphClient.DeviceManagement.Intents[policyID].Assign.PostAsync(requestBody);
+            }
+            catch (ServiceException ex)
+            {
+                MessageBox.Show(ex.Message);
+                throw;
+            }
+
+
+        }
         async Task AssignADMXTemplate(string policyID, string groupID)
         {
             // This methods assigns an administrative template to one or more groups
@@ -803,6 +913,7 @@ namespace IntuneAssignments
                 assignments.Add(assignment);
             }
 
+
             // Create a request body object and add all assignment objects to it
             var requestBody = new Microsoft.Graph.Beta.DeviceManagement.GroupPolicyConfigurations.Item.Assign.AssignPostRequestBody
             {
@@ -810,6 +921,7 @@ namespace IntuneAssignments
             };
 
             // Create a new assignment
+
 
             try
             {
@@ -1419,6 +1531,31 @@ namespace IntuneAssignments
 
                                     // Assignment for Administrative Templates
                                     await AssignADMXTemplate(policyID, groupID);
+
+                                    // Log status to the logfile
+                                    WriteToLog(policy + " has been assigned to " + group.Key);
+
+                                    // Log status to the textbox
+                                    rtbDeploymentSummary.ForeColor = Color.Green;
+                                    rtbDeploymentSummary.AppendText(policy + " has been assigned to " + group.Key + Environment.NewLine);
+                                    pBarDeployProgress.Value++;
+                                    rtbDeploymentSummary.ForeColor = defaultColor;
+
+                                }
+                            }
+
+                            // Assignments for Security Baselines
+                            if (type.Contains("Baseline") || type.Contains("baseline"))
+                            {
+                                // Loop through each selected group and assign the policy to each group
+                                foreach (var group in SelectedGroups)
+                                {
+
+                                    string groupName = group.Key;
+                                    string groupID = group.Value;
+
+                                    // Assignment for Security Baselines
+                                    await AssignSecurityBaseline(policyID, groupID);
 
                                     // Log status to the logfile
                                     WriteToLog(policy + " has been assigned to " + group.Key);
