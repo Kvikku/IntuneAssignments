@@ -766,8 +766,6 @@ namespace IntuneAssignments
                 {
                     string extractedText = group.Id.Substring(underscoreIndex + 1);
 
-                    
-
                     // check if the assignment is already in the list
                     // if it is, don't add it again
                     if (!groupIDs.Contains(extractedText))
@@ -902,15 +900,19 @@ namespace IntuneAssignments
                 {
                     string extractedText = group.Id.Substring(underscoreIndex + 1);
 
+                    // check if the assignment is already in the list
+                    // if it is, don't add it again
+                    if (!groupIDs.Contains(extractedText))
+                    {
+                        Array.Resize(ref groupIDs, groupIDs.Length + 1);
+                        groupIDs[groupIDs.Length - 1] = extractedText;
+                    }
+
 
                     // Add each existing assignment to the array of assignments to ensure that they are not overwritten and deleted
-                    Array.Resize(ref groupIDs, groupIDs.Length + 1);
-                    groupIDs[groupIDs.Length - 1] = extractedText;
-
-
-
+                    //Array.Resize(ref groupIDs, groupIDs.Length + 1);
+                    //groupIDs[groupIDs.Length - 1] = extractedText;
                 }
-
             }
 
             // Create an empty list to store the assignments
@@ -1045,20 +1047,24 @@ namespace IntuneAssignments
                 {
                     string extractedText = group.Id.Substring(underscoreIndex + 1);
 
+
+                    // check if the assignment is already in the list
+                    // if it is, don't add it again
+                    if (!groupIDs.Contains(extractedText))
+                    {
+                        Array.Resize(ref groupIDs, groupIDs.Length + 1);
+                        groupIDs[groupIDs.Length - 1] = extractedText;
+                    }
+
                     // Add each existing assignment to the array of assignments
 
-                    Array.Resize(ref groupIDs, groupIDs.Length + 1);
-                    groupIDs[groupIDs.Length - 1] = extractedText;
-
-
+                    //Array.Resize(ref groupIDs, groupIDs.Length + 1);
+                    //groupIDs[groupIDs.Length - 1] = extractedText;
                 }
             }
 
 
-
-
             // The array now consists of all existing group ID's + the new group ID passed to this method as a parameter
-
 
             // Begin deployment of the policy to the groups
 
@@ -1113,13 +1119,6 @@ namespace IntuneAssignments
                 MessageBox.Show(ex.Message);
                 throw;
             }
-
-
-
-
-
-
-
 
         }
 
@@ -1188,10 +1187,17 @@ namespace IntuneAssignments
                 {
                     string extractedText = group.Id.Substring(underscoreIndex + 1);
 
+                    // check if the assignment is already in the list
+                    // if it is, don't add it again
+                    if (!groupIDs.Contains(extractedText))
+                    {
+                        Array.Resize(ref groupIDs, groupIDs.Length + 1);
+                        groupIDs[groupIDs.Length - 1] = extractedText;
+                    }
 
                     // Add each existing assignment to the array of assignments to ensure that they are not overwritten and deleted
-                    Array.Resize(ref groupIDs, groupIDs.Length + 1);
-                    groupIDs[groupIDs.Length - 1] = extractedText;
+                    //Array.Resize(ref groupIDs, groupIDs.Length + 1);
+                    //groupIDs[groupIDs.Length - 1] = extractedText;
 
 
 
