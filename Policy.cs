@@ -1591,6 +1591,48 @@ namespace IntuneAssignments
             }
         }
 
+        public async void ListSecurityBaselines(DataGridView dataGridView)
+        {
+            /* 
+             * This method lists all security baselines in the tenant and displays them in a datagridview
+             * 
+             * Note - Security baselines in this context is:
+             * - Windows 10 security baselines
+             * - Microsoft Defender for Endpoint security baselines
+             * - Windows 365 security baselines
+             * 
+             * 
+             * 
+             * M365 and Edge are not included in this method because their backend is the Settings Catalog framework
+            */
+
+
+            // Authenticate to Graph
+
+            var graphClient = CreateGraphServiceClient();
+
+            // Make a call to Microsoft Graph
+
+            var result = await graphClient.DeviceManagement.Intents.GetAsync();
+
+            // Put result into a list for easy processing
+
+            List<DeviceManagementIntent> securityBaselines = new List<DeviceManagementIntent>();
+
+            securityBaselines.AddRange(result.Value);
+
+            foreach (var intent in securityBaselines)
+            {
+                // Lookup templateID and translate to template friendly name
+
+                var templateID = intent.TemplateId;
+                var templateName = await GetTemplateDisplayNameFromTemplateID(templateID);
+                var templatePlatform = await GetTemplatePlatformFromTemplateID(templateID);
+
+                dataGridView.Rows.Add(intent.DisplayName, templateName, templatePlatform, intent.Id);
+            }
+        }
+
         public async void ListAllGroups()
         {
             /*
@@ -1985,6 +2027,7 @@ namespace IntuneAssignments
                 ListConfigurationProfiles(dtgDisplayPolicy);
                 ListSettingsCatalog(dtgDisplayPolicy);
                 ListADMXTemplates(dtgDisplayPolicy);
+                ListSecurityBaselines(dtgDisplayPolicy);
             }
 
             else if (cbPolicyType.Text == "Compliance policy")
@@ -2006,6 +2049,12 @@ namespace IntuneAssignments
                 WriteToLog("User selected Settings catalog in the policy type combobox. Listing only settings catalog policies");
 
                 ListSettingsCatalog(dtgDisplayPolicy);
+            }
+            else if (cbPolicyType.Text == "Security baseline")
+            {
+                WriteToLog("User selected Security Baselines in the policy type combobox. Listing only security baselines");
+
+                ListSecurityBaselines(dtgDisplayPolicy);
             }
 
 
@@ -2231,10 +2280,10 @@ namespace IntuneAssignments
             rtbDeploymentSummary.Clear();
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
 
-            await AssignADMXTemplate("0607ba8a-ba99-4d88-9a0d-c96b49b64b81", "b5db2e2e-995b-49d5-948e-f97acfba1efe");
+            
 
         }
     }

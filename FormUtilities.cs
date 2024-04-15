@@ -569,5 +569,56 @@ namespace IntuneAssignments
             }
 
         }
+
+        public static async Task<string> GetTemplatePlatformFromTemplateID(string templateID)
+        {
+            // Method to get the template platform from the template ID
+
+            // Create a new instance of the GraphServiceClient class
+            var graphClient = CreateGraphServiceClient();
+
+            // Look up the template by the ID
+            var template = await graphClient.DeviceManagement.Templates[templateID].GetAsync();
+
+            // Check if the template is null
+            if (template == null)
+            {
+                WriteToLog("No security baseline template found with ID " + templateID);
+                return "";
+            }
+
+            else
+            {
+                string templatePlatform = template.PlatformType.ToString();
+
+                return templatePlatform;
+            }
+        }
+
+        public static async Task<string> GetTemplateDisplayNameFromTemplateID(string templateID)
+        {
+            // Method to get the template display name from the template ID
+
+            // Create a new instance of the GraphServiceClient class
+            var graphClient = CreateGraphServiceClient();
+
+            // Look up the template by the ID
+            var template = await graphClient.DeviceManagement.Templates[templateID].GetAsync();
+
+            // Check if the template is null
+            if (template == null)
+            {
+                WriteToLog("No security baseline template found with ID " + templateID);
+                return "";
+            }
+
+            else
+            {
+                string templateDisplayName = template.DisplayName;
+
+                return templateDisplayName;
+            }
+        }
+
     }
 }

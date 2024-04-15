@@ -246,11 +246,13 @@
             cbPolicyType.BackColor = Color.FromArgb(46, 51, 73);
             cbPolicyType.DropDownStyle = ComboBoxStyle.DropDownList;
             cbPolicyType.FlatStyle = FlatStyle.Popup;
+            cbPolicyType.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cbPolicyType.ForeColor = Color.Salmon;
             cbPolicyType.FormattingEnabled = true;
-            cbPolicyType.Items.AddRange(new object[] { "All types", "Compliance policy", "Administrative templates", "Settings catalog" });
+            cbPolicyType.Items.AddRange(new object[] { "All types", "Compliance policy", "Administrative templates", "Settings catalog", "Security baseline" });
             cbPolicyType.Location = new Point(9, 51);
             cbPolicyType.Name = "cbPolicyType";
-            cbPolicyType.Size = new Size(163, 23);
+            cbPolicyType.Size = new Size(163, 22);
             cbPolicyType.TabIndex = 0;
             toolTipPolicy.SetToolTip(cbPolicyType, "Filter on type");
             // 
@@ -680,7 +682,7 @@
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 22;
-            button1.Text = "button1";
+            button1.Text = "test button";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
