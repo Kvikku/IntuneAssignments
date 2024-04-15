@@ -10,10 +10,10 @@ namespace IntuneAssignments
     public partial class ViewAssignment : Form
     {
 
-        private readonly Form1 _form1;
+        private readonly Application _form1;
         public int numberOfAssignmentsDeleted = 0;
 
-        public ViewAssignment(Form1 form1)
+        public ViewAssignment(Application form1)
         {
             InitializeComponent();
 
@@ -59,7 +59,7 @@ namespace IntuneAssignments
         private void goHome()
         {
             this.Hide();
-            Form1 form1 = new Form1();
+            Application form1 = new Application();
             form1.Show();
         }
 
@@ -71,7 +71,7 @@ namespace IntuneAssignments
 
 
             // Create an object of form1 to use it's methods   
-            Form1 form1 = new Form1();
+            Application form1 = new Application();
 
 
             // Authenticate to Graph
@@ -170,7 +170,7 @@ namespace IntuneAssignments
         {
 
             // Create an object of form1 to use it's methods   
-            Form1 form1 = new Form1();
+            Application form1 = new Application();
 
 
             // Clear the datagridview for older results

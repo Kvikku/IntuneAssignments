@@ -13,11 +13,11 @@ namespace IntuneAssignments
     public partial class Settings : Form
     {
 
-        private Form1 form1;
+        private Application form1;
 
 
 
-        public Settings(Form1 form1)
+        public Settings(Application form1)
         {
 
             this.FormBorderStyle = FormBorderStyle.FixedDialog; // Makes the form not resizable and the parent form not clickable

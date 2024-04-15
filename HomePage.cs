@@ -11,7 +11,7 @@ namespace IntuneAssignments
 
 
 
-        private readonly Form1 _form1;
+        private readonly Application _form1;
 
         public HomePage()
         {
@@ -233,7 +233,7 @@ namespace IntuneAssignments
 
             WriteToLog("Loading authentication info from appsettings.json file");
 
-            string path = Form1.AppSettingsFile; //@"C:\ProgramData\IntuneAssignments" + @"\AppSettings.json";
+            string path = Application.AppSettingsFile; //@"C:\ProgramData\IntuneAssignments" + @"\AppSettings.json";
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .AddJsonFile(path)
@@ -246,7 +246,7 @@ namespace IntuneAssignments
             MSGraphAuthenticator.ZtenantID = configuration.GetSection("Entra:TenantId").Value;
             MSGraphAuthenticator.ZclientID = configuration.GetSection("Entra:ClientId").Value;
             MSGraphAuthenticator.ZclientSecret = configuration.GetSection("Entra:ClientSecret").Value;
-            MSGraphAuthenticator.Zauthority = $"https://login.microsoftonline.com/{Form1.tenantID}";
+            MSGraphAuthenticator.Zauthority = $"https://login.microsoftonline.com/{Application.tenantID}";
 
 
             // Testing only
@@ -315,7 +315,7 @@ namespace IntuneAssignments
         private void pbGoToApplication_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Form1 form1 = new Form1();
+            Application form1 = new Application();
             form1.Show();
 
             WriteToLog("Opening the application page");

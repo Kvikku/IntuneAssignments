@@ -3,15 +3,12 @@
   "WorkspaceRootPath": "C:\\Github\\IntuneAssignments\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\policy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:policy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\jorge\\AppData\\Local\\SourceServer\\6abe45f3209131415fda7bfcbb4a100167bbb2118b6919d7eb6f9065351f0137\\Policy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\application.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:application.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -21,8 +18,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Policy.cs",
+              "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Policy.cs",
+              "RelativeDocumentMoniker": "Policy.cs",
+              "ToolTip": "C:\\Github\\IntuneAssignments\\Policy.cs*",
+              "RelativeToolTip": "Policy.cs*",
+              "ViewState": "AQIAAOkBAAAAAAAAAAAWwPoBAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-15T07:23:35.535Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
@@ -36,40 +46,18 @@
               "Name": "ST:0:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ViewAssignment.cs",
-              "DocumentMoniker": "C:\\Github\\IntuneAssignments\\ViewAssignment.cs",
-              "RelativeDocumentMoniker": "ViewAssignment.cs",
-              "ToolTip": "C:\\Github\\IntuneAssignments\\ViewAssignment.cs",
-              "RelativeToolTip": "ViewAssignment.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-15T07:11:23.101Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Policy.cs",
-              "DocumentMoniker": "C:\\Users\\jorge\\AppData\\Local\\SourceServer\\6abe45f3209131415fda7bfcbb4a100167bbb2118b6919d7eb6f9065351f0137\\Policy.cs",
-              "RelativeDocumentMoniker": "..\\..\\Users\\jorge\\AppData\\Local\\SourceServer\\6abe45f3209131415fda7bfcbb4a100167bbb2118b6919d7eb6f9065351f0137\\Policy.cs",
-              "ToolTip": "C:\\Users\\jorge\\AppData\\Local\\SourceServer\\6abe45f3209131415fda7bfcbb4a100167bbb2118b6919d7eb6f9065351f0137\\Policy.cs",
-              "RelativeToolTip": "..\\..\\Users\\jorge\\AppData\\Local\\SourceServer\\6abe45f3209131415fda7bfcbb4a100167bbb2118b6919d7eb6f9065351f0137\\Policy.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-15T07:11:22.273Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Form1.cs",
-              "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Form1.cs",
-              "RelativeDocumentMoniker": "Form1.cs",
-              "ToolTip": "C:\\Github\\IntuneAssignments\\Form1.cs",
-              "RelativeToolTip": "Form1.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAApAAAA",
+              "Title": "Application.cs",
+              "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Application.cs",
+              "RelativeDocumentMoniker": "Application.cs",
+              "ToolTip": "C:\\Github\\IntuneAssignments\\Application.cs*",
+              "RelativeToolTip": "Application.cs*",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-15T07:11:17.313Z",
               "EditorCaption": ""

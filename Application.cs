@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace IntuneAssignments
 {
-    public partial class Form1 : Form
+    public partial class Application : Form
     {
 
 
@@ -59,7 +59,7 @@ namespace IntuneAssignments
         //public MSGraphAuthenticator graphAuthenticator { get; set; }
 
 
-        public Form1()
+        public Application()
         {
 
             // change the application icon and use the ico file in resources folder
@@ -301,7 +301,7 @@ namespace IntuneAssignments
 
             // Reads the appsettings.json file and stores the information in variables
 
-            string path = Form1.AppSettingsFile; //@"C:\ProgramData\IntuneAssignments" + @"\AppSettings.json";
+            string path = Application.AppSettingsFile; //@"C:\ProgramData\IntuneAssignments" + @"\AppSettings.json";
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .AddJsonFile(path)
@@ -310,10 +310,10 @@ namespace IntuneAssignments
 
             // Sets the variables to the values in the appsettings.json file
 
-            Form1.tenantID = configuration.GetSection("Entra:TenantId").Value;
-            Form1.clientID = configuration.GetSection("Entra:ClientId").Value;
-            Form1.clientSecret = configuration.GetSection("Entra:ClientSecret").Value;
-            Form1.authority = $"https://login.microsoftonline.com/{Form1.tenantID}";
+            Application.tenantID = configuration.GetSection("Entra:TenantId").Value;
+            Application.clientID = configuration.GetSection("Entra:ClientId").Value;
+            Application.clientSecret = configuration.GetSection("Entra:ClientSecret").Value;
+            Application.authority = $"https://login.microsoftonline.com/{Application.tenantID}";
 
 
             // Testing only

@@ -10,10 +10,10 @@ namespace IntuneAssignments
     public partial class ManagePolicyAssignments : Form
     {
 
-        private readonly Form1 _form1;
+        private readonly Application _form1;
 
 
-        public ManagePolicyAssignments(Form1 form1)
+        public ManagePolicyAssignments(Application form1)
         {
             // Load event
 

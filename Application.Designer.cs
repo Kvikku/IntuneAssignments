@@ -1,6 +1,6 @@
 ﻿namespace IntuneAssignments
 {
-    partial class Form1
+    partial class Application
     {
         /// <summary>
         ///  Required designer variable.
@@ -33,7 +33,7 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Application));
             panelTenantInfo = new Panel();
             SignIn = new Button();
             lblTenantID = new Label();

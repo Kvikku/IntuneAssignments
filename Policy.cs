@@ -15,7 +15,7 @@ namespace IntuneAssignments
     public partial class Policy : Form
     {
 
-        private readonly Form1 _form1;
+        private readonly Application _form1;
         private ManagePolicyAssignments managePolicyAssignments;
 
         private void Policy_Load(object sender, EventArgs e)
@@ -507,7 +507,7 @@ namespace IntuneAssignments
             pBarDeployProgress.Value = 0;
 
             // Create an instance of form1
-            Form1 form1 = new Form1();
+            Application form1 = new Application();
 
             // Load the MS Graph assembly for class lookup
             var assembly = Assembly.Load(form1.graphAssembly);
@@ -1271,7 +1271,7 @@ namespace IntuneAssignments
 
 
             // Create an object of form1 to use it's methods   
-            Form1 form1 = new Form1();
+            Application form1 = new Application();
 
 
             // Sets the scope of the progress bar to the number of selected policies * number of selected groups
@@ -1532,7 +1532,7 @@ namespace IntuneAssignments
             // This method lists all settings catalog in the tenant and displays them in a datagridview
 
             // Create an object of form1 to use it's methods   
-            Form1 form1 = new Form1();
+            Application form1 = new Application();
 
             // Authenticate to Graph
             var graphClient = CreateGraphServiceClient();
