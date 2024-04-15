@@ -236,13 +236,6 @@ namespace IntuneAssignments
 
             // look up the permissions for the app
 
-            /*
-             * TO DO
-             * Look up GUIDS for all permissions required and save those
-             * Make method to query the app ID and check if those permissions are granted
-             *
-             */
-
 
         }
 

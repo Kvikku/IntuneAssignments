@@ -10,26 +10,6 @@ using static IntuneAssignments.GlobalVariables;
 using static IntuneAssignments.GraphServiceClientCreator;
 
 
-
-
-
-// TO DO
-
-
-// Method to check @odata.type contains certain key word (macOS, Windows, etc)
-
-// For assignment of policy - create two lists with app name and ID, and group name and ID
-
-// GUI - hvis bare en rekke er valgt - vis assignments for appen
-// GUI - Menu item to choose if it should query for assignment on click or not
-
-// Error handling:
-// Check if user has selected multiple cells on the same row
-//
-
-
-
-
 namespace IntuneAssignments
 {
     public partial class Policy : Form

@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Configuration;
-//using Microsoft.Graph.Auth;
 using Microsoft.Graph.Beta.Models;
 using Microsoft.Identity.Client;
 using System.Reflection;
@@ -7,19 +6,6 @@ using static IntuneAssignments.GlobalVariables;
 using static IntuneAssignments.GraphServiceClientCreator;
 using static IntuneAssignments.FormUtilities;
 using System.Windows.Forms;
-
-
-
-/*
-    
-   TODO
-    - Clean up namespaces
-    - Rename form1
-    - Update images and icons
-    - Add comments
-    - Add error handling
-    - Add logging
-*/
 
 
 namespace IntuneAssignments

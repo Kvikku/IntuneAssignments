@@ -124,21 +124,6 @@
           }
         }
       },
-      "Microsoft.Graph.Auth/1.0.0-preview.7": {
-        "dependencies": {
-          "Microsoft.Graph.Core": "3.1.6",
-          "Microsoft.Identity.Client": "4.57.0",
-          "NETStandard.Library": "2.0.3",
-          "System.Security.Claims": "4.3.0",
-          "System.Security.Principal": "4.3.0"
-        },
-        "runtime": {
-          "lib/netstandard1.3/Microsoft.Graph.Auth.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
-      },
       "Microsoft.Graph.Beta/5.63.0-preview": {
         "dependencies": {
           "Microsoft.Graph.Core": "3.1.6"
@@ -659,13 +644,6 @@
       "sha512": "sha512-bXJEZrW9ny8vjMF1JV253WeLhpEVzFo1lyaZu1vQ4ZxWUlVvknZ/+ftFgVheLubb4eZPSwwxBeqS1JkCOjxd8g==",
       "path": "microsoft.extensions.primitives/8.0.0",
       "hashPath": "microsoft.extensions.primitives.8.0.0.nupkg.sha512"
-    },
-    "Microsoft.Graph.Auth/1.0.0-preview.7": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-HZlh6hS01KUT0KpWdf7UDQKuWn2kpoBNps+wfolhsNwat3vaeXtOttFytvCzEdYm6+7BK0KxZCDXqRBe1y+2zw==",
-      "path": "microsoft.graph.auth/1.0.0-preview.7",
-      "hashPath": "microsoft.graph.auth.1.0.0-preview.7.nupkg.sha512"
     },
     "Microsoft.Graph.Beta/5.63.0-preview": {
       "type": "package",

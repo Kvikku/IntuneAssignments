@@ -1,5 +1,4 @@
-﻿//using Microsoft.Graph.Auth;
-using Microsoft.Graph.Beta.Models;
+﻿using Microsoft.Graph.Beta.Models;
 using static IntuneAssignments.GraphServiceClientCreator;
 using static IntuneAssignments.FormUtilities;
 using static IntuneAssignments.GlobalVariables;
