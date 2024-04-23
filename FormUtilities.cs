@@ -620,5 +620,80 @@ namespace IntuneAssignments
             }
         }
 
+        public static async Task<List<DeviceCompliancePolicyAssignment>> GetCompliancePolicyAssignments(string policyID)
+        {
+            // Method to get all assignments for a compliance policy
+
+            // Create a new instance of the GraphServiceClient class
+
+            var graphClient = CreateGraphServiceClient();
+
+            // Look up the policy by the ID
+
+            var policy = await graphClient.DeviceManagement.DeviceCompliancePolicies[policyID].Assignments.GetAsync();
+
+            // Create a list to store the policy assignments in
+
+            List<DeviceCompliancePolicyAssignment> policyAssignments = new List<DeviceCompliancePolicyAssignment>();
+
+            // Add to list
+
+            policyAssignments.AddRange(policy.Value);
+
+            // Return the list
+            return policyAssignments;
+
+        }
+
+        public static async Task<List<DeviceConfigurationAssignment>> GetDeviceConfigurationAssignments(string policyID)
+        {
+            // Method to get all assignments for a device configuration policy
+
+            // Create a new instance of the GraphServiceClient class
+
+            var graphClient = CreateGraphServiceClient();
+
+            // Look up the policy by the ID
+
+            var policy = await graphClient.DeviceManagement.DeviceConfigurations[policyID].Assignments.GetAsync();
+
+            // Create a list to store the policy assignments in
+
+            List<DeviceConfigurationAssignment> policyAssignments = new List<DeviceConfigurationAssignment>();
+
+            // Add to list
+
+            policyAssignments.AddRange(policy.Value);
+
+            // Return the list
+
+            return policyAssignments;
+        }
+
+        public static async Task<List<GroupPolicyConfigurationAssignment>> GetADMXTemplateAssignments (string policyID)
+        {
+            // Method to get all assignments for an ADMX template (called Group Policy Configuration in the Graph API)
+
+            // Create a new instance of the GraphServiceClient class
+
+            var graphClient = CreateGraphServiceClient();
+
+            // Look up the policy by the ID
+
+            var policy = await graphClient.DeviceManagement.GroupPolicyConfigurations[policyID].Assignments.GetAsync();
+
+            // Create a list to store the policy assignments in
+
+            List<GroupPolicyConfigurationAssignment> policyAssignments = new List<GroupPolicyConfigurationAssignment>();
+
+            // Add to list
+
+            policyAssignments.AddRange(policy.Value);
+
+            // Return the list
+
+            return policyAssignments;
+        }
+
     }
 }

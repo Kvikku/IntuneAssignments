@@ -151,12 +151,182 @@ namespace IntuneAssignments
 
         }
 
+        private async void FindPolicyAssignment(int rowIndex)
+        {
+            // New method to find all assignments for a policy based on the unique ID of the policy
 
+            var profileName = dtgDisplayPolicy.Rows[rowIndex].Cells[0].Value.ToString();
+            var profileType = dtgDisplayPolicy.Rows[rowIndex].Cells[1].Value.ToString();
+            var profilePlatform = dtgDisplayPolicy.Rows[rowIndex].Cells[2].Value.ToString();
+            var profileID = dtgDisplayPolicy.Rows[rowIndex].Cells[3].Value.ToString();
+
+            if (profileType == "Compliance")
+            {
+                // If it's a compliance policy
+
+                var result = await GetCompliancePolicyAssignments(profileID);
+
+                if (result.Count == 0)
+                {
+                    // The list has zero members. Informing user and ending job
+                    //MessageBox.Show("No assignment found for " + profileName);
+
+                    lblAssignmentPreview.Show();
+                    lblAssignmentPreview.Text = profileName;
+                    lblAssignedTo.Text = "";
+                    rtbDeploymentSummary.SelectionColor = Color.Yellow;
+                    rtbAssignmentPreview.AppendText(profileName + " does not have any assignments" + "\n");
+                }
+
+                else if (result.Count >= 1)
+                {
+                    // The list has at least one member. Proceeding with job
+
+                    // Loop through each assignment ID and find group name
+
+                    lblAssignmentPreview.Show();
+                    lblAssignmentPreview.Text = profileName;
+                    lblAssignedTo.Text = "is assigned to:"; ;
+
+                    foreach (var assignment in result)
+                    {
+                        // Need to parse the JSON data and grab target - GroupID field
+
+                        var groupID = ExtractGroupID(assignment.Id.ToString());
+
+                        // Look up Azure AD groups based on ID
+
+                        List<Group> groups = await LookUpGroup(groupID);
+
+                        foreach (var group in groups)
+                        {
+
+                            //MessageBox.Show("This app is currently assigned to " + group.DisplayName);
+
+                            rtbAssignmentPreview.AppendText(group.DisplayName + "\n");
+                        }
+                    }
+                }
+
+            }
+            
+            else if (profileType == "Device Configuration")
+            {
+                // If it's a device configuration policy
+
+                var result = await GetDeviceConfigurationAssignments(profileID);
+
+                if (result.Count == 0)
+                {
+                    // The list has zero members. Informing user and ending job
+
+                    lblAssignmentPreview.Show();
+                    lblAssignmentPreview.Text = profileName;
+                    lblAssignedTo.Text = "";
+                    rtbDeploymentSummary.SelectionColor = Color.Yellow;
+                    rtbAssignmentPreview.AppendText(profileName + " does not have any assignments" + "\n");
+                }
+
+                else if (result.Count >= 1)
+                {
+                    // The list has at least one member. Proceeding with job
+
+                    // Loop through each assignment ID and find group name
+
+                    lblAssignmentPreview.Show();
+                    lblAssignmentPreview.Text = profileName;
+                    lblAssignedTo.Text = "is assigned to:"; ;
+
+                    foreach (var assignment in result)
+                    {
+
+                        // Need to parse the JSON data and grab target - GroupID field
+
+                        var groupID = ExtractGroupID(assignment.Id.ToString());
+
+                        // Look up Azure AD groups based on ID
+
+                        List<Group> groups = await LookUpGroup(groupID);
+
+                        foreach (var group in groups)
+                        {
+
+                            //MessageBox.Show("This app is currently assigned to " + group.DisplayName);
+
+                            rtbAssignmentPreview.AppendText(group.DisplayName + "\n");
+                        }
+                    }
+                }
+            }
+            
+            else if (profileType == "Administrative Templates")
+            {
+                // If it's an administrative template policy (Called Group Policy Configuration in Graph API)
+
+                var result = await GetADMXTemplateAssignments(profileID);
+
+                if (result.Count == 0)
+                {
+                    // The list has zero members. Informing user and ending job
+
+                    lblAssignmentPreview.Show();
+                    lblAssignmentPreview.Text = profileName;
+                    lblAssignedTo.Text = "";
+                    rtbDeploymentSummary.SelectionColor = Color.Yellow;
+                    rtbAssignmentPreview.AppendText(profileName + " does not have any assignments" + "\n");
+                }
+
+                else if (result.Count >= 1)
+                {
+                    // The list has at least one member. Proceeding with job
+
+                    // Loop through each assignment ID and find group name
+
+                    lblAssignmentPreview.Show();
+                    lblAssignmentPreview.Text = profileName;
+                    lblAssignedTo.Text = "is assigned to:"; ;
+
+                    foreach (var assignment in result)
+                    {
+
+                        // Need to parse the JSON data and grab target - GroupID field
+
+                        var groupID = ExtractGroupID(assignment.Id.ToString());
+
+                        // Look up Azure AD groups based on ID
+
+                        List<Group> groups = await LookUpGroup(groupID);
+
+                        foreach (var group in groups)
+                        {
+
+                            //MessageBox.Show("This app is currently assigned to " + group.DisplayName);
+
+                            rtbAssignmentPreview.AppendText(group.DisplayName + "\n");
+                        }
+                    }
+                }
+            }
+
+            else if (profileType == "what")
+            {
+
+            }
+
+            else
+            {
+                //something unexpected happened
+                rtbDeploymentSummary.SelectionColor = Color.Red;
+                rtbDeploymentSummary.AppendText("An error occurred. Please troubleshoot" + "\n");
+                rtbDeploymentSummary.SelectionColor = ForeColor;
+                WriteToLog("An error occurred when looking up assignments for policy " + profileName + ". Please troubleshoot");
+            }
+        }
 
         private async void FindPolicyAssignments(int rowIndex)
         {
 
-
+            // Method that finds all assignments for a policy based on the unique ID of the policy
 
             var profileName = dtgDisplayPolicy.Rows[rowIndex].Cells[0].Value.ToString();
             var profileType = dtgDisplayPolicy.Rows[rowIndex].Cells[1].Value.ToString();
@@ -171,12 +341,7 @@ namespace IntuneAssignments
 
             if (profileType != "")
             {
-
                 // Need to find all assignments by their unique ID's
-
-
-
-
 
                 var result = await graphClient.DeviceManagement.DeviceCompliancePolicies[profileID].Assignments.GetAsync((requestConfiguration) =>
                 {
@@ -239,28 +404,14 @@ namespace IntuneAssignments
 
                             rtbAssignmentPreview.AppendText(group.DisplayName + "\n");
                         }
-
-
-
-
-
-
                     }
-
-
                 }
-
-
-
             }
 
             else
             {
                 MessageBox.Show("Unspecified error. Please troubleshoot");
             }
-
-
-
         }
 
 
@@ -1749,8 +1900,6 @@ namespace IntuneAssignments
              * - Microsoft Defender for Endpoint security baselines
              * - Windows 365 security baselines
              * 
-             * 
-             * 
              * M365 and Edge are not included in this method because their backend is the Settings Catalog framework
             */
 
@@ -2281,7 +2430,7 @@ namespace IntuneAssignments
                     rtbAssignmentPreview.Clear();
 
                     // Pass the rowIndex to other method to allow processing
-                    FindPolicyAssignments(e.RowIndex);
+                    FindPolicyAssignment(e.RowIndex);
                 }
             }
 
