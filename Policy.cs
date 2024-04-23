@@ -702,6 +702,8 @@ namespace IntuneAssignments
             }
         }
 
+
+
         async Task AssignSecurityBaseline(string policyID, string groupID)
         {
             // This methods assigns a security baseline to one or more groups
@@ -751,6 +753,8 @@ namespace IntuneAssignments
 
             // Check if there are any existing assignments
 
+
+
             if (existingAssignments.Value.Count >= 1)
             {
                 // Add existing assignments to the list for further processing
@@ -758,7 +762,11 @@ namespace IntuneAssignments
                 {
                     // check if the assignment is already in the list
                     // if it is, don't add it again
-                    if (!assignments.Contains(assignment))
+
+                    GroupAssignmentTarget target = (GroupAssignmentTarget)assignment.Target;
+                    
+                    
+                    if (target.GroupId != groupAssignmentTarget.GroupId)
                     {
                         assignments.Add(assignment);
                     }
@@ -789,6 +797,9 @@ namespace IntuneAssignments
                 }
                 
             }
+            
+
+            // find duplicates and remove them
 
 
             // Create a request body object and add all assignment objects to it
