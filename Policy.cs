@@ -308,9 +308,53 @@ namespace IntuneAssignments
                 }
             }
 
-            else if (profileType == "what")
+            else if (profileType == "Settings Catalog")
             {
+                // If it's a settings catalog policy
 
+                var result = await GetSettingsCatalogAssignments(profileID);
+
+                if (result.Count == 0)
+                {
+                    // The list has zero members. Informing user and ending job
+
+                    lblAssignmentPreview.Show();
+                    lblAssignmentPreview.Text = profileName;
+                    lblAssignedTo.Text = "";
+                    rtbDeploymentSummary.SelectionColor = Color.Yellow;
+                    rtbAssignmentPreview.AppendText(profileName + " does not have any assignments" + "\n");
+                }
+
+                else if (result.Count >= 1)
+                {
+                    // The list has at least one member. Proceeding with job
+
+                    // Loop through each assignment ID and find group name
+
+                    lblAssignmentPreview.Show();
+                    lblAssignmentPreview.Text = profileName;
+                    lblAssignedTo.Text = "is assigned to:";
+
+                    foreach (var assignment in result)
+                    {
+
+                        // Need to parse the JSON data and grab target - GroupID field
+
+                        var groupID = ExtractGroupID(assignment.Id.ToString());
+
+                        // Look up Azure AD groups based on ID
+
+                        List<Group> groups = await LookUpGroup(groupID);
+
+                        foreach (var group in groups)
+                        {
+
+                            //MessageBox.Show("This app is currently assigned to " + group.DisplayName);
+
+                            rtbAssignmentPreview.AppendText(group.DisplayName + "\n");
+                        }
+                    }
+                }
             }
 
             else
@@ -325,7 +369,7 @@ namespace IntuneAssignments
 
         private async void FindPolicyAssignments(int rowIndex)
         {
-
+            // TODO - phase out this method and use FindPolicyAssignment instead
             // Method that finds all assignments for a policy based on the unique ID of the policy
 
             var profileName = dtgDisplayPolicy.Rows[rowIndex].Cells[0].Value.ToString();

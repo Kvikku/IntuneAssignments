@@ -695,5 +695,31 @@ namespace IntuneAssignments
             return policyAssignments;
         }
 
+        public static async Task<List<DeviceManagementConfigurationPolicyAssignment>> GetSettingsCatalogAssignments(string policyID)
+        {
+            // Method to get all assignments for a settings catalog policy
+
+            // Create a new instance of the GraphServiceClient class
+
+            var graphClient = CreateGraphServiceClient();
+
+            // Look up the policy by the ID
+
+            var policy = await graphClient.DeviceManagement.ConfigurationPolicies[policyID].Assignments.GetAsync();
+
+            // Create a list to store the policy assignments in
+
+            List<DeviceManagementConfigurationPolicyAssignment> policyAssignments = new List<DeviceManagementConfigurationPolicyAssignment>();
+
+            // Add to list
+
+            policyAssignments.AddRange(policy.Value);
+
+            // Return the list
+
+            return policyAssignments;
+        }
+
+        // next step is to look up security baseline assignments. Use this
     }
 }
