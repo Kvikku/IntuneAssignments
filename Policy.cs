@@ -100,8 +100,13 @@ namespace IntuneAssignments
             int underscoreIndex = input.IndexOf('_');
             if (underscoreIndex >= 0 && underscoreIndex < input.Length - 1)
             {
+                // check if it's all users or all devices
+
+                
                 return input.Substring(underscoreIndex + 1);
             }
+
+            
 
             return string.Empty; // Return an empty string if "_" is not found or it's the last character
 
@@ -112,43 +117,56 @@ namespace IntuneAssignments
         public async Task<List<Group>> LookUpGroup(string input)
         {
 
-            // Authenticate to Graph
-            var graphClient = CreateGraphServiceClient();
+            // This method looks up a group based on the ID and returns the group name
 
+            // First , check if the input is "All users" or "All devices" virtual group
 
-            // Create a list to store the groups in
-            List<Group> Groups = new List<Group>();
-
-
-
-            // Make a call to Microsoft Graph
-            var result = await graphClient.Groups.GetAsync((requestConfiguration) =>
+            if (input == allUsersGroupID)
             {
-                requestConfiguration.QueryParameters.Select = new string[] { "id", "displayname" };
-                requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
-            });
-
-
-
-            // add the result to the list
-            Groups.AddRange(result.Value);
-
-
-            // Find the group name based on the ID (because graph doesn't allow to search for the ID directly)
-            var groupName = Groups.Find(x => x.Id == input);
-
-            // Convert the group name to a string and return it
-            if (groupName != null)
-            {
-                return new List<Group> { groupName };
+                return new List<Group> { new Group { DisplayName = "All Users" } };
             }
-
+            else if (input == allDevicesGroupID)
+            {
+                return new List<Group> { new Group { DisplayName = "All Devices" } };
+            }
             else
             {
-                return new List<Group>();
+                // Authenticate to Graph
+                var graphClient = CreateGraphServiceClient();
+
+
+                // Create a list to store the groups in
+                List<Group> Groups = new List<Group>();
+
+
+
+                // Make a call to Microsoft Graph
+                var result = await graphClient.Groups.GetAsync((requestConfiguration) =>
+                {
+                    requestConfiguration.QueryParameters.Select = new string[] { "id", "displayname" };
+                    requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
+                });
+
+
+
+                // add the result to the list
+                Groups.AddRange(result.Value);
+
+
+                // Find the group name based on the ID (because graph doesn't allow to search for the ID directly)
+                var groupName = Groups.Find(x => x.Id == input);
+
+                // Convert the group name to a string and return it
+                if (groupName != null)
+                {
+                    return new List<Group> { groupName };
+                }
+
+                else
+                {
+                    return new List<Group>();
+                }
             }
-
-
         }
 
         private async void FindPolicyAssignment(int rowIndex)
