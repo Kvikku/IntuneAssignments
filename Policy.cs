@@ -357,6 +357,50 @@ namespace IntuneAssignments
                 }
             }
 
+            else if(profileType.Contains("Baseline") || profileType.Contains("baseline"))
+            {
+                // If it's a security baseline policy
+
+                var result = await GetSecurityBaselineAssignments(profileID);
+
+                if (result.Count == 0)
+                {
+                    // The list has zero members. Informing user and ending job
+
+                    lblAssignmentPreview.Show();
+                    lblAssignmentPreview.Text = profileName;
+                    lblAssignedTo.Text = "";
+                    rtbDeploymentSummary.SelectionColor = Color.Yellow;
+                    rtbAssignmentPreview.AppendText(profileName + " does not have any assignments" + "\n");
+                }
+
+                else if (result.Count >= 1)
+                {
+                    // The list has at least one member. Proceeding with job
+
+                    // Loop through each assignment ID and find group name
+
+                    lblAssignmentPreview.Show();
+                    lblAssignmentPreview.Text = profileName;
+                    lblAssignedTo.Text = "is assigned to:";
+
+                    foreach (var assignment in result)
+                    {
+                        GroupAssignmentTarget groupAssignmentTarget = (GroupAssignmentTarget)assignment.Target;
+                        
+                        var groupID = groupAssignmentTarget.GroupId;
+
+                        // Look up Azure AD groups based on ID
+
+                        List<Group> groups = await LookUpGroup(groupID);
+                        foreach (var group in groups)
+                        {
+                               rtbAssignmentPreview.AppendText(group.DisplayName + "\n");
+                        }
+                    }
+                }
+            }
+
             else
             {
                 //something unexpected happened

@@ -720,6 +720,26 @@ namespace IntuneAssignments
             return policyAssignments;
         }
 
-        // next step is to look up security baseline assignments. Use this
+        public static async Task<List<DeviceManagementIntentAssignment>> GetSecurityBaselineAssignments(string policyID)
+        {
+            // Method to get all assignments for a security baseline policy
+            var graphClient = CreateGraphServiceClient();
+
+            // Look up the policy by the ID
+
+            var policy = await graphClient.DeviceManagement.Intents[policyID].Assignments.GetAsync();
+
+            // Create a list to store the policy assignments in
+
+            List<DeviceManagementIntentAssignment> policyAssignments = new List<DeviceManagementIntentAssignment>();
+
+
+            // Add to list
+
+            policyAssignments.AddRange(policy.Value);
+
+            return policyAssignments;
+        }
+        
     }
 }
