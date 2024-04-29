@@ -22,5 +22,8 @@
     <Compile Update="ViewAssignment.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="WhatsNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

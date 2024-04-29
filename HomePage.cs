@@ -37,12 +37,12 @@ namespace IntuneAssignments
 
 
             // Call methods to create configuration folder and files
-            
 
 
 
 
-            
+
+
 
             //loadAuthenticationInfo();
 
@@ -123,7 +123,7 @@ namespace IntuneAssignments
                 using (FileStream fs = File.Create(primaryLogFile))
                 {
                     // Do nothing
-                    
+
 
                     // Release the file
 
@@ -135,12 +135,12 @@ namespace IntuneAssignments
             {
                 WriteToLog("The log file already exists. No need to create");
             }
-            
+
 
             // release the file
         }
 
-        private async void createAppSettingsFile() 
+        private async void createAppSettingsFile()
         {
             if (!System.IO.File.Exists(appSettingsFile))
             {
@@ -153,14 +153,14 @@ namespace IntuneAssignments
 
 
 
-                
+
             }
             else
             {
                 WriteToLog("The configuration file already exists. No need to create");
             }
-            
-            
+
+
         }
 
         private void createConfigurationFiles()
@@ -355,6 +355,13 @@ namespace IntuneAssignments
             settings.ShowDialog();
 
 
+        }
+
+        private void pbWhatsNew_Click(object sender, EventArgs e)
+        {
+            WriteToLog("Opening the what's new page");
+            WhatsNew whatsNew = new WhatsNew();
+            whatsNew.ShowDialog();
         }
     }
 }

@@ -120,7 +120,7 @@
             label7.AutoSize = true;
             label7.Font = new Font("Consolas", 9F);
             label7.ForeColor = Color.Salmon;
-            label7.Location = new Point(48, 239);
+            label7.Location = new Point(48, 228);
             label7.Name = "label7";
             label7.Size = new Size(245, 14);
             label7.TabIndex = 9;
@@ -131,7 +131,7 @@
             label8.AutoSize = true;
             label8.Font = new Font("Consolas", 12F, FontStyle.Bold);
             label8.ForeColor = Color.Salmon;
-            label8.Location = new Point(48, 210);
+            label8.Location = new Point(48, 199);
             label8.Name = "label8";
             label8.Size = new Size(72, 19);
             label8.TabIndex = 10;
@@ -142,7 +142,7 @@
             label9.AutoSize = true;
             label9.Font = new Font("Consolas", 9F);
             label9.ForeColor = Color.Salmon;
-            label9.Location = new Point(48, 262);
+            label9.Location = new Point(48, 251);
             label9.Name = "label9";
             label9.Size = new Size(322, 14);
             label9.TabIndex = 11;
@@ -154,7 +154,7 @@
             richTextBox1.BorderStyle = BorderStyle.None;
             richTextBox1.Font = new Font("Consolas", 9F);
             richTextBox1.ForeColor = Color.Salmon;
-            richTextBox1.Location = new Point(48, 53);
+            richTextBox1.Location = new Point(49, 54);
             richTextBox1.Name = "richTextBox1";
             richTextBox1.Size = new Size(334, 62);
             richTextBox1.TabIndex = 12;
@@ -166,7 +166,7 @@
             richTextBox2.BorderStyle = BorderStyle.None;
             richTextBox2.Font = new Font("Consolas", 9F);
             richTextBox2.ForeColor = Color.Salmon;
-            richTextBox2.Location = new Point(48, 134);
+            richTextBox2.Location = new Point(48, 122);
             richTextBox2.Name = "richTextBox2";
             richTextBox2.Size = new Size(334, 62);
             richTextBox2.TabIndex = 13;

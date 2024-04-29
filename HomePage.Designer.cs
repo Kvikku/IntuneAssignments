@@ -43,11 +43,13 @@
             lblManageProfilesHeader = new Label();
             lblManageAppSettingsHeader = new Label();
             lblAboutHeader = new Label();
+            pbWhatsNew = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pbGoToApplication).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbGoToPolicy).BeginInit();
             ((System.ComponentModel.ISupportInitialize)GoToAbout).BeginInit();
             ((System.ComponentModel.ISupportInitialize)GoToSettings).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pBConnectionStatus).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbWhatsNew).BeginInit();
             SuspendLayout();
             // 
             // lblTenantName
@@ -183,6 +185,16 @@
             lblAboutHeader.TabIndex = 11;
             lblAboutHeader.Text = "About";
             // 
+            // pbWhatsNew
+            // 
+            pbWhatsNew.Image = Properties.Resources.whatsnew;
+            pbWhatsNew.Location = new Point(413, 6);
+            pbWhatsNew.Name = "pbWhatsNew";
+            pbWhatsNew.Size = new Size(71, 70);
+            pbWhatsNew.TabIndex = 12;
+            pbWhatsNew.TabStop = false;
+            pbWhatsNew.Click += pbWhatsNew_Click;
+            // 
             // HomePage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -190,6 +202,7 @@
             AutoSize = true;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(484, 395);
+            Controls.Add(pbWhatsNew);
             Controls.Add(lblAboutHeader);
             Controls.Add(lblManageAppSettingsHeader);
             Controls.Add(lblManageProfilesHeader);
@@ -215,6 +228,7 @@
             ((System.ComponentModel.ISupportInitialize)GoToAbout).EndInit();
             ((System.ComponentModel.ISupportInitialize)GoToSettings).EndInit();
             ((System.ComponentModel.ISupportInitialize)pBConnectionStatus).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbWhatsNew).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -234,5 +248,6 @@
         private Label lblManageProfilesHeader;
         private Label lblManageAppSettingsHeader;
         private Label lblAboutHeader;
+        private PictureBox pbWhatsNew;
     }
 }
