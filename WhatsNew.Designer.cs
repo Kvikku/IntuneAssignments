@@ -42,7 +42,7 @@
             rtbWhatsNew.BorderStyle = BorderStyle.None;
             rtbWhatsNew.Font = new Font("Consolas", 9F);
             rtbWhatsNew.ForeColor = Color.Salmon;
-            rtbWhatsNew.Location = new Point(12, 90);
+            rtbWhatsNew.Location = new Point(12, 133);
             rtbWhatsNew.Name = "rtbWhatsNew";
             rtbWhatsNew.ReadOnly = true;
             rtbWhatsNew.Size = new Size(464, 122);
@@ -54,7 +54,7 @@
             lblWhatsNew.AutoSize = true;
             lblWhatsNew.Font = new Font("Consolas", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblWhatsNew.ForeColor = Color.Salmon;
-            lblWhatsNew.Location = new Point(12, 21);
+            lblWhatsNew.Location = new Point(18, 24);
             lblWhatsNew.Name = "lblWhatsNew";
             lblWhatsNew.Size = new Size(164, 32);
             lblWhatsNew.TabIndex = 14;
@@ -65,7 +65,7 @@
             linklblGithubURL.AutoSize = true;
             linklblGithubURL.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linklblGithubURL.LinkColor = Color.Salmon;
-            linklblGithubURL.Location = new Point(18, 350);
+            linklblGithubURL.Location = new Point(18, 329);
             linklblGithubURL.Name = "linklblGithubURL";
             linklblGithubURL.Size = new Size(159, 20);
             linklblGithubURL.TabIndex = 15;
@@ -78,7 +78,7 @@
             lblNewestVersion.AutoSize = true;
             lblNewestVersion.Font = new Font("Consolas", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblNewestVersion.ForeColor = Color.Salmon;
-            lblNewestVersion.Location = new Point(13, 62);
+            lblNewestVersion.Location = new Point(18, 92);
             lblNewestVersion.Name = "lblNewestVersion";
             lblNewestVersion.Size = new Size(133, 15);
             lblNewestVersion.TabIndex = 16;

@@ -72,11 +72,11 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Consolas", 12F, FontStyle.Bold);
+            label1.Font = new Font("Consolas", 20.25F, FontStyle.Bold);
             label1.ForeColor = Color.Salmon;
-            label1.Location = new Point(48, 21);
+            label1.Location = new Point(48, 9);
             label1.Name = "label1";
-            label1.Size = new Size(54, 19);
+            label1.Size = new Size(89, 32);
             label1.TabIndex = 2;
             label1.Text = "About";
             // 
