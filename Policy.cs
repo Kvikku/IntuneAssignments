@@ -807,18 +807,11 @@ namespace IntuneAssignments
                             string policyType = row.Cells[1].Value.ToString();
                             string policyPlatform = row.Cells[2].Value.ToString();
 
-
-
-
                             /*
                              These next blocks of code will handle each policy type separately
                              For each policy type there is a different object type that must be created and used to update the policy
                              This code could probably be optimized by using a switch statement instead of if statements
                             */
-
-
-
-
 
                             // COMPLIANCE POLICY //
 
@@ -863,8 +856,6 @@ namespace IntuneAssignments
 
                             }
 
-
-
                             // SETTINGS CATALOG POLICY
 
                             if (policyType == "Settings Catalog")
@@ -888,24 +879,17 @@ namespace IntuneAssignments
                             }
 
 
-
-
                             /*
                                Next step is to continue with the other policy types
                                
                                Device configuration has a lot of different odatatypes
-                           
-                                
-                                
 
                             https://graph.microsoft.com/beta/deviceManagement/groupPolicyConfigurations // ADMX template
 
                             */
 
-
                             // DEVICE CONFIGURATION POLICY
                             // Consider not supporting device configuration policies for now
-
 
                             if (policyType == "Device Configuration")
                             {
@@ -923,6 +907,23 @@ namespace IntuneAssignments
 
                             }
 
+                            if (policyType.Contains("Baseline") || policyType.Contains("baseline"))
+                            {
+                                var requestBody = new DeviceManagementIntent
+                                {
+                                    Description = txtboxDescription.Text
+                                };
+
+                                // Update the description
+                                var result = await graphClient.DeviceManagement.Intents[policyID].PatchAsync(requestBody);
+
+                                WriteToLog("Description for " + policyName + " has been updated with the following description: " + description.ToString());
+
+                                // write to the textbox
+                                rtbDeploymentSummary.SelectionColor = Color.Green;
+                                rtbDeploymentSummary.AppendText("Description for " + policyName + " has been updated" + Environment.NewLine);
+
+                            }
 
                             // Update the progress bar
                             pBarDeployProgress.Value++;

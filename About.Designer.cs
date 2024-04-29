@@ -33,14 +33,13 @@
             lnklblGithubURL = new LinkLabel();
             label1 = new Label();
             label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
-            label5 = new Label();
             label6 = new Label();
             linkLabel1 = new LinkLabel();
             label7 = new Label();
             label8 = new Label();
             label9 = new Label();
+            richTextBox1 = new RichTextBox();
+            richTextBox2 = new RichTextBox();
             SuspendLayout();
             // 
             // btnOk
@@ -75,7 +74,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Consolas", 12F, FontStyle.Bold);
             label1.ForeColor = Color.Salmon;
-            label1.Location = new Point(48, 30);
+            label1.Location = new Point(48, 21);
             label1.Name = "label1";
             label1.Size = new Size(54, 19);
             label1.TabIndex = 2;
@@ -91,39 +90,6 @@
             label2.Size = new Size(161, 14);
             label2.TabIndex = 3;
             label2.Text = "© 2024 - Jørgen Sundet";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Consolas", 9F);
-            label3.ForeColor = Color.Salmon;
-            label3.Location = new Point(48, 71);
-            label3.Name = "label3";
-            label3.Size = new Size(322, 14);
-            label3.TabIndex = 4;
-            label3.Text = "This application can bulk assign applications";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Consolas", 9F);
-            label4.ForeColor = Color.Salmon;
-            label4.Location = new Point(48, 85);
-            label4.Name = "label4";
-            label4.Size = new Size(336, 14);
-            label4.TabIndex = 5;
-            label4.Text = "and device policies to multiple security groups";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Consolas", 9F);
-            label5.ForeColor = Color.Salmon;
-            label5.Location = new Point(48, 99);
-            label5.Name = "label5";
-            label5.Size = new Size(189, 14);
-            label5.TabIndex = 6;
-            label5.Text = "with just a few easy steps";
             // 
             // label6
             // 
@@ -154,18 +120,18 @@
             label7.AutoSize = true;
             label7.Font = new Font("Consolas", 9F);
             label7.ForeColor = Color.Salmon;
-            label7.Location = new Point(48, 202);
+            label7.Location = new Point(48, 239);
             label7.Name = "label7";
             label7.Size = new Size(245, 14);
             label7.TabIndex = 9;
-            label7.Text = "You are running version 0.2.2-beta";
+            label7.Text = "You are running version 0.2.3-beta";
             // 
             // label8
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Consolas", 12F, FontStyle.Bold);
             label8.ForeColor = Color.Salmon;
-            label8.Location = new Point(48, 173);
+            label8.Location = new Point(48, 210);
             label8.Name = "label8";
             label8.Size = new Size(72, 19);
             label8.TabIndex = 10;
@@ -176,11 +142,35 @@
             label9.AutoSize = true;
             label9.Font = new Font("Consolas", 9F);
             label9.ForeColor = Color.Salmon;
-            label9.Location = new Point(48, 225);
+            label9.Location = new Point(48, 262);
             label9.Name = "label9";
             label9.Size = new Size(322, 14);
             label9.TabIndex = 11;
             label9.Text = "Please check the GitHub URL below for updates";
+            // 
+            // richTextBox1
+            // 
+            richTextBox1.BackColor = Color.FromArgb(46, 51, 73);
+            richTextBox1.BorderStyle = BorderStyle.None;
+            richTextBox1.Font = new Font("Consolas", 9F);
+            richTextBox1.ForeColor = Color.Salmon;
+            richTextBox1.Location = new Point(48, 53);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.Size = new Size(334, 62);
+            richTextBox1.TabIndex = 12;
+            richTextBox1.Text = "This application allows you to perform bulk actions in Microsoft Intune, such as assigning many applications and policies to many groups with just a few clicks.";
+            // 
+            // richTextBox2
+            // 
+            richTextBox2.BackColor = Color.FromArgb(46, 51, 73);
+            richTextBox2.BorderStyle = BorderStyle.None;
+            richTextBox2.Font = new Font("Consolas", 9F);
+            richTextBox2.ForeColor = Color.Salmon;
+            richTextBox2.Location = new Point(48, 134);
+            richTextBox2.Name = "richTextBox2";
+            richTextBox2.Size = new Size(334, 62);
+            richTextBox2.TabIndex = 13;
+            richTextBox2.Text = "Please check the Github repository for a full list of features and instructions for how to use this application.";
             // 
             // About
             // 
@@ -188,14 +178,13 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(484, 395);
+            Controls.Add(richTextBox2);
+            Controls.Add(richTextBox1);
             Controls.Add(label9);
             Controls.Add(label8);
             Controls.Add(label7);
             Controls.Add(linkLabel1);
             Controls.Add(label6);
-            Controls.Add(label5);
-            Controls.Add(label4);
-            Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(lnklblGithubURL);
@@ -216,13 +205,12 @@
         private LinkLabel lnklblGithubURL;
         private Label label1;
         private Label label2;
-        private Label label3;
-        private Label label4;
-        private Label label5;
         private Label label6;
         private LinkLabel linkLabel1;
         private Label label7;
         private Label label8;
         private Label label9;
+        private RichTextBox richTextBox1;
+        private RichTextBox richTextBox2;
     }
 }
