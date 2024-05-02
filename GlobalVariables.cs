@@ -2,7 +2,7 @@
 {
     public class GlobalVariables
     {
-
+        // TODO - Delete program data folder variables
         public static string configurationFolder = @"C:\ProgramData\IntuneAssignments";
         public static string AppSettingsFile = @"C:\ProgramData\IntuneAssignments" + @"\AppSettings.json";
         public static string MainLogFile = @"C:\ProgramData\IntuneAssignments" + @"\Primary Logfile.log";

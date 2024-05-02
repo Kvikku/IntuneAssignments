@@ -219,7 +219,7 @@ namespace IntuneAssignments
             WriteToLog("Opening the configuration folder");
 
             // Open file explorer
-            System.Diagnostics.Process.Start("explorer.exe", @"C:\ProgramData\IntuneAssignments");
+            System.Diagnostics.Process.Start("explorer.exe", appDataFolder);
         }
 
 
