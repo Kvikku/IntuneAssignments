@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace IntuneAssignments.Backend
 {
     
-    
+    // Maybe not needed after all. 
     
     public class Tenant 
     {

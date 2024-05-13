@@ -185,7 +185,7 @@
             // 
             cBTenant.BackColor = Color.FromArgb(46, 51, 73);
             cBTenant.DropDownStyle = ComboBoxStyle.DropDownList;
-            cBTenant.FlatStyle = FlatStyle.System;
+            cBTenant.FlatStyle = FlatStyle.Flat;
             cBTenant.ForeColor = Color.Salmon;
             cBTenant.FormattingEnabled = true;
             cBTenant.Location = new Point(139, 110);
