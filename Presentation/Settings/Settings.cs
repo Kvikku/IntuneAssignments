@@ -16,6 +16,7 @@ namespace IntuneAssignments
 
         private Application form1;
 
+        
 
 
         public Settings(Application form1)
@@ -24,12 +25,8 @@ namespace IntuneAssignments
             this.FormBorderStyle = FormBorderStyle.FixedDialog; // Makes the form not resizable and the parent form not clickable
             this.StartPosition = FormStartPosition.CenterScreen; // Center the form over its parent
 
-
-
             this.form1 = form1;
-
             InitializeComponent();
-
         }
 
         public Settings()
@@ -39,8 +36,73 @@ namespace IntuneAssignments
             this.StartPosition = FormStartPosition.CenterScreen; // Center the form over its parent
 
             InitializeComponent();
+            //LoadData();
+            
+        }
+
+        private JObject json;
+        
+        private void LoadData()
+        {
+            try
+            {
+                string filepath = appSettingsFile;
+                string jsonstring = System.IO.File.ReadAllText(filepath);
+                
+                //MessageBox.Show(jsonstring);
+
+                json = JObject.Parse(jsonstring);
+
+                foreach (var tenant in json)
+                {
+                    cBTenant.Items.Add(tenant.Key);
+
+                    WriteToLog("Found tenant: " + tenant.Key + " with tenant ID: " + tenant.Value["TenantId"] + " and client ID: " + tenant.Value["ClientId"] + " in the JSON file");
+                }
+
+                // Set first value in the combobox
+                cBTenant.SelectedIndex = 0;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+
+            }
 
         }
+
+       
+
+        private void cBTenant_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cBTenant.SelectedIndex != -1)
+            {
+                string selectedTenant = cBTenant.SelectedItem.ToString();
+                JObject tenantDetails = (JObject)json[selectedTenant];
+
+                string tenantId = (string)tenantDetails["TenantId"];
+                string clientId = (string)tenantDetails["ClientId"];
+
+                tBTenantID.Text = tenantId;
+                tBClientID.Text = clientId;
+
+                TokenProvider.tenantID = tenantId;
+                TokenProvider.clientID = clientId;
+                authority = $"https://login.microsoftonline.com/{tenantId}";
+
+                WriteToLog("Switched to tenant " + selectedTenant + " with tenant ID: " + tenantId + " and client ID: " + clientId);
+
+                // clear token
+
+                accessToken = null;
+
+                // Set token expiration time to 5 minutes ago to force a new token to be acquired
+                tokenExpirationTime = DateTime.Now.AddMinutes(-5);
+
+            }
+        }
+
 
         private void Settings_Load(object sender, EventArgs e)
         {
@@ -48,48 +110,40 @@ namespace IntuneAssignments
             // These are no longer used, but I'm keeping them here for now in case I need them later
             lblClientSecret.Hide();
             tBClientSecret.Hide();
-            
+
+            LoadData();
+            cBSaveSettings.Hide();
 
 
             WriteToLog("Attempting to load authentication info from appsettings.json");
-            
+
+
+
             // Retrieve data from appsettings.json and populate labels
-
-            string path = appSettingsFile; //@"C:\ProgramData\IntuneAssignments" + @"\AppSettings.json";
-
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                //.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile(path)
-                .Build();
-
-
-
+            //string path = appSettingsFile; //@"C:\ProgramData\IntuneAssignments" + @"\AppSettings.json";
+            //IConfigurationRoot configuration = new ConfigurationBuilder()
+            //    //.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            //    .AddJsonFile(path)
+            //    .Build();
             // Sets the variables to the values in the appsettings.json file
-            tenantID = configuration.GetSection("Entra:TenantId").Value;
-            clientID = configuration.GetSection("Entra:ClientId").Value;
+            //tenantID = configuration.GetSection("Entra:TenantId").Value;
+            //clientID = configuration.GetSection("Entra:ClientId").Value;
             //clientSecret = configuration.GetSection("Entra:ClientSecret").Value;
-            authority = $"https://login.microsoftonline.com/{tenantID}";
-
-
-
-            tBClientID.Text = clientID;
+            //authority = $"https://login.microsoftonline.com/{tenantID}";
+            //tBClientID.Text = clientID;
             //tBClientSecret.Text = clientSecret;
-            tBTenantID.Text = tenantID;
-
-
+            //tBTenantID.Text = tenantID;
             //lblTenantIDString.Text = tenantID;
             //lblClientIDString.Text = clientID;
             //lblClientSecretString.Text = clientSecret;
-
-            
         }
 
 
         private void saveSettings()
         {
-            
+
             WriteToLog("Saving settings to appsettings.json");
-            
+
             // Save the new settings to appsettings.json
 
             string originalPath = appSettingsFile;
@@ -106,7 +160,7 @@ namespace IntuneAssignments
 
             // Update global variables so that the rest of the application can use the new settings
 
-            
+
 
             TokenProvider.tenantID = tBTenantID.Text;
             TokenProvider.clientID = tBClientID.Text;
@@ -148,7 +202,7 @@ namespace IntuneAssignments
                 // Do nothing
 
                 WriteToLog("User chose not to save the settings to the appsettings file");
-            }  
+            }
         }
 
 
@@ -163,15 +217,16 @@ namespace IntuneAssignments
 
         public static async Task AuthenticateToGraph()
         {
-            
+
             // First check if there exist a token that is valid
             if ((CheckTokenLifetime(tokenExpirationTime)) == true)
             {
 
                 // Token is still valid. No need to re-authenticate
-                
 
-            } else if ((CheckTokenLifetime(tokenExpirationTime)) == false)
+
+            }
+            else if ((CheckTokenLifetime(tokenExpirationTime)) == false)
             {
 
                 // Token has expired. Must acquire new token.
@@ -183,11 +238,11 @@ namespace IntuneAssignments
                 var user = await graphClient.Me.GetAsync();
 
             }
-                  
-            
-            
 
-            
+
+
+
+
 
             //MessageBox.Show(user.DisplayName);
 
@@ -202,21 +257,21 @@ namespace IntuneAssignments
                 saveSettings();
             }
 
-            
+
 
             await AuthenticateToGraph();
 
 
             CheckConnection();
 
-            
+
 
             this.Close();
         }
 
         private void btnOpenFolder_Click(object sender, EventArgs e)
         {
-            
+
             WriteToLog("Opening the configuration folder");
 
             // Open file explorer
@@ -224,7 +279,7 @@ namespace IntuneAssignments
         }
 
 
-        
+
 
 
         public async Task checkAPIPermissions()
@@ -255,5 +310,7 @@ namespace IntuneAssignments
 
 
         }
+
+
     }
 }

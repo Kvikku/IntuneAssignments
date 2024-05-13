@@ -35,7 +35,6 @@
             lblTenantID = new Label();
             lblClientID = new Label();
             lblClientSecret = new Label();
-            lblInfo = new Label();
             btnOpenFolder = new Button();
             button1 = new Button();
             tBTenantID = new TextBox();
@@ -43,6 +42,9 @@
             tBClientSecret = new TextBox();
             toolTip1 = new ToolTip(components);
             cBSaveSettings = new CheckBox();
+            cBTenant = new ComboBox();
+            lblSelectedTenant = new Label();
+            richTextBox1 = new RichTextBox();
             SuspendLayout();
             // 
             // btnOK
@@ -65,7 +67,7 @@
             lblHeader.AutoSize = true;
             lblHeader.Font = new Font("Consolas", 12F, FontStyle.Bold);
             lblHeader.ForeColor = Color.Salmon;
-            lblHeader.Location = new Point(12, 46);
+            lblHeader.Location = new Point(11, 9);
             lblHeader.Name = "lblHeader";
             lblHeader.Size = new Size(189, 19);
             lblHeader.TabIndex = 1;
@@ -103,17 +105,6 @@
             lblClientSecret.Size = new Size(98, 15);
             lblClientSecret.TabIndex = 4;
             lblClientSecret.Text = "Client secret";
-            // 
-            // lblInfo
-            // 
-            lblInfo.AutoSize = true;
-            lblInfo.Font = new Font("Consolas", 9.75F);
-            lblInfo.ForeColor = Color.Salmon;
-            lblInfo.Location = new Point(12, 95);
-            lblInfo.Name = "lblInfo";
-            lblInfo.Size = new Size(294, 15);
-            lblInfo.TabIndex = 5;
-            lblInfo.Text = "Please make sure these values are correct";
             // 
             // btnOpenFolder
             // 
@@ -190,19 +181,57 @@
             toolTip1.SetToolTip(cBSaveSettings, "Save the current settings to a config file when logging in");
             cBSaveSettings.UseVisualStyleBackColor = true;
             // 
+            // cBTenant
+            // 
+            cBTenant.BackColor = Color.FromArgb(46, 51, 73);
+            cBTenant.DropDownStyle = ComboBoxStyle.DropDownList;
+            cBTenant.FlatStyle = FlatStyle.System;
+            cBTenant.ForeColor = Color.Salmon;
+            cBTenant.FormattingEnabled = true;
+            cBTenant.Location = new Point(139, 110);
+            cBTenant.Name = "cBTenant";
+            cBTenant.Size = new Size(121, 23);
+            cBTenant.TabIndex = 15;
+            cBTenant.SelectedIndexChanged += cBTenant_SelectedIndexChanged;
+            // 
+            // lblSelectedTenant
+            // 
+            lblSelectedTenant.AutoSize = true;
+            lblSelectedTenant.Font = new Font("Consolas", 9.75F);
+            lblSelectedTenant.ForeColor = Color.Salmon;
+            lblSelectedTenant.Location = new Point(12, 118);
+            lblSelectedTenant.Name = "lblSelectedTenant";
+            lblSelectedTenant.Size = new Size(98, 15);
+            lblSelectedTenant.TabIndex = 16;
+            lblSelectedTenant.Text = "Select tenant";
+            // 
+            // richTextBox1
+            // 
+            richTextBox1.BackColor = Color.FromArgb(46, 51, 73);
+            richTextBox1.BorderStyle = BorderStyle.None;
+            richTextBox1.Font = new Font("Consolas", 9F);
+            richTextBox1.ForeColor = Color.Salmon;
+            richTextBox1.Location = new Point(11, 53);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.Size = new Size(429, 38);
+            richTextBox1.TabIndex = 17;
+            richTextBox1.Text = "Values are retrieved from the JSON file. Please check the Github Wiki if you need help";
+            // 
             // Settings
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(484, 395);
+            Controls.Add(richTextBox1);
+            Controls.Add(lblSelectedTenant);
+            Controls.Add(cBTenant);
             Controls.Add(cBSaveSettings);
             Controls.Add(tBClientSecret);
             Controls.Add(tBClientID);
             Controls.Add(tBTenantID);
             Controls.Add(button1);
             Controls.Add(btnOpenFolder);
-            Controls.Add(lblInfo);
             Controls.Add(lblClientSecret);
             Controls.Add(lblClientID);
             Controls.Add(lblTenantID);
@@ -225,7 +254,6 @@
         private Label lblTenantID;
         private Label lblClientID;
         private Label lblClientSecret;
-        private Label lblInfo;
         private Button btnOpenFolder;
         private Button button1;
         private TextBox tBTenantID;
@@ -233,5 +261,8 @@
         private TextBox tBClientSecret;
         private ToolTip toolTip1;
         private CheckBox cBSaveSettings;
+        private ComboBox cBTenant;
+        private Label lblSelectedTenant;
+        private RichTextBox richTextBox1;
     }
 }
