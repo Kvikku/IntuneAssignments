@@ -21,7 +21,7 @@ namespace IntuneAssignments
             this.StartPosition = FormStartPosition.CenterScreen;
         }
 
-        private void HomePage_Load(object sender, EventArgs e)
+        private async void HomePage_Load(object sender, EventArgs e)
         {
 
             createConfigurationFolder();
@@ -30,6 +30,7 @@ namespace IntuneAssignments
 
             ShowWarningOnStatusLabels();
 
+            await checkConnectionStatus();
 
 
             // TEST ONLY- Purge the content of the log file - 
@@ -302,7 +303,7 @@ namespace IntuneAssignments
                 pBConnectionStatus.Image = Properties.Resources.cancel;
                 lblTenantName.Text = "Not connected";
                 lblAdditionalInfo.Show();
-                lblAdditionalInfo.Text = "Please click the cogwheel to view and manage the authentication info";
+                lblAdditionalInfo.Text = "Please click the Cogwheel to authenticate";
 
                 WriteToLog("Error connecting to the Azure tenant. Please troubleshoot and double check the authentication info in the appsettings.json file");
             }

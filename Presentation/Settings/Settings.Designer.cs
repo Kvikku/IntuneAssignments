@@ -45,6 +45,8 @@
             cBTenant = new ComboBox();
             lblSelectedTenant = new Label();
             richTextBox1 = new RichTextBox();
+            lblTenantFriendlyName = new Label();
+            tBTenantName = new TextBox();
             SuspendLayout();
             // 
             // btnOK
@@ -78,7 +80,7 @@
             lblTenantID.AutoSize = true;
             lblTenantID.Font = new Font("Consolas", 9.75F);
             lblTenantID.ForeColor = Color.Salmon;
-            lblTenantID.Location = new Point(11, 159);
+            lblTenantID.Location = new Point(11, 229);
             lblTenantID.Name = "lblTenantID";
             lblTenantID.Size = new Size(70, 15);
             lblTenantID.TabIndex = 2;
@@ -89,7 +91,7 @@
             lblClientID.AutoSize = true;
             lblClientID.Font = new Font("Consolas", 9.75F);
             lblClientID.ForeColor = Color.Salmon;
-            lblClientID.Location = new Point(11, 205);
+            lblClientID.Location = new Point(11, 275);
             lblClientID.Name = "lblClientID";
             lblClientID.Size = new Size(70, 15);
             lblClientID.TabIndex = 3;
@@ -100,7 +102,7 @@
             lblClientSecret.AutoSize = true;
             lblClientSecret.Font = new Font("Consolas", 9.75F);
             lblClientSecret.ForeColor = Color.Salmon;
-            lblClientSecret.Location = new Point(11, 249);
+            lblClientSecret.Location = new Point(11, 319);
             lblClientSecret.Name = "lblClientSecret";
             lblClientSecret.Size = new Size(98, 15);
             lblClientSecret.TabIndex = 4;
@@ -141,7 +143,7 @@
             tBTenantID.BorderStyle = BorderStyle.FixedSingle;
             tBTenantID.Font = new Font("Consolas", 9.75F);
             tBTenantID.ForeColor = Color.Salmon;
-            tBTenantID.Location = new Point(139, 151);
+            tBTenantID.Location = new Point(139, 221);
             tBTenantID.Name = "tBTenantID";
             tBTenantID.Size = new Size(297, 23);
             tBTenantID.TabIndex = 11;
@@ -152,7 +154,7 @@
             tBClientID.BorderStyle = BorderStyle.FixedSingle;
             tBClientID.Font = new Font("Consolas", 9.75F);
             tBClientID.ForeColor = Color.Salmon;
-            tBClientID.Location = new Point(139, 197);
+            tBClientID.Location = new Point(139, 267);
             tBClientID.Name = "tBClientID";
             tBClientID.Size = new Size(297, 23);
             tBClientID.TabIndex = 12;
@@ -163,7 +165,7 @@
             tBClientSecret.BorderStyle = BorderStyle.FixedSingle;
             tBClientSecret.Font = new Font("Consolas", 9.75F);
             tBClientSecret.ForeColor = Color.Salmon;
-            tBClientSecret.Location = new Point(139, 241);
+            tBClientSecret.Location = new Point(139, 311);
             tBClientSecret.Name = "tBClientSecret";
             tBClientSecret.Size = new Size(297, 23);
             tBClientSecret.TabIndex = 13;
@@ -188,7 +190,7 @@
             cBTenant.FlatStyle = FlatStyle.Flat;
             cBTenant.ForeColor = Color.Salmon;
             cBTenant.FormattingEnabled = true;
-            cBTenant.Location = new Point(139, 110);
+            cBTenant.Location = new Point(139, 120);
             cBTenant.Name = "cBTenant";
             cBTenant.Size = new Size(121, 23);
             cBTenant.TabIndex = 15;
@@ -199,7 +201,7 @@
             lblSelectedTenant.AutoSize = true;
             lblSelectedTenant.Font = new Font("Consolas", 9.75F);
             lblSelectedTenant.ForeColor = Color.Salmon;
-            lblSelectedTenant.Location = new Point(12, 118);
+            lblSelectedTenant.Location = new Point(11, 128);
             lblSelectedTenant.Name = "lblSelectedTenant";
             lblSelectedTenant.Size = new Size(98, 15);
             lblSelectedTenant.TabIndex = 16;
@@ -217,12 +219,36 @@
             richTextBox1.TabIndex = 17;
             richTextBox1.Text = "Values are retrieved from the JSON file. Please check the Github Wiki if you need help";
             // 
+            // lblTenantFriendlyName
+            // 
+            lblTenantFriendlyName.AutoSize = true;
+            lblTenantFriendlyName.Font = new Font("Consolas", 9.75F);
+            lblTenantFriendlyName.ForeColor = Color.Salmon;
+            lblTenantFriendlyName.Location = new Point(12, 185);
+            lblTenantFriendlyName.Name = "lblTenantFriendlyName";
+            lblTenantFriendlyName.Size = new Size(84, 15);
+            lblTenantFriendlyName.TabIndex = 18;
+            lblTenantFriendlyName.Text = "Tenant name";
+            // 
+            // tBTenantName
+            // 
+            tBTenantName.BackColor = Color.FromArgb(46, 51, 73);
+            tBTenantName.BorderStyle = BorderStyle.FixedSingle;
+            tBTenantName.Font = new Font("Consolas", 9.75F);
+            tBTenantName.ForeColor = Color.Salmon;
+            tBTenantName.Location = new Point(139, 177);
+            tBTenantName.Name = "tBTenantName";
+            tBTenantName.Size = new Size(297, 23);
+            tBTenantName.TabIndex = 19;
+            // 
             // Settings
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(484, 395);
+            Controls.Add(tBTenantName);
+            Controls.Add(lblTenantFriendlyName);
             Controls.Add(richTextBox1);
             Controls.Add(lblSelectedTenant);
             Controls.Add(cBTenant);
@@ -264,5 +290,7 @@
         private ComboBox cBTenant;
         private Label lblSelectedTenant;
         private RichTextBox richTextBox1;
+        private Label lblTenantFriendlyName;
+        private TextBox tBTenantName;
     }
 }

@@ -63,6 +63,9 @@ namespace IntuneAssignments
                 // Set first value in the combobox
                 cBTenant.SelectedIndex = 0;
 
+                var tenantName = cBTenant.SelectedItem.ToString();
+                tBTenantName.Text = tenantName;
+
             }
             catch (Exception ex)
             {
@@ -86,6 +89,7 @@ namespace IntuneAssignments
 
                 tBTenantID.Text = tenantId;
                 tBClientID.Text = clientId;
+                tBTenantName.Text = selectedTenant;
 
                 TokenProvider.tenantID = tenantId;
                 TokenProvider.clientID = clientId;
@@ -112,7 +116,7 @@ namespace IntuneAssignments
             tBClientSecret.Hide();
 
             LoadData();
-            cBSaveSettings.Hide();
+            
 
 
             WriteToLog("Attempting to load authentication info from appsettings.json");
@@ -138,6 +142,48 @@ namespace IntuneAssignments
             //lblClientSecretString.Text = clientSecret;
         }
 
+        private void saveSettingsNew()
+        {
+
+            WriteToLog("Saving settings to appsettings.json");
+
+            // Save the new settings to appsettings.json
+
+            string jsonString = File.ReadAllText(appSettingsFile);
+            JObject json = JObject.Parse(jsonString);
+
+            string tenantName = tBTenantName.Text;
+            string tenantId = tBTenantID.Text;
+            string clientId = tBClientID.Text;
+
+            if(json.ContainsKey(tenantName))
+            {
+                json[tenantName]["TenantId"] = tenantId;
+                json[tenantName]["ClientId"] = clientId;
+            }
+            else
+            {
+                WriteToLog("Tenant " + tenantName + " does not exist in the JSON file. Adding new tenant to the JSON file");
+
+                json.Add(tenantName, new JObject
+                {
+                    { "TenantId", tenantId },
+                    { "ClientId", clientId }
+                });
+            }
+
+            File.WriteAllText(appSettingsFile, json.ToString(Formatting.Indented));
+
+
+
+
+            // Update global variables so that the rest of the application can use the new settings
+
+            TokenProvider.tenantID = tBTenantID.Text;
+            TokenProvider.clientID = tBClientID.Text;
+            //clientSecret = tBClientSecret.Text;
+            TokenProvider.authority = $"https://login.microsoftonline.com/{TokenProvider.tenantID}";
+        }
 
         private void saveSettings()
         {
@@ -254,7 +300,7 @@ namespace IntuneAssignments
 
             if (cBSaveSettings.Checked == true)
             {
-                saveSettings();
+                saveSettingsNew();
             }
 
 
