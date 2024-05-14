@@ -376,10 +376,26 @@ namespace IntuneAssignments
 
         private async void btnOK_Click(object sender, EventArgs e)
         {
-
+            // Check if the user wants to save the settings to the appsettings file
             if (cBSaveSettings.Checked == true)
             {
                 saveSettingsNew();
+            }
+
+            // Check if the Tenant ID and Client ID fields are valid GUIDs
+
+            if (!CheckIfGUID(tBTenantID.Text))
+            {
+                // Tenant ID is not a valid GUID
+                MessageBox.Show("The Tenant ID is not a valid GUID. Please enter a valid GUID.");
+                return;
+            }
+
+            if (!CheckIfGUID(tBClientID.Text))
+            {
+                // Client ID is not a valid GUID
+                MessageBox.Show("The Client ID is not a valid GUID. Please enter a valid GUID.");
+                return;
             }
 
 

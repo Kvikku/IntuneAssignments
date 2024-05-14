@@ -741,17 +741,17 @@ namespace IntuneAssignments.Backend
             return policyAssignments;
         }
 
-        public void CheckIfGUID(string input)
+        public static bool CheckIfGUID(string input)
         {
             // Method to check if a string is a valid GUID
 
             if (Guid.TryParse(input, out Guid result))
             {
-                WriteToLog("The string is a valid GUID");
+                return true;
             }
             else
             {
-                WriteToLog("The string is not a valid GUID");
+                return false;
             }
         }
     }
