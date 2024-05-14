@@ -6,6 +6,7 @@ using static IntuneAssignments.Backend.FormUtilities;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using static IntuneAssignments.Backend.TokenProvider;
 using IntuneAssignments.Backend;
+using Windows.Devices.AllJoyn;
 
 
 
@@ -60,11 +61,58 @@ namespace IntuneAssignments
                     WriteToLog("Found tenant: " + tenant.Key + " with tenant ID: " + tenant.Value["TenantId"] + " and client ID: " + tenant.Value["ClientId"] + " in the JSON file");
                 }
 
-                // Set first value in the combobox
-                cBTenant.SelectedIndex = 0;
 
-                var tenantName = cBTenant.SelectedItem.ToString();
-                tBTenantName.Text = tenantName;
+                // Want to list the first tenant that does not contain "Example" in the name as the first item in the ComboBox
+                // "Example" tenants are used for testing purposes and should not be the default tenant
+
+                // Find the first item without "example"
+                int nonExampleIndex = FindIndexOfNonExample(cBTenant);
+
+                if (nonExampleIndex != -1)
+                {
+                    // Set the non-example item as the first item
+                    cBTenant.SelectedIndex = nonExampleIndex;
+                }
+                else
+                {
+                    // Find the first item with "example"
+                    int exampleIndex = FindIndexOfExample(cBTenant);
+
+                    if (exampleIndex != -1)
+                    {
+                        // Set the example item as the first item
+                        cBTenant.SelectedIndex = exampleIndex;
+                    }
+                }
+
+                // Show the ComboBox with the selected item
+                Console.WriteLine("Selected item: " + cBTenant.SelectedItem.ToString());
+            
+                static int FindIndexOfNonExample(ComboBox comboBox)
+                {
+                    for (int i = 0; i < comboBox.Items.Count; i++)
+                    {
+                        string currentItem = comboBox.Items[i].ToString();
+                        if (!currentItem.Contains("Example"))
+                        {
+                            return i;
+                        }
+                    }
+                    return -1; // No item without "example" found
+                }
+
+                static int FindIndexOfExample(ComboBox comboBox)
+                {
+                    for (int i = 0; i < comboBox.Items.Count; i++)
+                    {
+                        string currentItem = comboBox.Items[i].ToString();
+                        if (currentItem.Contains("Example"))
+                        {
+                            return i;
+                        }
+                    }
+                    return -1; // No item with "example" found
+                }
 
             }
             catch (Exception ex)
@@ -111,14 +159,8 @@ namespace IntuneAssignments
         private void Settings_Load(object sender, EventArgs e)
         {
 
-            // These are no longer used, but I'm keeping them here for now in case I need them later
-            lblClientSecret.Hide();
-            tBClientSecret.Hide();
-
             LoadData();
-            
-
-
+  
             WriteToLog("Attempting to load authentication info from appsettings.json");
 
 
@@ -152,9 +194,46 @@ namespace IntuneAssignments
             string jsonString = File.ReadAllText(appSettingsFile);
             JObject json = JObject.Parse(jsonString);
 
+
+
             string tenantName = tBTenantName.Text;
             string tenantId = tBTenantID.Text;
             string clientId = tBClientID.Text;
+            string selectedTenant = cBTenant.SelectedItem.ToString();
+            string newTenantName = tBTenantName.Text;
+
+            if (cBOverride.Checked == true)
+            {
+                // override existing key with new values
+                WriteToLog("User chose to override existing tenant settings with new values");
+
+                // get selected tenant
+
+                JObject oldValue = (JObject)json[selectedTenant];
+
+                json.Remove(selectedTenant);
+
+                json[newTenantName] = new JObject
+                {
+                    { "TenantId", tenantId },
+                    { "ClientId", clientId }
+                };
+
+
+
+                // Update global variables so that the rest of the application can use the new settings
+                TokenProvider.tenantID = tBTenantID.Text;
+                TokenProvider.clientID = tBClientID.Text;
+                //clientSecret = tBClientSecret.Text;
+                TokenProvider.authority = $"https://login.microsoftonline.com/{TokenProvider.tenantID}";
+
+
+                File.WriteAllText(appSettingsFile, json.ToString(Formatting.Indented));
+
+                // Skips the rest of the and returns to the calling method
+                return;
+            }
+
 
             if(json.ContainsKey(tenantName))
             {
@@ -175,8 +254,6 @@ namespace IntuneAssignments
             File.WriteAllText(appSettingsFile, json.ToString(Formatting.Indented));
 
 
-
-
             // Update global variables so that the rest of the application can use the new settings
 
             TokenProvider.tenantID = tBTenantID.Text;
@@ -187,6 +264,8 @@ namespace IntuneAssignments
 
         private void saveSettings()
         {
+
+            // TODO - Not in use - to be deleted later
 
             WriteToLog("Saving settings to appsettings.json");
 

@@ -34,12 +34,10 @@
             lblHeader = new Label();
             lblTenantID = new Label();
             lblClientID = new Label();
-            lblClientSecret = new Label();
             btnOpenFolder = new Button();
             button1 = new Button();
             tBTenantID = new TextBox();
             tBClientID = new TextBox();
-            tBClientSecret = new TextBox();
             toolTip1 = new ToolTip(components);
             cBSaveSettings = new CheckBox();
             cBTenant = new ComboBox();
@@ -47,6 +45,7 @@
             richTextBox1 = new RichTextBox();
             lblTenantFriendlyName = new Label();
             tBTenantName = new TextBox();
+            cBOverride = new CheckBox();
             SuspendLayout();
             // 
             // btnOK
@@ -80,7 +79,7 @@
             lblTenantID.AutoSize = true;
             lblTenantID.Font = new Font("Consolas", 9.75F);
             lblTenantID.ForeColor = Color.Salmon;
-            lblTenantID.Location = new Point(11, 229);
+            lblTenantID.Location = new Point(11, 192);
             lblTenantID.Name = "lblTenantID";
             lblTenantID.Size = new Size(70, 15);
             lblTenantID.TabIndex = 2;
@@ -91,22 +90,11 @@
             lblClientID.AutoSize = true;
             lblClientID.Font = new Font("Consolas", 9.75F);
             lblClientID.ForeColor = Color.Salmon;
-            lblClientID.Location = new Point(11, 275);
+            lblClientID.Location = new Point(11, 238);
             lblClientID.Name = "lblClientID";
             lblClientID.Size = new Size(70, 15);
             lblClientID.TabIndex = 3;
             lblClientID.Text = "Client ID";
-            // 
-            // lblClientSecret
-            // 
-            lblClientSecret.AutoSize = true;
-            lblClientSecret.Font = new Font("Consolas", 9.75F);
-            lblClientSecret.ForeColor = Color.Salmon;
-            lblClientSecret.Location = new Point(11, 319);
-            lblClientSecret.Name = "lblClientSecret";
-            lblClientSecret.Size = new Size(98, 15);
-            lblClientSecret.TabIndex = 4;
-            lblClientSecret.Text = "Client secret";
             // 
             // btnOpenFolder
             // 
@@ -143,7 +131,7 @@
             tBTenantID.BorderStyle = BorderStyle.FixedSingle;
             tBTenantID.Font = new Font("Consolas", 9.75F);
             tBTenantID.ForeColor = Color.Salmon;
-            tBTenantID.Location = new Point(139, 221);
+            tBTenantID.Location = new Point(139, 184);
             tBTenantID.Name = "tBTenantID";
             tBTenantID.Size = new Size(297, 23);
             tBTenantID.TabIndex = 11;
@@ -154,28 +142,17 @@
             tBClientID.BorderStyle = BorderStyle.FixedSingle;
             tBClientID.Font = new Font("Consolas", 9.75F);
             tBClientID.ForeColor = Color.Salmon;
-            tBClientID.Location = new Point(139, 267);
+            tBClientID.Location = new Point(139, 230);
             tBClientID.Name = "tBClientID";
             tBClientID.Size = new Size(297, 23);
             tBClientID.TabIndex = 12;
-            // 
-            // tBClientSecret
-            // 
-            tBClientSecret.BackColor = Color.FromArgb(46, 51, 73);
-            tBClientSecret.BorderStyle = BorderStyle.FixedSingle;
-            tBClientSecret.Font = new Font("Consolas", 9.75F);
-            tBClientSecret.ForeColor = Color.Salmon;
-            tBClientSecret.Location = new Point(139, 311);
-            tBClientSecret.Name = "tBClientSecret";
-            tBClientSecret.Size = new Size(297, 23);
-            tBClientSecret.TabIndex = 13;
             // 
             // cBSaveSettings
             // 
             cBSaveSettings.AutoSize = true;
             cBSaveSettings.Font = new Font("Consolas", 9.75F);
             cBSaveSettings.ForeColor = Color.Salmon;
-            cBSaveSettings.Location = new Point(323, 375);
+            cBSaveSettings.Location = new Point(319, 270);
             cBSaveSettings.Name = "cBSaveSettings";
             cBSaveSettings.Size = new Size(117, 19);
             cBSaveSettings.TabIndex = 14;
@@ -190,7 +167,7 @@
             cBTenant.FlatStyle = FlatStyle.Flat;
             cBTenant.ForeColor = Color.Salmon;
             cBTenant.FormattingEnabled = true;
-            cBTenant.Location = new Point(139, 120);
+            cBTenant.Location = new Point(139, 97);
             cBTenant.Name = "cBTenant";
             cBTenant.Size = new Size(121, 23);
             cBTenant.TabIndex = 15;
@@ -201,7 +178,7 @@
             lblSelectedTenant.AutoSize = true;
             lblSelectedTenant.Font = new Font("Consolas", 9.75F);
             lblSelectedTenant.ForeColor = Color.Salmon;
-            lblSelectedTenant.Location = new Point(11, 128);
+            lblSelectedTenant.Location = new Point(11, 105);
             lblSelectedTenant.Name = "lblSelectedTenant";
             lblSelectedTenant.Size = new Size(98, 15);
             lblSelectedTenant.TabIndex = 16;
@@ -224,7 +201,7 @@
             lblTenantFriendlyName.AutoSize = true;
             lblTenantFriendlyName.Font = new Font("Consolas", 9.75F);
             lblTenantFriendlyName.ForeColor = Color.Salmon;
-            lblTenantFriendlyName.Location = new Point(12, 185);
+            lblTenantFriendlyName.Location = new Point(12, 148);
             lblTenantFriendlyName.Name = "lblTenantFriendlyName";
             lblTenantFriendlyName.Size = new Size(84, 15);
             lblTenantFriendlyName.TabIndex = 18;
@@ -236,10 +213,23 @@
             tBTenantName.BorderStyle = BorderStyle.FixedSingle;
             tBTenantName.Font = new Font("Consolas", 9.75F);
             tBTenantName.ForeColor = Color.Salmon;
-            tBTenantName.Location = new Point(139, 177);
+            tBTenantName.Location = new Point(139, 140);
             tBTenantName.Name = "tBTenantName";
             tBTenantName.Size = new Size(297, 23);
             tBTenantName.TabIndex = 19;
+            // 
+            // cBOverride
+            // 
+            cBOverride.AutoSize = true;
+            cBOverride.Font = new Font("Consolas", 9.75F);
+            cBOverride.ForeColor = Color.Salmon;
+            cBOverride.Location = new Point(319, 295);
+            cBOverride.Name = "cBOverride";
+            cBOverride.Size = new Size(145, 19);
+            cBOverride.TabIndex = 20;
+            cBOverride.Text = "Override settings";
+            toolTip1.SetToolTip(cBOverride, "Save the current settings to a config file when logging in");
+            cBOverride.UseVisualStyleBackColor = true;
             // 
             // Settings
             // 
@@ -247,18 +237,17 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(484, 395);
+            Controls.Add(cBOverride);
             Controls.Add(tBTenantName);
             Controls.Add(lblTenantFriendlyName);
             Controls.Add(richTextBox1);
             Controls.Add(lblSelectedTenant);
             Controls.Add(cBTenant);
             Controls.Add(cBSaveSettings);
-            Controls.Add(tBClientSecret);
             Controls.Add(tBClientID);
             Controls.Add(tBTenantID);
             Controls.Add(button1);
             Controls.Add(btnOpenFolder);
-            Controls.Add(lblClientSecret);
             Controls.Add(lblClientID);
             Controls.Add(lblTenantID);
             Controls.Add(lblHeader);
@@ -279,12 +268,10 @@
         private Label lblHeader;
         private Label lblTenantID;
         private Label lblClientID;
-        private Label lblClientSecret;
         private Button btnOpenFolder;
         private Button button1;
         private TextBox tBTenantID;
         private TextBox tBClientID;
-        private TextBox tBClientSecret;
         private ToolTip toolTip1;
         private CheckBox cBSaveSettings;
         private ComboBox cBTenant;
@@ -292,5 +279,6 @@
         private RichTextBox richTextBox1;
         private Label lblTenantFriendlyName;
         private TextBox tBTenantName;
+        private CheckBox cBOverride;
     }
 }
