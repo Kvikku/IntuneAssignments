@@ -6,7 +6,6 @@ using static IntuneAssignments.Backend.FormUtilities;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using static IntuneAssignments.Backend.TokenProvider;
 using IntuneAssignments.Backend;
-using Windows.Devices.AllJoyn;
 
 
 

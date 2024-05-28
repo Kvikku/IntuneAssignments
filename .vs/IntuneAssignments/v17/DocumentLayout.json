@@ -3,7 +3,11 @@
   "WorkspaceRootPath": "C:\\Github\\IntuneAssignments\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|C:\\Github\\IntuneAssignments\\presentation\\settings\\settings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\intuneassignments.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:intuneassignments.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\presentation\\settings\\settings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:presentation\\settings\\settings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -22,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -37,21 +41,49 @@
               "Name": "ST:0:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "FormUtilities.cs",
-              "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Backend\\FormUtilities.cs",
-              "RelativeDocumentMoniker": "Backend\\FormUtilities.cs",
-              "ToolTip": "C:\\Github\\IntuneAssignments\\Backend\\FormUtilities.cs*",
-              "RelativeToolTip": "Backend\\FormUtilities.cs*",
-              "ViewState": "AQIAANQCAAAAAAAAAAAAwOcCAAAWAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-14T06:00:36.76Z",
+              "DocumentIndex": 0,
+              "Title": "IntuneAssignments",
+              "DocumentMoniker": "C:\\Github\\IntuneAssignments\\IntuneAssignments.csproj",
+              "RelativeDocumentMoniker": "IntuneAssignments.csproj",
+              "ToolTip": "C:\\Github\\IntuneAssignments\\IntuneAssignments.csproj",
+              "RelativeToolTip": "IntuneAssignments.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-05-27T06:26:01.043Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "FormUtilities.cs",
+              "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Backend\\FormUtilities.cs",
+              "RelativeDocumentMoniker": "Backend\\FormUtilities.cs",
+              "ToolTip": "C:\\Github\\IntuneAssignments\\Backend\\FormUtilities.cs",
+              "RelativeToolTip": "Backend\\FormUtilities.cs",
+              "ViewState": "AQIAADkCAAAAAAAAAAAYwOcCAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-14T06:00:36.76Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Settings.cs",
+              "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Presentation\\Settings\\Settings.cs",
+              "RelativeDocumentMoniker": "Presentation\\Settings\\Settings.cs",
+              "ToolTip": "C:\\Github\\IntuneAssignments\\Presentation\\Settings\\Settings.cs",
+              "RelativeToolTip": "Presentation\\Settings\\Settings.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAAAcAAAAgAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-13T08:16:44.048Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Settings.cs [Design]",
               "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Presentation\\Settings\\Settings.cs",
               "RelativeDocumentMoniker": "Presentation\\Settings\\Settings.cs",
@@ -60,19 +92,6 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-13T11:06:01.394Z",
               "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Settings.cs",
-              "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Presentation\\Settings\\Settings.cs",
-              "RelativeDocumentMoniker": "Presentation\\Settings\\Settings.cs",
-              "ToolTip": "C:\\Github\\IntuneAssignments\\Presentation\\Settings\\Settings.cs",
-              "RelativeToolTip": "Presentation\\Settings\\Settings.cs",
-              "ViewState": "AQIAAG4BAAAAAAAAAAApwIYBAAAXAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-13T08:16:44.048Z",
-              "EditorCaption": ""
             }
           ]
         }
