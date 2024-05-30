@@ -3,36 +3,28 @@
   "WorkspaceRootPath": "C:\\Github\\IntuneAssignments\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\presentation\\application\\application.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:presentation\\application\\application.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\presentation\\application\\app protection\\appprotection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:presentation\\application\\app protection\\appprotection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\presentation\\application\\appassignments\\viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:presentation\\application\\appassignments\\viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\presentation\\policy\\policy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:presentation\\policy\\policy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\presentation\\application\\application.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:presentation\\application\\application.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\presentation\\application\\application.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:presentation\\application\\application.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\presentation\\application\\appassignments\\viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:presentation\\application\\appassignments\\viewassignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\presentation\\application\\app protection\\appprotection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:presentation\\application\\app protection\\appprotection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\presentation\\application\\appassignments\\viewassignment.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:presentation\\application\\appassignments\\viewassignment.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\backend\\formutilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:backend\\formutilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|c:\\github\\intuneassignments\\presentation\\application\\app protection\\appprotection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{2416D879-25B6-4DDD-89FE-DAA40B0963C0}|IntuneAssignments.csproj|solutionrelative:presentation\\application\\app protection\\appprotection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -66,37 +58,24 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ViewAssignment.Designer.cs",
-              "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Presentation\\Application\\AppAssignments\\ViewAssignment.Designer.cs",
-              "RelativeDocumentMoniker": "Presentation\\Application\\AppAssignments\\ViewAssignment.Designer.cs",
-              "ToolTip": "C:\\Github\\IntuneAssignments\\Presentation\\Application\\AppAssignments\\ViewAssignment.Designer.cs",
-              "RelativeToolTip": "Presentation\\Application\\AppAssignments\\ViewAssignment.Designer.cs",
-              "ViewState": "AQIAAN0BAAAAAAAAAAASwPIBAAAkAAAA",
+              "DocumentIndex": 1,
+              "Title": "Policy.cs [Design]",
+              "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Presentation\\Policy\\Policy.cs",
+              "RelativeDocumentMoniker": "Presentation\\Policy\\Policy.cs",
+              "ToolTip": "C:\\Github\\IntuneAssignments\\Presentation\\Policy\\Policy.cs [Design]",
+              "RelativeToolTip": "Presentation\\Policy\\Policy.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-30T10:55:58.094Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Application.cs [Design]",
-              "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Presentation\\Application\\Application.cs",
-              "RelativeDocumentMoniker": "Presentation\\Application\\Application.cs",
-              "ToolTip": "C:\\Github\\IntuneAssignments\\Presentation\\Application\\Application.cs [Design]",
-              "RelativeToolTip": "Presentation\\Application\\Application.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-30T10:45:38.212Z",
+              "WhenOpened": "2024-05-30T11:26:47.447Z",
               "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Application.cs",
               "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Presentation\\Application\\Application.cs",
               "RelativeDocumentMoniker": "Presentation\\Application\\Application.cs",
-              "ToolTip": "C:\\Github\\IntuneAssignments\\Presentation\\Application\\Application.cs",
-              "RelativeToolTip": "Presentation\\Application\\Application.cs",
+              "ToolTip": "C:\\Github\\IntuneAssignments\\Presentation\\Application\\Application.cs*",
+              "RelativeToolTip": "Presentation\\Application\\Application.cs*",
               "ViewState": "AQIAAAMAAAAAAAAAAAAcwIAAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-30T10:42:34.405Z",
@@ -108,8 +87,8 @@
               "Title": "AppProtection.cs",
               "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Presentation\\Application\\App protection\\AppProtection.cs",
               "RelativeDocumentMoniker": "Presentation\\Application\\App protection\\AppProtection.cs",
-              "ToolTip": "C:\\Github\\IntuneAssignments\\Presentation\\Application\\App protection\\AppProtection.cs",
-              "RelativeToolTip": "Presentation\\Application\\App protection\\AppProtection.cs",
+              "ToolTip": "C:\\Github\\IntuneAssignments\\Presentation\\Application\\App protection\\AppProtection.cs*",
+              "RelativeToolTip": "Presentation\\Application\\App protection\\AppProtection.cs*",
               "ViewState": "AQIAAAwAAAAAAAAAAAAAAC0AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-30T10:37:28.346Z",
@@ -117,44 +96,31 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ViewAssignment.cs",
-              "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Presentation\\Application\\AppAssignments\\ViewAssignment.cs",
-              "RelativeDocumentMoniker": "Presentation\\Application\\AppAssignments\\ViewAssignment.cs",
-              "ToolTip": "C:\\Github\\IntuneAssignments\\Presentation\\Application\\AppAssignments\\ViewAssignment.cs",
-              "RelativeToolTip": "Presentation\\Application\\AppAssignments\\ViewAssignment.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAAPIDAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-30T10:37:19.096Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ViewAssignment.cs [Design]",
-              "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Presentation\\Application\\AppAssignments\\ViewAssignment.cs",
-              "RelativeDocumentMoniker": "Presentation\\Application\\AppAssignments\\ViewAssignment.cs",
-              "ToolTip": "C:\\Github\\IntuneAssignments\\Presentation\\Application\\AppAssignments\\ViewAssignment.cs [Design]",
-              "RelativeToolTip": "Presentation\\Application\\AppAssignments\\ViewAssignment.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-30T10:34:58.191Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
               "Title": "AppProtection.cs [Design]",
               "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Presentation\\Application\\App protection\\AppProtection.cs",
               "RelativeDocumentMoniker": "Presentation\\Application\\App protection\\AppProtection.cs",
-              "ToolTip": "C:\\Github\\IntuneAssignments\\Presentation\\Application\\App protection\\AppProtection.cs [Design]",
-              "RelativeToolTip": "Presentation\\Application\\App protection\\AppProtection.cs [Design]",
+              "ToolTip": "C:\\Github\\IntuneAssignments\\Presentation\\Application\\App protection\\AppProtection.cs [Design]*",
+              "RelativeToolTip": "Presentation\\Application\\App protection\\AppProtection.cs [Design]*",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-30T10:34:52.985Z",
               "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
+              "Title": "Application.cs [Design]",
+              "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Presentation\\Application\\Application.cs",
+              "RelativeDocumentMoniker": "Presentation\\Application\\Application.cs",
+              "ToolTip": "C:\\Github\\IntuneAssignments\\Presentation\\Application\\Application.cs [Design]*",
+              "RelativeToolTip": "Presentation\\Application\\Application.cs [Design]*",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-30T11:19:55.517Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "FormUtilities.cs",
               "DocumentMoniker": "C:\\Github\\IntuneAssignments\\Backend\\FormUtilities.cs",
               "RelativeDocumentMoniker": "Backend\\FormUtilities.cs",
