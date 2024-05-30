@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             pbHome = new PictureBox();
             pnlAppProtectionPolicies = new Panel();
             dtgDisplayAppProtectionPolicies = new DataGridView();
@@ -55,35 +55,35 @@
             txtboxSearchGroup = new TextBox();
             btnListAllGroups = new Button();
             pnlSummary = new Panel();
+            panel3 = new Panel();
+            rtbDeploymentSummary = new RichTextBox();
+            panel2 = new Panel();
+            rtbSelectedGroups = new RichTextBox();
+            panel1 = new Panel();
+            rtbSelectedPolicies = new RichTextBox();
             btn_ResetProgressBar = new Button();
             btnDeployDescription = new Button();
-            rtbDeploymentSummary = new RichTextBox();
-            cbLookUpAssignment = new CheckBox();
             pBarDeployProgress = new ProgressBar();
-            rtbSelectedGroups = new RichTextBox();
-            rtbSelectedPolicies = new RichTextBox();
-            pnlAssignedTo = new Panel();
-            lblAssignedTo = new Label();
-            lblAssignmentPreview = new Label();
-            rtbAssignmentPreview = new RichTextBox();
             lblSelectedGroups = new Label();
             btnDeployPolicyAssignment = new Button();
             btnResetDeployment = new Button();
             lblSelectedPolicies = new Label();
             btnPrepareDeployment = new Button();
-            panel1 = new Panel();
-            panel2 = new Panel();
-            panel3 = new Panel();
+            cbLookUpAssignment = new CheckBox();
+            pnlAssignedTo = new Panel();
+            lblAssignedTo = new Label();
+            lblAssignmentPreview = new Label();
+            rtbAssignmentPreview = new RichTextBox();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlAppProtectionPolicies.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayAppProtectionPolicies).BeginInit();
             pnlSearchGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).BeginInit();
             pnlSummary.SuspendLayout();
-            pnlAssignedTo.SuspendLayout();
-            panel1.SuspendLayout();
-            panel2.SuspendLayout();
             panel3.SuspendLayout();
+            panel2.SuspendLayout();
+            panel1.SuspendLayout();
+            pnlAssignedTo.SuspendLayout();
             SuspendLayout();
             // 
             // pbHome
@@ -119,24 +119,24 @@
             dtgDisplayAppProtectionPolicies.BackgroundColor = Color.FromArgb(46, 51, 73);
             dtgDisplayAppProtectionPolicies.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dtgDisplayAppProtectionPolicies.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = Color.Salmon;
-            dataGridViewCellStyle13.Font = new Font("Consolas", 12F);
-            dataGridViewCellStyle13.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle13.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle13.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = DataGridViewTriState.True;
-            dtgDisplayAppProtectionPolicies.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.Salmon;
+            dataGridViewCellStyle1.Font = new Font("Consolas", 12F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dtgDisplayAppProtectionPolicies.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dtgDisplayAppProtectionPolicies.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgDisplayAppProtectionPolicies.Columns.AddRange(new DataGridViewColumn[] { AppName, Platform, AppID });
-            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle14.BackColor = Color.FromArgb(46, 51, 73);
-            dataGridViewCellStyle14.Font = new Font("Segoe UI", 9.75F);
-            dataGridViewCellStyle14.ForeColor = Color.Salmon;
-            dataGridViewCellStyle14.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = DataGridViewTriState.False;
-            dtgDisplayAppProtectionPolicies.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(46, 51, 73);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.75F);
+            dataGridViewCellStyle2.ForeColor = Color.Salmon;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dtgDisplayAppProtectionPolicies.DefaultCellStyle = dataGridViewCellStyle2;
             dtgDisplayAppProtectionPolicies.EnableHeadersVisualStyles = false;
             dtgDisplayAppProtectionPolicies.GridColor = Color.Salmon;
             dtgDisplayAppProtectionPolicies.Location = new Point(20, 136);
@@ -190,7 +190,7 @@
             cBAppType.FlatStyle = FlatStyle.Popup;
             cBAppType.ForeColor = Color.Salmon;
             cBAppType.FormattingEnabled = true;
-            cBAppType.Items.AddRange(new object[] { "iOS", "Android", "Windows", "All platforms" });
+            cBAppType.Items.AddRange(new object[] { "All platforms", "iOS", "Android", "Windows" });
             cBAppType.Location = new Point(20, 69);
             cBAppType.Name = "cBAppType";
             cBAppType.Size = new Size(138, 23);
@@ -231,6 +231,7 @@
             btnListAllPolicies.TabIndex = 20;
             btnListAllPolicies.Text = "List all apps";
             btnListAllPolicies.UseVisualStyleBackColor = false;
+            btnListAllPolicies.Click += btnListAllPolicies_Click;
             // 
             // lblHeaderAppProtectionForm
             // 
@@ -275,24 +276,24 @@
             dtgDisplayGroup.BackgroundColor = Color.FromArgb(46, 51, 73);
             dtgDisplayGroup.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dtgDisplayGroup.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle15.BackColor = Color.Salmon;
-            dataGridViewCellStyle15.Font = new Font("Consolas", 12F);
-            dataGridViewCellStyle15.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle15.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle15.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle15.WrapMode = DataGridViewTriState.True;
-            dtgDisplayGroup.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.Salmon;
+            dataGridViewCellStyle3.Font = new Font("Consolas", 12F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dtgDisplayGroup.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dtgDisplayGroup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgDisplayGroup.Columns.AddRange(new DataGridViewColumn[] { GroupName, GroupMemberCount, GroupType, GroupID });
-            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = Color.FromArgb(46, 51, 73);
-            dataGridViewCellStyle16.Font = new Font("Segoe UI", 9.75F);
-            dataGridViewCellStyle16.ForeColor = Color.Salmon;
-            dataGridViewCellStyle16.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle16.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle16.WrapMode = DataGridViewTriState.False;
-            dtgDisplayGroup.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(46, 51, 73);
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.75F);
+            dataGridViewCellStyle4.ForeColor = Color.Salmon;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dtgDisplayGroup.DefaultCellStyle = dataGridViewCellStyle4;
             dtgDisplayGroup.EnableHeadersVisualStyles = false;
             dtgDisplayGroup.Location = new Point(8, 135);
             dtgDisplayGroup.Name = "dtgDisplayGroup";
@@ -390,6 +391,69 @@
             pnlSummary.Size = new Size(902, 384);
             pnlSummary.TabIndex = 23;
             // 
+            // panel3
+            // 
+            panel3.BorderStyle = BorderStyle.FixedSingle;
+            panel3.Controls.Add(rtbDeploymentSummary);
+            panel3.Location = new Point(505, 124);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(384, 255);
+            panel3.TabIndex = 24;
+            // 
+            // rtbDeploymentSummary
+            // 
+            rtbDeploymentSummary.BackColor = Color.FromArgb(46, 51, 73);
+            rtbDeploymentSummary.BorderStyle = BorderStyle.None;
+            rtbDeploymentSummary.ForeColor = Color.Salmon;
+            rtbDeploymentSummary.Location = new Point(3, 3);
+            rtbDeploymentSummary.Name = "rtbDeploymentSummary";
+            rtbDeploymentSummary.Size = new Size(376, 243);
+            rtbDeploymentSummary.TabIndex = 9;
+            rtbDeploymentSummary.Text = "";
+            rtbDeploymentSummary.WordWrap = false;
+            // 
+            // panel2
+            // 
+            panel2.BorderStyle = BorderStyle.FixedSingle;
+            panel2.Controls.Add(rtbSelectedGroups);
+            panel2.Location = new Point(281, 124);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(190, 255);
+            panel2.TabIndex = 24;
+            // 
+            // rtbSelectedGroups
+            // 
+            rtbSelectedGroups.BackColor = Color.FromArgb(46, 51, 73);
+            rtbSelectedGroups.BorderStyle = BorderStyle.None;
+            rtbSelectedGroups.ForeColor = Color.Salmon;
+            rtbSelectedGroups.Location = new Point(3, 3);
+            rtbSelectedGroups.Name = "rtbSelectedGroups";
+            rtbSelectedGroups.Size = new Size(182, 232);
+            rtbSelectedGroups.TabIndex = 6;
+            rtbSelectedGroups.Text = "";
+            rtbSelectedGroups.WordWrap = false;
+            // 
+            // panel1
+            // 
+            panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(rtbSelectedPolicies);
+            panel1.Location = new Point(9, 124);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(266, 255);
+            panel1.TabIndex = 24;
+            // 
+            // rtbSelectedPolicies
+            // 
+            rtbSelectedPolicies.BackColor = Color.FromArgb(46, 51, 73);
+            rtbSelectedPolicies.BorderStyle = BorderStyle.None;
+            rtbSelectedPolicies.ForeColor = Color.Salmon;
+            rtbSelectedPolicies.Location = new Point(3, 3);
+            rtbSelectedPolicies.Name = "rtbSelectedPolicies";
+            rtbSelectedPolicies.Size = new Size(251, 247);
+            rtbSelectedPolicies.TabIndex = 5;
+            rtbSelectedPolicies.Text = "";
+            rtbSelectedPolicies.WordWrap = false;
+            // 
             // btn_ResetProgressBar
             // 
             btn_ResetProgressBar.BackColor = Color.Salmon;
@@ -414,103 +478,12 @@
             btnDeployDescription.Text = "Add description";
             btnDeployDescription.UseVisualStyleBackColor = false;
             // 
-            // rtbDeploymentSummary
-            // 
-            rtbDeploymentSummary.BackColor = Color.FromArgb(46, 51, 73);
-            rtbDeploymentSummary.BorderStyle = BorderStyle.None;
-            rtbDeploymentSummary.ForeColor = Color.Salmon;
-            rtbDeploymentSummary.Location = new Point(3, 3);
-            rtbDeploymentSummary.Name = "rtbDeploymentSummary";
-            rtbDeploymentSummary.Size = new Size(376, 243);
-            rtbDeploymentSummary.TabIndex = 9;
-            rtbDeploymentSummary.Text = "";
-            rtbDeploymentSummary.WordWrap = false;
-            // 
-            // cbLookUpAssignment
-            // 
-            cbLookUpAssignment.AutoSize = true;
-            cbLookUpAssignment.ForeColor = Color.Salmon;
-            cbLookUpAssignment.Location = new Point(1005, 491);
-            cbLookUpAssignment.Name = "cbLookUpAssignment";
-            cbLookUpAssignment.Size = new Size(212, 19);
-            cbLookUpAssignment.TabIndex = 8;
-            cbLookUpAssignment.Text = "Look up policy assignment on click";
-            cbLookUpAssignment.UseVisualStyleBackColor = true;
-            // 
             // pBarDeployProgress
             // 
             pBarDeployProgress.Location = new Point(505, 50);
             pBarDeployProgress.Name = "pBarDeployProgress";
             pBarDeployProgress.Size = new Size(212, 39);
             pBarDeployProgress.TabIndex = 8;
-            // 
-            // rtbSelectedGroups
-            // 
-            rtbSelectedGroups.BackColor = Color.FromArgb(46, 51, 73);
-            rtbSelectedGroups.BorderStyle = BorderStyle.None;
-            rtbSelectedGroups.ForeColor = Color.Salmon;
-            rtbSelectedGroups.Location = new Point(3, 3);
-            rtbSelectedGroups.Name = "rtbSelectedGroups";
-            rtbSelectedGroups.Size = new Size(182, 232);
-            rtbSelectedGroups.TabIndex = 6;
-            rtbSelectedGroups.Text = "";
-            rtbSelectedGroups.WordWrap = false;
-            // 
-            // rtbSelectedPolicies
-            // 
-            rtbSelectedPolicies.BackColor = Color.FromArgb(46, 51, 73);
-            rtbSelectedPolicies.BorderStyle = BorderStyle.None;
-            rtbSelectedPolicies.ForeColor = Color.Salmon;
-            rtbSelectedPolicies.Location = new Point(3, 3);
-            rtbSelectedPolicies.Name = "rtbSelectedPolicies";
-            rtbSelectedPolicies.Size = new Size(251, 247);
-            rtbSelectedPolicies.TabIndex = 5;
-            rtbSelectedPolicies.Text = "";
-            rtbSelectedPolicies.WordWrap = false;
-            // 
-            // pnlAssignedTo
-            // 
-            pnlAssignedTo.BorderStyle = BorderStyle.FixedSingle;
-            pnlAssignedTo.Controls.Add(lblAssignedTo);
-            pnlAssignedTo.Controls.Add(lblAssignmentPreview);
-            pnlAssignedTo.Controls.Add(rtbAssignmentPreview);
-            pnlAssignedTo.Location = new Point(1005, 516);
-            pnlAssignedTo.Name = "pnlAssignedTo";
-            pnlAssignedTo.Size = new Size(258, 359);
-            pnlAssignedTo.TabIndex = 3;
-            // 
-            // lblAssignedTo
-            // 
-            lblAssignedTo.AutoSize = true;
-            lblAssignedTo.Font = new Font("Segoe UI", 11.25F);
-            lblAssignedTo.ForeColor = Color.Salmon;
-            lblAssignedTo.Location = new Point(5, 38);
-            lblAssignedTo.Name = "lblAssignedTo";
-            lblAssignedTo.Size = new Size(99, 20);
-            lblAssignedTo.TabIndex = 4;
-            lblAssignedTo.Text = "Is assigned to";
-            // 
-            // lblAssignmentPreview
-            // 
-            lblAssignmentPreview.AutoSize = true;
-            lblAssignmentPreview.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            lblAssignmentPreview.ForeColor = Color.Salmon;
-            lblAssignmentPreview.Location = new Point(3, 10);
-            lblAssignmentPreview.Name = "lblAssignmentPreview";
-            lblAssignmentPreview.Size = new Size(101, 20);
-            lblAssignmentPreview.TabIndex = 3;
-            lblAssignmentPreview.Text = "NAMEOFAPP";
-            // 
-            // rtbAssignmentPreview
-            // 
-            rtbAssignmentPreview.BackColor = Color.FromArgb(46, 51, 73);
-            rtbAssignmentPreview.BorderStyle = BorderStyle.None;
-            rtbAssignmentPreview.ForeColor = Color.Salmon;
-            rtbAssignmentPreview.Location = new Point(10, 78);
-            rtbAssignmentPreview.Name = "rtbAssignmentPreview";
-            rtbAssignmentPreview.Size = new Size(228, 256);
-            rtbAssignmentPreview.TabIndex = 2;
-            rtbAssignmentPreview.Text = "";
             // 
             // lblSelectedGroups
             // 
@@ -570,32 +543,60 @@
             btnPrepareDeployment.Text = "Prepare deployment";
             btnPrepareDeployment.UseVisualStyleBackColor = false;
             // 
-            // panel1
+            // cbLookUpAssignment
             // 
-            panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Controls.Add(rtbSelectedPolicies);
-            panel1.Location = new Point(9, 124);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(266, 255);
-            panel1.TabIndex = 24;
+            cbLookUpAssignment.AutoSize = true;
+            cbLookUpAssignment.ForeColor = Color.Salmon;
+            cbLookUpAssignment.Location = new Point(1005, 491);
+            cbLookUpAssignment.Name = "cbLookUpAssignment";
+            cbLookUpAssignment.Size = new Size(212, 19);
+            cbLookUpAssignment.TabIndex = 8;
+            cbLookUpAssignment.Text = "Look up policy assignment on click";
+            cbLookUpAssignment.UseVisualStyleBackColor = true;
             // 
-            // panel2
+            // pnlAssignedTo
             // 
-            panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(rtbSelectedGroups);
-            panel2.Location = new Point(281, 124);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(190, 255);
-            panel2.TabIndex = 24;
+            pnlAssignedTo.BorderStyle = BorderStyle.FixedSingle;
+            pnlAssignedTo.Controls.Add(lblAssignedTo);
+            pnlAssignedTo.Controls.Add(lblAssignmentPreview);
+            pnlAssignedTo.Controls.Add(rtbAssignmentPreview);
+            pnlAssignedTo.Location = new Point(1005, 516);
+            pnlAssignedTo.Name = "pnlAssignedTo";
+            pnlAssignedTo.Size = new Size(258, 359);
+            pnlAssignedTo.TabIndex = 3;
             // 
-            // panel3
+            // lblAssignedTo
             // 
-            panel3.BorderStyle = BorderStyle.FixedSingle;
-            panel3.Controls.Add(rtbDeploymentSummary);
-            panel3.Location = new Point(505, 124);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(384, 255);
-            panel3.TabIndex = 24;
+            lblAssignedTo.AutoSize = true;
+            lblAssignedTo.Font = new Font("Segoe UI", 11.25F);
+            lblAssignedTo.ForeColor = Color.Salmon;
+            lblAssignedTo.Location = new Point(5, 38);
+            lblAssignedTo.Name = "lblAssignedTo";
+            lblAssignedTo.Size = new Size(99, 20);
+            lblAssignedTo.TabIndex = 4;
+            lblAssignedTo.Text = "Is assigned to";
+            // 
+            // lblAssignmentPreview
+            // 
+            lblAssignmentPreview.AutoSize = true;
+            lblAssignmentPreview.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            lblAssignmentPreview.ForeColor = Color.Salmon;
+            lblAssignmentPreview.Location = new Point(3, 10);
+            lblAssignmentPreview.Name = "lblAssignmentPreview";
+            lblAssignmentPreview.Size = new Size(101, 20);
+            lblAssignmentPreview.TabIndex = 3;
+            lblAssignmentPreview.Text = "NAMEOFAPP";
+            // 
+            // rtbAssignmentPreview
+            // 
+            rtbAssignmentPreview.BackColor = Color.FromArgb(46, 51, 73);
+            rtbAssignmentPreview.BorderStyle = BorderStyle.None;
+            rtbAssignmentPreview.ForeColor = Color.Salmon;
+            rtbAssignmentPreview.Location = new Point(10, 78);
+            rtbAssignmentPreview.Name = "rtbAssignmentPreview";
+            rtbAssignmentPreview.Size = new Size(228, 256);
+            rtbAssignmentPreview.TabIndex = 2;
+            rtbAssignmentPreview.Text = "";
             // 
             // AppProtection
             // 
@@ -622,11 +623,11 @@
             ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).EndInit();
             pnlSummary.ResumeLayout(false);
             pnlSummary.PerformLayout();
+            panel3.ResumeLayout(false);
+            panel2.ResumeLayout(false);
+            panel1.ResumeLayout(false);
             pnlAssignedTo.ResumeLayout(false);
             pnlAssignedTo.PerformLayout();
-            panel1.ResumeLayout(false);
-            panel2.ResumeLayout(false);
-            panel3.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }

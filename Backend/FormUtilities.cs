@@ -781,6 +781,28 @@ namespace IntuneAssignments.Backend
             return iOSAppProtectionPolicies;
 
         }
+
+        public static async Task<List<AndroidManagedAppProtection>> GetAllAndroidManagedAppProtectionPolicies()
+        {
+            // Method to get the Android managed app protection policy
+
+            // Create a new instance of the GraphServiceClient class
+            var graphClient = CreateGraphServiceClient();
+
+            var result = await graphClient.DeviceAppManagement.AndroidManagedAppProtections.GetAsync((RequestConfiguration) =>
+            {
+                RequestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
+            });
+
+            // Create a list to store the Android app protection policies in
+
+            List<AndroidManagedAppProtection> androidAppProtectionPolicies = new List<AndroidManagedAppProtection>();
+
+            // Add to list
+            androidAppProtectionPolicies.AddRange(result.Value);
+
+            return androidAppProtectionPolicies;
+        }
     }
 
 
