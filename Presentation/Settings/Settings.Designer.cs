@@ -40,12 +40,12 @@
             tBClientID = new TextBox();
             toolTip1 = new ToolTip(components);
             cBSaveSettings = new CheckBox();
+            cBOverride = new CheckBox();
             cBTenant = new ComboBox();
             lblSelectedTenant = new Label();
             richTextBox1 = new RichTextBox();
             lblTenantFriendlyName = new Label();
             tBTenantName = new TextBox();
-            cBOverride = new CheckBox();
             SuspendLayout();
             // 
             // btnOK
@@ -159,6 +159,20 @@
             cBSaveSettings.Text = "Save settings";
             toolTip1.SetToolTip(cBSaveSettings, "Save the current settings to a config file when logging in");
             cBSaveSettings.UseVisualStyleBackColor = true;
+            cBSaveSettings.Click += cBSaveSettings_Click;
+            // 
+            // cBOverride
+            // 
+            cBOverride.AutoSize = true;
+            cBOverride.Font = new Font("Consolas", 9.75F);
+            cBOverride.ForeColor = Color.Salmon;
+            cBOverride.Location = new Point(319, 295);
+            cBOverride.Name = "cBOverride";
+            cBOverride.Size = new Size(145, 19);
+            cBOverride.TabIndex = 20;
+            cBOverride.Text = "Override settings";
+            toolTip1.SetToolTip(cBOverride, "Override the current info in the config file. Leave unchecked if you want to create a new entry");
+            cBOverride.UseVisualStyleBackColor = true;
             // 
             // cBTenant
             // 
@@ -217,19 +231,6 @@
             tBTenantName.Name = "tBTenantName";
             tBTenantName.Size = new Size(297, 23);
             tBTenantName.TabIndex = 19;
-            // 
-            // cBOverride
-            // 
-            cBOverride.AutoSize = true;
-            cBOverride.Font = new Font("Consolas", 9.75F);
-            cBOverride.ForeColor = Color.Salmon;
-            cBOverride.Location = new Point(319, 295);
-            cBOverride.Name = "cBOverride";
-            cBOverride.Size = new Size(145, 19);
-            cBOverride.TabIndex = 20;
-            cBOverride.Text = "Override settings";
-            toolTip1.SetToolTip(cBOverride, "Save the current settings to a config file when logging in");
-            cBOverride.UseVisualStyleBackColor = true;
             // 
             // Settings
             // 

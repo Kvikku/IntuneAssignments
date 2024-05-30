@@ -16,7 +16,7 @@ namespace IntuneAssignments
 
         private Application form1;
 
-        
+
 
 
         public Settings(Application form1)
@@ -37,18 +37,18 @@ namespace IntuneAssignments
 
             InitializeComponent();
             //LoadData();
-            
+
         }
 
         private JObject json;
-        
+
         private void LoadData()
         {
             try
             {
                 string filepath = appSettingsFile;
                 string jsonstring = System.IO.File.ReadAllText(filepath);
-                
+
                 //MessageBox.Show(jsonstring);
 
                 json = JObject.Parse(jsonstring);
@@ -86,7 +86,7 @@ namespace IntuneAssignments
 
                 // Show the ComboBox with the selected item
                 Console.WriteLine("Selected item: " + cBTenant.SelectedItem.ToString());
-            
+
                 static int FindIndexOfNonExample(ComboBox comboBox)
                 {
                     for (int i = 0; i < comboBox.Items.Count; i++)
@@ -122,7 +122,7 @@ namespace IntuneAssignments
 
         }
 
-       
+
 
         private void cBTenant_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -159,9 +159,11 @@ namespace IntuneAssignments
         {
 
             LoadData();
-  
+
             WriteToLog("Attempting to load authentication info from appsettings.json");
 
+            // Hide the override settings groupbox by default
+            cBOverride.Hide();
 
 
             // Retrieve data from appsettings.json and populate labels
@@ -234,7 +236,7 @@ namespace IntuneAssignments
             }
 
 
-            if(json.ContainsKey(tenantName))
+            if (json.ContainsKey(tenantName))
             {
                 json[tenantName]["TenantId"] = tenantId;
                 json[tenantName]["ClientId"] = clientId;
@@ -451,6 +453,19 @@ namespace IntuneAssignments
 
         }
 
-
+        private void cBSaveSettings_Click(object sender, EventArgs e)
+        {
+            // check if the combobox is checked
+            if (cBSaveSettings.Checked == true)
+            {
+                // Show the override settings groupbox
+                cBOverride.Show();
+            }
+            else
+            {
+                // Hide the override settings groupbox
+                cBOverride.Hide();
+            }
+        }
     }
 }
