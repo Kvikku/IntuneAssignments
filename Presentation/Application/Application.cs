@@ -7,6 +7,7 @@ using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using static IntuneAssignments.Backend.FormUtilities;
 using System.Windows.Forms;
 using IntuneAssignments.Backend;
+using IntuneAssignments.Presentation.Application.App_protection;
 
 
 namespace IntuneAssignments
@@ -117,7 +118,15 @@ namespace IntuneAssignments
 
 
 
+        private void showAppProtection()
+        {
+            // Switches to App Protection form, and keeps the location of this form
 
+            Form1Location = Location;
+            this.Hide();
+            AppProtection appProtection = new AppProtection(this);
+            appProtection.Show();
+        }
 
         private void showViewAssignment()
         {
@@ -1322,7 +1331,7 @@ namespace IntuneAssignments
                     {
                         rtbDeploymentSummary.SelectionColor = Color.Yellow;
                         rtbDeploymentSummary.AppendText("Description property for store apps is read only. Skipping " + app + "\n");
-                        
+
                         WriteToLog("Description property for store apps is read only. Skipping " + app);
                         progressBar1.Value++;
 
@@ -1353,7 +1362,7 @@ namespace IntuneAssignments
 
 
 
-                    
+
 
                 }
 
@@ -2230,7 +2239,7 @@ namespace IntuneAssignments
                         clbAppAssignments.Items.Add(selectedRow.Cells[0].Value.ToString());
 
                     }
-                    
+
                 }
 
             }
@@ -2247,7 +2256,7 @@ namespace IntuneAssignments
                 {
                     clbAppAssignments.Items.Add(row.Cells[0].Value.ToString());
                 }
-                
+
             }
         }
 
@@ -2314,6 +2323,11 @@ namespace IntuneAssignments
         {
             // This method removes all items from the checked list box
             clbGroupAssignment.Items.Clear();
+        }
+
+        private void pBAppProtetion_Click(object sender, EventArgs e)
+        {
+            showAppProtection();
         }
     }
 }

@@ -4,13 +4,16 @@
     <Compile Update="Presentation\About\About.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Presentation\Application\App protection\AppProtection.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Presentation\Application\Application.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Presentation\HomePage\HomePage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Presentation\PolicyAssignments\ManagePolicyAssignments.cs">
+    <Compile Update="Presentation\Policy\PolicyAssignments\ManagePolicyAssignments.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Presentation\Policy\Policy.cs">
@@ -19,7 +22,7 @@
     <Compile Update="Presentation\Settings\Settings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Presentation\AppAssignments\ViewAssignment.cs">
+    <Compile Update="Presentation\Application\AppAssignments\ViewAssignment.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Presentation\WhatsNew\WhatsNew.cs">

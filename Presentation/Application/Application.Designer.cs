@@ -101,6 +101,7 @@
             lblSummarizeApps = new Label();
             sideBarTimer = new System.Windows.Forms.Timer(components);
             menuPanel = new Panel();
+            pBAppProtetion = new PictureBox();
             pictureBox3 = new PictureBox();
             mainFormToolTip = new ToolTip(components);
             lblHeaderAppForm = new Label();
@@ -120,6 +121,7 @@
             pnlIntent.SuspendLayout();
             panelSummary.SuspendLayout();
             menuPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pBAppProtetion).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             SuspendLayout();
             // 
@@ -925,6 +927,7 @@
             // menuPanel
             // 
             menuPanel.BorderStyle = BorderStyle.FixedSingle;
+            menuPanel.Controls.Add(pBAppProtetion);
             menuPanel.Controls.Add(pictureBox3);
             menuPanel.Controls.Add(pictureBox1);
             menuPanel.Controls.Add(pbView);
@@ -936,11 +939,24 @@
             menuPanel.Name = "menuPanel";
             menuPanel.Size = new Size(102, 893);
             menuPanel.TabIndex = 18;
+            mainFormToolTip.SetToolTip(menuPanel, "App protection (MAM)");
+            // 
+            // pBAppProtetion
+            // 
+            pBAppProtetion.Image = Properties.Resources.shield;
+            pBAppProtetion.Location = new Point(11, 154);
+            pBAppProtetion.Name = "pBAppProtetion";
+            pBAppProtetion.Size = new Size(64, 64);
+            pBAppProtetion.SizeMode = PictureBoxSizeMode.StretchImage;
+            pBAppProtetion.TabIndex = 21;
+            pBAppProtetion.TabStop = false;
+            mainFormToolTip.SetToolTip(pBAppProtetion, "Application protection (MAM)");
+            pBAppProtetion.Click += pBAppProtetion_Click;
             // 
             // pictureBox3
             // 
             pictureBox3.Image = Properties.Resources._121047815016345278514481_48;
-            pictureBox3.Location = new Point(11, 154);
+            pictureBox3.Location = new Point(11, 224);
             pictureBox3.Name = "pictureBox3";
             pictureBox3.Size = new Size(64, 64);
             pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -961,7 +977,7 @@
             lblHeaderAppForm.Text = "Deploy applications";
             mainFormToolTip.SetToolTip(lblHeaderAppForm, "Applications");
             // 
-            // Form1
+            // Application
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -976,7 +992,7 @@
             FormBorderStyle = FormBorderStyle.Fixed3D;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
-            Name = "Form1";
+            Name = "Application";
             StartPosition = FormStartPosition.CenterScreen;
             Load += Form1_Load;
             panelTenantInfo.ResumeLayout(false);
@@ -1000,6 +1016,7 @@
             panelSummary.ResumeLayout(false);
             panelSummary.PerformLayout();
             menuPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pBAppProtetion).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -1088,5 +1105,6 @@
         private ContextMenuStrip cmsRightClickGroupAssignment;
         private ToolStripMenuItem cmsRemoveSelectedGroupAssignments;
         private ToolStripMenuItem cmsRemoveAllGroupAssignments;
+        private PictureBox pBAppProtetion;
     }
 }

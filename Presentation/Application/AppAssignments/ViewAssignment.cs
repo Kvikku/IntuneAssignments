@@ -1009,6 +1009,5 @@ namespace IntuneAssignments
 
         }
 
-
     }
 }

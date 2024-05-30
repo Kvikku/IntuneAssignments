@@ -1,6 +1,7 @@
 ﻿using Microsoft.Graph.Beta.Models;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using static IntuneAssignments.Backend.GlobalVariables;
+using Microsoft.Kiota.Abstractions;
 
 namespace IntuneAssignments.Backend
 {
@@ -754,5 +755,34 @@ namespace IntuneAssignments.Backend
                 return false;
             }
         }
+
+
+
+        public static async Task<List<IosManagedAppProtection>> GetAlliOSAppProtectionPolicies()
+        {
+            // Method to get the iOS managed app protection policy
+            
+            // Create a new instance of the GraphServiceClient class
+            var graphClient = CreateGraphServiceClient();
+
+            var result = await graphClient.DeviceAppManagement.IosManagedAppProtections.GetAsync((RequestConfiguration) =>
+            {
+                RequestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
+            });
+
+            // Create a list to store the iOS app protection policies in
+
+            List<IosManagedAppProtection> iOSAppProtectionPolicies = new List<IosManagedAppProtection>();
+
+            // Add to list
+            iOSAppProtectionPolicies.AddRange(result.Value);
+
+            // Return the list
+            return iOSAppProtectionPolicies;
+
+        }
     }
+
+
+
 }
