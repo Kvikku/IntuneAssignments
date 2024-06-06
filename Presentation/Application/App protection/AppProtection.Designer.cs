@@ -371,6 +371,7 @@
             btnListAllGroups.TabIndex = 13;
             btnListAllGroups.Text = "List all groups";
             btnListAllGroups.UseVisualStyleBackColor = false;
+            btnListAllGroups.Click += btnListAllGroups_Click;
             // 
             // pnlSummary
             // 
@@ -542,6 +543,7 @@
             btnPrepareDeployment.TabIndex = 6;
             btnPrepareDeployment.Text = "Prepare deployment";
             btnPrepareDeployment.UseVisualStyleBackColor = false;
+            btnPrepareDeployment.Click += btnPrepareDeployment_Click;
             // 
             // cbLookUpAssignment
             // 

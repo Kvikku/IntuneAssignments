@@ -46,7 +46,10 @@ namespace IntuneAssignments.Presentation.Application.App_protection
         }
 
 
-        // Application logic and  
+
+
+
+        // Application logic
 
         private async Task ListAllAndroidApplicationProtectionPolicies(DataGridView dataGridView)
         {
@@ -74,11 +77,11 @@ namespace IntuneAssignments.Presentation.Application.App_protection
             }
         }
 
-        private async Task ListAlliOSAppProtectionPolicies(DataGridView dataGridView) 
+        private async Task ListAlliOSAppProtectionPolicies(DataGridView dataGridView)
         {
             // Get all the iOS app protection policies
 
-            var result  = await GetAlliOSAppProtectionPolicies();
+            var result = await GetAlliOSAppProtectionPolicies();
 
             // Check if the result is empty
             if (result == null)
@@ -100,11 +103,83 @@ namespace IntuneAssignments.Presentation.Application.App_protection
             }
         }
 
-        private async Task ListAllAppProtectionPolicies() 
+        private async Task ListAllWindowsManagedAppProtection(DataGridView dataGridView)
+        {
+            // Get all the Windows app protection policies
+
+            var result = await GetAllWindowsAppProtectionPolicies();
+
+            // Check if the result is empty
+
+            if (result == null)
+            {
+                WriteToLog("No Windows app protection policies found");
+                rtbDeploymentSummary.SelectionColor = Color.Yellow;
+                rtbDeploymentSummary.AppendText("No Windows app protection policies found");
+                rtbDeploymentSummary.ForeColor = rtbDeploymentSummary.ForeColor;
+
+                return;
+            }
+            else
+            {
+                foreach (var policy in result)
+                {
+                    // Add the policy to the data grid view
+                    dataGridView.Rows.Add(policy.DisplayName, "Windows", policy.Id);
+                }
+            }
+        }
+
+        private async Task ListAllMdmWindowsInformationProtectionPolicy(DataGridView dataGridView)
+        {
+            // Get all the MDM Windows Information Protection policies
+
+            var result = await GetAllMDMWindowsInformationProtectionPolicies();
+
+            // Check if the result is empty
+
+            if (result == null)
+            {
+                WriteToLog("No MDM Windows Information Protection policies found");
+                rtbDeploymentSummary.SelectionColor = Color.Yellow;
+                rtbDeploymentSummary.AppendText("No MDM Windows Information Protection policies found");
+                rtbDeploymentSummary.ForeColor = rtbDeploymentSummary.ForeColor;
+
+                return;
+            }
+            else
+            {
+                foreach (var policy in result)
+                {
+                    // Add the policy to the data grid view
+                    dataGridView.Rows.Add(policy.DisplayName, "Windows", policy.Id);
+                }
+            }
+        }
+
+        private async Task ListAllAppProtectionPolicies()
         {
             await ListAlliOSAppProtectionPolicies(dtgDisplayAppProtectionPolicies);
             await ListAllAndroidApplicationProtectionPolicies(dtgDisplayAppProtectionPolicies);
+            await ListAllWindowsManagedAppProtection(dtgDisplayAppProtectionPolicies);
+            await ListAllMdmWindowsInformationProtectionPolicy(dtgDisplayAppProtectionPolicies);
         }
+
+        private void PreparePolicyDeployment()
+        {
+            // This method prepares the deployment of the selected app protection policy to the selected group
+
+
+            // clear the rich text boxes
+            ClearRichTextBox(rtbSelectedGroups);
+            ClearRichTextBox(rtbSelectedPolicies);
+
+            //
+
+        }
+
+
+
 
 
 
@@ -127,7 +202,7 @@ namespace IntuneAssignments.Presentation.Application.App_protection
             goHome();
         }
 
-        private void btnListAllPolicies_Click(object sender, EventArgs e)
+        private async void btnListAllPolicies_Click(object sender, EventArgs e)
         {
             // Clear the data grid view
             dtgDisplayAppProtectionPolicies.Rows.Clear();
@@ -138,26 +213,38 @@ namespace IntuneAssignments.Presentation.Application.App_protection
             if (cBAppType.SelectedIndex == 0)
             {
                 // List all the app protection policies
-                ListAllAppProtectionPolicies();
+                await ListAllAppProtectionPolicies();
             }
 
             else if (cBAppType.SelectedIndex == 1)
             {
                 // List all the iOS app protection policies
-                ListAlliOSAppProtectionPolicies(dtgDisplayAppProtectionPolicies);
+                await ListAlliOSAppProtectionPolicies(dtgDisplayAppProtectionPolicies);
             }
 
             else if (cBAppType.SelectedIndex == 2)
             {
                 // List all the Android app protection policies
-                //ListAllAndroidAppProtectionPolicies(dtgDisplayAppProtectionPolicies);
+                await ListAllAndroidApplicationProtectionPolicies(dtgDisplayAppProtectionPolicies);
             }
 
             else if (cBAppType.SelectedIndex == 3)
             {
                 // List all the Windows app protection policies
-                //ListAllWindowsAppProtectionPolicies(dtgDisplayAppProtectionPolicies);
+                await ListAllWindowsManagedAppProtection(dtgDisplayAppProtectionPolicies);
+                await ListAllMdmWindowsInformationProtectionPolicy(dtgDisplayAppProtectionPolicies);
             }
+        }
+
+
+        private async void btnListAllGroups_Click(object sender, EventArgs e)
+        {
+            await ListAllGroupsV2(dtgDisplayGroup);
+        }
+
+        private void btnPrepareDeployment_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

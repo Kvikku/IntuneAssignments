@@ -761,7 +761,7 @@ namespace IntuneAssignments.Backend
         public static async Task<List<IosManagedAppProtection>> GetAlliOSAppProtectionPolicies()
         {
             // Method to get the iOS managed app protection policy
-            
+
             // Create a new instance of the GraphServiceClient class
             var graphClient = CreateGraphServiceClient();
 
@@ -803,8 +803,52 @@ namespace IntuneAssignments.Backend
 
             return androidAppProtectionPolicies;
         }
+
+        public static async Task<List<WindowsManagedAppProtection>> GetAllWindowsAppProtectionPolicies()
+        {
+            // Method to get the Windows managed app protection policy
+
+            // Create a new instance of the GraphServiceClient class
+            var graphClient = CreateGraphServiceClient();
+
+            var result = await graphClient.DeviceAppManagement.WindowsManagedAppProtections.GetAsync((RequestConfiguration) =>
+            {
+                RequestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
+            });
+
+            // Create a list to store the Windows app protection policies in
+            List<WindowsManagedAppProtection> windowsAppProtectionPolicies = new List<WindowsManagedAppProtection>();
+
+            // Add to list
+            windowsAppProtectionPolicies.AddRange(result.Value);
+
+            return windowsAppProtectionPolicies;
+        }
+
+        public static async Task<List<MdmWindowsInformationProtectionPolicy>> GetAllMDMWindowsInformationProtectionPolicies()
+        {
+            // Method to get the MDM Windows Information Protection policy
+
+            // Create a new instance of the GraphServiceClient class
+            var graphClient = CreateGraphServiceClient();
+
+            var result = await graphClient.DeviceAppManagement.MdmWindowsInformationProtectionPolicies.GetAsync((RequestConfiguration) =>
+            {
+                RequestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
+            });
+
+            // Create a list to store the MDM Windows Information Protection policies in
+
+            List<MdmWindowsInformationProtectionPolicy> mdmWindowsInformationProtectionPolicies = new List<MdmWindowsInformationProtectionPolicy>();
+
+            // Add to list
+            mdmWindowsInformationProtectionPolicies.AddRange(result.Value);
+
+            return mdmWindowsInformationProtectionPolicies;
+
+        }
+
+
+
     }
-
-
-
 }
