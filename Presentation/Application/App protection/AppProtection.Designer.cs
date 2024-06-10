@@ -508,6 +508,7 @@
             btnDeployPolicyAssignment.TabIndex = 5;
             btnDeployPolicyAssignment.Text = "Add assignment";
             btnDeployPolicyAssignment.UseVisualStyleBackColor = false;
+            btnDeployPolicyAssignment.Click += btnDeployPolicyAssignment_Click;
             // 
             // btnResetDeployment
             // 
@@ -520,6 +521,7 @@
             btnResetDeployment.TabIndex = 7;
             btnResetDeployment.Text = "Reset";
             btnResetDeployment.UseVisualStyleBackColor = false;
+            btnResetDeployment.Click += btnResetDeployment_Click;
             // 
             // lblSelectedPolicies
             // 
