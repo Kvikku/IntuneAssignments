@@ -1,4 +1,5 @@
-﻿using Microsoft.Graph.Beta.Models;
+﻿using Microsoft.Graph;
+using Microsoft.Graph.Beta.Models;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using static IntuneAssignments.Backend.GlobalVariables;
 using Microsoft.Kiota.Abstractions;
@@ -848,7 +849,114 @@ namespace IntuneAssignments.Backend
 
         }
 
+        public static async Task GetAppPermissions()
+        {
 
+            //Create a new instance of the GraphServiceClient class
+            var graphClient = CreateGraphServiceClient();
+
+            // Look up the app permissions
+
+            try
+            {
+                // Look up the app permissions by the app ID (client ID)
+                var result = await graphClient.Applications.GetAsync((requestConfiguration) =>
+                {
+                    requestConfiguration.QueryParameters.Filter = "appID eq '" + TokenProvider.clientID + "'";
+                    requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName", "requiredResourceAccess" };
+                });
+
+                // Create a list to store the app permissions in
+
+                List<Microsoft.Graph.Beta.Models.Application> appPermissions = new List<Microsoft.Graph.Beta.Models.Application>();
+
+                appPermissions.AddRange(result.Value);
+
+                var appName = appPermissions[0].DisplayName;
+                var appID = appPermissions[0].Id;
+                var permissions = appPermissions[0].RequiredResourceAccess;
+                var permissionCount = permissions[0].ResourceAccess.Count;
+
+
+
+                // Add to list
+               // appPermissions.AddRange(permissions.Value[0].RequiredResourceAccess[0].ResourceAccess[0].Id);
+
+                var roles =  await TranslateAppPermissions(permissions);
+
+                var rolesCount = roles.Count;
+
+
+                // TODO - Add code to display the app permissions in the UI and inform over overkill permission and other QoL improvements
+
+
+                if (permissionCount > rolesCount)
+                {
+                    MessageBox.Show("There appears to be more roles assigned than is necessary. Please review the roles assigned to the app.");
+                }
+                
+            }
+            catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
+            {
+                MessageBox.Show(me.Message);
+                throw;
+            }
+        }
+        
+        public static async Task<List<string>> TranslateAppPermissions(List<RequiredResourceAccess> listOfPermissions)
+        {
+            // Method to translate the app permissions to human-readable format
+
+            // Create a new instance of the GraphServiceClient class
+            var graphClient = CreateGraphServiceClient();
+
+            // Create a list to store the permissions IDs in
+
+            List<string> permissionsIDs = new List<string>();
+
+            // Loop through the permissions and add the IDs to the list
+            foreach (RequiredResourceAccess permission in listOfPermissions)
+            {
+                foreach (ResourceAccess resourceAccess in permission.ResourceAccess)
+                {
+                    permissionsIDs.Add(resourceAccess.Id.ToString());
+                }
+            }
+
+
+            // Retrieve list of all permissions from Graph API
+
+            var result = await graphClient.ServicePrincipals.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Filter = "appId eq '00000003-0000-0000-c000-000000000000'";
+            });
+
+            // Create a list to store the app roles in
+            List<AppRole> appRoles = new List<AppRole>();
+
+            // Add to list
+            appRoles.AddRange(result.Value[0].AppRoles);
+
+            HashSet<AppRole> uniquePermissions = new HashSet<AppRole>(appRoles);
+
+            // make a list to store the permissions in
+            List<string> permissionsFound = new List<string>();
+
+            // Loop through the permissions IDs and match them with the app roles
+            foreach (var id in permissionsIDs)
+                {
+                foreach (var appRole in uniquePermissions)
+                {
+                    if (id == appRole.Id.ToString())
+                    {
+                        permissionsFound.Add(appRole.DisplayName);
+                        MessageBox.Show("Found " + appRole.DisplayName);
+                    }
+                }
+            }
+
+            return permissionsFound;
+        }
 
     }
 }

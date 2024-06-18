@@ -430,24 +430,22 @@ namespace IntuneAssignments
             // Code to check if the app has the required API permissions
             // UNDER CONSTRUCTION
 
-            await AuthenticateToGraph();
-
             // look up the permissions for the app
-
+            await GetAppPermissions();
 
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
             // Attempt to authenticate to Graph API with the current settings
 
             WriteToLog("Attempting to authenticate to Graph API with the current settings");
             WriteToLog("NOTE - This method is currently not implemented");
 
-            //checkAPIPermissions();
+            await checkAPIPermissions();
 
-            MessageBox.Show("Feature not implemented yet         (╯°□°)╯︵ ┻━┻");
+            //MessageBox.Show("Feature not implemented yet         (╯°□°)╯︵ ┻━┻");
 
 
 
