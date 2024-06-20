@@ -46,6 +46,7 @@
             richTextBox1 = new RichTextBox();
             lblTenantFriendlyName = new Label();
             tBTenantName = new TextBox();
+            rtbSummary = new RichTextBox();
             SuspendLayout();
             // 
             // btnOK
@@ -54,7 +55,7 @@
             btnOK.FlatStyle = FlatStyle.Popup;
             btnOK.Font = new Font("Consolas", 12F);
             btnOK.ForeColor = Color.FromArgb(46, 51, 73);
-            btnOK.Location = new Point(323, 337);
+            btnOK.Location = new Point(323, 520);
             btnOK.Name = "btnOK";
             btnOK.Size = new Size(149, 32);
             btnOK.TabIndex = 0;
@@ -102,7 +103,7 @@
             btnOpenFolder.FlatStyle = FlatStyle.Popup;
             btnOpenFolder.Font = new Font("Consolas", 12F);
             btnOpenFolder.ForeColor = Color.FromArgb(46, 51, 73);
-            btnOpenFolder.Location = new Point(190, 337);
+            btnOpenFolder.Location = new Point(190, 520);
             btnOpenFolder.Name = "btnOpenFolder";
             btnOpenFolder.Size = new Size(127, 32);
             btnOpenFolder.TabIndex = 9;
@@ -117,7 +118,7 @@
             button1.FlatStyle = FlatStyle.Popup;
             button1.Font = new Font("Consolas", 12F);
             button1.ForeColor = Color.FromArgb(46, 51, 73);
-            button1.Location = new Point(11, 337);
+            button1.Location = new Point(11, 520);
             button1.Name = "button1";
             button1.Size = new Size(172, 32);
             button1.TabIndex = 10;
@@ -152,7 +153,7 @@
             cBSaveSettings.AutoSize = true;
             cBSaveSettings.Font = new Font("Consolas", 9.75F);
             cBSaveSettings.ForeColor = Color.Salmon;
-            cBSaveSettings.Location = new Point(319, 270);
+            cBSaveSettings.Location = new Point(323, 470);
             cBSaveSettings.Name = "cBSaveSettings";
             cBSaveSettings.Size = new Size(117, 19);
             cBSaveSettings.TabIndex = 14;
@@ -166,7 +167,7 @@
             cBOverride.AutoSize = true;
             cBOverride.Font = new Font("Consolas", 9.75F);
             cBOverride.ForeColor = Color.Salmon;
-            cBOverride.Location = new Point(319, 295);
+            cBOverride.Location = new Point(323, 495);
             cBOverride.Name = "cBOverride";
             cBOverride.Size = new Size(145, 19);
             cBOverride.TabIndex = 20;
@@ -232,12 +233,25 @@
             tBTenantName.Size = new Size(297, 23);
             tBTenantName.TabIndex = 19;
             // 
+            // rtbSummary
+            // 
+            rtbSummary.BackColor = Color.FromArgb(46, 51, 73);
+            rtbSummary.BorderStyle = BorderStyle.None;
+            rtbSummary.ForeColor = Color.Salmon;
+            rtbSummary.Location = new Point(11, 259);
+            rtbSummary.Name = "rtbSummary";
+            rtbSummary.ReadOnly = true;
+            rtbSummary.Size = new Size(425, 205);
+            rtbSummary.TabIndex = 21;
+            rtbSummary.Text = "";
+            // 
             // Settings
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
-            ClientSize = new Size(484, 395);
+            ClientSize = new Size(488, 564);
+            Controls.Add(rtbSummary);
             Controls.Add(cBOverride);
             Controls.Add(tBTenantName);
             Controls.Add(lblTenantFriendlyName);
@@ -281,5 +295,6 @@
         private Label lblTenantFriendlyName;
         private TextBox tBTenantName;
         private CheckBox cBOverride;
+        private RichTextBox rtbSummary;
     }
 }

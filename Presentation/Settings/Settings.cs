@@ -6,6 +6,7 @@ using static IntuneAssignments.Backend.FormUtilities;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using static IntuneAssignments.Backend.TokenProvider;
 using IntuneAssignments.Backend;
+using Microsoft.Graph.Beta.Models;
 
 
 
@@ -428,10 +429,40 @@ namespace IntuneAssignments
         {
 
             // Code to check if the app has the required API permissions
-            // UNDER CONSTRUCTION
 
             // look up the permissions for the app
-            await GetAppPermissions();
+            var roles = await GetAppPermissions();
+
+            // Find the correct permissions
+            var correctPermissions = FindCorrectPermissions(roles);
+
+            // TODO - finish the code below
+
+            if (correctPermissions.Count > 0)
+            {
+                // Correct permissions found
+    
+            }
+
+            // Find the missing permissions
+            var missingPermissions = FindMissingPermissions(roles);
+
+            if (missingPermissions.Count > 0)
+            {
+                // Missing permissions found
+                
+            }
+
+            // Find the wrong permissions
+            var wrongPermissions = FindWrongPermissions(roles);
+
+            if (wrongPermissions.Count > 0)
+            {
+                // Wrong permissions found
+                
+            }
+
+
 
         }
 
@@ -441,14 +472,8 @@ namespace IntuneAssignments
             // Attempt to authenticate to Graph API with the current settings
 
             WriteToLog("Attempting to authenticate to Graph API with the current settings");
-            WriteToLog("NOTE - This method is currently not implemented");
 
             await checkAPIPermissions();
-
-            //MessageBox.Show("Feature not implemented yet         (╯°□°)╯︵ ┻━┻");
-
-
-
         }
 
         private void cBSaveSettings_Click(object sender, EventArgs e)

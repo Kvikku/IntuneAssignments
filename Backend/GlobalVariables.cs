@@ -1,4 +1,6 @@
-﻿namespace IntuneAssignments.Backend
+﻿using Microsoft.Graph.Beta.DeviceManagement.Intents.Item.Categories.Item;
+
+namespace IntuneAssignments.Backend
 {
     public class GlobalVariables
     {
@@ -19,8 +21,22 @@
         public static string appSettingsFile = Path.Combine(appDataPath, appFolderName, appSettingsFileName);
 
 
+        // Old variable for permissions - delete
+        public static List<string> permissionsToCheck = new List<string> { "Read and write Microsoft Intune apps", "Read Microsoft Intune device configuration and policies",
+        "Read and write Microsoft Intune device configuration and policies","Read and write Microsoft Intune devices","Read and write Microsoft Intune configuration",
+        "Read directory data"};
 
 
+
+        // new variable for permissions
+        public static Dictionary<string, string> PermissionIDAndDisplayName = new Dictionary<string, string>
+        {
+            {"7b3f05d5-f68c-4b8d-8c59-a2ecd12f24af", "Read and write Microsoft Intune apps" },
+            {"0883f392-0a7a-443d-8c76-16a6d39c7b63", "Read and write Microsoft Intune Device Configuration and Policies" },
+            {"662ed50a-ac44-4eef-ad86-62eed9be2a29", "Read and write Microsoft Intune configuration" },
+            {"44642bfe-8385-4adc-8fc6-fe3cb2c375c3", "Read and write Microsoft Intune devices" },
+            {"06da0dbc-49e2-44d2-8312-53f166ab848a", "Read directory data" }
+        };
 
 
         public static string graphAssembly = "Microsoft.Graph.Beta";
