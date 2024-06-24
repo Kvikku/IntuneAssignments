@@ -352,9 +352,18 @@ namespace IntuneAssignments
         private void GoToSettings_Click(object sender, EventArgs e)
         {
 
-            WriteToLog("Opening the settings page");
-            Settings settings = new Settings();
-            settings.ShowDialog();
+            try
+            {
+                WriteToLog("Opening the settings page");
+                Settings settings = new Settings();
+                settings.ShowDialog();
+            }
+            catch (Exception me)
+            {
+                //MessageBox.Show(me.Message);
+                throw;
+            }
+
 
 
         }

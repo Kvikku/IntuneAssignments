@@ -883,11 +883,11 @@ namespace IntuneAssignments.Backend
 
                 // Convert the permissions to human-readable format
                 // This variable has all configured permissions in the app with their display name (example - "Read and write Microsoft Intune apps")
-                var roles =  await TranslateAppPermissions(permissions);
+                var roles = await TranslateAppPermissions(permissions);
 
                 return roles;
 
-                
+
 
 
 
@@ -895,7 +895,7 @@ namespace IntuneAssignments.Backend
                 // Count the number of roles
                 var rolesCount = roles.Count;
 
-                
+
 
             }
             catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
@@ -903,6 +903,11 @@ namespace IntuneAssignments.Backend
                 MessageBox.Show(me.Message);
                 throw;
             }
+            //catch (Microsoft.Identity.Client.MsalServiceException me)
+            //{
+            //    MessageBox.Show(me.Message);
+            //    throw;
+            //}
         }
         
         public static async Task<List<string>> TranslateAppPermissions(List<RequiredResourceAccess> listOfPermissions)

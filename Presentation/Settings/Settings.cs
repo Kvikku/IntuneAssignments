@@ -166,6 +166,16 @@ namespace IntuneAssignments
             // Hide the override settings groupbox by default
             cBOverride.Hide();
 
+            // Hide the permission check overview by default
+            pbGood.Hide();
+            pbMissing.Hide();
+            pbWrong.Hide();
+            rtbGood.Hide();
+            rtbMissing.Hide();
+            rtbWrong.Hide();
+
+            this.Size = new Size(504, 438);
+
 
             // Retrieve data from appsettings.json and populate labels
             //string path = appSettingsFile; //@"C:\ProgramData\IntuneAssignments" + @"\AppSettings.json";
@@ -441,6 +451,13 @@ namespace IntuneAssignments
             if (correctPermissions.Count > 0)
             {
                 // Correct permissions found
+                pbGood.Show();
+                rtbGood.Show();
+                foreach (var permission in correctPermissions)
+                {
+                    // Add the permission to the correct permissions listbox
+                    rtbGood.AppendText(permission + Environment.NewLine);
+                }
     
             }
 
@@ -450,6 +467,13 @@ namespace IntuneAssignments
             if (missingPermissions.Count > 0)
             {
                 // Missing permissions found
+                pbMissing.Show();
+                rtbMissing.Show();
+                foreach (var permission in missingPermissions)
+                {
+                    // Add the permission to the missing permissions listbox
+                    rtbMissing.AppendText(permission + Environment.NewLine);
+                }
                 
             }
 
@@ -459,6 +483,13 @@ namespace IntuneAssignments
             if (wrongPermissions.Count > 0)
             {
                 // Wrong permissions found
+                pbWrong.Show();
+                rtbWrong.Show();
+                foreach (var permission in wrongPermissions)
+                {
+                    // Add the permission to the wrong permissions listbox
+                    rtbWrong.AppendText(permission + Environment.NewLine);
+                }
                 
             }
 
@@ -469,11 +500,18 @@ namespace IntuneAssignments
 
         private async void button1_Click(object sender, EventArgs e)
         {
+            // clear rich text boxes
+            rtbGood.Clear();
+            rtbMissing.Clear();
+            rtbWrong.Clear();
+
             // Attempt to authenticate to Graph API with the current settings
 
             WriteToLog("Attempting to authenticate to Graph API with the current settings");
 
             await checkAPIPermissions();
+
+            this.Size = new Size(504, 607);
         }
 
         private void cBSaveSettings_Click(object sender, EventArgs e)
