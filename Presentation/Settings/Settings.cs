@@ -6,6 +6,7 @@ using static IntuneAssignments.Backend.FormUtilities;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using static IntuneAssignments.Backend.TokenProvider;
 using IntuneAssignments.Backend;
+using Microsoft.Graph.Beta.Models;
 
 
 
@@ -164,6 +165,16 @@ namespace IntuneAssignments
 
             // Hide the override settings groupbox by default
             cBOverride.Hide();
+
+            // Hide the permission check overview by default
+            pbGood.Hide();
+            pbMissing.Hide();
+            pbWrong.Hide();
+            rtbGood.Hide();
+            rtbMissing.Hide();
+            rtbWrong.Hide();
+
+            this.Size = new Size(504, 438);
 
 
             // Retrieve data from appsettings.json and populate labels
@@ -428,27 +439,82 @@ namespace IntuneAssignments
         {
 
             // Code to check if the app has the required API permissions
-            // UNDER CONSTRUCTION
-
-            await AuthenticateToGraph();
 
             // look up the permissions for the app
+            var roles = await GetAppPermissions();
+
+            // Find the correct permissions
+            var correctPermissions = FindCorrectPermissions(roles);
+
+            // TODO - finish the code below
+
+            if (correctPermissions.Count > 0)
+            {
+                // Correct permissions found
+                pbGood.Show();
+                rtbGood.Show();
+                foreach (var permission in correctPermissions)
+                {
+                    // Add the permission to the correct permissions listbox
+                    rtbGood.AppendText(permission + Environment.NewLine);
+                }
+    
+            }
+
+            // Find the missing permissions
+            var missingPermissions = FindMissingPermissions(roles);
+
+            if (missingPermissions.Count > 0)
+            {
+                // Missing permissions found
+                pbMissing.Show();
+                rtbMissing.Show();
+                foreach (var permission in missingPermissions)
+                {
+                    // Add the permission to the missing permissions listbox
+                    rtbMissing.AppendText(permission + Environment.NewLine);
+                }
+                
+            }
+
+            // Find the wrong permissions
+            var wrongPermissions = FindWrongPermissions(roles);
+
+            if (wrongPermissions.Count > 0)
+            {
+                // Wrong permissions found
+                pbWrong.Show();
+                rtbWrong.Show();
+                foreach (var permission in wrongPermissions)
+                {
+                    // Add the permission to the wrong permissions listbox
+                    rtbWrong.AppendText(permission + Environment.NewLine);
+                }
+                
+            }
+
 
 
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
+            // Check permissions of the app registration
+            
+            // clear rich text boxes
+            rtbGood.Clear();
+            rtbMissing.Clear();
+            rtbWrong.Clear();
+
             // Attempt to authenticate to Graph API with the current settings
 
             WriteToLog("Attempting to authenticate to Graph API with the current settings");
-            WriteToLog("NOTE - This method is currently not implemented");
 
-            //checkAPIPermissions();
+            // set the size of the form to show the permission check overview
+            this.Size = new Size(504, 607);
 
-            MessageBox.Show("Feature not implemented yet         (╯°□°)╯︵ ┻━┻");
-
+            await checkAPIPermissions();
 
 
         }

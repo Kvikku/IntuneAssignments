@@ -102,11 +102,22 @@ namespace IntuneAssignments.Backend
                 }
                 catch (MsalUiRequiredException)
                 {
-                    result = await app.AcquireTokenInteractive(newScope)
+
+                    try
+                    {
+                        result = await app.AcquireTokenInteractive(newScope)
                         .WithPrompt(Prompt.SelectAccount)
                         //.WithUseEmbeddedWebView(true)
                         //.WithEmbeddedWebViewOptions(new EmbeddedWebViewOptions() { Title = "Sign in to your account" })
                         .ExecuteAsync();
+                    }
+                    catch (Microsoft.Identity.Client.MsalServiceException me)
+                    {
+                        MessageBox.Show(me.Message);
+                        throw;
+                    }
+
+                    
                 }
 
                 token = result.AccessToken;

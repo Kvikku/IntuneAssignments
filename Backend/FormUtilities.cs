@@ -1,7 +1,10 @@
-﻿using Microsoft.Graph.Beta.Models;
+﻿using Microsoft.Graph;
+using Microsoft.Graph.Beta.Models;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using static IntuneAssignments.Backend.GlobalVariables;
 using Microsoft.Kiota.Abstractions;
+using Windows.ApplicationModel.Activation;
+using System.Linq;
 
 namespace IntuneAssignments.Backend
 {
@@ -848,7 +851,173 @@ namespace IntuneAssignments.Backend
 
         }
 
+        public static async Task<List<string>> GetAppPermissions()
+        {
+
+            //Create a new instance of the GraphServiceClient class
+            var graphClient = CreateGraphServiceClient();
+
+            // Look up the app permissions
+
+            try
+            {
+                // Look up the app permissions by the app ID (client ID)
+                var result = await graphClient.Applications.GetAsync((requestConfiguration) =>
+                {
+                    requestConfiguration.QueryParameters.Filter = "appID eq '" + TokenProvider.clientID + "'";
+                    requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName", "requiredResourceAccess" };
+                    //requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName", "publishedPermissionScopes" };
+                });
+
+                // Create a list to store the app permissions in
+
+                List<Microsoft.Graph.Beta.Models.Application> appPermissions = new List<Microsoft.Graph.Beta.Models.Application>();
+
+                appPermissions.AddRange(result.Value);
+
+                var appName = appPermissions[0].DisplayName;
+                var appID = appPermissions[0].Id;
+                var permissions = appPermissions[0].RequiredResourceAccess;
+                var permissionCount = permissions[0].ResourceAccess.Count;
 
 
+                // Convert the permissions to human-readable format
+                // This variable has all configured permissions in the app with their display name (example - "Read and write Microsoft Intune apps")
+                var roles = await TranslateAppPermissions(permissions);
+
+                return roles;
+
+
+
+
+
+
+                // Count the number of roles
+                var rolesCount = roles.Count;
+
+
+
+            }
+            catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
+            {
+                MessageBox.Show(me.Message);
+                throw;
+            }
+            //catch (Microsoft.Identity.Client.MsalServiceException me)
+            //{
+            //    MessageBox.Show(me.Message);
+            //    throw;
+            //}
+        }
+        
+        public static async Task<List<string>> TranslateAppPermissions(List<RequiredResourceAccess> listOfPermissions)
+        {
+            // Method to translate the app permissions to human-readable format
+
+            // Create a new instance of the GraphServiceClient class
+            var graphClient = CreateGraphServiceClient();
+
+            // Create a list to store the permissions IDs in
+
+            List<string> permissionsIDs = new List<string>();
+
+            // Loop through the permissions and add the IDs to the list
+            foreach (RequiredResourceAccess permission in listOfPermissions)
+            {
+                foreach (ResourceAccess resourceAccess in permission.ResourceAccess)
+                {
+                    permissionsIDs.Add(resourceAccess.Id.ToString());
+                }
+            }
+
+
+            // Retrieve list of all permissions from Graph API
+
+            var result = await graphClient.ServicePrincipals.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Filter = "appId eq '00000003-0000-0000-c000-000000000000'";
+                requestConfiguration.QueryParameters.Select = new string[] { "publishedPermissionScopes" };
+            });
+
+            // Create a list to store the app roles in
+            List<PermissionScope> appRoles = new List<PermissionScope>();
+
+            // Add to list
+            appRoles.AddRange(result.Value[0].PublishedPermissionScopes);
+
+            HashSet<PermissionScope> uniquePermissions = new HashSet<PermissionScope>(appRoles);
+
+            // make a list to store the permissions in
+            List<string> permissionsFound = new List<string>();
+
+            // Loop through the permissions IDs and match them with the app roles
+            foreach (var id in permissionsIDs)
+                {
+                foreach (var appRole in uniquePermissions)
+                {
+                    if (id == appRole.Id.ToString())
+                    {
+                        permissionsFound.Add(appRole.AdminConsentDisplayName);
+                        //MessageBox.Show("Found " + appRole.DisplayName);
+                    }
+                }
+            }
+
+            return permissionsFound;
+        }
+
+        public static List<string> FindCorrectPermissions (List<string> permissions)
+        {
+            // Method to check what permissions are correct
+
+            // Create a new list to store the correct permissions in
+            List<string> correctPermissions = new List<string>();
+
+            foreach (var permission in permissions)
+            {
+                if (PermissionIDAndDisplayName.ContainsValue(permission))
+                {
+                    correctPermissions.Add(permission);
+                }
+            }
+
+
+            return correctPermissions;
+        }
+
+        public static List<string> FindMissingPermissions(List<string> permissions)
+        {
+            // Method to check what permissions are missing
+
+            // Create a new list to store the missing permissions in
+            List<string> missingPermissions = new List<string>();
+
+            foreach (var permission in PermissionIDAndDisplayName)
+            {
+                if (!permissions.Contains(permission.Value))
+                {
+                    missingPermissions.Add(permission.Value);
+                }
+                
+            }
+            return missingPermissions;
+        }
+
+        public static List<string> FindWrongPermissions (List<string> permissions)
+        {
+            // Method to check what permissions are wrong
+
+            // Create a new list to store the wrong permissions in
+            List<string> wrongPermissions = new List<string>();
+
+            foreach (var permission in permissions)
+            {
+                if (!PermissionIDAndDisplayName.ContainsValue(permission))
+                {
+                    wrongPermissions.Add(permission);
+                }
+            }
+            return wrongPermissions;
+        }
     }
 }
