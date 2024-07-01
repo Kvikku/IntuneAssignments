@@ -500,6 +500,8 @@ namespace IntuneAssignments
 
         private async void button1_Click(object sender, EventArgs e)
         {
+            // Check permissions of the app registration
+            
             // clear rich text boxes
             rtbGood.Clear();
             rtbMissing.Clear();
@@ -509,9 +511,12 @@ namespace IntuneAssignments
 
             WriteToLog("Attempting to authenticate to Graph API with the current settings");
 
+            // set the size of the form to show the permission check overview
+            this.Size = new Size(504, 607);
+
             await checkAPIPermissions();
 
-            this.Size = new Size(504, 607);
+
         }
 
         private void cBSaveSettings_Click(object sender, EventArgs e)
