@@ -80,7 +80,6 @@
             label1 = new Label();
             pbViewAssignments = new PictureBox();
             lblHeaderAppForm = new Label();
-            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlSearchPolicy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
@@ -676,23 +675,12 @@
             lblHeaderAppForm.TabIndex = 21;
             lblHeaderAppForm.Text = "Deploy policies";
             // 
-            // button1
-            // 
-            button1.Location = new Point(16, 318);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 22;
-            button1.Text = "test button";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
             // Policy
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1919, 791);
-            Controls.Add(button1);
             Controls.Add(lblHeaderAppForm);
             Controls.Add(pbViewAssignments);
             Controls.Add(pnlDescription);
@@ -773,6 +761,5 @@
         private DataGridViewTextBoxColumn groupType;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private Button btn_ResetProgressBar;
-        private Button button1;
     }
 }

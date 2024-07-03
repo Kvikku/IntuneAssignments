@@ -2637,6 +2637,10 @@ namespace IntuneAssignments
             if (cbPolicyType.Text == "All types")
             {
                 WriteToLog("User selected All types in the policy type combobox. Searching for all policies");
+                SearchForCompliancePolicy();
+                SearchForDeviceConfigurationPolicy();
+                SearchForSettingsCatalogPolicy();
+
             }
 
             else if (cbPolicyType.Text == "Compliance policy")
@@ -2685,11 +2689,6 @@ namespace IntuneAssignments
             rtbDeploymentSummary.Clear();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
 
-            
-
-        }
     }
 }
