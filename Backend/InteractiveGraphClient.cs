@@ -23,9 +23,6 @@ namespace IntuneAssignments.Backend
     public class TokenProvider : IAccessTokenProvider
     {
 
-
-
-
         public static bool CheckTokenLifetime(DateTimeOffset tokenExpiryTime)
         {
 

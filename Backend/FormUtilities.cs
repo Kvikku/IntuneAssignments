@@ -5,6 +5,7 @@ using static IntuneAssignments.Backend.GlobalVariables;
 using Microsoft.Kiota.Abstractions;
 using Windows.ApplicationModel.Activation;
 using System.Linq;
+using Microsoft.Graph.Beta;
 
 namespace IntuneAssignments.Backend
 {
@@ -905,7 +906,7 @@ namespace IntuneAssignments.Backend
             //    throw;
             //}
         }
-        
+
         public static async Task<List<string>> TranslateAppPermissions(List<RequiredResourceAccess> listOfPermissions)
         {
             // Method to translate the app permissions to human-readable format
@@ -948,7 +949,7 @@ namespace IntuneAssignments.Backend
 
             // Loop through the permissions IDs and match them with the app roles
             foreach (var id in permissionsIDs)
-                {
+            {
                 foreach (var appRole in uniquePermissions)
                 {
                     if (id == appRole.Id.ToString())
@@ -962,7 +963,7 @@ namespace IntuneAssignments.Backend
             return permissionsFound;
         }
 
-        public static List<string> FindCorrectPermissions (List<string> permissions)
+        public static List<string> FindCorrectPermissions(List<string> permissions)
         {
             // Method to check what permissions are correct
 
@@ -994,12 +995,12 @@ namespace IntuneAssignments.Backend
                 {
                     missingPermissions.Add(permission.Value);
                 }
-                
+
             }
             return missingPermissions;
         }
 
-        public static List<string> FindWrongPermissions (List<string> permissions)
+        public static List<string> FindWrongPermissions(List<string> permissions)
         {
             // Method to check what permissions are wrong
 
@@ -1014,6 +1015,32 @@ namespace IntuneAssignments.Backend
                 }
             }
             return wrongPermissions;
+        }
+
+        public static async Task<List<DeviceManagementIntent>> GetSecurityBaselines(GraphServiceClient graphClient)
+        {
+            /* 
+            * This method gets all security baselines in the tenant
+            * 
+            * Note - Security baselines in this context is:
+            * - Windows 10 security baselines
+            * - Microsoft Defender for Endpoint security baselines
+            * - Windows 365 security baselines
+            * 
+            * M365 and Edge are not included in this method because their backend is the Settings Catalog framework
+           */
+
+            // Make a call to Microsoft Graph
+
+            var result = await graphClient.DeviceManagement.Intents.GetAsync();
+
+            // Put result into a list for easy processing
+
+            List<DeviceManagementIntent> securityBaselines = new List<DeviceManagementIntent>();
+
+            securityBaselines.AddRange(result.Value);
+
+            return securityBaselines;
         }
     }
 }

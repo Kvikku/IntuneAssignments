@@ -38,6 +38,8 @@ namespace IntuneAssignments.Backend
             {"06da0dbc-49e2-44d2-8312-53f166ab848a", "Read directory data" }
         };
 
+        public static Color defaultColor = Color.FromArgb(46, 51, 73);
+        public static Color currentColor = Color.FromArgb(46, 51, 73);
 
         public static string graphAssembly = "Microsoft.Graph.Beta";
         public static string graphClassNamePrefix = "Microsoft.Graph.Beta.Models.";

@@ -18,6 +18,8 @@ namespace IntuneAssignments
         {
             InitializeComponent();
 
+            
+
             this.StartPosition = FormStartPosition.CenterScreen;
         }
 
@@ -31,6 +33,12 @@ namespace IntuneAssignments
             ShowWarningOnStatusLabels();
 
             await checkConnectionStatus();
+
+
+
+            // For future use - to set the background color of the form
+            //this.BackColor = Color.DarkViolet;
+
 
 
             // TEST ONLY- Purge the content of the log file - 

@@ -5,6 +5,7 @@ using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using static IntuneAssignments.Backend.FormUtilities;
 using Microsoft.Graph.Beta.Models.Networkaccess;
 using IntuneAssignments.Backend;
+using System.Windows.Forms;
 
 namespace IntuneAssignments
 {
@@ -63,7 +64,6 @@ namespace IntuneAssignments
 
         }
 
-
         void listAllCompliancePolicies()
         {
             Policy policy = new Policy();
@@ -90,6 +90,46 @@ namespace IntuneAssignments
 
 
         }
+
+        async void ListAllSecurityBaselines()
+        {
+            // The new way of querying security baselines
+            // Older methods above are still valid but this is the new way of querying security baselines
+            // Older methods should be updated
+
+            // Create the graph client
+            var graphClient = CreateGraphServiceClient();
+
+            var securityBaselines = await GetSecurityBaselines(graphClient);
+
+            // check if there are any security baselines
+
+            if (securityBaselines.Count == 0)
+            {
+
+                rtbSummary.AppendText("No security baselines found." + Environment.NewLine);
+                return;
+            }
+
+            // Add the security baselines to the datagridview
+
+            foreach (var baseline in securityBaselines)
+            {
+
+
+                // Lookup templateID and translate to template friendly name
+
+                var templateID = baseline.TemplateId;
+                var templateName = await GetTemplateDisplayNameFromTemplateID(templateID);
+                var templatePlatform = await GetTemplatePlatformFromTemplateID(templateID);
+
+                dtgDisplayPolicy.Rows.Add(baseline.DisplayName, templateName, templatePlatform, baseline.Id);
+            }
+
+        }
+
+
+
 
         public string getPolicyIdFromDtg(DataGridView datagridview, int columnIndex)
         {
@@ -247,7 +287,7 @@ namespace IntuneAssignments
                     return;
                 }
 
-                
+
                 // Clear the datagridview
                 dtgGroupAssignment.Rows.Clear();
 
@@ -266,7 +306,7 @@ namespace IntuneAssignments
                     // Add the assigned group name and ID to the datagridview
                     dtgGroupAssignment.Rows.Add(groupName, groupID);
                     WriteToLog("Group assignment for " + appname + " found : " + groupName + ". ID is : " + groupID);
-                    
+
                 }
 
             }
@@ -399,12 +439,12 @@ namespace IntuneAssignments
                 // Make assignment list for each selected policy and pass it to the delete method
 
                 var listOfAssignments = new List<string>();
-                
+
                 var graphClient = CreateGraphServiceClient();
 
                 foreach (DataGridViewRow assignment in dtgDisplayPolicy.SelectedRows)
                 {
-                    
+
                     // clear the assignment list before adding new assignments
                     listOfAssignments.Clear();
 
@@ -420,7 +460,7 @@ namespace IntuneAssignments
                         rtbSummary.ForeColor = Color.Yellow;
                         rtbSummary.AppendText("Deleting assignments for compliance policies are currently not implemented. Skipping..." + Environment.NewLine);
                         rtbSummary.ForeColor = Color.Salmon;
-                        
+
 
                         await DeletePolicyAssignment(listOfAssignments, policyType);
                     }
@@ -431,7 +471,7 @@ namespace IntuneAssignments
                         rtbSummary.ForeColor = Color.Yellow;
                         rtbSummary.AppendText("Deleting assignments for settings catalog policies are currently not implemented. Skipping..." + Environment.NewLine);
                         rtbSummary.ForeColor = Color.Salmon;
-                        
+
 
                         await DeletePolicyAssignment(listOfAssignments, policyType);
                     }
@@ -467,7 +507,7 @@ namespace IntuneAssignments
                         // Get all assigned groups for the selected policy
 
                         var result = await graphClient.DeviceManagement.GroupPolicyConfigurations[policyID].Assignments.GetAsync();
-                        
+
                         // Check if there are any assignments
 
                         if (result.Value.Count == 0)
@@ -476,7 +516,7 @@ namespace IntuneAssignments
                             rtbSummary.AppendText("No assignments found for " + assignment.Cells[0].Value.ToString() + Environment.NewLine);
                             return;
                         }
-                        
+
                         // Add the result to a list of assignments
 
                         foreach (var ID in result.Value)
@@ -490,7 +530,7 @@ namespace IntuneAssignments
                     }
 
 
-                    
+
                 }
 
                 // Clear the datagridview for older results
@@ -613,7 +653,7 @@ namespace IntuneAssignments
                 var policyID = policy.Split("_")[0];
                 var groupID = policy.Split("_")[1];
                 var assignmentID = policyID + "_" + groupID;
-                
+
 
                 if (policyType == "Compliance")
                 {
@@ -634,9 +674,9 @@ namespace IntuneAssignments
 
                 if (policyType == "Settings Catalog")
                 {
-                    
+
                     WriteToLog("Deleting assignments for settings catalog policies are currently not implemented. Skipping...");
-                    
+
                     rtbSummary.ForeColor = Color.Yellow;
                     rtbSummary.AppendText("Deleting assignments for settings catalog policies are currently not implemented. Skipping..." + Environment.NewLine);
                     rtbSummary.ForeColor = Color.Salmon;
@@ -680,6 +720,7 @@ namespace IntuneAssignments
             listAllSettingsCatalogPolicies();
             listAllDeviceConfigurationPolicies();
             ListAllADMXTemplates();
+            ListAllSecurityBaselines();
         }
 
         private void dtgDisplayPolicy_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -734,6 +775,11 @@ namespace IntuneAssignments
         private async void btnDeleteAssignmentForSelectedPolicies_Click(object sender, EventArgs e)
         {
             await DeleteAssignmentsFromSelectedPolicy();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ListAllSecurityBaselines();
         }
     }
 }
