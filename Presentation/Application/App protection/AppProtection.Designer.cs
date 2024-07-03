@@ -618,6 +618,7 @@
             FormBorderStyle = FormBorderStyle.Fixed3D;
             Name = "AppProtection";
             Text = "AppProtection";
+            Load += AppProtection_Load;
             ((System.ComponentModel.ISupportInitialize)pbHome).EndInit();
             pnlAppProtectionPolicies.ResumeLayout(false);
             pnlAppProtectionPolicies.PerformLayout();

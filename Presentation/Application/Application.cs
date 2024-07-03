@@ -99,6 +99,7 @@ namespace IntuneAssignments
             // Remove this to authenticate as a user
             panelTenantInfo.Hide();
 
+
             // This code is not necessary as long as client credential provider is used as the authentication method
 
             //// Creates a timer to have the animation trigger after 3 seconds
@@ -874,119 +875,119 @@ namespace IntuneAssignments
             // Create a graph service client object
             var graphClient = CreateGraphServiceClient();
 
-            // Make a call to Microsoft Graph
-            var allApplications = await graphClient.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
+            try
             {
-                requestConfiguration.QueryParameters.Search = searchquery;
-            });
+                // Make a call to Microsoft Graph
+                var allApplications = await graphClient.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
+                {
+                    requestConfiguration.QueryParameters.Search = searchquery;
+                });
 
 
-            // Put result into a list for easy processing
-            List<MobileApp> searchResult = new List<MobileApp>();
-            searchResult.AddRange(allApplications.Value);
 
-            int numberOfAppsFound = searchResult.Count;
+                // Put result into a list for easy processing
+                List<MobileApp> searchResult = new List<MobileApp>();
+                searchResult.AddRange(allApplications.Value);
 
-            if (numberOfAppsFound == 0)
+                int numberOfAppsFound = searchResult.Count;
 
-            {
+                if (numberOfAppsFound == 0)
 
-                MessageBox.Show("No applications found containing " + searchquery);
+                {
+
+                    MessageBox.Show("No applications found containing " + searchquery);
+
+                }
+
+                else if (numberOfAppsFound > 0)
+
+                {
+                    // Check cBAppType.text. List only items with corresponding platform
+
+                    if (cBAppType.Text == "Android")
+                    {
+                        foreach (var result in searchResult)
+                        {
+                            // Need to translate odatatype to actual platform name
+                            var platForm = FindAppPlatform(result.OdataType.ToString());
+
+                            if (platForm == "Android")
+                            {
+                                dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                            }
+                        }
+                    }
+
+                    if (cBAppType.Text == "iOS")
+                    {
+                        foreach (var result in searchResult)
+                        {
+                            // Need to translate odatatype to actual platform name
+                            var platForm = FindAppPlatform(result.OdataType.ToString());
+
+                            if (platForm == "iOS")
+                            {
+                                dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                            }
+                        }
+                    }
+
+                    if (cBAppType.Text == "Windows")
+                    {
+                        foreach (var result in searchResult)
+                        {
+                            // Need to translate odatatype to actual platform name
+                            var platForm = FindAppPlatform(result.OdataType.ToString());
+
+                            if (platForm == "Windows")
+                            {
+                                dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                            }
+                        }
+                    }
+
+                    if (cBAppType.Text == "macOS")
+                    {
+                        foreach (var result in searchResult)
+                        {
+                            // Need to translate odatatype to actual platform name
+                            var platForm = FindAppPlatform(result.OdataType.ToString());
+
+                            if (platForm == "macOS")
+                            {
+                                dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                            }
+                        }
+                    }
+
+                    if (cBAppType.Text == "All platforms")
+                    {
+
+                        // Searching for all types of apps
+
+                        foreach (var result in searchResult)
+                        {
+
+
+                            // Need to translate odatatype to actual platform name
+                            var platForm = FindAppPlatform(result.OdataType.ToString());
+
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                        }
+                    }
+                }
 
             }
-
-            else if (numberOfAppsFound > 0)
-
+            catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError e)
             {
-
-                // Check cBAppType.text. List only items with corresponding platform
-
-                if (cBAppType.Text == "Android")
-                {
-                    foreach (var result in searchResult)
-                    {
-                        // Need to translate odatatype to actual platform name
-                        var platForm = FindAppPlatform(result.OdataType.ToString());
-
-                        if (platForm == "Android")
-                        {
-                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
-                        }
-                    }
-
-
-
-                }
-
-                if (cBAppType.Text == "iOS")
-                {
-                    foreach (var result in searchResult)
-                    {
-                        // Need to translate odatatype to actual platform name
-                        var platForm = FindAppPlatform(result.OdataType.ToString());
-
-                        if (platForm == "iOS")
-                        {
-                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
-                        }
-                    }
-
-                }
-
-                if (cBAppType.Text == "Windows")
-                {
-                    foreach (var result in searchResult)
-                    {
-                        // Need to translate odatatype to actual platform name
-                        var platForm = FindAppPlatform(result.OdataType.ToString());
-
-                        if (platForm == "Windows")
-                        {
-                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
-                        }
-                    }
-
-
-                }
-
-                if (cBAppType.Text == "macOS")
-                {
-                    foreach (var result in searchResult)
-                    {
-                        // Need to translate odatatype to actual platform name
-                        var platForm = FindAppPlatform(result.OdataType.ToString());
-
-                        if (platForm == "macOS")
-                        {
-                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
-                        }
-                    }
-
-                }
-
-                if (cBAppType.Text == "All platforms")
-                {
-
-                    // Searching for all types of apps
-
-                    foreach (var result in searchResult)
-                    {
-
-
-                        // Need to translate odatatype to actual platform name
-                        var platForm = FindAppPlatform(result.OdataType.ToString());
-
-                        dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
-                    }
-
-
-                }
-
-
-
-
-
+                MessageBox.Show(" ' " + searchquery + " ' " + " is an invalid search query in Graph.");
+                WriteToLog("Encountered an error when searching for " + "'" + searchquery + "'" + ". The error was:");
+                WriteToLog(e.Message);
+                //throw;
             }
+
+            
+
 
         }
         public void HidePanel(Panel panel)
@@ -2096,19 +2097,6 @@ namespace IntuneAssignments
             showDeploymentSummary();
         }
 
-        private void btnSearchApp_Click_1(object sender, EventArgs e)
-        {
-
-            if (cBAppType.Text == "")
-            {
-                MessageBox.Show("Please select application type in the drop down menu");
-            }
-
-            else
-            {
-                SearchForApp();
-            }
-        }
 
         private void txtboxSearchGroup_Click(object sender, EventArgs e)
         {
@@ -2328,6 +2316,19 @@ namespace IntuneAssignments
         private void pBAppProtetion_Click(object sender, EventArgs e)
         {
             showAppProtection();
+        }
+
+        private void btnSearchApp_Click_1(object sender, EventArgs e)
+        {
+            if (cBAppType.Text == "")
+            {
+                MessageBox.Show("Please select application type in the drop down menu");
+            }
+
+            else
+            {
+                SearchForApp();
+            }
         }
     }
 }

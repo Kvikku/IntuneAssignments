@@ -282,7 +282,7 @@ namespace IntuneAssignments.Presentation.Application.App_protection
         {
             // Assign the selected app protection policies to the selected groups
 
-            
+
 
             // Get the selected app protection policies and groups
 
@@ -297,7 +297,7 @@ namespace IntuneAssignments.Presentation.Application.App_protection
 
                 return;
             }
-            
+
             if (dtgDisplayGroup.SelectedRows.Count == 0)
             {
                 WriteToLog("No groups selected");
@@ -327,7 +327,7 @@ namespace IntuneAssignments.Presentation.Application.App_protection
         {
             // Create a graph service client
             var graphServiceClient = CreateGraphServiceClient();
-            
+
 
             // Create a group assignment target
 
@@ -344,18 +344,41 @@ namespace IntuneAssignments.Presentation.Application.App_protection
 
             var requestBody = new TargetedManagedAppPolicyAssignment
             {
-                Id = id + "_incl",
+                Id = id,//+ "_incl"
                 Source = DeviceAndAppManagementAssignmentSource.Direct,
                 SourceId = "00000000-0000-0000-0000-000000000000",
                 Target = groupAssignmentTarget
             };
 
+            var requestBody1 = new TargetedManagedAppPolicyAssignment
+            {
+                OdataType = "#microsoft.graph.targetedManagedAppPolicyAssignment",
+                Target = new ConfigurationManagerCollectionAssignmentTarget
+                {
+                    OdataType = "microsoft.graph.configurationManagerCollectionAssignmentTarget",
+                    CollectionId = "1e0d5d14-3275-43ad-a8e6-a4e9bb04f77d",
+                },
+            };
+
+
+
             // TODO - This is not working yet
 
+            try
+            {
+                //var result = await graphServiceClient.DeviceAppManagement.AndroidManagedAppProtections[policy].Assignments[requestBody.Id].PatchAsync(requestBody);
 
-            var result = await graphServiceClient.DeviceAppManagement.AndroidManagedAppProtections[policy].Assignments[requestBody.Id].PatchAsync(requestBody);
+                //var result = await graphServiceClient.DeviceAppManagement.ManagedAppPolicies[policy].PatchAsync(requestBody1);
+            }
+            catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
+            {
+                MessageBox.Show(me.Message);
+                throw;
+            }
 
-            
+
+
+
         }
 
 
@@ -442,6 +465,11 @@ namespace IntuneAssignments.Presentation.Application.App_protection
             //await AssignSelectedPolicies();
 
             await AssignAndroidManagedAppProtectionPolicy("T_ca665e42-ed6f-40ea-ae4a-2ea2278f6be5", "315107e1-9ebe-47a1-8485-360591334584");
+        }
+
+        private void AppProtection_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

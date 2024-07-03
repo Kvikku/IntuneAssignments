@@ -511,12 +511,12 @@ namespace IntuneAssignments
 
             WriteToLog("Attempting to authenticate to Graph API with the current settings");
 
-            // set the size of the form to show the permission check overview
-            this.Size = new Size(504, 607);
+            
 
             await checkAPIPermissions();
 
-
+            // set the size of the form to show the permission check overview
+            this.Size = new Size(504, 607);
         }
 
         private void cBSaveSettings_Click(object sender, EventArgs e)

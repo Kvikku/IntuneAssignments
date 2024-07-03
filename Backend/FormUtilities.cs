@@ -250,7 +250,7 @@ namespace IntuneAssignments.Backend
 
 
 
-            // This method lists all groups in the tenant and displays them in a datagridview
+            // This method lists all groups in the tenant and displays them in a DataGrid view
 
             // Authenticate to Graph
             var allGroups = await getAllEntraGroups();
@@ -270,17 +270,13 @@ namespace IntuneAssignments.Backend
                     // Add the groups to the datagridview with all information available
                     dataGridView.Invoke(new Action(() => dataGridView.Rows.Add(group.DisplayName, memberCount, groupType, group.Id)));
 
-
-
                     WriteToLog("Adding group " + group.DisplayName + " to view");
 
                 }
                 else if (memberCount == null)
                 {
-
-
+                    // no members in group. Do nothing.
                 }
-                // Sjekk siste fra chatGPT - 
             }
 
 
