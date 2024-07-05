@@ -6,6 +6,8 @@ using Microsoft.Kiota.Abstractions;
 using Windows.ApplicationModel.Activation;
 using System.Linq;
 using Microsoft.Graph.Beta;
+//using Microsoft.Graph.Beta.DeviceAppManagement.IosLobAppProvisioningConfigurations.Item.Assign;
+using Microsoft.Graph.Beta.DeviceManagement.Intents.Item.Assign;
 
 namespace IntuneAssignments.Backend
 {
@@ -1053,6 +1055,75 @@ namespace IntuneAssignments.Backend
             securityBaselines.AddRange(result.Value);
 
             return securityBaselines;
+        }
+
+        public static async Task DeleteSecurityBaselineAssignments(List<string> groupIDs, string policyID)
+        {
+            // Method to deletes a security baseline assignment
+            // Security baselines in this context are also known as intents in the Graph API, and require a different method to delete assignments
+            // The way it works is that you have to make a POST with the group IDs you want to keep, and the Graph API will delete all other assignments
+            // The list passed into this method should contain the group IDs you want to delete
+
+            // Create a new instance of the GraphServiceClient class
+            var graphClient = CreateGraphServiceClient();
+
+            // Get all assignments for the security baseline
+
+            var result = await GetSecurityBaselineAssignments(policyID);
+
+
+            // Store all assignments in a list
+
+            var allAssignments = new List<DeviceManagementIntentAssignment>();
+            allAssignments.AddRange(result);
+
+
+            // remove assignment objects that match their group ID with the group IDs in the list
+            foreach (var assignment in allAssignments)
+            {   
+                var groupAssignmentTarget = (GroupAssignmentTarget)assignment.Target;
+
+                var groupID = groupAssignmentTarget.GroupId;
+
+                var ID = assignment.Id;
+
+                if (groupIDs.Contains(groupID))
+                {
+                    // Delete
+
+                    // TODO - delete by running a POST with objects that are not in the list (you want to keep)
+
+                   
+                }
+                else
+                {
+                    // Keep. Do nothing
+                }
+
+            }
+            
+
+            
+
+
+
+
+
+
+            foreach (var groupID in groupIDs)
+            {
+                new DeviceManagementIntentAssignment
+                {
+                    Id = groupID
+                };
+                
+            }
+
+            var requestBody = new AssignPostRequestBody
+            {
+
+                Assignments = new List<DeviceManagementIntentAssignment>()
+            };
         }
     }
 }

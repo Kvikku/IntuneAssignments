@@ -597,7 +597,9 @@ namespace IntuneAssignments
         {
             // Deletes the selected policy assignment for the selected policy
 
-            // Create the assignment ID for each row selected from the policy ID and group ID and store it in a variable
+            
+
+            // Does not work for certain security baseline types. See other methods for those
 
             // Check if any rows are selected
 
@@ -609,21 +611,57 @@ namespace IntuneAssignments
 
             var listOfAssignments = new List<string>();
             var policyType = lblPolicyType.Text;
+            var policyID = lblPolicyID.Text;
 
-            // make a list of selected rows
 
-            foreach (DataGridViewRow selectedRow in dtgGroupAssignment.SelectedRows)
+            // Check if the policy type is the intent type
+            // The intent type works differently than other policy types, hence the need for a separate way of deleting assignments
+
+            if (policyType.StartsWith("MDM Security Baseline for Windows 10") || policyType == "Microsoft Defender for Endpoint baseline" || policyType == "Windows 365 Security Baseline" || policyType == "BitLocker")
             {
-                // Add the assignment ID to the list
-                var groupID = selectedRow.Cells[1].Value.ToString();
-                var policyID = lblPolicyID.Text;
-                var assignmentID = policyID + "_" + groupID;
-                listOfAssignments.Add(assignmentID);
+                /*
+                 * The way it works is that you do a POST with the group ID's you want to keep assigned to the policy, and the rest will be 
+                 */
+
+                var groupIDs = new List<string>();
+
+                foreach (DataGridViewRow row in dtgGroupAssignment.Rows)
+                {
+                    if (row.Selected)
+                    {
+                        // Get the group ID 
+                        var groupID = row.Cells[1].Value.ToString();
+
+                        groupIDs.Add(groupID);
+                    }
+
+                    // Call the method to delete the assignments
+                    await DeleteSecurityBaselineAssignments(groupIDs, policyID);
+                    return;
+                }
             }
 
-            await DeletePolicyAssignment(listOfAssignments, policyType);
 
+
+
+
+                // For all other policy types
+                // Create the assignment ID for each row selected from the policy ID and group ID and store it in a variable
+
+                foreach (DataGridViewRow selectedRow in dtgGroupAssignment.SelectedRows)
+                {
+                    // Add the assignment ID to the list
+                    var groupID = selectedRow.Cells[1].Value.ToString();
+                    
+                    var assignmentID = policyID + "_" + groupID;
+                    listOfAssignments.Add(assignmentID);
+                }
+            await DeletePolicyAssignment(listOfAssignments, policyType);
         }
+
+
+
+
 
         public async Task deleteAllPolicyAssignments()
         {
@@ -661,7 +699,7 @@ namespace IntuneAssignments
 
         }
 
-
+        
         public async Task DeletePolicyAssignment(List<string> assignmentList, string policyType)
         {
             /* 
