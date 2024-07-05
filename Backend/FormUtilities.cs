@@ -527,6 +527,18 @@ namespace IntuneAssignments.Backend
             }
         }
 
+        public static string GetGroupIDFromIntentPolicyAssignment(string ID)
+        {
+            /* Method to get the group ID from the assignment object ID
+             * 
+             * 
+             */
+
+
+
+            return "";
+        }
+
         public static string GetGroupIDFromAssignmentID(string assignmentID)
         {
             /* Method to get the group ID from the an assignment ID

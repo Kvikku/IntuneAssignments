@@ -402,6 +402,55 @@ namespace IntuneAssignments
                     }
                 }
             }
+
+            if (appType.StartsWith("MDM Security Baseline for Windows 10") || appType == "Microsoft Defender for Endpoint baseline" || appType == "Windows 365 Security Baseline" || appType == "BitLocker")
+            {
+                // Checks for assignments for security baselines for Windows 10 and later
+
+                // Query graph for assignment ID for a given policy
+
+                var result = await graphClient.DeviceManagement.Intents[policyID].Assignments.GetAsync();
+
+                // Add the result to a list of assignments
+                List<DeviceManagementIntentAssignment> assignmentsList = new List<DeviceManagementIntentAssignment>();
+                assignmentsList.AddRange(result.Value);
+
+                // Check if there are any assignments
+
+                if (assignmentsList.Count == 0)
+                {
+                    WriteToLog("No assignments found for " + appname);
+                    rtbSummary.AppendText("No assignments found for " + appname + Environment.NewLine);
+                    return;
+                }
+
+                // Clear the datagridview
+                dtgGroupAssignment.Rows.Clear();
+
+                // Loop through the list and display each assignment
+
+                foreach (var assignment in assignmentsList)
+                {
+
+                    // Must cast the assignment target to the correct type in order to get the group ID
+                    // This is because the target is a polymorphic type
+
+                    GroupAssignmentTarget groupAssignmentTarget = (GroupAssignmentTarget)assignment.Target;
+
+                    groupAssignmentTarget.GroupId.ToString();
+
+
+                    var groupID = groupAssignmentTarget.GroupId.ToString();
+                    var groupName = await FindGroupNameFromGroupID(groupID);
+                    
+
+                    dtgGroupAssignment.Rows.Add(groupName, groupID);
+                    WriteToLog("Group assignment for " + appname + " found : " + groupName + ". ID is : " + groupID);
+
+                }
+            }
+
+
         }
 
         public async Task DeleteAssignmentsFromSelectedPolicy()
