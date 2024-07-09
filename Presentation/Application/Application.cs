@@ -8,6 +8,7 @@ using static IntuneAssignments.Backend.FormUtilities;
 using System.Windows.Forms;
 using IntuneAssignments.Backend;
 using IntuneAssignments.Presentation.Application.App_protection;
+using Newtonsoft.Json;
 
 
 namespace IntuneAssignments
@@ -146,6 +147,7 @@ namespace IntuneAssignments
         {
             public string Id { get; set; }
             public string DisplayName { get; set; }
+            public string platForm { get; set; }
         }
 
         public class GroupInfo
@@ -1499,6 +1501,35 @@ namespace IntuneAssignments
                         progressBar1.Value++;
 
                     }
+
+                    catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
+                    {
+                        //MessageBox.Show(me.Message);
+
+                        string jsonResponse = me.Message;
+
+                        ApiErrorResponse errorResponse = JsonConvert.DeserializeObject<ApiErrorResponse>(jsonResponse);
+
+                        string errorMessage = errorResponse.Message;
+
+                        int operationIDIndex = errorMessage.IndexOf("Operation ID");
+
+                        // Trim the error message for better readability
+                        if (operationIDIndex != -1)
+                        {
+                            errorMessage = errorMessage.Substring(0, operationIDIndex);
+                        }
+
+
+                        WriteToLog("Error adding assignment for " + app.ToString() + " and " + group.ToString() + ": " + me.Message);
+                        
+                        rtbDeploymentSummary.SelectionColor = Color.Red;
+                        rtbDeploymentSummary.AppendText("Error adding " + app.ToString() + " to " + group.ToString() + " as " + intent + "\n");
+                        rtbDeploymentSummary.AppendText($"Error message: " + errorMessage);
+                        rtbDeploymentSummary.SelectionColor = rtbDeploymentSummary.ForeColor;
+                        progressBar1.Value++;
+                    }
+
                     catch (Exception ex)
                     {
                         //Troubleshoot only
@@ -1636,7 +1667,10 @@ namespace IntuneAssignments
             var mobileAppInfos = mobileApps.Select(app => new MobileAppInfo
             {
                 Id = app.Id,
-                DisplayName = app.DisplayName
+                DisplayName = app.DisplayName,
+                platForm = app.OdataType
+                
+                
             }).ToList();
 
             return mobileAppInfos;
@@ -1649,8 +1683,6 @@ namespace IntuneAssignments
         public async Task<List<GroupInfo>> SearchAndGetAllGroupsAsync()
         {
             // Retrieves all Azure AD groups with ID and display name, and saves them in a list for further use and processing
-
-
 
 
             // Create the list
@@ -1672,7 +1704,17 @@ namespace IntuneAssignments
             // add the results to the list
             Groups.AddRange(result.Value);
 
+            while (result.OdataNextLink != null)
+            {
+                result = await graphClient.Groups.WithUrl(result.OdataNextLink).GetAsync();
+                {
+                    //requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
+                    //requestConfiguration.QueryParameters.Top = 1000; // Optional: Set the page size
+                   
+                };
 
+                Groups.AddRange(result.Value);
+            }
 
 
             var groupInfo = Groups.Select(app => new GroupInfo
@@ -1711,7 +1753,33 @@ namespace IntuneAssignments
 
             // Searches through the list of app and retrieves the ID
 
-            var mobileApp = mobileApps.FirstOrDefault(x => x.DisplayName.Equals(appName, StringComparison.OrdinalIgnoreCase));
+            string platForm = cBAppType.Text;
+
+            // Check if the platform is set to "All platforms"
+            // Note to self - this can cause issues if there are apps with the same name on different platforms and the user selects "All platforms"
+            // TODO - improve this
+
+            if (platForm == "All platforms")
+            {
+                var result = mobileApps.FirstOrDefault(x => x.DisplayName.Equals(appName, StringComparison.OrdinalIgnoreCase));
+
+                if (result == null)
+                {
+                    throw new Exception($"Mobile app '{appName}' not found.");
+                }
+
+                return result.Id;
+            }
+
+            // If the platform is not set to "All platforms", search for the app name and platform
+            // This should help ensure that the correct app is found
+
+            if (platForm.Contains("android", StringComparison.OrdinalIgnoreCase))
+            {
+                platForm = "androidManaged";
+            }
+
+            var mobileApp = mobileApps.FirstOrDefault(x => x.DisplayName.Equals(appName, StringComparison.OrdinalIgnoreCase) && x.platForm.Contains(platForm, StringComparison.OrdinalIgnoreCase) );
             if (mobileApp == null)
             {
                 throw new Exception($"Mobile app '{appName}' not found.");
@@ -1723,6 +1791,8 @@ namespace IntuneAssignments
         public string GetGroupIdByName(List<GroupInfo> groups, string groupName)
         {
             // Searches through the list of groups and retrieves the ID
+
+            // TODO - paging
             var group = groups.FirstOrDefault(x => x.DisplayName.Equals(groupName, StringComparison.OrdinalIgnoreCase));
             if (group == null)
             {
