@@ -6,6 +6,7 @@ using static IntuneAssignments.Backend.FormUtilities;
 using Microsoft.Graph.Beta.Models.Networkaccess;
 using IntuneAssignments.Backend;
 using System.Windows.Forms;
+using Microsoft.Graph.Beta.DeviceManagement.Intents.Item.Assign;
 
 namespace IntuneAssignments
 {
@@ -435,17 +436,38 @@ namespace IntuneAssignments
                     // Must cast the assignment target to the correct type in order to get the group ID
                     // This is because the target is a polymorphic type
 
-                    GroupAssignmentTarget groupAssignmentTarget = (GroupAssignmentTarget)assignment.Target;
+                    // check if it is all users or all devices virtual groups
 
-                    groupAssignmentTarget.GroupId.ToString();
+                    if (assignment.Target.GetType() == typeof(AllDevicesAssignmentTarget))
+                    {
+                        // Add the assigned group name and ID to the datagridview
+                        dtgGroupAssignment.Rows.Add(allDevicesGroupName, allDevicesGroupID);
+                        WriteToLog("Group assignment for " + appname + " found :" + allDevicesGroupName + ". ID is : " + allDevicesGroupID);
 
+                        
+                    }
+                    else if (assignment.Target.GetType() == typeof(AllLicensedUsersAssignmentTarget))
+                    {
+                        // Add the assigned group name and ID to the datagridview
+                        dtgGroupAssignment.Rows.Add(allUsersGroupName, allUsersGroupID);
+                        WriteToLog("Group assignment for " + appname + " found :" + allUsersGroupName + ". ID is : " + allUsersGroupID);
 
-                    var groupID = groupAssignmentTarget.GroupId.ToString();
-                    var groupName = await FindGroupNameFromGroupID(groupID);
+                        
+                    }
+                    else
+                    {
+                        GroupAssignmentTarget groupAssignmentTarget = (GroupAssignmentTarget)assignment.Target;
+
+                        groupAssignmentTarget.GroupId.ToString();
+
+                        var groupID = groupAssignmentTarget.GroupId.ToString();
+                        var groupName = await FindGroupNameFromGroupID(groupID);
+
+                        dtgGroupAssignment.Rows.Add(groupName, groupID);
+                        WriteToLog("Group assignment for " + appname + " found : " + groupName + ". ID is : " + groupID);
+                    }
+
                     
-
-                    dtgGroupAssignment.Rows.Add(groupName, groupID);
-                    WriteToLog("Group assignment for " + appname + " found : " + groupName + ". ID is : " + groupID);
 
                 }
             }
@@ -620,25 +642,42 @@ namespace IntuneAssignments
             if (policyType.StartsWith("MDM Security Baseline for Windows 10") || policyType == "Microsoft Defender for Endpoint baseline" || policyType == "Windows 365 Security Baseline" || policyType == "BitLocker")
             {
                 /*
-                 * The way it works is that you do a POST with the group ID's you want to keep assigned to the policy, and the rest will be 
+                 * The way it works is that you do a POST with the group ID's you want to keep assigned to the policy, and the rest will be deleted
                  */
 
                 var groupIDs = new List<string>();
 
-                foreach (DataGridViewRow row in dtgGroupAssignment.Rows)
+                foreach (DataGridViewRow row in dtgGroupAssignment.SelectedRows)
                 {
                     if (row.Selected)
                     {
-                        // Get the group ID 
+                        // Get the group ID of the group you want to delete
+
                         var groupID = row.Cells[1].Value.ToString();
 
                         groupIDs.Add(groupID);
                     }
 
+
+                }
+
+                try
+                {
                     // Call the method to delete the assignments
                     await DeleteSecurityBaselineAssignments(groupIDs, policyID);
-                    return;
+
+                    foreach (var group in groupIDs)
+                    {
+                        rtbSummary.AppendText("Assignment deleted for " + lblPolicyName.Text + " for group " + group + Environment.NewLine);
+                        rtbSummary.AppendText(Environment.NewLine);
+                    }
+
                 }
+                catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
+                {
+                    rtbSummary.AppendText("Error deleting assignment for " + lblPolicyName.Text + " for group " + me.Message + Environment.NewLine);
+                }
+                return;
             }
 
 
@@ -797,6 +836,24 @@ namespace IntuneAssignments
                     numberOfAssignmentsDeleted++;
                     lblNumberOfAssignmentsDeleted.Text = numberOfAssignmentsDeleted.ToString();
                 }
+
+                if (policyType.StartsWith("MDM Security Baseline for Windows 10") || policyType == "Microsoft Defender for Endpoint baseline" || policyType == "Windows 365 Security Baseline" || policyType == "BitLocker")
+                {
+                    // Delete all assignments for the security baseline
+
+                    // new post request body
+                    var requestBody = new AssignPostRequestBody
+                    {
+
+                        Assignments = new List<DeviceManagementIntentAssignment>()
+                    };
+
+                    // Delete - POST request with the group ID's you want to keep assigned to the policy
+                    await graphClient.DeviceManagement.Intents[policyID].Assign.PostAsync(requestBody);
+
+                    // TODO - all users and all devices
+
+                }
             }
         }
 
@@ -847,6 +904,7 @@ namespace IntuneAssignments
         private async void btnDeleteSelectedAssignment_Click(object sender, EventArgs e)
         {
             await deleteSelectedPolicyAssignment();
+            await findPolicyAssignment();
         }
 
         private void ManagePolicyAssignments_Load(object sender, EventArgs e)

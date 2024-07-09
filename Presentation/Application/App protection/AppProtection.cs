@@ -464,7 +464,9 @@ namespace IntuneAssignments.Presentation.Application.App_protection
 
             //await AssignSelectedPolicies();
 
-            await AssignAndroidManagedAppProtectionPolicy("T_ca665e42-ed6f-40ea-ae4a-2ea2278f6be5", "315107e1-9ebe-47a1-8485-360591334584");
+            MessageBox.Show("Feature not implemented yet");
+
+            //await AssignAndroidManagedAppProtectionPolicy("T_ca665e42-ed6f-40ea-ae4a-2ea2278f6be5", "315107e1-9ebe-47a1-8485-360591334584");
         }
 
         private void AppProtection_Load(object sender, EventArgs e)

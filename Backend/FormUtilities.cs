@@ -1077,22 +1077,40 @@ namespace IntuneAssignments.Backend
             var allAssignments = new List<DeviceManagementIntentAssignment>();
             allAssignments.AddRange(result);
 
+            // Create a new list to store the assignments you want to keep
+            var assignmentsToKeep = new List<DeviceManagementIntentAssignment>();
+
+            // Make the lists equal at first. Later, subtract the assignments you want to delete
+            assignmentsToKeep.AddRange(allAssignments);
 
             // remove assignment objects that match their group ID with the group IDs in the list
             foreach (var assignment in allAssignments)
-            {   
-                var groupAssignmentTarget = (GroupAssignmentTarget)assignment.Target;
+            {
 
-                var groupID = groupAssignmentTarget.GroupId;
+                var groupID = "";
+
+                if (assignment.Target.GetType() == typeof(AllDevicesAssignmentTarget))
+                {
+                    groupID = allDevicesGroupID;
+                }
+
+                else if (assignment.Target.GetType() == typeof(AllLicensedUsersAssignmentTarget))
+                { 
+                    groupID = allUsersGroupID;
+                }
+                else
+                {
+                    var groupAssignmentTarget = (GroupAssignmentTarget)assignment.Target;
+                    groupID = groupAssignmentTarget.GroupId;
+                }
+               
 
                 var ID = assignment.Id;
 
                 if (groupIDs.Contains(groupID))
                 {
-                    // Delete
-
-                    // TODO - delete by running a POST with objects that are not in the list (you want to keep)
-
+                    // Remove the assignment from the list of assignments to keep
+                    assignmentsToKeep.Remove(assignment);
                    
                 }
                 else
@@ -1124,6 +1142,13 @@ namespace IntuneAssignments.Backend
 
                 Assignments = new List<DeviceManagementIntentAssignment>()
             };
+
+            // Add the assignments to the request body
+            requestBody.Assignments.AddRange(assignmentsToKeep);
+
+            // Make the POST request to delete the assignments
+            await graphClient.DeviceManagement.Intents[policyID].Assign.PostAsync(requestBody);
+
         }
     }
 }

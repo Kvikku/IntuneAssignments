@@ -74,6 +74,7 @@
             lblAssignedTo = new Label();
             lblAssignmentPreview = new Label();
             rtbAssignmentPreview = new RichTextBox();
+            lblWarning = new Label();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlAppProtectionPolicies.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayAppProtectionPolicies).BeginInit();
@@ -602,12 +603,24 @@
             rtbAssignmentPreview.TabIndex = 2;
             rtbAssignmentPreview.Text = "";
             // 
+            // lblWarning
+            // 
+            lblWarning.AutoSize = true;
+            lblWarning.Font = new Font("Segoe UI", 27.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblWarning.ForeColor = Color.Red;
+            lblWarning.Location = new Point(607, 6);
+            lblWarning.Name = "lblWarning";
+            lblWarning.Size = new Size(302, 50);
+            lblWarning.TabIndex = 24;
+            lblWarning.Text = "Work in progress";
+            // 
             // AppProtection
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1288, 892);
+            Controls.Add(lblWarning);
             Controls.Add(pnlSummary);
             Controls.Add(pnlSearchGroup);
             Controls.Add(lblHeaderAppProtectionForm);
@@ -681,5 +694,6 @@
         private Panel panel3;
         private Panel panel2;
         private Panel panel1;
+        private Label lblWarning;
     }
 }
