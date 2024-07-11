@@ -9,6 +9,11 @@ Usually this process involves a lot of manual work and mouse clicks, which in tu
 
 __With this application you can now effectively deploy a large number of applications and policies to multiple groups in seconds. There are also additional functionality available, such as updating the description property of all objects, and deleting assignments in bulk__
 
+With this app you can:
+
+1. Deploy a large amount of groups to a large amount of profiles and applications effectively
+2. Delete assignment for a large amount of groups to a large amount of profiles and applications effectively
+3. Update the description property of a large amount of profiles and applications effectively
 
 And before you ask - No, we don't talk about policy sets in Intune. Policy sets is missing a lot of features and is quite buggy, in my honest opinion.
 
