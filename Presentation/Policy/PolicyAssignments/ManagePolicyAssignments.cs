@@ -639,6 +639,47 @@ namespace IntuneAssignments
             // Check if the policy type is the intent type
             // The intent type works differently than other policy types, hence the need for a separate way of deleting assignments
 
+            if (policyType == "Settings Catalog")
+            {
+                /* 
+                 * The way it works is that you do a POST with the group ID's you want to keep assigned to the policy, and the rest will be deleted
+                 */
+
+                var groupIDs = new List<string>();
+
+                foreach (DataGridViewRow row in dtgGroupAssignment.SelectedRows)
+                {
+                    if (row.Selected)
+                    {
+                        // Get the group ID of the group you want to delete
+
+                        var groupID = row.Cells[1].Value.ToString();
+
+                        groupIDs.Add(groupID);
+                    }
+                }
+
+                try
+                {
+                    // Call the method to delete the assignments
+                    await DeleteSettingsCatalogPolicyAssignment(groupIDs, policyID);
+
+                    foreach (var group in groupIDs)
+                    {
+                        var groupName = await FindGroupNameFromGroupID(group);
+
+                        rtbSummary.AppendText("Assignment deleted for " + lblPolicyName.Text + " for group " + groupName + Environment.NewLine);
+                        rtbSummary.AppendText(Environment.NewLine);
+                    }
+
+                }
+                catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
+                {
+                    rtbSummary.AppendText("Error deleting assignment for " + lblPolicyName.Text + " for group " + me.Message + Environment.NewLine);
+                }
+                return;
+            }
+
             if (policyType.StartsWith("MDM Security Baseline for Windows 10") || policyType == "Microsoft Defender for Endpoint baseline" || policyType == "Windows 365 Security Baseline" || policyType == "BitLocker")
             {
                 /*
@@ -657,8 +698,6 @@ namespace IntuneAssignments
 
                         groupIDs.Add(groupID);
                     }
-
-
                 }
 
                 try
@@ -668,7 +707,9 @@ namespace IntuneAssignments
 
                     foreach (var group in groupIDs)
                     {
-                        rtbSummary.AppendText("Assignment deleted for " + lblPolicyName.Text + " for group " + group + Environment.NewLine);
+                        var groupName = await FindGroupNameFromGroupID(group);
+
+                        rtbSummary.AppendText("Assignment deleted for " + lblPolicyName.Text + " for group " + groupName + Environment.NewLine);
                         rtbSummary.AppendText(Environment.NewLine);
                     }
 
@@ -685,6 +726,7 @@ namespace IntuneAssignments
 
 
                 // For all other policy types
+                // Note  - this is being phased out - Security baselines and settings catalog is moved. The rest is pending
                 // Create the assignment ID for each row selected from the policy ID and group ID and store it in a variable
 
                 foreach (DataGridViewRow selectedRow in dtgGroupAssignment.SelectedRows)
@@ -800,18 +842,35 @@ namespace IntuneAssignments
 
                 if (policyType == "Settings Catalog")
                 {
+                    // This gets triggered only when the delete every assignment button is clicked
+                    // selected assignments are deleted in a different method
 
-                    WriteToLog("Deleting assignments for settings catalog policies are currently not implemented. Skipping...");
+                    // new post request body
+                    var requestBody = new Microsoft.Graph.Beta.DeviceManagement.ConfigurationPolicies.Item.Assign.AssignPostRequestBody
+                    {
 
-                    rtbSummary.ForeColor = Color.Yellow;
-                    rtbSummary.AppendText("Deleting assignments for settings catalog policies are currently not implemented. Skipping..." + Environment.NewLine);
-                    rtbSummary.ForeColor = Color.Salmon;
-                    return;
+                        Assignments = new List<DeviceManagementConfigurationPolicyAssignment>()
+                    };
 
+                    try                    
+                    {
+                        // Delete - POST request with the group ID's you want to keep assigned to the policy
 
+                        await graphClient.DeviceManagement.ConfigurationPolicies[policyID].Assign.PostAsync(requestBody);
 
-                    // Delete the assignment
-                    await graphClient.DeviceManagement.ConfigurationPolicies[policyID].Assignments[assignmentID].DeleteAsync();
+                        var groupName = await FindGroupNameFromGroupID(groupID);
+
+                        WriteToLog("Assignment for group " + groupName + " has been deleted.");
+                        rtbSummary.AppendText("Assignment for group " + groupName + " has been deleted." + Environment.NewLine);
+                        pBCalculate.Value++;
+                        numberOfAssignmentsDeleted++;
+                        lblNumberOfAssignmentsDeleted.Text = numberOfAssignmentsDeleted.ToString();
+                    }
+
+                    catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
+                    {
+                        rtbSummary.AppendText("Error deleting assignment for " + lblPolicyName.Text + " for group " + me.Message + Environment.NewLine);
+                    }
 
                 }
 
@@ -839,7 +898,8 @@ namespace IntuneAssignments
 
                 if (policyType.StartsWith("MDM Security Baseline for Windows 10") || policyType == "Microsoft Defender for Endpoint baseline" || policyType == "Windows 365 Security Baseline" || policyType == "BitLocker")
                 {
-                    // Delete all assignments for the security baseline
+                    // This gets triggered only when the delete every assignment button is clicked
+                    // selected assignments are deleted in a different method
 
                     // new post request body
                     var requestBody = new AssignPostRequestBody
@@ -848,11 +908,23 @@ namespace IntuneAssignments
                         Assignments = new List<DeviceManagementIntentAssignment>()
                     };
 
-                    // Delete - POST request with the group ID's you want to keep assigned to the policy
-                    await graphClient.DeviceManagement.Intents[policyID].Assign.PostAsync(requestBody);
+                    try                     {
+                        // Delete - POST request with the group ID's you want to keep assigned to the policy
 
-                    // TODO - all users and all devices
+                        await graphClient.DeviceManagement.Intents[policyID].Assign.PostAsync(requestBody);
 
+                        var groupName = await FindGroupNameFromGroupID(groupID);
+
+                        WriteToLog("Assignment for group " + groupName + " has been deleted.");
+                        rtbSummary.AppendText("Assignment for group " + groupName + " has been deleted." + Environment.NewLine);
+                        pBCalculate.Value++;
+                        numberOfAssignmentsDeleted++;
+                        lblNumberOfAssignmentsDeleted.Text = numberOfAssignmentsDeleted.ToString();
+                    }
+                    catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
+                    {
+                        rtbSummary.AppendText("Error deleting assignment for " + lblPolicyName.Text + " for group " + me.Message + Environment.NewLine);
+                    }
                 }
             }
         }

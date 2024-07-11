@@ -1057,6 +1057,164 @@ namespace IntuneAssignments.Backend
             return securityBaselines;
         }
 
+        public static async Task DeleteDeviceCompliancePolicyAssignments(List<string> groupIDs, string policyID)
+        {
+
+            // TODO - Bug in graph SDK? Not able to create device compliance policy request body. it defaults to configuration policy
+
+            // Method to delete device compliance policy assignments
+
+            // Create a new instance of the GraphServiceClient class
+            var graphClient = CreateGraphServiceClient();
+
+            // Get all assignments for the policy
+
+            var result = await GetCompliancePolicyAssignments(policyID);
+
+            // Store all assignments in a list
+
+            var allAssignments = new List<DeviceCompliancePolicyAssignment>();
+            allAssignments.AddRange(result);
+
+            // Create a new list to store the assignments you want to keep
+            var assignmentsToKeep = new List<String>();
+
+            foreach (var assignment in allAssignments) 
+            {
+                var groupID = "";
+    
+                if (assignment.Target.GetType() == typeof(AllDevicesAssignmentTarget))
+                {
+                    groupID = allDevicesGroupID;
+                }
+    
+                else if (assignment.Target.GetType() == typeof(AllLicensedUsersAssignmentTarget))
+                {
+                    groupID = allUsersGroupID;
+                }
+                else
+                {
+                    var groupAssignmentTarget = (GroupAssignmentTarget)assignment.Target;
+                    groupID = groupAssignmentTarget.GroupId;
+                }
+    
+                var ID = assignment.Id;
+    
+                if (groupIDs.Contains(groupID))
+                {
+                    // Remove the assignment from the list of assignments to keep
+                    assignmentsToKeep.Remove(assignment.ToString());
+                }
+                else
+                {
+                    // Keep. Do nothing
+                }
+             }
+
+            // continue here
+
+            foreach (var groupID in groupIDs)
+            {
+                new DeviceCompliancePolicyAssignment
+                {
+                    Id = groupID
+                };
+            }
+            
+
+            var requestBody = new Microsoft.Graph.Beta.DeviceManagement.CompliancePolicies.Item.Assign.AssignPostRequestBody
+            {
+                Assignments = new List<DeviceManagementConfigurationPolicyAssignment>()
+
+            };
+
+            // Add the assignments to the request body
+
+            //RequestBody.Assignments.AddRange(assignmentsToKeep);
+
+        }
+
+        public static async Task DeleteSettingsCatalogPolicyAssignment(List<string> groupIDs, string policyID)
+        {
+            // Method to delete a settings catalog policy assignment
+
+            // Create a new instance of the GraphServiceClient class
+            var graphClient = CreateGraphServiceClient();
+
+            // Get all assignments for the policy
+
+            var result = await GetSettingsCatalogAssignments(policyID);
+
+            // Store all assignments in a list
+
+            var allAssignments = new List<DeviceManagementConfigurationPolicyAssignment>();
+
+            allAssignments.AddRange(result);
+
+            // Create a new list to store the assignments you want to keep
+            var assignmentsToKeep = new List<DeviceManagementConfigurationPolicyAssignment>();
+
+            // Make the lists equal at first. Later, subtract the assignments you want to delete
+            assignmentsToKeep.AddRange(allAssignments);
+
+            // remove assignment objects that match their group ID with the group IDs in the list
+
+            foreach (var assignment in allAssignments)
+            {
+                var groupID = "";
+
+                if (assignment.Target.GetType() == typeof(AllDevicesAssignmentTarget))
+                {
+                    groupID = allDevicesGroupID;
+                }
+
+                else if (assignment.Target.GetType() == typeof(AllLicensedUsersAssignmentTarget))
+                {
+                    groupID = allUsersGroupID;
+                }
+                else
+                {
+                    var groupAssignmentTarget = (GroupAssignmentTarget)assignment.Target;
+                    groupID = groupAssignmentTarget.GroupId;
+                }
+
+                var ID = assignment.Id;
+
+                if (groupIDs.Contains(groupID))
+                {
+                    // Remove the assignment from the list of assignments to keep
+                    assignmentsToKeep.Remove(assignment);
+                }
+                else
+                {
+                    // Keep. Do nothing
+                }
+            }
+
+            foreach (var groupID in groupIDs)
+            {
+                new DeviceManagementConfigurationPolicyAssignment
+                {
+                    Id = groupID
+                };
+            }
+
+            var requestBody = new Microsoft.Graph.Beta.DeviceManagement.ConfigurationPolicies.Item.Assign.AssignPostRequestBody
+            {
+                Assignments = new List<DeviceManagementConfigurationPolicyAssignment>()
+            };
+
+            // Add the assignments to the request body
+            requestBody.Assignments.AddRange(assignmentsToKeep);
+
+            // Make the POST request to delete the assignments
+
+            await graphClient.DeviceManagement.ConfigurationPolicies[policyID].Assign.PostAsync(requestBody);
+
+
+        }
+
+
         public static async Task DeleteSecurityBaselineAssignments(List<string> groupIDs, string policyID)
         {
             // Method to deletes a security baseline assignment
@@ -1120,13 +1278,6 @@ namespace IntuneAssignments.Backend
 
             }
             
-
-            
-
-
-
-
-
 
             foreach (var groupID in groupIDs)
             {
