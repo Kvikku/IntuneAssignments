@@ -6,8 +6,10 @@ using Microsoft.Kiota.Abstractions;
 using Windows.ApplicationModel.Activation;
 using System.Linq;
 using Microsoft.Graph.Beta;
-//using Microsoft.Graph.Beta.DeviceAppManagement.IosLobAppProvisioningConfigurations.Item.Assign;
 using Microsoft.Graph.Beta.DeviceManagement.Intents.Item.Assign;
+using Microsoft.Graph.Beta.DeviceManagement.DeviceCompliancePolicies.Item.Assign;
+using Microsoft.Graph.Beta.DeviceManagement.ConfigurationPolicies.Item.Assign;
+using System.Collections.Generic;
 
 namespace IntuneAssignments.Backend
 {
@@ -1077,17 +1079,22 @@ namespace IntuneAssignments.Backend
             allAssignments.AddRange(result);
 
             // Create a new list to store the assignments you want to keep
-            var assignmentsToKeep = new List<String>();
+            var assignmentsToKeep = new List<DeviceCompliancePolicyAssignment>();
 
-            foreach (var assignment in allAssignments) 
+            // Make the lists equal at first. Later, subtract the assignments you want to delete
+            assignmentsToKeep.AddRange(allAssignments);
+
+
+
+            foreach (var assignment in allAssignments)
             {
                 var groupID = "";
-    
+
                 if (assignment.Target.GetType() == typeof(AllDevicesAssignmentTarget))
                 {
                     groupID = allDevicesGroupID;
                 }
-    
+
                 else if (assignment.Target.GetType() == typeof(AllLicensedUsersAssignmentTarget))
                 {
                     groupID = allUsersGroupID;
@@ -1097,21 +1104,20 @@ namespace IntuneAssignments.Backend
                     var groupAssignmentTarget = (GroupAssignmentTarget)assignment.Target;
                     groupID = groupAssignmentTarget.GroupId;
                 }
-    
+
                 var ID = assignment.Id;
-    
+
                 if (groupIDs.Contains(groupID))
                 {
                     // Remove the assignment from the list of assignments to keep
-                    assignmentsToKeep.Remove(assignment.ToString());
+                    assignmentsToKeep.Remove(assignment);
                 }
                 else
                 {
                     // Keep. Do nothing
                 }
-             }
+            }
 
-            // continue here
 
             foreach (var groupID in groupIDs)
             {
@@ -1120,19 +1126,22 @@ namespace IntuneAssignments.Backend
                     Id = groupID
                 };
             }
-            
 
-            var requestBody = new Microsoft.Graph.Beta.DeviceManagement.CompliancePolicies.Item.Assign.AssignPostRequestBody
+            var requestBody = new Microsoft.Graph.Beta.DeviceManagement.DeviceCompliancePolicies.Item.Assign.AssignPostRequestBody
             {
-                Assignments = new List<DeviceManagementConfigurationPolicyAssignment>()
-
+                Assignments = new List<DeviceCompliancePolicyAssignment>()
             };
 
             // Add the assignments to the request body
+            requestBody.Assignments.AddRange(assignmentsToKeep);
 
-            //RequestBody.Assignments.AddRange(assignmentsToKeep);
+            // Make the POST request to delete the assignments
+
+            await graphClient.DeviceManagement.DeviceCompliancePolicies[policyID].Assign.PostAsAssignPostResponseAsync(requestBody);
+
 
         }
+            
 
         public static async Task DeleteSettingsCatalogPolicyAssignment(List<string> groupIDs, string policyID)
         {
@@ -1288,7 +1297,7 @@ namespace IntuneAssignments.Backend
                 
             }
 
-            var requestBody = new AssignPostRequestBody
+            var requestBody = new Microsoft.Graph.Beta.DeviceManagement.Intents.Item.Assign.AssignPostRequestBody
             {
 
                 Assignments = new List<DeviceManagementIntentAssignment>()

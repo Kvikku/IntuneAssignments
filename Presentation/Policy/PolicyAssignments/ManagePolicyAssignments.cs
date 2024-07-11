@@ -636,8 +636,6 @@ namespace IntuneAssignments
             var policyID = lblPolicyID.Text;
 
 
-            // Check if the policy type is the intent type
-            // The intent type works differently than other policy types, hence the need for a separate way of deleting assignments
 
             if (policyType == "Settings Catalog")
             {
@@ -721,6 +719,45 @@ namespace IntuneAssignments
                 return;
             }
 
+            if (policyType == "Compliance")
+            {
+                /* 
+                 * The way it works is that you do a POST with the group ID's you want to keep assigned to the policy, and the rest will be deleted
+                 */
+
+                var groupIDs = new List<string>();
+
+                foreach (DataGridViewRow row in dtgGroupAssignment.SelectedRows)
+                {
+                    if (row.Selected)
+                    {
+                        // Get the group ID of the group you want to delete
+
+                        var groupID = row.Cells[1].Value.ToString();
+                        groupIDs.Add(groupID);
+                    }
+                }
+
+                try
+                {
+                    // Call the method to delete the assignments
+                    await DeleteDeviceCompliancePolicyAssignments(groupIDs, policyID);
+                    
+                    foreach (var group in groupIDs)
+                    {
+                        var groupName = await FindGroupNameFromGroupID(group);
+
+                        rtbSummary.AppendText("Assignment deleted for " + lblPolicyName.Text + " for group " + groupName + Environment.NewLine);
+                        rtbSummary.AppendText(Environment.NewLine);
+                    }
+
+                }
+                catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
+                {
+                    rtbSummary.AppendText("Error deleting assignment for " + lblPolicyName.Text + " for group " + me.Message + Environment.NewLine);
+                }
+                return;
+                }
 
 
 
@@ -825,19 +862,35 @@ namespace IntuneAssignments
 
                 if (policyType == "Compliance")
                 {
-                    WriteToLog("Deleting assignments for compliance policies are currently not implemented. Skipping...");
-                    rtbSummary.ForeColor = Color.Yellow;
-                    rtbSummary.AppendText("Deleting assignments for compliance policies are currently not implemented. Skipping..." + Environment.NewLine);
-                    rtbSummary.ForeColor = Color.Salmon;
-                    return;
+                    // This gets triggered only when the delete every assignment button is clicked
+                    // selected assignments are deleted in a different method
 
+                    // new post request body
+                    var requestBody = new Microsoft.Graph.Beta.DeviceManagement.DeviceCompliancePolicies.Item.Assign.AssignPostRequestBody
+                    {
 
-                    // Delete the assignment
-                    await graphClient.DeviceManagement.DeviceCompliancePolicies[policyID].Assignments[assignmentID].DeleteAsync();
-                    WriteToLog("Assignment deleted for " + lblPolicyName.Text + " for group " + groupID);
-                    rtbSummary.AppendText("Assignment deleted for " + lblPolicyName.Text + " for group " + groupID + Environment.NewLine);
-                    pBCalculate.Value++;
-                    lblNumberOfAssignmentsDeleted.Text = 1.ToString();
+                        Assignments = new List<DeviceCompliancePolicyAssignment>()
+                    };
+
+                    try
+                    {
+                        // Delete - POST request with the group ID's you want to keep assigned to the policy
+
+                        await graphClient.DeviceManagement.DeviceCompliancePolicies[policyID].Assign.PostAsync(requestBody);
+
+                        var groupName = await FindGroupNameFromGroupID(groupID);
+
+                        WriteToLog("Assignment for group " + groupName + " has been deleted.");
+                        rtbSummary.AppendText("Assignment for group " + groupName + " has been deleted." + Environment.NewLine);
+                        pBCalculate.Value++;
+                        numberOfAssignmentsDeleted++;
+                        lblNumberOfAssignmentsDeleted.Text = numberOfAssignmentsDeleted.ToString();
+                    }
+
+                    catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
+                    {
+                        rtbSummary.AppendText("Error deleting assignment for " + lblPolicyName.Text + " for group " + me.Message + Environment.NewLine);
+                    }
                 }
 
                 if (policyType == "Settings Catalog")
