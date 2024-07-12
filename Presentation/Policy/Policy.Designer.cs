@@ -42,6 +42,8 @@
             Type = new DataGridViewTextBoxColumn();
             Platform = new DataGridViewTextBoxColumn();
             ID = new DataGridViewTextBoxColumn();
+            cmsDisplayPolicy = new ContextMenuStrip(components);
+            copyCellContentToolStripMenuItem = new ToolStripMenuItem();
             btnListAllPolicy = new Button();
             btnSearchPolicy = new Button();
             txtboxSearchPolicy = new TextBox();
@@ -51,6 +53,7 @@
             MemberCount = new DataGridViewTextBoxColumn();
             groupType = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            cmsDisplayGroup = new ContextMenuStrip(components);
             btnListAllGroups = new Button();
             btnSearchGroup = new Button();
             txtboxSearchGroup = new TextBox();
@@ -80,10 +83,13 @@
             label1 = new Label();
             pbViewAssignments = new PictureBox();
             lblHeaderAppForm = new Label();
+            copyCellContentToolStripMenuItem1 = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlSearchPolicy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
+            cmsDisplayPolicy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).BeginInit();
+            cmsDisplayGroup.SuspendLayout();
             pnlAssignedTo.SuspendLayout();
             pnlSummary.SuspendLayout();
             pnlSearchGroup.SuspendLayout();
@@ -147,6 +153,7 @@
             dtgDisplayPolicy.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dtgDisplayPolicy.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgDisplayPolicy.Columns.AddRange(new DataGridViewColumn[] { PolicyName, Type, Platform, ID });
+            dtgDisplayPolicy.ContextMenuStrip = cmsDisplayPolicy;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.FromArgb(46, 51, 73);
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.75F);
@@ -197,6 +204,19 @@
             ID.Name = "ID";
             ID.ReadOnly = true;
             ID.Width = 125;
+            // 
+            // cmsDisplayPolicy
+            // 
+            cmsDisplayPolicy.Items.AddRange(new ToolStripItem[] { copyCellContentToolStripMenuItem });
+            cmsDisplayPolicy.Name = "cmsDisplayPolicy";
+            cmsDisplayPolicy.Size = new Size(168, 26);
+            // 
+            // copyCellContentToolStripMenuItem
+            // 
+            copyCellContentToolStripMenuItem.Name = "copyCellContentToolStripMenuItem";
+            copyCellContentToolStripMenuItem.Size = new Size(167, 22);
+            copyCellContentToolStripMenuItem.Text = "Copy cell content";
+            copyCellContentToolStripMenuItem.Click += copyCellContentToolStripMenuItem_Click;
             // 
             // btnListAllPolicy
             // 
@@ -272,6 +292,7 @@
             dtgDisplayGroup.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dtgDisplayGroup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgDisplayGroup.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, MemberCount, groupType, dataGridViewTextBoxColumn2 });
+            dtgDisplayGroup.ContextMenuStrip = cmsDisplayGroup;
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = Color.FromArgb(46, 51, 73);
             dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.75F);
@@ -321,6 +342,12 @@
             dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             dataGridViewTextBoxColumn2.ReadOnly = true;
             dataGridViewTextBoxColumn2.Width = 300;
+            // 
+            // cmsDisplayGroup
+            // 
+            cmsDisplayGroup.Items.AddRange(new ToolStripItem[] { copyCellContentToolStripMenuItem1 });
+            cmsDisplayGroup.Name = "cmsDisplayGroup";
+            cmsDisplayGroup.Size = new Size(181, 48);
             // 
             // btnListAllGroups
             // 
@@ -675,6 +702,13 @@
             lblHeaderAppForm.TabIndex = 21;
             lblHeaderAppForm.Text = "Deploy policies";
             // 
+            // copyCellContentToolStripMenuItem1
+            // 
+            copyCellContentToolStripMenuItem1.Name = "copyCellContentToolStripMenuItem1";
+            copyCellContentToolStripMenuItem1.Size = new Size(180, 22);
+            copyCellContentToolStripMenuItem1.Text = "Copy cell content";
+            copyCellContentToolStripMenuItem1.Click += copyCellContentToolStripMenuItem1_Click;
+            // 
             // Policy
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -698,7 +732,9 @@
             pnlSearchPolicy.ResumeLayout(false);
             pnlSearchPolicy.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).EndInit();
+            cmsDisplayPolicy.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dtgDisplayGroup).EndInit();
+            cmsDisplayGroup.ResumeLayout(false);
             pnlAssignedTo.ResumeLayout(false);
             pnlAssignedTo.PerformLayout();
             pnlSummary.ResumeLayout(false);
@@ -761,5 +797,9 @@
         private DataGridViewTextBoxColumn groupType;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private Button btn_ResetProgressBar;
+        private ContextMenuStrip cmsDisplayPolicy;
+        private ToolStripMenuItem copyCellContentToolStripMenuItem;
+        private ContextMenuStrip cmsDisplayGroup;
+        private ToolStripMenuItem copyCellContentToolStripMenuItem1;
     }
 }

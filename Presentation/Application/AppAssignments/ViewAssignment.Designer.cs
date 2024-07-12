@@ -42,6 +42,8 @@
             AppName = new DataGridViewTextBoxColumn();
             Platform = new DataGridViewTextBoxColumn();
             AppID = new DataGridViewTextBoxColumn();
+            cmsDisplayApp = new ContextMenuStrip(components);
+            copyCellContentToolStripMenuItem = new ToolStripMenuItem();
             txtboxSearchApp = new TextBox();
             btnSearchApp = new Button();
             btnAllGroups = new Button();
@@ -66,15 +68,19 @@
             rtbSummary = new RichTextBox();
             panel2 = new Panel();
             pbCalculate = new ProgressBar();
+            cmsDisplayGroup = new ContextMenuStrip(components);
+            copyCellContentToolStripMenuItem1 = new ToolStripMenuItem();
             pnlSearchApp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbClearDtgDisplayApp).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayApp).BeginInit();
+            cmsDisplayApp.SuspendLayout();
             pnllViewAssignments.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbpbClearDtgGroupAssignment).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgGroupAssignment).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbHelpGuide).BeginInit();
             panel2.SuspendLayout();
+            cmsDisplayGroup.SuspendLayout();
             SuspendLayout();
             // 
             // pnlSearchApp
@@ -147,6 +153,7 @@
             dtgDisplayApp.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dtgDisplayApp.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgDisplayApp.Columns.AddRange(new DataGridViewColumn[] { AppName, Platform, AppID });
+            dtgDisplayApp.ContextMenuStrip = cmsDisplayApp;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.FromArgb(46, 51, 73);
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
@@ -190,6 +197,19 @@
             AppID.Name = "AppID";
             AppID.ReadOnly = true;
             AppID.Width = 125;
+            // 
+            // cmsDisplayApp
+            // 
+            cmsDisplayApp.Items.AddRange(new ToolStripItem[] { copyCellContentToolStripMenuItem });
+            cmsDisplayApp.Name = "cmsDisplayApp";
+            cmsDisplayApp.Size = new Size(168, 26);
+            // 
+            // copyCellContentToolStripMenuItem
+            // 
+            copyCellContentToolStripMenuItem.Name = "copyCellContentToolStripMenuItem";
+            copyCellContentToolStripMenuItem.Size = new Size(167, 22);
+            copyCellContentToolStripMenuItem.Text = "Copy cell content";
+            copyCellContentToolStripMenuItem.Click += copyCellContentToolStripMenuItem_Click;
             // 
             // txtboxSearchApp
             // 
@@ -337,6 +357,7 @@
             dtgGroupAssignment.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dtgGroupAssignment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgGroupAssignment.Columns.AddRange(new DataGridViewColumn[] { GroupName, Intent, GroupID });
+            dtgGroupAssignment.ContextMenuStrip = cmsDisplayGroup;
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = Color.FromArgb(46, 51, 73);
             dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.75F);
@@ -482,6 +503,19 @@
             pbCalculate.Size = new Size(273, 23);
             pbCalculate.TabIndex = 24;
             // 
+            // cmsDisplayGroup
+            // 
+            cmsDisplayGroup.Items.AddRange(new ToolStripItem[] { copyCellContentToolStripMenuItem1 });
+            cmsDisplayGroup.Name = "cmsDisplayGroup";
+            cmsDisplayGroup.Size = new Size(181, 48);
+            // 
+            // copyCellContentToolStripMenuItem1
+            // 
+            copyCellContentToolStripMenuItem1.Name = "copyCellContentToolStripMenuItem1";
+            copyCellContentToolStripMenuItem1.Size = new Size(180, 22);
+            copyCellContentToolStripMenuItem1.Text = "Copy cell content";
+            copyCellContentToolStripMenuItem1.Click += copyCellContentToolStripMenuItem1_Click;
+            // 
             // ViewAssignment
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -501,6 +535,7 @@
             pnlSearchApp.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbClearDtgDisplayApp).EndInit();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayApp).EndInit();
+            cmsDisplayApp.ResumeLayout(false);
             pnllViewAssignments.ResumeLayout(false);
             pnllViewAssignments.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbpbClearDtgGroupAssignment).EndInit();
@@ -509,6 +544,7 @@
             ((System.ComponentModel.ISupportInitialize)pbHelpGuide).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            cmsDisplayGroup.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -546,5 +582,9 @@
         private Label lblDeleteStatusText;
         private ProgressBar pbCalculate;
         private Label lblProgress;
+        private ContextMenuStrip cmsDisplayApp;
+        private ToolStripMenuItem copyCellContentToolStripMenuItem;
+        private ContextMenuStrip cmsDisplayGroup;
+        private ToolStripMenuItem copyCellContentToolStripMenuItem1;
     }
 }

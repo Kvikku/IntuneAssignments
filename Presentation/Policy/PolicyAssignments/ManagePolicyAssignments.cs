@@ -444,7 +444,7 @@ namespace IntuneAssignments
                         dtgGroupAssignment.Rows.Add(allDevicesGroupName, allDevicesGroupID);
                         WriteToLog("Group assignment for " + appname + " found :" + allDevicesGroupName + ". ID is : " + allDevicesGroupID);
 
-                        
+
                     }
                     else if (assignment.Target.GetType() == typeof(AllLicensedUsersAssignmentTarget))
                     {
@@ -452,7 +452,7 @@ namespace IntuneAssignments
                         dtgGroupAssignment.Rows.Add(allUsersGroupName, allUsersGroupID);
                         WriteToLog("Group assignment for " + appname + " found :" + allUsersGroupName + ". ID is : " + allUsersGroupID);
 
-                        
+
                     }
                     else
                     {
@@ -467,7 +467,7 @@ namespace IntuneAssignments
                         WriteToLog("Group assignment for " + appname + " found : " + groupName + ". ID is : " + groupID);
                     }
 
-                    
+
 
                 }
             }
@@ -527,7 +527,7 @@ namespace IntuneAssignments
 
                     if (policyType == "Compliance")
                     {
-                        
+
                         // delete all assignments for the selected policy
 
                         // Create a new and empty post request body
@@ -555,7 +555,7 @@ namespace IntuneAssignments
 
                     if (policyType == "Settings Catalog")
                     {
-                        
+
                         // delete all assignments for the selected policy
 
                         // Create a new and empty post request body
@@ -583,7 +583,7 @@ namespace IntuneAssignments
 
                     if (policyType == "Device Configuration")
                     {
-                        
+
                         // delete all assignments for the selected policy
 
                         // Create a new and empty post request body
@@ -654,7 +654,7 @@ namespace IntuneAssignments
         {
             // Deletes the selected policy assignment for the selected policy
 
-            
+
 
             // Does not work for certain security baseline types. See other methods for those
 
@@ -777,7 +777,7 @@ namespace IntuneAssignments
                 {
                     // Call the method to delete the assignments
                     await DeleteDeviceCompliancePolicyAssignments(groupIDs, policyID);
-                    
+
                     foreach (var group in groupIDs)
                     {
                         var groupName = await FindGroupNameFromGroupID(group);
@@ -792,23 +792,23 @@ namespace IntuneAssignments
                     rtbSummary.AppendText("Error deleting assignment for " + lblPolicyName.Text + " for group " + me.Message + Environment.NewLine);
                 }
                 return;
-                }
+            }
 
 
 
 
-                // For all other policy types
-                // Note  - this is being phased out - Security baselines and settings catalog is moved. The rest is pending
-                // Create the assignment ID for each row selected from the policy ID and group ID and store it in a variable
+            // For all other policy types
+            // Note  - this is being phased out - Security baselines and settings catalog is moved. The rest is pending
+            // Create the assignment ID for each row selected from the policy ID and group ID and store it in a variable
 
-                foreach (DataGridViewRow selectedRow in dtgGroupAssignment.SelectedRows)
-                {
-                    // Add the assignment ID to the list
-                    var groupID = selectedRow.Cells[1].Value.ToString();
-                    
-                    var assignmentID = policyID + "_" + groupID;
-                    listOfAssignments.Add(assignmentID);
-                }
+            foreach (DataGridViewRow selectedRow in dtgGroupAssignment.SelectedRows)
+            {
+                // Add the assignment ID to the list
+                var groupID = selectedRow.Cells[1].Value.ToString();
+
+                var assignmentID = policyID + "_" + groupID;
+                listOfAssignments.Add(assignmentID);
+            }
             await DeletePolicyAssignment(listOfAssignments, policyType);
         }
 
@@ -852,7 +852,7 @@ namespace IntuneAssignments
 
         }
 
-        
+
         public async Task DeletePolicyAssignment(List<string> assignmentList, string policyType)
         {
             /* 
@@ -940,7 +940,7 @@ namespace IntuneAssignments
                         Assignments = new List<DeviceManagementConfigurationPolicyAssignment>()
                     };
 
-                    try                    
+                    try
                     {
                         // Delete - POST request with the group ID's you want to keep assigned to the policy
 
@@ -996,7 +996,8 @@ namespace IntuneAssignments
                         Assignments = new List<DeviceManagementIntentAssignment>()
                     };
 
-                    try                     {
+                    try
+                    {
                         // Delete - POST request with the group ID's you want to keep assigned to the policy
 
                         await graphClient.DeviceManagement.Intents[policyID].Assign.PostAsync(requestBody);
@@ -1089,6 +1090,20 @@ namespace IntuneAssignments
         private void button1_Click(object sender, EventArgs e)
         {
             ListAllSecurityBaselines();
+        }
+
+        private void copyCellContentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int rowindex = dtgDisplayPolicy.CurrentCell.RowIndex;
+            int columnindex = dtgDisplayPolicy.CurrentCell.ColumnIndex;
+            CopyDataGridViewCellContent(rowindex, columnindex, dtgDisplayPolicy);
+        }
+
+        private void copyCellContentToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            int rowindex = dtgGroupAssignment.CurrentCell.RowIndex;
+            int columnindex = dtgGroupAssignment.CurrentCell.ColumnIndex;
+            CopyDataGridViewCellContent(rowindex, columnindex, dtgGroupAssignment);
         }
     }
 }

@@ -10,6 +10,7 @@ using Microsoft.Graph.Beta.DeviceManagement.Intents.Item.Assign;
 using Microsoft.Graph.Beta.DeviceManagement.DeviceCompliancePolicies.Item.Assign;
 using Microsoft.Graph.Beta.DeviceManagement.ConfigurationPolicies.Item.Assign;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace IntuneAssignments.Backend
 {
@@ -45,6 +46,24 @@ namespace IntuneAssignments.Backend
 
             File.WriteAllText(MainLogFile, string.Empty);
 
+        }
+
+        public static void CopyDataGridViewCellContent(int rowIndex, int columnIndex, DataGridView dataGridView)
+        {
+            // Check if the rowIndex and columnIndex are within the valid range
+            if (rowIndex >= 0 && rowIndex < dataGridView.Rows.Count &&
+                columnIndex >= 0 && columnIndex < dataGridView.Columns.Count)
+            {
+                // Get the value of the specified cell
+                object cellValue = dataGridView.Rows[rowIndex].Cells[columnIndex].Value;
+
+                // Check if the cell value is not null
+                if (cellValue != null)
+                {
+                    // Copy the cell value to the clipboard
+                    Clipboard.SetText(cellValue.ToString());
+                }
+            }
         }
 
         public static void WriteSystemSummaryToLog()

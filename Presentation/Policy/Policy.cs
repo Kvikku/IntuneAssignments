@@ -103,11 +103,11 @@ namespace IntuneAssignments
             {
                 // check if it's all users or all devices
 
-                
+
                 return input.Substring(underscoreIndex + 1);
             }
 
-            
+
 
             return string.Empty; // Return an empty string if "_" is not found or it's the last character
 
@@ -228,7 +228,7 @@ namespace IntuneAssignments
                 }
 
             }
-            
+
             else if (profileType == "Device Configuration")
             {
                 // If it's a device configuration policy
@@ -277,7 +277,7 @@ namespace IntuneAssignments
                     }
                 }
             }
-            
+
             else if (profileType == "Administrative Templates")
             {
                 // If it's an administrative template policy (Called Group Policy Configuration in Graph API)
@@ -376,7 +376,7 @@ namespace IntuneAssignments
                 }
             }
 
-            else if(profileType.Contains("Baseline") || profileType.Contains("baseline"))
+            else if (profileType.Contains("Baseline") || profileType.Contains("baseline"))
             {
                 // If it's a security baseline policy
 
@@ -406,7 +406,7 @@ namespace IntuneAssignments
                     foreach (var assignment in result)
                     {
                         GroupAssignmentTarget groupAssignmentTarget = (GroupAssignmentTarget)assignment.Target;
-                        
+
                         var groupID = groupAssignmentTarget.GroupId;
 
                         // Look up Azure AD groups based on ID
@@ -414,7 +414,7 @@ namespace IntuneAssignments
                         List<Group> groups = await LookUpGroup(groupID);
                         foreach (var group in groups)
                         {
-                               rtbAssignmentPreview.AppendText(group.DisplayName + "\n");
+                            rtbAssignmentPreview.AppendText(group.DisplayName + "\n");
                         }
                     }
                 }
@@ -1003,7 +1003,7 @@ namespace IntuneAssignments
             // Find all existing assignments by their group ID
             var existingAssignments = await graphClient.DeviceManagement.Intents[policyID].Assignments.GetAsync((requestConfiguration) =>
             {
-                requestConfiguration.QueryParameters.Select = new string[] { "id","target" };
+                requestConfiguration.QueryParameters.Select = new string[] { "id", "target" };
             });
 
 
@@ -1023,8 +1023,8 @@ namespace IntuneAssignments
                     // if it is, don't add it again
 
                     GroupAssignmentTarget target = (GroupAssignmentTarget)assignment.Target;
-                    
-                    
+
+
                     if (target.GroupId != groupAssignmentTarget.GroupId)
                     {
                         assignments.Add(assignment);
@@ -1054,9 +1054,9 @@ namespace IntuneAssignments
                     // Add each assignment to the list of assignments
                     assignments.Add(newAssignment);
                 }
-                
+
             }
-            
+
 
             // find duplicates and remove them
 
@@ -1177,7 +1177,7 @@ namespace IntuneAssignments
                     }
                 };
 
-                
+
 
                 // Add each assignment object to the list of assignments
                 assignments.Add(assignment);
@@ -1369,7 +1369,7 @@ namespace IntuneAssignments
             // Create a group assignment target object
             var groupAssignmentTarget = new GroupAssignmentTarget
             {
-                
+
                 GroupId = groupID
                 //DeviceAndAppManagementAssignmentFilterId = policyID
 
@@ -1791,7 +1791,7 @@ namespace IntuneAssignments
                             // Assignments for Administrative Templates
                             if (type == "Administrative Templates")
                             {
-                                
+
                                 // Loop through each selected group and assign the policy to each group
                                 foreach (var group in SelectedGroups)
                                 {
@@ -2689,6 +2689,18 @@ namespace IntuneAssignments
             rtbDeploymentSummary.Clear();
         }
 
+        private void copyCellContentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int rowindex = dtgDisplayPolicy.CurrentCell.RowIndex;
+            int columnindex = dtgDisplayPolicy.CurrentCell.ColumnIndex;
+            CopyDataGridViewCellContent(rowindex, columnindex, dtgDisplayPolicy);
+        }
 
+        private void copyCellContentToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            int rowindex = dtgDisplayGroup.CurrentCell.RowIndex;
+            int columnindex = dtgDisplayGroup.CurrentCell.ColumnIndex;
+            CopyDataGridViewCellContent(rowindex, columnindex, dtgDisplayGroup);
+        }
     }
 }

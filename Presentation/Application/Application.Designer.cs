@@ -55,6 +55,7 @@
             cmsRightClickAppList = new ContextMenuStrip(components);
             addSelectedToolStripMenuItem = new ToolStripMenuItem();
             AddAllToolStripMenuItem = new ToolStripMenuItem();
+            copyCellContentToolStripMenuItem = new ToolStripMenuItem();
             txtboxSearchApp = new TextBox();
             btnSearchApp = new Button();
             pnlSelectApps = new Panel();
@@ -69,6 +70,7 @@
             cmsRightClickGroupList = new ContextMenuStrip(components);
             addSelectedGroupsToolStripMenuItem1 = new ToolStripMenuItem();
             addAllGroupsToolStripMenuItem1 = new ToolStripMenuItem();
+            copyCellContentToolStripMenuItem1 = new ToolStripMenuItem();
             btnSearchGroup = new Button();
             txtboxSearchGroup = new TextBox();
             btnListAllGroups = new Button();
@@ -349,23 +351,30 @@
             // 
             // cmsRightClickAppList
             // 
-            cmsRightClickAppList.Items.AddRange(new ToolStripItem[] { addSelectedToolStripMenuItem, AddAllToolStripMenuItem });
+            cmsRightClickAppList.Items.AddRange(new ToolStripItem[] { addSelectedToolStripMenuItem, AddAllToolStripMenuItem, copyCellContentToolStripMenuItem });
             cmsRightClickAppList.Name = "contextMenuStrip1";
-            cmsRightClickAppList.Size = new Size(143, 48);
+            cmsRightClickAppList.Size = new Size(168, 70);
             // 
             // addSelectedToolStripMenuItem
             // 
             addSelectedToolStripMenuItem.Name = "addSelectedToolStripMenuItem";
-            addSelectedToolStripMenuItem.Size = new Size(142, 22);
+            addSelectedToolStripMenuItem.Size = new Size(167, 22);
             addSelectedToolStripMenuItem.Text = "Add selected";
             addSelectedToolStripMenuItem.Click += addSelectedToolStripMenuItem_Click;
             // 
             // AddAllToolStripMenuItem
             // 
             AddAllToolStripMenuItem.Name = "AddAllToolStripMenuItem";
-            AddAllToolStripMenuItem.Size = new Size(142, 22);
+            AddAllToolStripMenuItem.Size = new Size(167, 22);
             AddAllToolStripMenuItem.Text = "Add all";
             AddAllToolStripMenuItem.Click += AddAllToolStripMenuItem_Click;
+            // 
+            // copyCellContentToolStripMenuItem
+            // 
+            copyCellContentToolStripMenuItem.Name = "copyCellContentToolStripMenuItem";
+            copyCellContentToolStripMenuItem.Size = new Size(167, 22);
+            copyCellContentToolStripMenuItem.Text = "Copy cell content";
+            copyCellContentToolStripMenuItem.Click += copyCellContentToolStripMenuItem_Click;
             // 
             // txtboxSearchApp
             // 
@@ -517,23 +526,30 @@
             // 
             // cmsRightClickGroupList
             // 
-            cmsRightClickGroupList.Items.AddRange(new ToolStripItem[] { addSelectedGroupsToolStripMenuItem1, addAllGroupsToolStripMenuItem1 });
+            cmsRightClickGroupList.Items.AddRange(new ToolStripItem[] { addSelectedGroupsToolStripMenuItem1, addAllGroupsToolStripMenuItem1, copyCellContentToolStripMenuItem1 });
             cmsRightClickGroupList.Name = "cmsRightClickGroupList";
-            cmsRightClickGroupList.Size = new Size(143, 48);
+            cmsRightClickGroupList.Size = new Size(168, 70);
             // 
             // addSelectedGroupsToolStripMenuItem1
             // 
             addSelectedGroupsToolStripMenuItem1.Name = "addSelectedGroupsToolStripMenuItem1";
-            addSelectedGroupsToolStripMenuItem1.Size = new Size(142, 22);
+            addSelectedGroupsToolStripMenuItem1.Size = new Size(167, 22);
             addSelectedGroupsToolStripMenuItem1.Text = "Add selected";
             addSelectedGroupsToolStripMenuItem1.Click += addSelectedGroupsToolStripMenuItem1_Click;
             // 
             // addAllGroupsToolStripMenuItem1
             // 
             addAllGroupsToolStripMenuItem1.Name = "addAllGroupsToolStripMenuItem1";
-            addAllGroupsToolStripMenuItem1.Size = new Size(142, 22);
+            addAllGroupsToolStripMenuItem1.Size = new Size(167, 22);
             addAllGroupsToolStripMenuItem1.Text = "Add all";
             addAllGroupsToolStripMenuItem1.Click += addAllGroupsToolStripMenuItem1_Click;
+            // 
+            // copyCellContentToolStripMenuItem1
+            // 
+            copyCellContentToolStripMenuItem1.Name = "copyCellContentToolStripMenuItem1";
+            copyCellContentToolStripMenuItem1.Size = new Size(167, 22);
+            copyCellContentToolStripMenuItem1.Text = "Copy cell content";
+            copyCellContentToolStripMenuItem1.Click += copyCellContentToolStripMenuItem1_Click;
             // 
             // btnSearchGroup
             // 
@@ -1106,5 +1122,7 @@
         private ToolStripMenuItem cmsRemoveSelectedGroupAssignments;
         private ToolStripMenuItem cmsRemoveAllGroupAssignments;
         private PictureBox pBAppProtetion;
+        private ToolStripMenuItem copyCellContentToolStripMenuItem;
+        private ToolStripMenuItem copyCellContentToolStripMenuItem1;
     }
 }

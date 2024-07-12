@@ -988,7 +988,7 @@ namespace IntuneAssignments
                 //throw;
             }
 
-            
+
 
 
         }
@@ -1522,7 +1522,7 @@ namespace IntuneAssignments
 
 
                         WriteToLog("Error adding assignment for " + app.ToString() + " and " + group.ToString() + ": " + me.Message);
-                        
+
                         rtbDeploymentSummary.SelectionColor = Color.Red;
                         rtbDeploymentSummary.AppendText("Error adding " + app.ToString() + " to " + group.ToString() + " as " + intent + "\n");
                         rtbDeploymentSummary.AppendText($"Error message: " + errorMessage);
@@ -1669,8 +1669,8 @@ namespace IntuneAssignments
                 Id = app.Id,
                 DisplayName = app.DisplayName,
                 platForm = app.OdataType
-                
-                
+
+
             }).ToList();
 
             return mobileAppInfos;
@@ -1710,7 +1710,7 @@ namespace IntuneAssignments
                 {
                     //requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
                     //requestConfiguration.QueryParameters.Top = 1000; // Optional: Set the page size
-                   
+
                 };
 
                 Groups.AddRange(result.Value);
@@ -1779,7 +1779,19 @@ namespace IntuneAssignments
                 platForm = "androidManaged";
             }
 
-            var mobileApp = mobileApps.FirstOrDefault(x => x.DisplayName.Equals(appName, StringComparison.OrdinalIgnoreCase) && x.platForm.Contains(platForm, StringComparison.OrdinalIgnoreCase) );
+            if (platForm.Contains("win", StringComparison.OrdinalIgnoreCase))
+            {
+                var result = mobileApps.FirstOrDefault(x => x.DisplayName.Equals(appName, StringComparison.OrdinalIgnoreCase));
+
+                if (result == null)
+                {
+                    throw new Exception($"Mobile app '{appName}' not found.");
+                }
+
+                return result.Id;
+            }
+
+            var mobileApp = mobileApps.FirstOrDefault(x => x.DisplayName.Equals(appName, StringComparison.OrdinalIgnoreCase) && x.platForm.Contains(platForm, StringComparison.OrdinalIgnoreCase));
             if (mobileApp == null)
             {
                 throw new Exception($"Mobile app '{appName}' not found.");
@@ -2399,6 +2411,20 @@ namespace IntuneAssignments
             {
                 SearchForApp();
             }
+        }
+
+        private void copyCellContentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int rowindex = dtgDisplayApp.CurrentCell.RowIndex;
+            int columnindex = dtgDisplayApp.CurrentCell.ColumnIndex;
+            CopyDataGridViewCellContent(rowindex, columnindex, dtgDisplayApp);
+        }
+
+        private void copyCellContentToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            int rowindex = dtgDisplayGroup.CurrentCell.RowIndex;
+            int columnindex = dtgDisplayGroup.CurrentCell.ColumnIndex;
+            CopyDataGridViewCellContent(rowindex, columnindex, dtgDisplayGroup);
         }
     }
 }

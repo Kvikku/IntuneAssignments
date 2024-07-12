@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
@@ -41,6 +42,8 @@
             Platform = new DataGridViewTextBoxColumn();
             PolicyPlatform = new DataGridViewTextBoxColumn();
             ID = new DataGridViewTextBoxColumn();
+            cmsDisplayPolicy = new ContextMenuStrip(components);
+            copyCellContentToolStripMenuItem = new ToolStripMenuItem();
             pbClearDtgDisplayPolicy = new PictureBox();
             txtboxSearchPolicy = new TextBox();
             lblSelectPolicies = new Label();
@@ -57,6 +60,8 @@
             dtgGroupAssignment = new DataGridView();
             GroupName = new DataGridViewTextBoxColumn();
             GroupID = new DataGridViewTextBoxColumn();
+            cmsDisplayAssignment = new ContextMenuStrip(components);
+            copyCellContentToolStripMenuItem1 = new ToolStripMenuItem();
             pnlStatus = new Panel();
             rtbSummary = new RichTextBox();
             pBCalculate = new ProgressBar();
@@ -68,10 +73,12 @@
             ((System.ComponentModel.ISupportInitialize)pbViewAssignments).BeginInit();
             pnlPolicies.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
+            cmsDisplayPolicy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbClearDtgDisplayPolicy).BeginInit();
             pnlAssignments.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbpbClearDtgGroupAssignment).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgGroupAssignment).BeginInit();
+            cmsDisplayAssignment.SuspendLayout();
             pnlStatus.SuspendLayout();
             SuspendLayout();
             // 
@@ -133,6 +140,7 @@
             dtgDisplayPolicy.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dtgDisplayPolicy.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgDisplayPolicy.Columns.AddRange(new DataGridViewColumn[] { PolicyName, Platform, PolicyPlatform, ID });
+            dtgDisplayPolicy.ContextMenuStrip = cmsDisplayPolicy;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.FromArgb(46, 51, 73);
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
@@ -176,6 +184,19 @@
             ID.HeaderText = "Policy ID";
             ID.Name = "ID";
             ID.ReadOnly = true;
+            // 
+            // cmsDisplayPolicy
+            // 
+            cmsDisplayPolicy.Items.AddRange(new ToolStripItem[] { copyCellContentToolStripMenuItem });
+            cmsDisplayPolicy.Name = "cmsDisplayPolicy";
+            cmsDisplayPolicy.Size = new Size(168, 26);
+            // 
+            // copyCellContentToolStripMenuItem
+            // 
+            copyCellContentToolStripMenuItem.Name = "copyCellContentToolStripMenuItem";
+            copyCellContentToolStripMenuItem.Size = new Size(167, 22);
+            copyCellContentToolStripMenuItem.Text = "Copy cell content";
+            copyCellContentToolStripMenuItem.Click += copyCellContentToolStripMenuItem_Click;
             // 
             // pbClearDtgDisplayPolicy
             // 
@@ -346,6 +367,7 @@
             dtgGroupAssignment.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dtgGroupAssignment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgGroupAssignment.Columns.AddRange(new DataGridViewColumn[] { GroupName, GroupID });
+            dtgGroupAssignment.ContextMenuStrip = cmsDisplayAssignment;
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = Color.FromArgb(46, 51, 73);
             dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.75F);
@@ -376,6 +398,19 @@
             GroupID.Name = "GroupID";
             GroupID.ReadOnly = true;
             GroupID.Width = 300;
+            // 
+            // cmsDisplayAssignment
+            // 
+            cmsDisplayAssignment.Items.AddRange(new ToolStripItem[] { copyCellContentToolStripMenuItem1 });
+            cmsDisplayAssignment.Name = "cmsDisplayAssignment";
+            cmsDisplayAssignment.Size = new Size(181, 48);
+            // 
+            // copyCellContentToolStripMenuItem1
+            // 
+            copyCellContentToolStripMenuItem1.Name = "copyCellContentToolStripMenuItem1";
+            copyCellContentToolStripMenuItem1.Size = new Size(180, 22);
+            copyCellContentToolStripMenuItem1.Text = "Copy cell content";
+            copyCellContentToolStripMenuItem1.Click += copyCellContentToolStripMenuItem1_Click;
             // 
             // pnlStatus
             // 
@@ -486,11 +521,13 @@
             pnlPolicies.ResumeLayout(false);
             pnlPolicies.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).EndInit();
+            cmsDisplayPolicy.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pbClearDtgDisplayPolicy).EndInit();
             pnlAssignments.ResumeLayout(false);
             pnlAssignments.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbpbClearDtgGroupAssignment).EndInit();
             ((System.ComponentModel.ISupportInitialize)dtgGroupAssignment).EndInit();
+            cmsDisplayAssignment.ResumeLayout(false);
             pnlStatus.ResumeLayout(false);
             pnlStatus.PerformLayout();
             ResumeLayout(false);
@@ -530,5 +567,9 @@
         private RichTextBox rtbSummary;
         private Button btnDeleteAssignmentForSelectedPolicies;
         private Button button1;
+        private ContextMenuStrip cmsDisplayPolicy;
+        private ToolStripMenuItem copyCellContentToolStripMenuItem;
+        private ContextMenuStrip cmsDisplayAssignment;
+        private ToolStripMenuItem copyCellContentToolStripMenuItem1;
     }
 }

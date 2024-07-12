@@ -975,6 +975,11 @@ namespace IntuneAssignments
 
         private async void btnDeleteAssignmentForSelectedApps_Click(object sender, EventArgs e)
         {
+            // reset the number of assignments deleted
+            numberOfAssignmentsDeleted = 0;
+            pbCalculate.Value = 0;
+
+
             // show necessary controls
             lblProgress.Show();
             lblProgress.Text = "Processing the number of apps and assignments to be deleted...";
@@ -1009,5 +1014,18 @@ namespace IntuneAssignments
 
         }
 
+        private void copyCellContentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int rowindex = dtgDisplayApp.CurrentCell.RowIndex;
+            int columnindex = dtgDisplayApp.CurrentCell.ColumnIndex;
+            CopyDataGridViewCellContent(rowindex, columnindex, dtgDisplayApp);
+        }
+
+        private void copyCellContentToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            int rowindex = dtgGroupAssignment.CurrentCell.RowIndex;
+            int columnindex = dtgGroupAssignment.CurrentCell.ColumnIndex;
+            CopyDataGridViewCellContent(rowindex, columnindex, dtgGroupAssignment);
+        }
     }
 }
