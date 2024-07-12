@@ -527,81 +527,116 @@ namespace IntuneAssignments
 
                     if (policyType == "Compliance")
                     {
-                        WriteToLog("Deleting assignments for compliance policies are currently not implemented. Skipping...");
-                        rtbSummary.ForeColor = Color.Yellow;
-                        rtbSummary.AppendText("Deleting assignments for compliance policies are currently not implemented. Skipping..." + Environment.NewLine);
-                        rtbSummary.ForeColor = Color.Salmon;
+                        
+                        // delete all assignments for the selected policy
 
+                        // Create a new and empty post request body
+                        var requestBody = new Microsoft.Graph.Beta.DeviceManagement.DeviceCompliancePolicies.Item.Assign.AssignPostRequestBody
+                        {
 
-                        await DeletePolicyAssignment(listOfAssignments, policyType);
+                            Assignments = new List<DeviceCompliancePolicyAssignment>()
+                        };
+
+                        try
+                        {
+                            // Delete - POST request with the group ID's you want to keep assigned to the policy
+
+                            await graphClient.DeviceManagement.DeviceCompliancePolicies[policyID].Assign.PostAsAssignPostResponseAsync(requestBody);
+
+                            WriteToLog("All assignments for " + assignment.Cells[0].Value.ToString() + " has been deleted.");
+                            rtbSummary.AppendText("All assignments for " + assignment.Cells[0].Value.ToString() + " has been deleted." + Environment.NewLine);
+                        }
+
+                        catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
+                        {
+                            rtbSummary.AppendText("Error deleting assignment for " + assignment.Cells[0].Value.ToString() + " for group " + me.Message + Environment.NewLine);
+                        }
                     }
 
                     if (policyType == "Settings Catalog")
                     {
-                        WriteToLog("Deleting assignments for settings catalog policies are currently not implemented. Skipping...");
-                        rtbSummary.ForeColor = Color.Yellow;
-                        rtbSummary.AppendText("Deleting assignments for settings catalog policies are currently not implemented. Skipping..." + Environment.NewLine);
-                        rtbSummary.ForeColor = Color.Salmon;
+                        
+                        // delete all assignments for the selected policy
 
+                        // Create a new and empty post request body
+                        var requestBody = new Microsoft.Graph.Beta.DeviceManagement.ConfigurationPolicies.Item.Assign.AssignPostRequestBody
+                        {
 
-                        await DeletePolicyAssignment(listOfAssignments, policyType);
+                            Assignments = new List<DeviceManagementConfigurationPolicyAssignment>()
+                        };
+
+                        try
+                        {
+                            // Delete - POST request with the group ID's you want to keep assigned to the policy
+
+                            await graphClient.DeviceManagement.ConfigurationPolicies[policyID].Assign.PostAsAssignPostResponseAsync(requestBody);
+
+                            WriteToLog("All assignments for " + assignment.Cells[0].Value.ToString() + " has been deleted.");
+                            rtbSummary.AppendText("All assignments for " + assignment.Cells[0].Value.ToString() + " has been deleted." + Environment.NewLine);
+                        }
+
+                        catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
+                        {
+                            rtbSummary.AppendText("Error deleting assignment for " + assignment.Cells[0].Value.ToString() + " for group " + me.Message + Environment.NewLine);
+                        }
                     }
 
                     if (policyType == "Device Configuration")
                     {
-                        // Get all assigned groups for the selected policy
+                        
+                        // delete all assignments for the selected policy
 
-                        var result = await graphClient.DeviceManagement.DeviceConfigurations[policyID].Assignments.GetAsync();
+                        // Create a new and empty post request body
 
-                        // Check if there are any assignments
-
-                        if (result.Value.Count == 0)
+                        var requestBody = new Microsoft.Graph.Beta.DeviceManagement.DeviceConfigurations.Item.Assign.AssignPostRequestBody
                         {
-                            WriteToLog("No assignments found for " + assignment.Cells[0].Value.ToString());
-                            rtbSummary.AppendText("No assignments found for " + assignment.Cells[0].Value.ToString() + Environment.NewLine);
-                            return;
+
+                            Assignments = new List<DeviceConfigurationAssignment>()
+                        };
+
+                        try
+                        {
+                            // Delete - POST request with the group ID's you want to keep assigned to the policy
+
+                            await graphClient.DeviceManagement.DeviceConfigurations[policyID].Assign.PostAsAssignPostResponseAsync(requestBody);
+
+                            WriteToLog("All assignments for " + assignment.Cells[0].Value.ToString() + " has been deleted.");
+                            rtbSummary.AppendText("All assignments for " + assignment.Cells[0].Value.ToString() + " has been deleted." + Environment.NewLine);
                         }
 
-                        // Add the result to a list of assignments
-
-                        foreach (var ID in result.Value)
+                        catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
                         {
-                            // Add the assignment ID to the list
-                            listOfAssignments.Add(ID.Id);
+                            rtbSummary.AppendText("Error deleting assignment for " + assignment.Cells[0].Value.ToString() + " for group " + me.Message + Environment.NewLine);
                         }
-
-                        await DeletePolicyAssignment(listOfAssignments, policyType);
                     }
 
                     if (policyType == "Administrative Templates")
                     {
-                        // Get all assigned groups for the selected policy
+                        // delete all assignments for the selected policy
 
-                        var result = await graphClient.DeviceManagement.GroupPolicyConfigurations[policyID].Assignments.GetAsync();
+                        // Create a new and empty post request body
 
-                        // Check if there are any assignments
-
-                        if (result.Value.Count == 0)
+                        var requestBody = new Microsoft.Graph.Beta.DeviceManagement.GroupPolicyConfigurations.Item.Assign.AssignPostRequestBody
                         {
-                            WriteToLog("No assignments found for " + assignment.Cells[0].Value.ToString());
-                            rtbSummary.AppendText("No assignments found for " + assignment.Cells[0].Value.ToString() + Environment.NewLine);
-                            return;
+
+                            Assignments = new List<GroupPolicyConfigurationAssignment>()
+                        };
+
+                        try
+                        {
+                            // Delete - POST request with the group ID's you want to keep assigned to the policy
+
+                            await graphClient.DeviceManagement.GroupPolicyConfigurations[policyID].Assign.PostAsAssignPostResponseAsync(requestBody);
+
+                            WriteToLog("All assignments for " + assignment.Cells[0].Value.ToString() + " has been deleted.");
+                            rtbSummary.AppendText("All assignments for " + assignment.Cells[0].Value.ToString() + " has been deleted." + Environment.NewLine);
                         }
 
-                        // Add the result to a list of assignments
-
-                        foreach (var ID in result.Value)
+                        catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
                         {
-                            // Add the assignment ID to the list
-                            listOfAssignments.Add(ID.Id);
+                            rtbSummary.AppendText("Error deleting assignment for " + assignment.Cells[0].Value.ToString() + " for group " + me.Message + Environment.NewLine);
                         }
-
-                        await DeletePolicyAssignment(listOfAssignments, policyType);
-
                     }
-
-
-
                 }
 
                 // Clear the datagridview for older results
@@ -985,6 +1020,10 @@ namespace IntuneAssignments
 
         private void btnListAllPolices_Click(object sender, EventArgs e)
         {
+            // clear the datagridview for older results
+            ClearDataGridView(dtgDisplayPolicy);
+
+            // Refresh the datagridview
             listAllCompliancePolicies();
             listAllSettingsCatalogPolicies();
             listAllDeviceConfigurationPolicies();
