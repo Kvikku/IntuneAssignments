@@ -1087,10 +1087,6 @@ namespace IntuneAssignments
             await DeleteAssignmentsFromSelectedPolicy();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            ListAllSecurityBaselines();
-        }
 
         private void copyCellContentToolStripMenuItem_Click(object sender, EventArgs e)
         {

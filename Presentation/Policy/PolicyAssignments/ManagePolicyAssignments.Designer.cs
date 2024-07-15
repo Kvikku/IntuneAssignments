@@ -69,7 +69,6 @@
             lblDeleteStatusText = new Label();
             lblProgress = new Label();
             btnClearSummary = new Button();
-            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)pbViewAssignments).BeginInit();
             pnlPolicies.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
@@ -403,12 +402,12 @@
             // 
             cmsDisplayAssignment.Items.AddRange(new ToolStripItem[] { copyCellContentToolStripMenuItem1 });
             cmsDisplayAssignment.Name = "cmsDisplayAssignment";
-            cmsDisplayAssignment.Size = new Size(181, 48);
+            cmsDisplayAssignment.Size = new Size(168, 26);
             // 
             // copyCellContentToolStripMenuItem1
             // 
             copyCellContentToolStripMenuItem1.Name = "copyCellContentToolStripMenuItem1";
-            copyCellContentToolStripMenuItem1.Size = new Size(180, 22);
+            copyCellContentToolStripMenuItem1.Size = new Size(167, 22);
             copyCellContentToolStripMenuItem1.Text = "Copy cell content";
             copyCellContentToolStripMenuItem1.Click += copyCellContentToolStripMenuItem1_Click;
             // 
@@ -491,23 +490,12 @@
             btnClearSummary.UseVisualStyleBackColor = false;
             btnClearSummary.Click += btnClearSummary_Click;
             // 
-            // button1
-            // 
-            button1.Location = new Point(221, 776);
-            button1.Name = "button1";
-            button1.Size = new Size(85, 28);
-            button1.TabIndex = 17;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
             // ManagePolicyAssignments
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1114, 836);
-            Controls.Add(button1);
             Controls.Add(pnlStatus);
             Controls.Add(pnlAssignments);
             Controls.Add(pnlPolicies);
@@ -566,7 +554,6 @@
         private ProgressBar pBCalculate;
         private RichTextBox rtbSummary;
         private Button btnDeleteAssignmentForSelectedPolicies;
-        private Button button1;
         private ContextMenuStrip cmsDisplayPolicy;
         private ToolStripMenuItem copyCellContentToolStripMenuItem;
         private ContextMenuStrip cmsDisplayAssignment;
