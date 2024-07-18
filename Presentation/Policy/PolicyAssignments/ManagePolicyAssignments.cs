@@ -637,6 +637,34 @@ namespace IntuneAssignments
                             rtbSummary.AppendText("Error deleting assignment for " + assignment.Cells[0].Value.ToString() + " for group " + me.Message + Environment.NewLine);
                         }
                     }
+
+                    if (policyType.StartsWith("MDM Security Baseline for Windows 10") || policyType == "Microsoft Defender for Endpoint baseline" || policyType == "Windows 365 Security Baseline" || policyType == "BitLocker")
+                    {
+                        // delete all assignments for the selected policy
+
+                        // Create a new and empty post request body
+
+                        var requestBody = new Microsoft.Graph.Beta.DeviceManagement.Intents.Item.Assign.AssignPostRequestBody
+                        {
+
+                            Assignments = new List<DeviceManagementIntentAssignment>()
+                        };
+
+                        try
+                        {
+                            // Delete - POST request with the group ID's you want to keep assigned to the policy
+
+                            await graphClient.DeviceManagement.Intents[policyID].Assign.PostAsync(requestBody);
+
+                            WriteToLog("All assignments for " + assignment.Cells[0].Value.ToString() + " has been deleted.");
+                            rtbSummary.AppendText("All assignments for " + assignment.Cells[0].Value.ToString() + " has been deleted." + Environment.NewLine);
+                        }
+
+                        catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
+                        {
+                            rtbSummary.AppendText("Error deleting assignment for " + assignment.Cells[0].Value.ToString() + " for group " + me.Message + Environment.NewLine);
+                        }
+                    }
                 }
 
                 // Clear the datagridview for older results
