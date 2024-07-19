@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntuneAssignments", "Intune
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Intune Assignment Installer", "..\Intune Assignment Installer\Intune Assignment Installer.vdproj", "{BA926106-6270-4CDA-8C74-9F624B5B4041}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Intune Assignment Installer", "..\Intune Assignment Installer\Intune Assignment Installer.vdproj", "{3382EFFB-74D1-4C9D-BE49-0826203DCFA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,8 @@ Global
 		{2416D879-25B6-4DDD-89FE-DAA40B0963C0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BA926106-6270-4CDA-8C74-9F624B5B4041}.Debug|Any CPU.ActiveCfg = Debug
 		{BA926106-6270-4CDA-8C74-9F624B5B4041}.Release|Any CPU.ActiveCfg = Release
+		{3382EFFB-74D1-4C9D-BE49-0826203DCFA2}.Debug|Any CPU.ActiveCfg = Debug
+		{3382EFFB-74D1-4C9D-BE49-0826203DCFA2}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

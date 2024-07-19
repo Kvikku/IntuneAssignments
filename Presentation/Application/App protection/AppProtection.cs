@@ -473,5 +473,10 @@ namespace IntuneAssignments.Presentation.Application.App_protection
         {
 
         }
+
+        private void btnDeployDescription_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Feature not implemented yet");
+        }
     }
 }

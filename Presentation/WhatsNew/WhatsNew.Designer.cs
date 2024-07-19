@@ -42,10 +42,10 @@
             rtbWhatsNew.BorderStyle = BorderStyle.None;
             rtbWhatsNew.Font = new Font("Consolas", 9F);
             rtbWhatsNew.ForeColor = Color.Salmon;
-            rtbWhatsNew.Location = new Point(12, 133);
+            rtbWhatsNew.Location = new Point(12, 137);
             rtbWhatsNew.Name = "rtbWhatsNew";
             rtbWhatsNew.ReadOnly = true;
-            rtbWhatsNew.Size = new Size(464, 122);
+            rtbWhatsNew.Size = new Size(464, 165);
             rtbWhatsNew.TabIndex = 13;
             rtbWhatsNew.Text = resources.GetString("rtbWhatsNew.Text");
             // 
@@ -82,7 +82,7 @@
             lblNewestVersion.Name = "lblNewestVersion";
             lblNewestVersion.Size = new Size(133, 15);
             lblNewestVersion.TabIndex = 16;
-            lblNewestVersion.Text = "Version 0.2.3-beta";
+            lblNewestVersion.Text = "Version 0.2.4-beta";
             // 
             // btnOk
             // 

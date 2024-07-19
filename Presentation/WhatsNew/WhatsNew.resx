@@ -118,11 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="rtbWhatsNew.Text" xml:space="preserve">
-    <value>- Added support for updating description for security baselines
-- Added support for displaying existing assignments for policies
-- Added support for deploying all security baseline categories
-- Added support for deleting some policy types
-- Fixed some bugs
-- Performance improvements</value>
+    <value>- Added multi tenant setup
+- Added logic to check that the user has entered a valid GUID as Tenant ID and Client ID
+- Added a check permission function that validates the permissions of the enterprise app
+- Finished the functionality to delete assignments for security baselines, settings catalog and compliance
+- Added right click menu to copy content from cell
+- Multiple bug fixes and improvements in error handling</value>
   </data>
 </root>

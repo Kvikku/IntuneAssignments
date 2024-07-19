@@ -479,6 +479,7 @@
             btnDeployDescription.TabIndex = 10;
             btnDeployDescription.Text = "Add description";
             btnDeployDescription.UseVisualStyleBackColor = false;
+            btnDeployDescription.Click += btnDeployDescription_Click;
             // 
             // pBarDeployProgress
             // 
