@@ -1934,7 +1934,7 @@ namespace IntuneAssignments
             foreach (var profile in deviceConfigurationProfiles)
             {
 
-                dataGridView.Rows.Add(profile.DisplayName, "Device Configuration", profile.OdataType, profile.Id);
+                dataGridView.Rows.Add(profile.DisplayName, "Device Configuration", profile.OdataType.ToString(), profile.Id);
 
             }
 
@@ -1972,7 +1972,7 @@ namespace IntuneAssignments
             foreach (var policy in configurationPolicies)
             {
 
-                dataGridView.Rows.Add(policy.Name, "Settings Catalog", policy.Platforms, policy.Id);
+                dataGridView.Rows.Add(policy.Name, "Settings Catalog", policy.Platforms.ToString(), policy.Id);
 
             }
 
