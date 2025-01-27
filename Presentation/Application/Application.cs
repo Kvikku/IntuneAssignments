@@ -649,7 +649,11 @@ namespace IntuneAssignments
 
 
 
+            foreach (var result in listAllApplications)
+            {
 
+
+            }
 
 
             // Check cBAppType.text. List only items with corresponding platform
@@ -663,8 +667,20 @@ namespace IntuneAssignments
 
                     if (platForm == "Android")
                     {
+                        //  Check for assignments
 
-                        dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                        var assignment = await graphClient.DeviceAppManagement.MobileApps[result.Id].Assignments.GetAsync();
+
+                        if (assignment.Value.Count >= 1)
+                        {
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm, result.Id, "Assigned");
+                        }
+                        else
+                        {
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm,result.Id, "Not assigned");
+                        }
+
+                        
                     }
                 }
 
@@ -681,7 +697,16 @@ namespace IntuneAssignments
 
                     if (platForm == "iOS")
                     {
-                        dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                        var assignment = await graphClient.DeviceAppManagement.MobileApps[result.Id].Assignments.GetAsync();
+
+                        if (assignment.Value.Count >= 1)
+                        {
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm, result.Id, "Assigned");
+                        }
+                        else
+                        {
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm,result.Id, "Not assigned");
+                        }
                     }
                 }
 
@@ -696,7 +721,16 @@ namespace IntuneAssignments
 
                     if (platForm == "Windows")
                     {
-                        dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                        var assignment = await graphClient.DeviceAppManagement.MobileApps[result.Id].Assignments.GetAsync();
+
+                        if (assignment.Value.Count >= 1)
+                        {
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm, result.Id, "Assigned");
+                        }
+                        else
+                        {
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm,result.Id, "Not assigned");
+                        }
                     }
                 }
 
@@ -712,7 +746,16 @@ namespace IntuneAssignments
 
                     if (platForm == "macOS")
                     {
-                        dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                        var assignment = await graphClient.DeviceAppManagement.MobileApps[result.Id].Assignments.GetAsync();
+
+                        if (assignment.Value.Count >= 1)
+                        {
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm, result.Id, "Assigned");
+                        }
+                        else
+                        {
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm,result.Id, "Not assigned");
+                        }
                     }
                 }
 
@@ -733,7 +776,16 @@ namespace IntuneAssignments
                     {
                         // prevent app protection app objects from appearing
 
-                        dtgDisplayApp.Rows.Add(result.DisplayName, platForm);
+                        var assignment = await graphClient.DeviceAppManagement.MobileApps[result.Id].Assignments.GetAsync();
+
+                        if (assignment.Value.Count >= 1)
+                        {
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm, result.Id, "Assigned");
+                        }
+                        else
+                        {
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm,result.Id, "Not assigned");
+                        }
                     }
                 }
             }

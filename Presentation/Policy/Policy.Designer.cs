@@ -38,10 +38,6 @@
             pnlSearchPolicy = new Panel();
             lblSelectApps = new Label();
             dtgDisplayPolicy = new DataGridView();
-            PolicyName = new DataGridViewTextBoxColumn();
-            Type = new DataGridViewTextBoxColumn();
-            Platform = new DataGridViewTextBoxColumn();
-            ID = new DataGridViewTextBoxColumn();
             cmsDisplayPolicy = new ContextMenuStrip(components);
             copyCellContentToolStripMenuItem = new ToolStripMenuItem();
             btnListAllPolicy = new Button();
@@ -84,6 +80,11 @@
             label1 = new Label();
             pbViewAssignments = new PictureBox();
             lblHeaderAppForm = new Label();
+            PolicyName = new DataGridViewTextBoxColumn();
+            Type = new DataGridViewTextBoxColumn();
+            Platform = new DataGridViewTextBoxColumn();
+            ID = new DataGridViewTextBoxColumn();
+            Assigned = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlSearchPolicy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
@@ -152,7 +153,7 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dtgDisplayPolicy.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dtgDisplayPolicy.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dtgDisplayPolicy.Columns.AddRange(new DataGridViewColumn[] { PolicyName, Type, Platform, ID });
+            dtgDisplayPolicy.Columns.AddRange(new DataGridViewColumn[] { PolicyName, Type, Platform, ID, Assigned });
             dtgDisplayPolicy.ContextMenuStrip = cmsDisplayPolicy;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.FromArgb(46, 51, 73);
@@ -168,42 +169,10 @@
             dtgDisplayPolicy.ReadOnly = true;
             dtgDisplayPolicy.RowHeadersVisible = false;
             dtgDisplayPolicy.RowHeadersWidth = 51;
-            dtgDisplayPolicy.Size = new Size(781, 404);
+            dtgDisplayPolicy.Size = new Size(781, 365);
             dtgDisplayPolicy.TabIndex = 4;
             dtgDisplayPolicy.CellClick += dtgDisplayPolicy_CellClick;
             dtgDisplayPolicy.SelectionChanged += dtgDisplayPolicy_SelectionChanged;
-            // 
-            // PolicyName
-            // 
-            PolicyName.HeaderText = "Name";
-            PolicyName.MinimumWidth = 6;
-            PolicyName.Name = "PolicyName";
-            PolicyName.ReadOnly = true;
-            PolicyName.Width = 400;
-            // 
-            // Type
-            // 
-            Type.HeaderText = "Type";
-            Type.MinimumWidth = 6;
-            Type.Name = "Type";
-            Type.ReadOnly = true;
-            Type.Width = 200;
-            // 
-            // Platform
-            // 
-            Platform.HeaderText = "Platform";
-            Platform.MinimumWidth = 6;
-            Platform.Name = "Platform";
-            Platform.ReadOnly = true;
-            Platform.Width = 200;
-            // 
-            // ID
-            // 
-            ID.HeaderText = "ID";
-            ID.MinimumWidth = 6;
-            ID.Name = "ID";
-            ID.ReadOnly = true;
-            ID.Width = 125;
             // 
             // cmsDisplayPolicy
             // 
@@ -709,6 +678,44 @@
             lblHeaderAppForm.TabIndex = 21;
             lblHeaderAppForm.Text = "Deploy policies";
             // 
+            // PolicyName
+            // 
+            PolicyName.HeaderText = "Name";
+            PolicyName.MinimumWidth = 6;
+            PolicyName.Name = "PolicyName";
+            PolicyName.ReadOnly = true;
+            PolicyName.Width = 400;
+            // 
+            // Type
+            // 
+            Type.HeaderText = "Type";
+            Type.MinimumWidth = 6;
+            Type.Name = "Type";
+            Type.ReadOnly = true;
+            Type.Width = 200;
+            // 
+            // Platform
+            // 
+            Platform.HeaderText = "Platform";
+            Platform.MinimumWidth = 6;
+            Platform.Name = "Platform";
+            Platform.ReadOnly = true;
+            Platform.Width = 200;
+            // 
+            // ID
+            // 
+            ID.HeaderText = "ID";
+            ID.MinimumWidth = 6;
+            ID.Name = "ID";
+            ID.ReadOnly = true;
+            ID.Width = 125;
+            // 
+            // Assigned
+            // 
+            Assigned.HeaderText = "Assigned";
+            Assigned.Name = "Assigned";
+            Assigned.ReadOnly = true;
+            // 
             // Policy
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -777,10 +784,6 @@
         private Panel pnlSearchGroup;
         private ProgressBar pBarDeployProgress;
         private RichTextBox rtbDeploymentSummary;
-        private DataGridViewTextBoxColumn PolicyName;
-        private DataGridViewTextBoxColumn Type;
-        private DataGridViewTextBoxColumn Platform;
-        private DataGridViewTextBoxColumn ID;
         private ToolTip toolTipPolicy;
         private Label lblSelectApps;
         private Label lblSelectGroups;
@@ -801,5 +804,10 @@
         private ToolStripMenuItem copyCellContentToolStripMenuItem;
         private ContextMenuStrip cmsDisplayGroup;
         private ToolStripMenuItem copyCellContentToolStripMenuItem1;
+        private DataGridViewTextBoxColumn PolicyName;
+        private DataGridViewTextBoxColumn Type;
+        private DataGridViewTextBoxColumn Platform;
+        private DataGridViewTextBoxColumn ID;
+        private DataGridViewTextBoxColumn Assigned;
     }
 }

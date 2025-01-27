@@ -1899,8 +1899,19 @@ namespace IntuneAssignments
             foreach (var policy in deviceCompliancePolicies)
             {
 
-                dataGridView.Rows.Add(policy.DisplayName, "Compliance", policy.OdataType, policy.Id);
+                // check for assignments
 
+                var assignments = await graphClient.DeviceManagement.DeviceCompliancePolicies[policy.Id].Assignments.GetAsync();
+
+                if (assignments.Value.Count >= 1)
+                {
+                    dataGridView.Rows.Add(policy.DisplayName, "Compliance", policy.OdataType, policy.Id, "Assigned");
+                }
+                else
+                {
+
+                    dataGridView.Rows.Add(policy.DisplayName, "Compliance", policy.OdataType, policy.Id, "Not assigned");
+                }
             }
 
         }
@@ -1934,7 +1945,20 @@ namespace IntuneAssignments
             foreach (var profile in deviceConfigurationProfiles)
             {
 
-                dataGridView.Rows.Add(profile.DisplayName, "Device Configuration", profile.OdataType.ToString(), profile.Id);
+                // check for assignments
+
+                var assignments = await graphClient.DeviceManagement.DeviceConfigurations[profile.Id].Assignments.GetAsync();
+
+                if (assignments.Value.Count >= 1)
+                {
+                    dataGridView.Rows.Add(profile.DisplayName, "Device Configuration", profile.OdataType.ToString(), profile.Id, "Assigned");
+                }
+                else
+                {
+                    dataGridView.Rows.Add(profile.DisplayName, "Device Configuration", profile.OdataType.ToString(), profile.Id, "Not assigned");
+                }
+
+                //dataGridView.Rows.Add(profile.DisplayName, "Device Configuration", profile.OdataType.ToString(), profile.Id);
 
             }
 
@@ -1972,7 +1996,21 @@ namespace IntuneAssignments
             foreach (var policy in configurationPolicies)
             {
 
-                dataGridView.Rows.Add(policy.Name, "Settings Catalog", policy.Platforms.ToString(), policy.Id);
+                // check for assignments
+
+                var assignments = await graphClient.DeviceManagement.ConfigurationPolicies[policy.Id].Assignments.GetAsync();
+
+                if (assignments.Value.Count >= 1)
+                {
+                    dataGridView.Rows.Add(policy.Name, "Settings Catalog", policy.Platforms.ToString(), policy.Id, "Assigned");
+                }
+                else
+                {
+                    dataGridView.Rows.Add(policy.Name, "Settings Catalog", policy.Platforms.ToString(), policy.Id, "Not assigned");
+                }
+
+
+                //dataGridView.Rows.Add(policy.Name, "Settings Catalog", policy.Platforms.ToString(), policy.Id);
 
             }
 
@@ -1992,9 +2030,22 @@ namespace IntuneAssignments
             List<GroupPolicyConfiguration> groupPolicyConfigurations = new List<GroupPolicyConfiguration>();
 
             groupPolicyConfigurations.AddRange(result.Value);
+
             foreach (var policy in groupPolicyConfigurations)
             {
-                dataGridView.Rows.Add(policy.DisplayName, "Administrative Templates", "Windows", policy.Id);
+
+                // check for assignments
+
+                var assignments = await graphClient.DeviceManagement.GroupPolicyConfigurations[policy.Id].Assignments.GetAsync();
+
+                if (assignments.Value.Count >= 1)
+                {
+                    dataGridView.Rows.Add(policy.DisplayName, "Administrative Templates", "Windows", policy.Id, "Assigned");
+                }
+                else
+                {
+                    dataGridView.Rows.Add(policy.DisplayName, "Administrative Templates", "Windows", policy.Id,"Not Assigned");
+                }
             }
         }
 
@@ -2034,7 +2085,20 @@ namespace IntuneAssignments
                 var templateName = await GetTemplateDisplayNameFromTemplateID(templateID);
                 var templatePlatform = await GetTemplatePlatformFromTemplateID(templateID);
 
-                dataGridView.Rows.Add(intent.DisplayName, templateName, templatePlatform, intent.Id);
+                // check for assignments
+
+                var assignments = await graphClient.DeviceManagement.Intents[intent.Id].Assignments.GetAsync();
+
+                if (assignments.Value.Count >= 1)
+                {
+                    dataGridView.Rows.Add(intent.DisplayName, templateName, templatePlatform, intent.Id, "Assigned");
+                }
+                else
+                {
+                    dataGridView.Rows.Add(intent.DisplayName, templateName, templatePlatform, intent.Id, "Not Assigned");
+                }
+
+                //dataGridView.Rows.Add(intent.DisplayName, templateName, templatePlatform, intent.Id);
             }
         }
 

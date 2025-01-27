@@ -89,7 +89,7 @@
             label2.Name = "label2";
             label2.Size = new Size(161, 14);
             label2.TabIndex = 3;
-            label2.Text = "© 2024 - Jørgen Sundet";
+            label2.Text = "© 2025 - Jørgen Sundet";
             // 
             // label6
             // 
@@ -124,7 +124,7 @@
             label7.Name = "label7";
             label7.Size = new Size(245, 14);
             label7.TabIndex = 9;
-            label7.Text = "You are running version 0.2.4-beta";
+            label7.Text = "You are running version 0.2.5-beta";
             // 
             // label8
             // 
