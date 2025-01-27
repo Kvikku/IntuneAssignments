@@ -52,6 +52,7 @@
             AppName = new DataGridViewTextBoxColumn();
             Platform = new DataGridViewTextBoxColumn();
             AppID = new DataGridViewTextBoxColumn();
+            Assigned = new DataGridViewTextBoxColumn();
             cmsRightClickAppList = new ContextMenuStrip(components);
             addSelectedToolStripMenuItem = new ToolStripMenuItem();
             AddAllToolStripMenuItem = new ToolStripMenuItem();
@@ -157,7 +158,7 @@
             lblTenantID.ForeColor = Color.Salmon;
             lblTenantID.Location = new Point(12, 74);
             lblTenantID.Name = "lblTenantID";
-            lblTenantID.Size = new Size(62, 15);
+            lblTenantID.Size = new Size(64, 15);
             lblTenantID.TabIndex = 3;
             lblTenantID.Text = "TENANTID";
             // 
@@ -302,7 +303,7 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dtgDisplayApp.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dtgDisplayApp.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dtgDisplayApp.Columns.AddRange(new DataGridViewColumn[] { AppName, Platform, AppID });
+            dtgDisplayApp.Columns.AddRange(new DataGridViewColumn[] { AppName, Platform, AppID, Assigned });
             dtgDisplayApp.ContextMenuStrip = cmsRightClickAppList;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.FromArgb(46, 51, 73);
@@ -320,7 +321,7 @@
             dtgDisplayApp.RowHeadersVisible = false;
             dtgDisplayApp.RowHeadersWidth = 51;
             dtgDisplayApp.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgDisplayApp.Size = new Size(517, 324);
+            dtgDisplayApp.Size = new Size(517, 279);
             dtgDisplayApp.TabIndex = 10;
             mainFormToolTip.SetToolTip(dtgDisplayApp, "Double click an app to prepare it for deployment");
             dtgDisplayApp.CellDoubleClick += dtgDisplayApp_CellDoubleClick;
@@ -348,6 +349,12 @@
             AppID.Name = "AppID";
             AppID.ReadOnly = true;
             AppID.Width = 112;
+            // 
+            // Assigned
+            // 
+            Assigned.HeaderText = "Assigned";
+            Assigned.Name = "Assigned";
+            Assigned.ReadOnly = true;
             // 
             // cmsRightClickAppList
             // 
@@ -1092,9 +1099,6 @@
         private Label lblSelectAppType;
         private Label label1;
         private ToolTip mainFormToolTip;
-        private DataGridViewTextBoxColumn AppName;
-        private DataGridViewTextBoxColumn Platform;
-        private DataGridViewTextBoxColumn AppID;
         private PictureBox pictureBox3;
         private Label lblSummary;
         private Label lblDescription;
@@ -1124,5 +1128,9 @@
         private PictureBox pBAppProtetion;
         private ToolStripMenuItem copyCellContentToolStripMenuItem;
         private ToolStripMenuItem copyCellContentToolStripMenuItem1;
+        private DataGridViewTextBoxColumn AppName;
+        private DataGridViewTextBoxColumn Platform;
+        private DataGridViewTextBoxColumn AppID;
+        private DataGridViewTextBoxColumn Assigned;
     }
 }
