@@ -54,6 +54,7 @@
             groupType = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
             cmsDisplayGroup = new ContextMenuStrip(components);
+            copyCellContentToolStripMenuItem1 = new ToolStripMenuItem();
             btnListAllGroups = new Button();
             btnSearchGroup = new Button();
             txtboxSearchGroup = new TextBox();
@@ -83,7 +84,6 @@
             label1 = new Label();
             pbViewAssignments = new PictureBox();
             lblHeaderAppForm = new Label();
-            copyCellContentToolStripMenuItem1 = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlSearchPolicy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
@@ -347,7 +347,14 @@
             // 
             cmsDisplayGroup.Items.AddRange(new ToolStripItem[] { copyCellContentToolStripMenuItem1 });
             cmsDisplayGroup.Name = "cmsDisplayGroup";
-            cmsDisplayGroup.Size = new Size(181, 48);
+            cmsDisplayGroup.Size = new Size(168, 26);
+            // 
+            // copyCellContentToolStripMenuItem1
+            // 
+            copyCellContentToolStripMenuItem1.Name = "copyCellContentToolStripMenuItem1";
+            copyCellContentToolStripMenuItem1.Size = new Size(167, 22);
+            copyCellContentToolStripMenuItem1.Text = "Copy cell content";
+            copyCellContentToolStripMenuItem1.Click += copyCellContentToolStripMenuItem1_Click;
             // 
             // btnListAllGroups
             // 
@@ -701,13 +708,6 @@
             lblHeaderAppForm.Size = new Size(207, 28);
             lblHeaderAppForm.TabIndex = 21;
             lblHeaderAppForm.Text = "Deploy policies";
-            // 
-            // copyCellContentToolStripMenuItem1
-            // 
-            copyCellContentToolStripMenuItem1.Name = "copyCellContentToolStripMenuItem1";
-            copyCellContentToolStripMenuItem1.Size = new Size(180, 22);
-            copyCellContentToolStripMenuItem1.Text = "Copy cell content";
-            copyCellContentToolStripMenuItem1.Click += copyCellContentToolStripMenuItem1_Click;
             // 
             // Policy
             // 
