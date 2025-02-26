@@ -418,6 +418,7 @@
             rtbAssignmentPreview.ForeColor = Color.Salmon;
             rtbAssignmentPreview.Location = new Point(10, 110);
             rtbAssignmentPreview.Name = "rtbAssignmentPreview";
+            rtbAssignmentPreview.ReadOnly = true;
             rtbAssignmentPreview.Size = new Size(327, 224);
             rtbAssignmentPreview.TabIndex = 2;
             rtbAssignmentPreview.Text = "";
@@ -612,6 +613,7 @@
             rtbSelectedGroups.ForeColor = Color.Salmon;
             rtbSelectedGroups.Location = new Point(421, 139);
             rtbSelectedGroups.Name = "rtbSelectedGroups";
+            rtbSelectedGroups.ReadOnly = true;
             rtbSelectedGroups.Size = new Size(347, 224);
             rtbSelectedGroups.TabIndex = 6;
             rtbSelectedGroups.Text = "";
@@ -625,6 +627,7 @@
             rtbSelectedPolicies.ForeColor = Color.Salmon;
             rtbSelectedPolicies.Location = new Point(9, 139);
             rtbSelectedPolicies.Name = "rtbSelectedPolicies";
+            rtbSelectedPolicies.ReadOnly = true;
             rtbSelectedPolicies.Size = new Size(386, 224);
             rtbSelectedPolicies.TabIndex = 5;
             rtbSelectedPolicies.Text = "";
