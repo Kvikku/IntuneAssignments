@@ -1888,22 +1888,19 @@ namespace IntuneAssignments
                 requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
             });
 
-            // Adds all the data from the first page to the list
-            deviceCompliancePolicies.AddRange(result.Value);
-
-            // Page through the results
-            while (result.OdataNextLink != null)
-            {
-                result = await graphClient.DeviceManagement.DeviceCompliancePolicies.GetAsync((requestConfiguration) =>
+            // Create a PageIterator to handle paging
+            var pageIterator = PageIterator<DeviceCompliancePolicy, DeviceCompliancePolicyCollectionResponse>.CreatePageIterator(
+                graphClient,
+                result,
+                (policy) =>
                 {
-                    requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
-                    requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
-                    requestConfiguration.QueryParameters.Top = 999; // Adjust the page size if needed
+                    deviceCompliancePolicies.Add(policy);
+                    return true; // Return true to continue iterating
                 });
 
-                // Adds all the data from the next page to the list
-                deviceCompliancePolicies.AddRange(result.Value);
-            }
+            // Iterate through all pages
+            await pageIterator.IterateAsync();
+
 
             // Loop through the list
 
@@ -1946,22 +1943,17 @@ namespace IntuneAssignments
                 requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
             });
 
-            // Adds all the data from the first page to the list
-            deviceConfigurationProfiles.AddRange(result.Value);
-
-            // Page through the results
-            while (result.OdataNextLink != null)
-            {
-                result = await graphClient.DeviceManagement.DeviceConfigurations.GetAsync((requestConfiguration) =>
+            var pageIterator = PageIterator<DeviceConfiguration, DeviceConfigurationCollectionResponse>.CreatePageIterator(
+                graphClient,
+                result,
+                (profile) =>
                 {
-                    requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
-                    requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
-                    requestConfiguration.QueryParameters.Top = 999; // Adjust the page size if needed
+                    deviceConfigurationProfiles.Add(profile);
+                    return true; // Return true to continue iterating
                 });
 
-                // Adds all the data from the next page to the list
-                deviceConfigurationProfiles.AddRange(result.Value);
-            }
+            // Iterate through all pages
+            await pageIterator.IterateAsync();
 
 
 
