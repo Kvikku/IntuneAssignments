@@ -499,7 +499,7 @@
             rbFilterInclude.AutoSize = true;
             rbFilterInclude.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             rbFilterInclude.ForeColor = Color.Salmon;
-            rbFilterInclude.Location = new Point(403, 7);
+            rbFilterInclude.Location = new Point(403, 13);
             rbFilterInclude.Name = "rbFilterInclude";
             rbFilterInclude.Size = new Size(74, 18);
             rbFilterInclude.TabIndex = 14;
@@ -513,7 +513,7 @@
             pbFilterWarning.Image = Properties.Resources.complain;
             pbFilterWarning.Location = new Point(483, 54);
             pbFilterWarning.Name = "pbFilterWarning";
-            pbFilterWarning.Size = new Size(30, 24);
+            pbFilterWarning.Size = new Size(32, 24);
             pbFilterWarning.SizeMode = PictureBoxSizeMode.StretchImage;
             pbFilterWarning.TabIndex = 13;
             pbFilterWarning.TabStop = false;
@@ -524,7 +524,7 @@
             lblFilter.AutoSize = true;
             lblFilter.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             lblFilter.ForeColor = Color.Salmon;
-            lblFilter.Location = new Point(337, -1);
+            lblFilter.Location = new Point(337, 20);
             lblFilter.Name = "lblFilter";
             lblFilter.Size = new Size(49, 21);
             lblFilter.TabIndex = 12;
@@ -533,6 +533,7 @@
             // cbFilter
             // 
             cbFilter.BackColor = Color.FromArgb(46, 51, 73);
+            cbFilter.DropDownStyle = ComboBoxStyle.DropDownList;
             cbFilter.FlatStyle = FlatStyle.Flat;
             cbFilter.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbFilter.ForeColor = Color.Salmon;

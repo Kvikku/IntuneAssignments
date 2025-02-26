@@ -1443,13 +1443,16 @@ namespace IntuneAssignments.Backend
 
         private static void ComboBox_DrawItem(object sender, DrawItemEventArgs e, Dictionary<string, string> filterDictionary)
         {
+            Brush brush = new SolidBrush(Color.Salmon);
             ComboBox comboBox = sender as ComboBox;
             if (comboBox != null && e.Index >= 0)
             {
                 e.DrawBackground();
-                e.Graphics.DrawString(comboBox.Items[e.Index].ToString(), e.Font, SystemBrushes.ControlText, e.Bounds);
+                e.Graphics.DrawString(comboBox.Items[e.Index].ToString(), e.Font, brush, e.Bounds);
                 e.DrawFocusRectangle();
             }
+
+            
         }
     }
 }
