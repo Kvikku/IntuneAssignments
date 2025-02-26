@@ -1397,12 +1397,15 @@ namespace IntuneAssignments.Backend
             // Add the filters to the combobox
             foreach (var filter in filters)
             {
-                comboBox.Items.Add(filter.DisplayName);
+                if (filter.DisplayName != null)
+                {
+                    comboBox.Items.Add(filter.DisplayName);
+                }
             }
 
             // Enable owner draw mode
             comboBox.DrawMode = DrawMode.OwnerDrawFixed;
-            comboBox.DrawItem += ComboBox_DrawItem;
+            comboBox.DrawItem += (sender, e) => ComboBox_DrawItem(sender, e, filterDictionary);
 
             // Create a ToolTip instance
             ToolTip toolTip = new ToolTip();
@@ -1412,8 +1415,8 @@ namespace IntuneAssignments.Backend
                 int index = comboBox.FindStringExact(comboBox.GetItemText(comboBox.Items[comboBox.SelectedIndex]));
                 if (index >= 0 && index < comboBox.Items.Count)
                 {
-                    string itemText = comboBox.Items[index].ToString();
-                    if (filterDictionary.TryGetValue(itemText, out string toolTipText))
+                    string itemText = comboBox.Items[index]?.ToString();
+                    if (itemText != null && filterDictionary.TryGetValue(itemText, out string toolTipText))
                     {
                         toolTip.SetToolTip(comboBox, toolTipText);
                         toolTip.Show(toolTipText, comboBox, point.X, point.Y + comboBox.ItemHeight, 2000);
@@ -1423,11 +1426,10 @@ namespace IntuneAssignments.Backend
                 {
                     toolTip.Hide(comboBox);
                 }
-            
             };
         }
 
-        private static void ComboBox_DrawItem(object sender, DrawItemEventArgs e)
+        private static void ComboBox_DrawItem(object sender, DrawItemEventArgs e, Dictionary<string, string> filterDictionary)
         {
             ComboBox comboBox = sender as ComboBox;
             if (comboBox != null && e.Index >= 0)

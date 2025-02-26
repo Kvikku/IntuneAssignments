@@ -487,6 +487,9 @@
             // 
             // cbFilter
             // 
+            cbFilter.BackColor = Color.FromArgb(46, 51, 73);
+            cbFilter.FlatStyle = FlatStyle.Flat;
+            cbFilter.ForeColor = Color.Salmon;
             cbFilter.FormattingEnabled = true;
             cbFilter.Location = new Point(337, 40);
             cbFilter.Name = "cbFilter";
