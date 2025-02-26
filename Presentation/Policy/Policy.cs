@@ -2063,7 +2063,23 @@ namespace IntuneAssignments
             // Put result into a list for easy processing
             List<GroupPolicyConfiguration> groupPolicyConfigurations = new List<GroupPolicyConfiguration>();
 
-            groupPolicyConfigurations.AddRange(result.Value);
+            // iterate through all pages
+            var pageIterator = PageIterator<GroupPolicyConfiguration, GroupPolicyConfigurationCollectionResponse>.CreatePageIterator(
+                graphClient,
+                result,
+                (policy) =>
+                {
+                    groupPolicyConfigurations.Add(policy);
+                    return true; // Return true to continue iterating
+                });
+
+            // Iterate through all pages
+            await pageIterator.IterateAsync();
+
+
+
+
+
 
             foreach (var policy in groupPolicyConfigurations)
             {
@@ -2101,15 +2117,28 @@ namespace IntuneAssignments
 
             var graphClient = CreateGraphServiceClient();
 
-            // Make a call to Microsoft Graph
-
-            var result = await graphClient.DeviceManagement.Intents.GetAsync();
-
             // Put result into a list for easy processing
 
             List<DeviceManagementIntent> securityBaselines = new List<DeviceManagementIntent>();
 
-            securityBaselines.AddRange(result.Value);
+            // Make a call to Microsoft Graph
+
+            var result = await graphClient.DeviceManagement.Intents.GetAsync();
+
+            // Create a PageIterator to handle paging
+
+            var pageIterator = PageIterator<DeviceManagementIntent, DeviceManagementIntentCollectionResponse>.CreatePageIterator(
+                graphClient,
+                result,
+                (intent) =>
+                {
+                    securityBaselines.Add(intent);
+                    return true; // Return true to continue iterating
+                });
+
+            // Iterate through all pages
+            await pageIterator.IterateAsync();
+
 
             foreach (var intent in securityBaselines)
             {
