@@ -2000,26 +2000,50 @@ namespace IntuneAssignments
             // This method lists all settings catalog in the tenant and displays them in a datagridview
 
             // Create an object of form1 to use it's methods   
-            Application form1 = new Application();
+            //Application form1 = new Application();
+
+            //var target = new DeviceManagementConfigurationPolicy
+            //{
+
+            //};
+
+
+
 
             // Authenticate to Graph
             var graphClient = CreateGraphServiceClient();
 
-            var target = new DeviceManagementConfigurationPolicy
-            {
-
-            };
-
-
-            var result = await graphClient.DeviceManagement.ConfigurationPolicies.GetAsync();
-            ;
-
             // Put result into a list for easy processing
             List<DeviceManagementConfigurationPolicy> configurationPolicies = new List<DeviceManagementConfigurationPolicy>();
 
+     
+            // Make a call to Microsoft Graph
+            var result = await graphClient.DeviceManagement.ConfigurationPolicies.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Select = new string[] { "id", "name" };
+            });
 
-            // Adds all the data from the graph query into the list
-            configurationPolicies.AddRange(result.Value);
+            // Create a PageIterator to handle paging
+            var pageIterator = PageIterator<DeviceManagementConfigurationPolicy, DeviceManagementConfigurationPolicyCollectionResponse>.CreatePageIterator(
+                graphClient,
+                result,
+                (policy) =>
+                {
+                    configurationPolicies.Add(policy);
+                    return true; // Return true to continue iterating
+                });
+
+            // Iterate through all pages
+            await pageIterator.IterateAsync();
+
+
+
+
+           
+
+            
+
+
 
 
             // Loop through the list
