@@ -64,6 +64,7 @@
             lblAssignedTo = new Label();
             lblAssignmentPreview = new Label();
             pnlSummary = new Panel();
+            pbFilterWarning = new PictureBox();
             lblFilter = new Label();
             cbFilter = new ComboBox();
             btn_ResetProgressBar = new Button();
@@ -95,6 +96,7 @@
             cmsDisplayGroup.SuspendLayout();
             pnlAssignedTo.SuspendLayout();
             pnlSummary.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbFilterWarning).BeginInit();
             pnlSearchGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbHelpGuide).BeginInit();
             pnlDescription.SuspendLayout();
@@ -454,6 +456,7 @@
             // pnlSummary
             // 
             pnlSummary.BorderStyle = BorderStyle.FixedSingle;
+            pnlSummary.Controls.Add(pbFilterWarning);
             pnlSummary.Controls.Add(lblFilter);
             pnlSummary.Controls.Add(cbFilter);
             pnlSummary.Controls.Add(btn_ResetProgressBar);
@@ -473,6 +476,17 @@
             pnlSummary.Name = "pnlSummary";
             pnlSummary.Size = new Size(1807, 384);
             pnlSummary.TabIndex = 4;
+            // 
+            // pbFilterWarning
+            // 
+            pbFilterWarning.Image = Properties.Resources.complain;
+            pbFilterWarning.Location = new Point(447, 10);
+            pbFilterWarning.Name = "pbFilterWarning";
+            pbFilterWarning.Size = new Size(30, 24);
+            pbFilterWarning.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbFilterWarning.TabIndex = 13;
+            pbFilterWarning.TabStop = false;
+            toolTipPolicy.SetToolTip(pbFilterWarning, "Filters are platform specific. Assignment will fail if the filter does not match the platform for the policy");
             // 
             // lblFilter
             // 
@@ -495,6 +509,7 @@
             cbFilter.Name = "cbFilter";
             cbFilter.Size = new Size(140, 23);
             cbFilter.TabIndex = 12;
+            cbFilter.SelectedIndexChanged += cbFilter_SelectedIndexChanged;
             // 
             // btn_ResetProgressBar
             // 
@@ -772,6 +787,7 @@
             pnlAssignedTo.PerformLayout();
             pnlSummary.ResumeLayout(false);
             pnlSummary.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbFilterWarning).EndInit();
             pnlSearchGroup.ResumeLayout(false);
             pnlSearchGroup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbHelpGuide).EndInit();
@@ -837,5 +853,6 @@
         private DataGridViewTextBoxColumn Assigned;
         private Label lblFilter;
         private ComboBox cbFilter;
+        private PictureBox pbFilterWarning;
     }
 }

@@ -28,6 +28,7 @@ namespace IntuneAssignments
 
             cbFilter.Hide();
             lblFilter.Hide();
+            pbFilterWarning.Hide();
 
 
         }
@@ -2004,7 +2005,7 @@ namespace IntuneAssignments
             // Put result into a list for easy processing
             List<DeviceManagementConfigurationPolicy> configurationPolicies = new List<DeviceManagementConfigurationPolicy>();
 
-     
+
             // Make a call to Microsoft Graph
             var result = await graphClient.DeviceManagement.ConfigurationPolicies.GetAsync((requestConfiguration) =>
             {
@@ -2097,7 +2098,7 @@ namespace IntuneAssignments
                 }
                 else
                 {
-                    dataGridView.Rows.Add(policy.DisplayName, "Administrative Templates", "Windows", policy.Id,"Not Assigned");
+                    dataGridView.Rows.Add(policy.DisplayName, "Administrative Templates", "Windows", policy.Id, "Not Assigned");
                 }
             }
         }
@@ -2839,6 +2840,20 @@ namespace IntuneAssignments
             int rowindex = dtgDisplayGroup.CurrentCell.RowIndex;
             int columnindex = dtgDisplayGroup.CurrentCell.ColumnIndex;
             CopyDataGridViewCellContent(rowindex, columnindex, dtgDisplayGroup);
+        }
+
+        private void cbFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Display a warning icon if the user selects a filter
+            if (cbFilter.SelectedIndex != 0)
+            {
+                pbFilterWarning.Show();
+            }
+
+            else
+            {
+                pbFilterWarning.Hide();
+            }
         }
     }
 }

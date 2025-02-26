@@ -1366,6 +1366,18 @@ namespace IntuneAssignments.Backend
                 // Handle exceptions (e.g., log the error)
                 WriteToLog($"An error occurred while getting assignment filters: {ex.Message}");
             }
+
+
+            // clear the dictionary
+            filterDictionary.Clear();
+            filterNameAndID.Clear();
+
+            // Add filter name and ID to the dictionary
+            foreach (var filter in assignmentFilters)
+            {
+                filterNameAndID.Add(filter.DisplayName, filter.Id);
+            }
+
             return assignmentFilters;
         }
 

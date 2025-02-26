@@ -60,6 +60,9 @@ namespace IntuneAssignments.Backend
         // Create a dictionary to store the filter names and their corresponding rule properties
         public static Dictionary<string, string> filterDictionary = new Dictionary<string, string>();
 
+        // Create a dictionary to store the filter name and ID
+        public static Dictionary<string, string> filterNameAndID = new Dictionary<string, string>();
+
         public static string MSGraphAssembly
         {
             get { return graphAssembly; }
