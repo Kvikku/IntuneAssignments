@@ -1475,6 +1475,8 @@ namespace IntuneAssignments
                     Target = new DeviceAndAppManagementAssignmentTarget
                     {
                         OdataType = "#microsoft.graph.groupAssignmentTarget",
+                        DeviceAndAppManagementAssignmentFilterId = AssignmentFilterID,
+                        DeviceAndAppManagementAssignmentFilterType = AssignmentFilterType,
                         AdditionalData = new Dictionary<string, object>
                         {
                             { "groupId", ID }

@@ -106,15 +106,23 @@ namespace IntuneAssignments.Backend
                 return; // Optionally, you can exit the method to avoid writing the duplicate
             }
 
-
-
-            // Use the using statement to ensure proper disposal of StreamWriter
-            using (StreamWriter sw = new StreamWriter(primaryLogFile, true))
+            try
             {
-                // Write the data to the log file
-                sw.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - {data}");
+                // Use the using statement to ensure proper disposal of StreamWriter
+                using (StreamWriter sw = new StreamWriter(primaryLogFile, true))
+                {
+                    // Write the data to the log file
+                    sw.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - {data}");
+                }
+                // StreamWriter is automatically closed and disposed of when leaving the using block
             }
-            // StreamWriter is automatically closed and disposed of when leaving the using block
+            catch (System.IO.IOException ex)
+            {
+                // Handle the exception
+                MessageBox.Show($"An error occurred while writing to the log file: {ex.Message}");
+            }
+
+            
 
         }
 
