@@ -26,6 +26,12 @@ namespace IntuneAssignments
 
             pnlAssignedTo.Visible = false;
 
+            cbFilter.Hide();
+            lblFilter.Hide();
+            pbFilterWarning.Hide();
+            rbFilterExclude.Hide();
+            rbFilterInclude.Hide();
+
 
         }
 
@@ -1312,8 +1318,8 @@ namespace IntuneAssignments
                     Target = new GroupAssignmentTarget
                     {
                         OdataType = "#microsoft.graph.groupAssignmentTarget",
-                        DeviceAndAppManagementAssignmentFilterId = null,
-                        DeviceAndAppManagementAssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.Include,
+                        DeviceAndAppManagementAssignmentFilterId = AssignmentFilterID,
+                        DeviceAndAppManagementAssignmentFilterType = AssignmentFilterType,
                         GroupId = group,
                     },
                     Source = DeviceAndAppManagementAssignmentSource.Direct,
@@ -1469,6 +1475,8 @@ namespace IntuneAssignments
                     Target = new DeviceAndAppManagementAssignmentTarget
                     {
                         OdataType = "#microsoft.graph.groupAssignmentTarget",
+                        DeviceAndAppManagementAssignmentFilterId = AssignmentFilterID,
+                        DeviceAndAppManagementAssignmentFilterType = AssignmentFilterType,
                         AdditionalData = new Dictionary<string, object>
                         {
                             { "groupId", ID }
@@ -1881,7 +1889,6 @@ namespace IntuneAssignments
             // Authenticate to Graph
             var graphClient = CreateGraphServiceClient();
 
-
             // Make a call to Microsoft Graph
             var result = await graphClient.DeviceManagement.DeviceCompliancePolicies.GetAsync((requestConfiguration) =>
             {
@@ -1889,9 +1896,18 @@ namespace IntuneAssignments
                 requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
             });
 
+            // Create a PageIterator to handle paging
+            var pageIterator = PageIterator<DeviceCompliancePolicy, DeviceCompliancePolicyCollectionResponse>.CreatePageIterator(
+                graphClient,
+                result,
+                (policy) =>
+                {
+                    deviceCompliancePolicies.Add(policy);
+                    return true; // Return true to continue iterating
+                });
 
-            // Adds all the data from the graph query into the list
-            deviceCompliancePolicies.AddRange(result.Value);
+            // Iterate through all pages
+            await pageIterator.IterateAsync();
 
 
             // Loop through the list
@@ -1924,20 +1940,28 @@ namespace IntuneAssignments
             // Authenticate to Graph
             var graphClient = CreateGraphServiceClient();
 
+            // Put result into a list for easy processing
+            List<DeviceConfiguration> deviceConfigurationProfiles = new List<DeviceConfiguration>();
 
 
+            // Make a call to Microsoft Graph
             var result = await graphClient.DeviceManagement.DeviceConfigurations.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
                 requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
             });
 
-            // Put result into a list for easy processing
-            List<DeviceConfiguration> deviceConfigurationProfiles = new List<DeviceConfiguration>();
+            var pageIterator = PageIterator<DeviceConfiguration, DeviceConfigurationCollectionResponse>.CreatePageIterator(
+                graphClient,
+                result,
+                (profile) =>
+                {
+                    deviceConfigurationProfiles.Add(profile);
+                    return true; // Return true to continue iterating
+                });
 
-
-            // Adds all the data from the graph query into the list
-            deviceConfigurationProfiles.AddRange(result.Value);
+            // Iterate through all pages
+            await pageIterator.IterateAsync();
 
 
             // Loop through the list
@@ -1969,26 +1993,44 @@ namespace IntuneAssignments
             // This method lists all settings catalog in the tenant and displays them in a datagridview
 
             // Create an object of form1 to use it's methods   
-            Application form1 = new Application();
+            //Application form1 = new Application();
+
+            //var target = new DeviceManagementConfigurationPolicy
+            //{
+
+            //};
+
+
+
 
             // Authenticate to Graph
             var graphClient = CreateGraphServiceClient();
-
-            var target = new DeviceManagementConfigurationPolicy
-            {
-
-            };
-
-
-            var result = await graphClient.DeviceManagement.ConfigurationPolicies.GetAsync();
-            ;
 
             // Put result into a list for easy processing
             List<DeviceManagementConfigurationPolicy> configurationPolicies = new List<DeviceManagementConfigurationPolicy>();
 
 
-            // Adds all the data from the graph query into the list
-            configurationPolicies.AddRange(result.Value);
+            // Make a call to Microsoft Graph
+            var result = await graphClient.DeviceManagement.ConfigurationPolicies.GetAsync((requestConfiguration) =>
+            {
+                requestConfiguration.QueryParameters.Select = new string[] { "id", "name" };
+            });
+
+            // Create a PageIterator to handle paging
+            var pageIterator = PageIterator<DeviceManagementConfigurationPolicy, DeviceManagementConfigurationPolicyCollectionResponse>.CreatePageIterator(
+                graphClient,
+                result,
+                (policy) =>
+                {
+                    configurationPolicies.Add(policy);
+                    return true; // Return true to continue iterating
+                });
+
+            // Iterate through all pages
+            await pageIterator.IterateAsync();
+
+
+
 
 
             // Loop through the list
@@ -2029,7 +2071,23 @@ namespace IntuneAssignments
             // Put result into a list for easy processing
             List<GroupPolicyConfiguration> groupPolicyConfigurations = new List<GroupPolicyConfiguration>();
 
-            groupPolicyConfigurations.AddRange(result.Value);
+            // iterate through all pages
+            var pageIterator = PageIterator<GroupPolicyConfiguration, GroupPolicyConfigurationCollectionResponse>.CreatePageIterator(
+                graphClient,
+                result,
+                (policy) =>
+                {
+                    groupPolicyConfigurations.Add(policy);
+                    return true; // Return true to continue iterating
+                });
+
+            // Iterate through all pages
+            await pageIterator.IterateAsync();
+
+
+
+
+
 
             foreach (var policy in groupPolicyConfigurations)
             {
@@ -2044,7 +2102,7 @@ namespace IntuneAssignments
                 }
                 else
                 {
-                    dataGridView.Rows.Add(policy.DisplayName, "Administrative Templates", "Windows", policy.Id,"Not Assigned");
+                    dataGridView.Rows.Add(policy.DisplayName, "Administrative Templates", "Windows", policy.Id, "Not Assigned");
                 }
             }
         }
@@ -2067,15 +2125,28 @@ namespace IntuneAssignments
 
             var graphClient = CreateGraphServiceClient();
 
-            // Make a call to Microsoft Graph
-
-            var result = await graphClient.DeviceManagement.Intents.GetAsync();
-
             // Put result into a list for easy processing
 
             List<DeviceManagementIntent> securityBaselines = new List<DeviceManagementIntent>();
 
-            securityBaselines.AddRange(result.Value);
+            // Make a call to Microsoft Graph
+
+            var result = await graphClient.DeviceManagement.Intents.GetAsync();
+
+            // Create a PageIterator to handle paging
+
+            var pageIterator = PageIterator<DeviceManagementIntent, DeviceManagementIntentCollectionResponse>.CreatePageIterator(
+                graphClient,
+                result,
+                (intent) =>
+                {
+                    securityBaselines.Add(intent);
+                    return true; // Return true to continue iterating
+                });
+
+            // Iterate through all pages
+            await pageIterator.IterateAsync();
+
 
             foreach (var intent in securityBaselines)
             {
@@ -2613,7 +2684,7 @@ namespace IntuneAssignments
 
         }
 
-        private void btnPrepareDeployment_Click(object sender, EventArgs e)
+        private async void btnPrepareDeployment_Click(object sender, EventArgs e)
         {
             /*
              * This method prepares the deployment of policies to groups
@@ -2622,7 +2693,15 @@ namespace IntuneAssignments
 
             WriteToLog("User clicked the Prepare Deployment button");
 
+            cbFilter.Show();
+            lblFilter.Show();
+
             PreparePolicyDeployment();
+
+            var filters = await GetAllAssignmentFilters();
+            AddFiltersToDictionary(filterDictionary, filters);
+            AddFiltersToComboBox(cbFilter, filters);
+
         }
 
         private void btnResetDeployment_Click(object sender, EventArgs e)
@@ -2643,6 +2722,53 @@ namespace IntuneAssignments
         private async void btnDeployPolicyAssignment_Click(object sender, EventArgs e)
         {
             WriteToLog("User clicked the Deploy button");
+
+            // check if any filter is selected, but filter intent is not selected
+
+            if (cbFilter.SelectedIndex != 0)
+            {
+                if (rbFilterInclude.Checked == false && rbFilterExclude.Checked == false)
+                {
+                    MessageBox.Show("Please select an intent for the filter");
+                    WriteToLog("User clicked the Deploy button without selecting an intent for the filter");
+                    return;
+                }
+
+                if (rbFilterInclude.Checked == true || rbFilterExclude.Checked == true)
+                {
+                    WriteToLog("User selected a filter and an intent for the filter");
+
+                    
+                    // get the selected filter name
+                    var selectedFilter = cbFilter.Text;
+
+                    // get the filter ID from the dictionary
+                    foreach (var kvp in filterNameAndID)
+                    {
+                        if (kvp.Key == selectedFilter)
+                        {
+                            // update the filter ID
+                            AssignmentFilterID = kvp.Value;
+                        }
+
+                    }
+
+                    // get the filter type
+                    if (rbFilterInclude.Checked == true)
+                    {
+                        AssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.Include;
+                    }
+                    if (rbFilterExclude.Checked == true)
+                    {
+                        AssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.Exclude;
+                    }
+
+                }
+            }
+
+
+
+
             pBarDeployProgress.Value = 0;
             await AssignSelectedPolicies();
         }
@@ -2765,6 +2891,34 @@ namespace IntuneAssignments
             int rowindex = dtgDisplayGroup.CurrentCell.RowIndex;
             int columnindex = dtgDisplayGroup.CurrentCell.ColumnIndex;
             CopyDataGridViewCellContent(rowindex, columnindex, dtgDisplayGroup);
+        }
+
+        private void cbFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Display a warning icon if the user selects a filter
+            if (cbFilter.SelectedIndex != 0)
+            {
+                pbFilterWarning.Show();
+                rbFilterExclude.Show();
+                rbFilterInclude.Show();
+            }
+
+            else
+            {
+                pbFilterWarning.Hide();
+                rbFilterExclude.Hide();
+                rbFilterInclude.Hide();
+            }
+        }
+
+        private void rbFilterInclude_CheckedChanged(object sender, EventArgs e)
+        {
+            rbFilterExclude.Checked = false;
+        }
+
+        private void rbFilterExclude_CheckedChanged(object sender, EventArgs e)
+        {
+            rbFilterInclude.Checked = false;
         }
     }
 }

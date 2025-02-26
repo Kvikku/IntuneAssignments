@@ -38,6 +38,11 @@
             pnlSearchPolicy = new Panel();
             lblSelectApps = new Label();
             dtgDisplayPolicy = new DataGridView();
+            PolicyName = new DataGridViewTextBoxColumn();
+            Type = new DataGridViewTextBoxColumn();
+            Platform = new DataGridViewTextBoxColumn();
+            ID = new DataGridViewTextBoxColumn();
+            Assigned = new DataGridViewTextBoxColumn();
             cmsDisplayPolicy = new ContextMenuStrip(components);
             copyCellContentToolStripMenuItem = new ToolStripMenuItem();
             btnListAllPolicy = new Button();
@@ -59,6 +64,11 @@
             lblAssignedTo = new Label();
             lblAssignmentPreview = new Label();
             pnlSummary = new Panel();
+            rbFilterExclude = new RadioButton();
+            rbFilterInclude = new RadioButton();
+            pbFilterWarning = new PictureBox();
+            lblFilter = new Label();
+            cbFilter = new ComboBox();
             btn_ResetProgressBar = new Button();
             btnDeployDescription = new Button();
             rtbDeploymentSummary = new RichTextBox();
@@ -80,11 +90,6 @@
             label1 = new Label();
             pbViewAssignments = new PictureBox();
             lblHeaderAppForm = new Label();
-            PolicyName = new DataGridViewTextBoxColumn();
-            Type = new DataGridViewTextBoxColumn();
-            Platform = new DataGridViewTextBoxColumn();
-            ID = new DataGridViewTextBoxColumn();
-            Assigned = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlSearchPolicy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
@@ -93,6 +98,7 @@
             cmsDisplayGroup.SuspendLayout();
             pnlAssignedTo.SuspendLayout();
             pnlSummary.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbFilterWarning).BeginInit();
             pnlSearchGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbHelpGuide).BeginInit();
             pnlDescription.SuspendLayout();
@@ -173,6 +179,44 @@
             dtgDisplayPolicy.TabIndex = 4;
             dtgDisplayPolicy.CellClick += dtgDisplayPolicy_CellClick;
             dtgDisplayPolicy.SelectionChanged += dtgDisplayPolicy_SelectionChanged;
+            // 
+            // PolicyName
+            // 
+            PolicyName.HeaderText = "Name";
+            PolicyName.MinimumWidth = 6;
+            PolicyName.Name = "PolicyName";
+            PolicyName.ReadOnly = true;
+            PolicyName.Width = 400;
+            // 
+            // Type
+            // 
+            Type.HeaderText = "Type";
+            Type.MinimumWidth = 6;
+            Type.Name = "Type";
+            Type.ReadOnly = true;
+            Type.Width = 200;
+            // 
+            // Platform
+            // 
+            Platform.HeaderText = "Platform";
+            Platform.MinimumWidth = 6;
+            Platform.Name = "Platform";
+            Platform.ReadOnly = true;
+            Platform.Width = 200;
+            // 
+            // ID
+            // 
+            ID.HeaderText = "ID";
+            ID.MinimumWidth = 6;
+            ID.Name = "ID";
+            ID.ReadOnly = true;
+            ID.Width = 125;
+            // 
+            // Assigned
+            // 
+            Assigned.HeaderText = "Assigned";
+            Assigned.Name = "Assigned";
+            Assigned.ReadOnly = true;
             // 
             // cmsDisplayPolicy
             // 
@@ -374,6 +418,7 @@
             rtbAssignmentPreview.ForeColor = Color.Salmon;
             rtbAssignmentPreview.Location = new Point(10, 110);
             rtbAssignmentPreview.Name = "rtbAssignmentPreview";
+            rtbAssignmentPreview.ReadOnly = true;
             rtbAssignmentPreview.Size = new Size(327, 224);
             rtbAssignmentPreview.TabIndex = 2;
             rtbAssignmentPreview.Text = "";
@@ -414,6 +459,11 @@
             // pnlSummary
             // 
             pnlSummary.BorderStyle = BorderStyle.FixedSingle;
+            pnlSummary.Controls.Add(rbFilterExclude);
+            pnlSummary.Controls.Add(rbFilterInclude);
+            pnlSummary.Controls.Add(pbFilterWarning);
+            pnlSummary.Controls.Add(lblFilter);
+            pnlSummary.Controls.Add(cbFilter);
             pnlSummary.Controls.Add(btn_ResetProgressBar);
             pnlSummary.Controls.Add(btnDeployDescription);
             pnlSummary.Controls.Add(rtbDeploymentSummary);
@@ -431,6 +481,69 @@
             pnlSummary.Name = "pnlSummary";
             pnlSummary.Size = new Size(1807, 384);
             pnlSummary.TabIndex = 4;
+            // 
+            // rbFilterExclude
+            // 
+            rbFilterExclude.AutoSize = true;
+            rbFilterExclude.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            rbFilterExclude.ForeColor = Color.Salmon;
+            rbFilterExclude.Location = new Point(403, 31);
+            rbFilterExclude.Name = "rbFilterExclude";
+            rbFilterExclude.Size = new Size(74, 18);
+            rbFilterExclude.TabIndex = 15;
+            rbFilterExclude.TabStop = true;
+            rbFilterExclude.Text = "Exclude";
+            rbFilterExclude.UseVisualStyleBackColor = true;
+            // 
+            // rbFilterInclude
+            // 
+            rbFilterInclude.AutoSize = true;
+            rbFilterInclude.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            rbFilterInclude.ForeColor = Color.Salmon;
+            rbFilterInclude.Location = new Point(403, 13);
+            rbFilterInclude.Name = "rbFilterInclude";
+            rbFilterInclude.Size = new Size(74, 18);
+            rbFilterInclude.TabIndex = 14;
+            rbFilterInclude.TabStop = true;
+            rbFilterInclude.Text = "Include";
+            rbFilterInclude.UseVisualStyleBackColor = true;
+            rbFilterInclude.CheckedChanged += rbFilterInclude_CheckedChanged;
+            // 
+            // pbFilterWarning
+            // 
+            pbFilterWarning.Image = Properties.Resources.complain;
+            pbFilterWarning.Location = new Point(483, 54);
+            pbFilterWarning.Name = "pbFilterWarning";
+            pbFilterWarning.Size = new Size(32, 24);
+            pbFilterWarning.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbFilterWarning.TabIndex = 13;
+            pbFilterWarning.TabStop = false;
+            toolTipPolicy.SetToolTip(pbFilterWarning, "Filters are platform specific. Assignment will fail if the filter does not match the platform for the policy");
+            // 
+            // lblFilter
+            // 
+            lblFilter.AutoSize = true;
+            lblFilter.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblFilter.ForeColor = Color.Salmon;
+            lblFilter.Location = new Point(337, 20);
+            lblFilter.Name = "lblFilter";
+            lblFilter.Size = new Size(49, 21);
+            lblFilter.TabIndex = 12;
+            lblFilter.Text = "Filter";
+            // 
+            // cbFilter
+            // 
+            cbFilter.BackColor = Color.FromArgb(46, 51, 73);
+            cbFilter.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbFilter.FlatStyle = FlatStyle.Flat;
+            cbFilter.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cbFilter.ForeColor = Color.Salmon;
+            cbFilter.FormattingEnabled = true;
+            cbFilter.Location = new Point(337, 55);
+            cbFilter.Name = "cbFilter";
+            cbFilter.Size = new Size(140, 22);
+            cbFilter.TabIndex = 12;
+            cbFilter.SelectedIndexChanged += cbFilter_SelectedIndexChanged;
             // 
             // btn_ResetProgressBar
             // 
@@ -500,6 +613,7 @@
             rtbSelectedGroups.ForeColor = Color.Salmon;
             rtbSelectedGroups.Location = new Point(421, 139);
             rtbSelectedGroups.Name = "rtbSelectedGroups";
+            rtbSelectedGroups.ReadOnly = true;
             rtbSelectedGroups.Size = new Size(347, 224);
             rtbSelectedGroups.TabIndex = 6;
             rtbSelectedGroups.Text = "";
@@ -513,6 +627,7 @@
             rtbSelectedPolicies.ForeColor = Color.Salmon;
             rtbSelectedPolicies.Location = new Point(9, 139);
             rtbSelectedPolicies.Name = "rtbSelectedPolicies";
+            rtbSelectedPolicies.ReadOnly = true;
             rtbSelectedPolicies.Size = new Size(386, 224);
             rtbSelectedPolicies.TabIndex = 5;
             rtbSelectedPolicies.Text = "";
@@ -550,7 +665,7 @@
             btnResetDeployment.BackColor = Color.Salmon;
             btnResetDeployment.FlatStyle = FlatStyle.Flat;
             btnResetDeployment.Font = new Font("Consolas", 12F);
-            btnResetDeployment.Location = new Point(235, 3);
+            btnResetDeployment.Location = new Point(235, 20);
             btnResetDeployment.Name = "btnResetDeployment";
             btnResetDeployment.Size = new Size(96, 58);
             btnResetDeployment.TabIndex = 7;
@@ -575,7 +690,7 @@
             btnPrepareDeployment.BackColor = Color.Salmon;
             btnPrepareDeployment.FlatStyle = FlatStyle.Flat;
             btnPrepareDeployment.Font = new Font("Consolas", 12F);
-            btnPrepareDeployment.Location = new Point(9, 3);
+            btnPrepareDeployment.Location = new Point(9, 20);
             btnPrepareDeployment.Name = "btnPrepareDeployment";
             btnPrepareDeployment.Size = new Size(220, 58);
             btnPrepareDeployment.TabIndex = 6;
@@ -678,44 +793,6 @@
             lblHeaderAppForm.TabIndex = 21;
             lblHeaderAppForm.Text = "Deploy policies";
             // 
-            // PolicyName
-            // 
-            PolicyName.HeaderText = "Name";
-            PolicyName.MinimumWidth = 6;
-            PolicyName.Name = "PolicyName";
-            PolicyName.ReadOnly = true;
-            PolicyName.Width = 400;
-            // 
-            // Type
-            // 
-            Type.HeaderText = "Type";
-            Type.MinimumWidth = 6;
-            Type.Name = "Type";
-            Type.ReadOnly = true;
-            Type.Width = 200;
-            // 
-            // Platform
-            // 
-            Platform.HeaderText = "Platform";
-            Platform.MinimumWidth = 6;
-            Platform.Name = "Platform";
-            Platform.ReadOnly = true;
-            Platform.Width = 200;
-            // 
-            // ID
-            // 
-            ID.HeaderText = "ID";
-            ID.MinimumWidth = 6;
-            ID.Name = "ID";
-            ID.ReadOnly = true;
-            ID.Width = 125;
-            // 
-            // Assigned
-            // 
-            Assigned.HeaderText = "Assigned";
-            Assigned.Name = "Assigned";
-            Assigned.ReadOnly = true;
-            // 
             // Policy
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -746,6 +823,7 @@
             pnlAssignedTo.PerformLayout();
             pnlSummary.ResumeLayout(false);
             pnlSummary.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbFilterWarning).EndInit();
             pnlSearchGroup.ResumeLayout(false);
             pnlSearchGroup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbHelpGuide).EndInit();
@@ -809,5 +887,10 @@
         private DataGridViewTextBoxColumn Platform;
         private DataGridViewTextBoxColumn ID;
         private DataGridViewTextBoxColumn Assigned;
+        private Label lblFilter;
+        private ComboBox cbFilter;
+        private PictureBox pbFilterWarning;
+        private RadioButton rbFilterExclude;
+        private RadioButton rbFilterInclude;
     }
 }
