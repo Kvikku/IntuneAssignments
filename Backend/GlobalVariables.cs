@@ -1,4 +1,5 @@
 ﻿using Microsoft.Graph.Beta.DeviceManagement.Intents.Item.Categories.Item;
+using Microsoft.Graph.Beta.Models;
 
 namespace IntuneAssignments.Backend
 {
@@ -62,6 +63,9 @@ namespace IntuneAssignments.Backend
 
         // Create a dictionary to store the filter name and ID
         public static Dictionary<string, string> filterNameAndID = new Dictionary<string, string>();
+
+        public static string? AssignmentFilterID = null;
+        public static DeviceAndAppManagementAssignmentFilterType AssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.None;
 
         public static string MSGraphAssembly
         {

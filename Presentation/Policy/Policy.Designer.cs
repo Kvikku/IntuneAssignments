@@ -534,11 +534,12 @@
             // 
             cbFilter.BackColor = Color.FromArgb(46, 51, 73);
             cbFilter.FlatStyle = FlatStyle.Flat;
+            cbFilter.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbFilter.ForeColor = Color.Salmon;
             cbFilter.FormattingEnabled = true;
             cbFilter.Location = new Point(337, 55);
             cbFilter.Name = "cbFilter";
-            cbFilter.Size = new Size(140, 23);
+            cbFilter.Size = new Size(140, 22);
             cbFilter.TabIndex = 12;
             cbFilter.SelectedIndexChanged += cbFilter_SelectedIndexChanged;
             // 

@@ -1318,8 +1318,8 @@ namespace IntuneAssignments
                     Target = new GroupAssignmentTarget
                     {
                         OdataType = "#microsoft.graph.groupAssignmentTarget",
-                        DeviceAndAppManagementAssignmentFilterId = null,
-                        DeviceAndAppManagementAssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.Include,
+                        DeviceAndAppManagementAssignmentFilterId = AssignmentFilterID,
+                        DeviceAndAppManagementAssignmentFilterType = AssignmentFilterType,
                         GroupId = group,
                     },
                     Source = DeviceAndAppManagementAssignmentSource.Direct,
@@ -2728,9 +2728,44 @@ namespace IntuneAssignments
                 if (rbFilterInclude.Checked == false && rbFilterExclude.Checked == false)
                 {
                     MessageBox.Show("Please select an intent for the filter");
+                    WriteToLog("User clicked the Deploy button without selecting an intent for the filter");
                     return;
                 }
+
+                if (rbFilterInclude.Checked == true || rbFilterExclude.Checked == true)
+                {
+                    WriteToLog("User selected a filter and an intent for the filter");
+
+                    
+                    // get the selected filter name
+                    var selectedFilter = cbFilter.Text;
+
+                    // get the filter ID from the dictionary
+                    foreach (var kvp in filterNameAndID)
+                    {
+                        if (kvp.Key == selectedFilter)
+                        {
+                            // update the filter ID
+                            AssignmentFilterID = kvp.Value;
+                        }
+
+                    }
+
+                    // get the filter type
+                    if (rbFilterInclude.Checked == true)
+                    {
+                        AssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.Include;
+                    }
+                    if (rbFilterExclude.Checked == true)
+                    {
+                        AssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.Exclude;
+                    }
+
+                }
             }
+
+
+
 
             pBarDeployProgress.Value = 0;
             await AssignSelectedPolicies();
