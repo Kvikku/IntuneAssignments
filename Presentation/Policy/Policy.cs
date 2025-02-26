@@ -26,6 +26,9 @@ namespace IntuneAssignments
 
             pnlAssignedTo.Visible = false;
 
+            cbFilter.Hide();
+            lblFilter.Hide();
+
 
         }
 
@@ -2685,6 +2688,8 @@ namespace IntuneAssignments
 
             WriteToLog("User clicked the Prepare Deployment button");
 
+            cbFilter.Show();
+            lblFilter.Show();
 
             PreparePolicyDeployment();
 
