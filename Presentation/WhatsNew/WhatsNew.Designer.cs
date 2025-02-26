@@ -82,7 +82,7 @@
             lblNewestVersion.Name = "lblNewestVersion";
             lblNewestVersion.Size = new Size(133, 15);
             lblNewestVersion.TabIndex = 16;
-            lblNewestVersion.Text = "Version 0.2.4-beta";
+            lblNewestVersion.Text = "Version 0.2.6-beta";
             // 
             // btnOk
             // 
