@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using IntuneAssignments.Backend;
 using IntuneAssignments.Presentation.Application.App_protection;
 using Newtonsoft.Json;
+using Microsoft.Graph;
 
 
 namespace IntuneAssignments
@@ -635,7 +636,8 @@ namespace IntuneAssignments
 
             var selectedPlatform = cBAppType.Text;
 
-
+            // Put result into a list for easy processing
+            List<MobileApp> listAllApplications = new List<MobileApp>();
 
             // Make a call to Microsoft Graph
             var allApplications = await graphClient.DeviceAppManagement.MobileApps.GetAsync((requestConfiguration) =>
@@ -643,9 +645,24 @@ namespace IntuneAssignments
                 requestConfiguration.QueryParameters.Select = new string[] { "displayName", "id" };
             });
 
-            // Put result into a list for easy processing
-            List<MobileApp> listAllApplications = new List<MobileApp>();
-            listAllApplications.AddRange(allApplications.Value);
+            // create a pageIterator object to get all pages of results
+
+            var pageIterator = PageIterator<MobileApp, MobileAppCollectionResponse>.CreatePageIterator(
+                graphClient,
+                allApplications,
+                (intent) =>
+                {
+                    listAllApplications.Add(intent);
+                    return true; // Return true to continue iterating
+                });
+
+            // Iterate through all pages
+            await pageIterator.IterateAsync();
+
+
+
+
+            //listAllApplications.AddRange(allApplications.Value);
 
 
 
