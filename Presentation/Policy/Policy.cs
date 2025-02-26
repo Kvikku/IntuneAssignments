@@ -1881,7 +1881,6 @@ namespace IntuneAssignments
             // Authenticate to Graph
             var graphClient = CreateGraphServiceClient();
 
-
             // Make a call to Microsoft Graph
             var result = await graphClient.DeviceManagement.DeviceCompliancePolicies.GetAsync((requestConfiguration) =>
             {
@@ -1889,10 +1888,22 @@ namespace IntuneAssignments
                 requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
             });
 
-
-            // Adds all the data from the graph query into the list
+            // Adds all the data from the first page to the list
             deviceCompliancePolicies.AddRange(result.Value);
 
+            // Page through the results
+            while (result.OdataNextLink != null)
+            {
+                result = await graphClient.DeviceManagement.DeviceCompliancePolicies.GetAsync((requestConfiguration) =>
+                {
+                    requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
+                    requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
+                    requestConfiguration.QueryParameters.Top = 999; // Adjust the page size if needed
+                });
+
+                // Adds all the data from the next page to the list
+                deviceCompliancePolicies.AddRange(result.Value);
+            }
 
             // Loop through the list
 
@@ -1924,16 +1935,36 @@ namespace IntuneAssignments
             // Authenticate to Graph
             var graphClient = CreateGraphServiceClient();
 
+            // Put result into a list for easy processing
+            List<DeviceConfiguration> deviceConfigurationProfiles = new List<DeviceConfiguration>();
 
 
+            // Make a call to Microsoft Graph
             var result = await graphClient.DeviceManagement.DeviceConfigurations.GetAsync((requestConfiguration) =>
             {
                 requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
                 requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
             });
 
-            // Put result into a list for easy processing
-            List<DeviceConfiguration> deviceConfigurationProfiles = new List<DeviceConfiguration>();
+            // Adds all the data from the first page to the list
+            deviceConfigurationProfiles.AddRange(result.Value);
+
+            // Page through the results
+            while (result.OdataNextLink != null)
+            {
+                result = await graphClient.DeviceManagement.DeviceConfigurations.GetAsync((requestConfiguration) =>
+                {
+                    requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
+                    requestConfiguration.Headers.Add("ConsistencyLevel", "Eventual");
+                    requestConfiguration.QueryParameters.Top = 999; // Adjust the page size if needed
+                });
+
+                // Adds all the data from the next page to the list
+                deviceConfigurationProfiles.AddRange(result.Value);
+            }
+
+
+
 
 
             // Adds all the data from the graph query into the list
