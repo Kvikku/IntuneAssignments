@@ -38,6 +38,11 @@
             pnlSearchPolicy = new Panel();
             lblSelectApps = new Label();
             dtgDisplayPolicy = new DataGridView();
+            PolicyName = new DataGridViewTextBoxColumn();
+            Type = new DataGridViewTextBoxColumn();
+            Platform = new DataGridViewTextBoxColumn();
+            ID = new DataGridViewTextBoxColumn();
+            Assigned = new DataGridViewTextBoxColumn();
             cmsDisplayPolicy = new ContextMenuStrip(components);
             copyCellContentToolStripMenuItem = new ToolStripMenuItem();
             btnListAllPolicy = new Button();
@@ -59,6 +64,8 @@
             lblAssignedTo = new Label();
             lblAssignmentPreview = new Label();
             pnlSummary = new Panel();
+            lblFilter = new Label();
+            cbFilter = new ComboBox();
             btn_ResetProgressBar = new Button();
             btnDeployDescription = new Button();
             rtbDeploymentSummary = new RichTextBox();
@@ -80,11 +87,6 @@
             label1 = new Label();
             pbViewAssignments = new PictureBox();
             lblHeaderAppForm = new Label();
-            PolicyName = new DataGridViewTextBoxColumn();
-            Type = new DataGridViewTextBoxColumn();
-            Platform = new DataGridViewTextBoxColumn();
-            ID = new DataGridViewTextBoxColumn();
-            Assigned = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)pbHome).BeginInit();
             pnlSearchPolicy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgDisplayPolicy).BeginInit();
@@ -173,6 +175,44 @@
             dtgDisplayPolicy.TabIndex = 4;
             dtgDisplayPolicy.CellClick += dtgDisplayPolicy_CellClick;
             dtgDisplayPolicy.SelectionChanged += dtgDisplayPolicy_SelectionChanged;
+            // 
+            // PolicyName
+            // 
+            PolicyName.HeaderText = "Name";
+            PolicyName.MinimumWidth = 6;
+            PolicyName.Name = "PolicyName";
+            PolicyName.ReadOnly = true;
+            PolicyName.Width = 400;
+            // 
+            // Type
+            // 
+            Type.HeaderText = "Type";
+            Type.MinimumWidth = 6;
+            Type.Name = "Type";
+            Type.ReadOnly = true;
+            Type.Width = 200;
+            // 
+            // Platform
+            // 
+            Platform.HeaderText = "Platform";
+            Platform.MinimumWidth = 6;
+            Platform.Name = "Platform";
+            Platform.ReadOnly = true;
+            Platform.Width = 200;
+            // 
+            // ID
+            // 
+            ID.HeaderText = "ID";
+            ID.MinimumWidth = 6;
+            ID.Name = "ID";
+            ID.ReadOnly = true;
+            ID.Width = 125;
+            // 
+            // Assigned
+            // 
+            Assigned.HeaderText = "Assigned";
+            Assigned.Name = "Assigned";
+            Assigned.ReadOnly = true;
             // 
             // cmsDisplayPolicy
             // 
@@ -414,6 +454,8 @@
             // pnlSummary
             // 
             pnlSummary.BorderStyle = BorderStyle.FixedSingle;
+            pnlSummary.Controls.Add(lblFilter);
+            pnlSummary.Controls.Add(cbFilter);
             pnlSummary.Controls.Add(btn_ResetProgressBar);
             pnlSummary.Controls.Add(btnDeployDescription);
             pnlSummary.Controls.Add(rtbDeploymentSummary);
@@ -431,6 +473,25 @@
             pnlSummary.Name = "pnlSummary";
             pnlSummary.Size = new Size(1807, 384);
             pnlSummary.TabIndex = 4;
+            // 
+            // lblFilter
+            // 
+            lblFilter.AutoSize = true;
+            lblFilter.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblFilter.ForeColor = Color.Salmon;
+            lblFilter.Location = new Point(337, -1);
+            lblFilter.Name = "lblFilter";
+            lblFilter.Size = new Size(49, 21);
+            lblFilter.TabIndex = 12;
+            lblFilter.Text = "Filter";
+            // 
+            // cbFilter
+            // 
+            cbFilter.FormattingEnabled = true;
+            cbFilter.Location = new Point(337, 40);
+            cbFilter.Name = "cbFilter";
+            cbFilter.Size = new Size(140, 23);
+            cbFilter.TabIndex = 12;
             // 
             // btn_ResetProgressBar
             // 
@@ -678,44 +739,6 @@
             lblHeaderAppForm.TabIndex = 21;
             lblHeaderAppForm.Text = "Deploy policies";
             // 
-            // PolicyName
-            // 
-            PolicyName.HeaderText = "Name";
-            PolicyName.MinimumWidth = 6;
-            PolicyName.Name = "PolicyName";
-            PolicyName.ReadOnly = true;
-            PolicyName.Width = 400;
-            // 
-            // Type
-            // 
-            Type.HeaderText = "Type";
-            Type.MinimumWidth = 6;
-            Type.Name = "Type";
-            Type.ReadOnly = true;
-            Type.Width = 200;
-            // 
-            // Platform
-            // 
-            Platform.HeaderText = "Platform";
-            Platform.MinimumWidth = 6;
-            Platform.Name = "Platform";
-            Platform.ReadOnly = true;
-            Platform.Width = 200;
-            // 
-            // ID
-            // 
-            ID.HeaderText = "ID";
-            ID.MinimumWidth = 6;
-            ID.Name = "ID";
-            ID.ReadOnly = true;
-            ID.Width = 125;
-            // 
-            // Assigned
-            // 
-            Assigned.HeaderText = "Assigned";
-            Assigned.Name = "Assigned";
-            Assigned.ReadOnly = true;
-            // 
             // Policy
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -809,5 +832,7 @@
         private DataGridViewTextBoxColumn Platform;
         private DataGridViewTextBoxColumn ID;
         private DataGridViewTextBoxColumn Assigned;
+        private Label lblFilter;
+        private ComboBox cbFilter;
     }
 }

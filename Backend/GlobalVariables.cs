@@ -57,6 +57,8 @@ namespace IntuneAssignments.Backend
         // This variable is used to define apps that have read only descriptions, which cannot be modified by the user in the UI
         public static string[] readOnlyDescription = new string[] { "AndroidManagedStoreApp", "ManagedAndroidStoreApp", "ManagedIOSStoreApp", "IosVppApp" };
 
+        // Create a dictionary to store the filter names and their corresponding rule properties
+        public static Dictionary<string, string> filterDictionary = new Dictionary<string, string>();
 
         public static string MSGraphAssembly
         {

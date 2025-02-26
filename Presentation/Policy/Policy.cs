@@ -2676,7 +2676,7 @@ namespace IntuneAssignments
 
         }
 
-        private void btnPrepareDeployment_Click(object sender, EventArgs e)
+        private async void btnPrepareDeployment_Click(object sender, EventArgs e)
         {
             /*
              * This method prepares the deployment of policies to groups
@@ -2685,7 +2685,13 @@ namespace IntuneAssignments
 
             WriteToLog("User clicked the Prepare Deployment button");
 
+
             PreparePolicyDeployment();
+
+            var filters = await GetAllAssignmentFilters();
+            AddFiltersToDictionary(filterDictionary, filters);
+            AddFiltersToComboBox(cbFilter, filters);
+
         }
 
         private void btnResetDeployment_Click(object sender, EventArgs e)

@@ -1160,7 +1160,7 @@ namespace IntuneAssignments.Backend
 
 
         }
-            
+
 
         public static async Task DeleteSettingsCatalogPolicyAssignment(List<string> groupIDs, string policyID)
         {
@@ -1281,7 +1281,7 @@ namespace IntuneAssignments.Backend
                 }
 
                 else if (assignment.Target.GetType() == typeof(AllLicensedUsersAssignmentTarget))
-                { 
+                {
                     groupID = allUsersGroupID;
                 }
                 else
@@ -1289,7 +1289,7 @@ namespace IntuneAssignments.Backend
                     var groupAssignmentTarget = (GroupAssignmentTarget)assignment.Target;
                     groupID = groupAssignmentTarget.GroupId;
                 }
-               
+
 
                 var ID = assignment.Id;
 
@@ -1297,7 +1297,7 @@ namespace IntuneAssignments.Backend
                 {
                     // Remove the assignment from the list of assignments to keep
                     assignmentsToKeep.Remove(assignment);
-                   
+
                 }
                 else
                 {
@@ -1305,7 +1305,7 @@ namespace IntuneAssignments.Backend
                 }
 
             }
-            
+
 
             foreach (var groupID in groupIDs)
             {
@@ -1313,7 +1313,7 @@ namespace IntuneAssignments.Backend
                 {
                     Id = groupID
                 };
-                
+
             }
 
             var requestBody = new Microsoft.Graph.Beta.DeviceManagement.Intents.Item.Assign.AssignPostRequestBody
@@ -1328,6 +1328,114 @@ namespace IntuneAssignments.Backend
             // Make the POST request to delete the assignments
             await graphClient.DeviceManagement.Intents[policyID].Assign.PostAsync(requestBody);
 
+        }
+
+        public static async Task<List<DeviceAndAppManagementAssignmentFilter>> GetAllAssignmentFilters()
+        {
+            // Method to get the assignment filters for a policy
+            // Create a new instance of the GraphServiceClient class
+
+            var graphClient = CreateGraphServiceClient();
+
+            // Create a list to store the assignment filters in
+            List<DeviceAndAppManagementAssignmentFilter> assignmentFilters = new List<DeviceAndAppManagementAssignmentFilter>();
+
+            try
+            {
+                // Look up the assignment filters
+                var result = await graphClient.DeviceManagement.AssignmentFilters.GetAsync();
+
+                if (result != null && result.Value != null)
+                {
+                    // Create a page iterator
+                    var pageIterator = PageIterator<DeviceAndAppManagementAssignmentFilter, DeviceAndAppManagementAssignmentFilterCollectionResponse>.CreatePageIterator(
+                        graphClient,
+                        result,
+                        (filter) =>
+                        {
+                            assignmentFilters.Add(filter);
+                            return true;
+                        });
+
+                    // Iterate through the pages
+                    await pageIterator.IterateAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions (e.g., log the error)
+                WriteToLog($"An error occurred while getting assignment filters: {ex.Message}");
+            }
+            return assignmentFilters;
+        }
+
+        public static void AddFiltersToDictionary(Dictionary<string, string> filterDictionary, List<DeviceAndAppManagementAssignmentFilter> filters)
+        {
+            // Clear the dictionary
+            filterDictionary.Clear();
+            // Add a default value to the dictionary
+            filterDictionary.Add("None", "None");
+
+            // Add the filters to the dictionary
+            foreach (var filter in filters)
+            {
+                filterDictionary.Add(filter.DisplayName, filter.Rule);
+            }
+        }
+
+        public static void AddFiltersToComboBox(ComboBox comboBox, List<DeviceAndAppManagementAssignmentFilter> filters)
+        {
+            // Clear the combobox
+            comboBox.Items.Clear();
+
+            // Add a default value to the combobox
+            comboBox.Items.Add("None");
+
+            // Set the default value
+            comboBox.SelectedIndex = 0;
+
+            // Add the filters to the combobox
+            foreach (var filter in filters)
+            {
+                comboBox.Items.Add(filter.DisplayName);
+            }
+
+            // Enable owner draw mode
+            comboBox.DrawMode = DrawMode.OwnerDrawFixed;
+            comboBox.DrawItem += ComboBox_DrawItem;
+
+            // Create a ToolTip instance
+            ToolTip toolTip = new ToolTip();
+            comboBox.MouseMove += (sender, e) =>
+            {
+                Point point = comboBox.PointToClient(Cursor.Position);
+                int index = comboBox.FindStringExact(comboBox.GetItemText(comboBox.Items[comboBox.SelectedIndex]));
+                if (index >= 0 && index < comboBox.Items.Count)
+                {
+                    string itemText = comboBox.Items[index].ToString();
+                    if (filterDictionary.TryGetValue(itemText, out string toolTipText))
+                    {
+                        toolTip.SetToolTip(comboBox, toolTipText);
+                        toolTip.Show(toolTipText, comboBox, point.X, point.Y + comboBox.ItemHeight, 2000);
+                    }
+                }
+                else
+                {
+                    toolTip.Hide(comboBox);
+                }
+            
+            };
+        }
+
+        private static void ComboBox_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            if (comboBox != null && e.Index >= 0)
+            {
+                e.DrawBackground();
+                e.Graphics.DrawString(comboBox.Items[e.Index].ToString(), e.Font, SystemBrushes.ControlText, e.Bounds);
+                e.DrawFocusRectangle();
+            }
         }
     }
 }
