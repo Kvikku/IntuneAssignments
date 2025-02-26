@@ -29,6 +29,8 @@ namespace IntuneAssignments
             cbFilter.Hide();
             lblFilter.Hide();
             pbFilterWarning.Hide();
+            rbFilterExclude.Hide();
+            rbFilterInclude.Hide();
 
 
         }
@@ -2718,6 +2720,18 @@ namespace IntuneAssignments
         private async void btnDeployPolicyAssignment_Click(object sender, EventArgs e)
         {
             WriteToLog("User clicked the Deploy button");
+
+            // check if any filter is selected, but filter intent is not selected
+
+            if (cbFilter.SelectedIndex != 0)
+            {
+                if (rbFilterInclude.Checked == false && rbFilterExclude.Checked == false)
+                {
+                    MessageBox.Show("Please select an intent for the filter");
+                    return;
+                }
+            }
+
             pBarDeployProgress.Value = 0;
             await AssignSelectedPolicies();
         }
@@ -2848,12 +2862,26 @@ namespace IntuneAssignments
             if (cbFilter.SelectedIndex != 0)
             {
                 pbFilterWarning.Show();
+                rbFilterExclude.Show();
+                rbFilterInclude.Show();
             }
 
             else
             {
                 pbFilterWarning.Hide();
+                rbFilterExclude.Hide();
+                rbFilterInclude.Hide();
             }
+        }
+
+        private void rbFilterInclude_CheckedChanged(object sender, EventArgs e)
+        {
+            rbFilterExclude.Checked = false;
+        }
+
+        private void rbFilterExclude_CheckedChanged(object sender, EventArgs e)
+        {
+            rbFilterInclude.Checked = false;
         }
     }
 }

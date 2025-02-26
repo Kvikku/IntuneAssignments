@@ -64,6 +64,8 @@
             lblAssignedTo = new Label();
             lblAssignmentPreview = new Label();
             pnlSummary = new Panel();
+            rbFilterExclude = new RadioButton();
+            rbFilterInclude = new RadioButton();
             pbFilterWarning = new PictureBox();
             lblFilter = new Label();
             cbFilter = new ComboBox();
@@ -456,6 +458,8 @@
             // pnlSummary
             // 
             pnlSummary.BorderStyle = BorderStyle.FixedSingle;
+            pnlSummary.Controls.Add(rbFilterExclude);
+            pnlSummary.Controls.Add(rbFilterInclude);
             pnlSummary.Controls.Add(pbFilterWarning);
             pnlSummary.Controls.Add(lblFilter);
             pnlSummary.Controls.Add(cbFilter);
@@ -477,10 +481,37 @@
             pnlSummary.Size = new Size(1807, 384);
             pnlSummary.TabIndex = 4;
             // 
+            // rbFilterExclude
+            // 
+            rbFilterExclude.AutoSize = true;
+            rbFilterExclude.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            rbFilterExclude.ForeColor = Color.Salmon;
+            rbFilterExclude.Location = new Point(403, 31);
+            rbFilterExclude.Name = "rbFilterExclude";
+            rbFilterExclude.Size = new Size(74, 18);
+            rbFilterExclude.TabIndex = 15;
+            rbFilterExclude.TabStop = true;
+            rbFilterExclude.Text = "Exclude";
+            rbFilterExclude.UseVisualStyleBackColor = true;
+            // 
+            // rbFilterInclude
+            // 
+            rbFilterInclude.AutoSize = true;
+            rbFilterInclude.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            rbFilterInclude.ForeColor = Color.Salmon;
+            rbFilterInclude.Location = new Point(403, 7);
+            rbFilterInclude.Name = "rbFilterInclude";
+            rbFilterInclude.Size = new Size(74, 18);
+            rbFilterInclude.TabIndex = 14;
+            rbFilterInclude.TabStop = true;
+            rbFilterInclude.Text = "Include";
+            rbFilterInclude.UseVisualStyleBackColor = true;
+            rbFilterInclude.CheckedChanged += rbFilterInclude_CheckedChanged;
+            // 
             // pbFilterWarning
             // 
             pbFilterWarning.Image = Properties.Resources.complain;
-            pbFilterWarning.Location = new Point(447, 10);
+            pbFilterWarning.Location = new Point(483, 54);
             pbFilterWarning.Name = "pbFilterWarning";
             pbFilterWarning.Size = new Size(30, 24);
             pbFilterWarning.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -505,7 +536,7 @@
             cbFilter.FlatStyle = FlatStyle.Flat;
             cbFilter.ForeColor = Color.Salmon;
             cbFilter.FormattingEnabled = true;
-            cbFilter.Location = new Point(337, 40);
+            cbFilter.Location = new Point(337, 55);
             cbFilter.Name = "cbFilter";
             cbFilter.Size = new Size(140, 23);
             cbFilter.TabIndex = 12;
@@ -629,7 +660,7 @@
             btnResetDeployment.BackColor = Color.Salmon;
             btnResetDeployment.FlatStyle = FlatStyle.Flat;
             btnResetDeployment.Font = new Font("Consolas", 12F);
-            btnResetDeployment.Location = new Point(235, 3);
+            btnResetDeployment.Location = new Point(235, 20);
             btnResetDeployment.Name = "btnResetDeployment";
             btnResetDeployment.Size = new Size(96, 58);
             btnResetDeployment.TabIndex = 7;
@@ -654,7 +685,7 @@
             btnPrepareDeployment.BackColor = Color.Salmon;
             btnPrepareDeployment.FlatStyle = FlatStyle.Flat;
             btnPrepareDeployment.Font = new Font("Consolas", 12F);
-            btnPrepareDeployment.Location = new Point(9, 3);
+            btnPrepareDeployment.Location = new Point(9, 20);
             btnPrepareDeployment.Name = "btnPrepareDeployment";
             btnPrepareDeployment.Size = new Size(220, 58);
             btnPrepareDeployment.TabIndex = 6;
@@ -854,5 +885,7 @@
         private Label lblFilter;
         private ComboBox cbFilter;
         private PictureBox pbFilterWarning;
+        private RadioButton rbFilterExclude;
+        private RadioButton rbFilterInclude;
     }
 }
