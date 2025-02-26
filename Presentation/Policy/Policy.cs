@@ -1956,13 +1956,6 @@ namespace IntuneAssignments
             await pageIterator.IterateAsync();
 
 
-
-
-
-            // Adds all the data from the graph query into the list
-            deviceConfigurationProfiles.AddRange(result.Value);
-
-
             // Loop through the list
 
             foreach (var profile in deviceConfigurationProfiles)
@@ -2028,12 +2021,6 @@ namespace IntuneAssignments
             // Iterate through all pages
             await pageIterator.IterateAsync();
 
-
-
-
-           
-
-            
 
 
 
