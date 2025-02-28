@@ -1213,150 +1213,80 @@ namespace IntuneAssignments
         }
         async Task AssignSettingsCatalog(string policyID, string groupID)
         {
-            // Description
+            // This method assigns a settings catalog to one or more groups
 
-            // This methods assigns a settings catalog to one or more groups
-
-            // The policy ID and group ID are passed as parameters to this method and used to create the assignment
-
-
-
-            // Authenticate to Graph
-            var graphClient = CreateGraphServiceClient();
-
-            // Create a group assignment target object
-            var groupAssignmentTarget = new GroupAssignmentTarget
-            {
-                GroupId = groupID
-                //DeviceAndAppManagementAssignmentFilterId = policyID
-
-            };
-
-
-
-            // Create a configuration policy assignment object
-            var deviceConfigurationAssignmentTarget = new DeviceConfigurationAssignment
-            {
-
-                Target = groupAssignmentTarget
-
-            };
-
-
-            // Create an array to store all group IDs
-            // Add the new group ID to the array, which is passed into this method as a parameter
-            // Existing group IDs are added to this array later in the code
-            string[] groupIDs = { groupID };
-
-
-            // Create a list to temporarily store existing group IDs for further processing
-            List<DeviceManagementConfigurationPolicyAssignment> groupIDList = new List<DeviceManagementConfigurationPolicyAssignment>();
-
-
-
-            // All existing assignments must be retrieved and added to the array in order to prevent them from being overwritten
-
-            // Find all existing assignments by their group ID
-            var existingAssignments = await graphClient.DeviceManagement.ConfigurationPolicies[policyID]
-                .Assignments
-                .GetAsync();
-
-
-            // Check if there are any existing assignments
-
-            if (existingAssignments.Value.Count >= 1)
-            {
-                // Add existing assignments to a list for further processing
-                foreach (var assignment in existingAssignments.Value)
-                {
-                    groupIDList.Add(assignment);
-                }
-            }
-
-
-            // Loop through each existing assignment, extract the group ID and add that to the array of group ID's
-            // This is to ensure that existing assignments are not overwritten and deleted by PostAsync() later in the code
-
-
-            foreach (var group in groupIDList)
-            {
-
-                // Extract the group ID from the ID property (which consists of the policy ID and the group ID joined by a "_" sign)
-                int underscoreIndex = group.Id.IndexOf("_");
-
-                if (underscoreIndex >= 0 && underscoreIndex < group.Id.Length - 1)
-                {
-                    string extractedText = group.Id.Substring(underscoreIndex + 1);
-
-                    // check if the assignment is already in the list
-                    // if it is, don't add it again
-                    if (!groupIDs.Contains(extractedText))
-                    {
-                        Array.Resize(ref groupIDs, groupIDs.Length + 1);
-                        groupIDs[groupIDs.Length - 1] = extractedText;
-                    }
-
-
-                    // Add each existing assignment to the array of assignments to ensure that they are not overwritten and deleted
-                    //Array.Resize(ref groupIDs, groupIDs.Length + 1);
-                    //groupIDs[groupIDs.Length - 1] = extractedText;
-                }
-            }
-
-            // Create an empty list to store the assignments
-            List<DeviceManagementConfigurationPolicyAssignment> assignments = new List<DeviceManagementConfigurationPolicyAssignment>();
-
-
-            // Loop through each group ID and create an assignment object for each one
-
-            foreach (var group in groupIDs)
-            {
-                var assignment = new DeviceManagementConfigurationPolicyAssignment
-                {
-                    OdataType = "#microsoft.graph.deviceManagementConfigurationPolicyAssignment",
-                    Id = group,
-                    Target = new GroupAssignmentTarget
-                    {
-                        OdataType = "#microsoft.graph.groupAssignmentTarget",
-                        DeviceAndAppManagementAssignmentFilterId = AssignmentFilterID,
-                        DeviceAndAppManagementAssignmentFilterType = AssignmentFilterType,
-                        GroupId = group,
-                    },
-                    Source = DeviceAndAppManagementAssignmentSource.Direct,
-                    SourceId = group,
-
-                };
-                // add each assignment to the list of assignments
-                assignments.Add(assignment);
-
-            }
-
-
-            // Create a request body object and add all assignment object to it
-            var requestBody = new Microsoft.Graph.Beta.DeviceManagement.ConfigurationPolicies.Item.Assign.AssignPostRequestBody
-            {
-                Assignments = assignments
-            };
-
-
-
-
-            // Create a new assignment
             try
             {
+                // Authenticate to Graph
+                var graphClient = CreateGraphServiceClient();
 
-                var result = await graphClient.DeviceManagement.ConfigurationPolicies[policyID].Assign.PostAsync(requestBody);
+                // Create a group assignment target object for the new group
+                var newGroupAssignmentTarget = new GroupAssignmentTarget
+                {
+                    GroupId = groupID
+                };
 
+                // Retrieve all existing assignments
+                var existingAssignments = await graphClient.DeviceManagement.ConfigurationPolicies[policyID]
+                    .Assignments
+                    .GetAsync();
 
+                // Extract existing group IDs and their filter IDs and types
+                var existingGroupAssignments = existingAssignments.Value
+                    .Select(assignment => new DeviceManagementConfigurationPolicyAssignment
+                    {
+                        OdataType = "#microsoft.graph.deviceManagementConfigurationPolicyAssignment",
+                        Id = ExtractGroupID(assignment.Id),
+                        Target = new GroupAssignmentTarget
+                        {
+                            OdataType = "#microsoft.graph.groupAssignmentTarget",
+                            DeviceAndAppManagementAssignmentFilterId = ((GroupAssignmentTarget)assignment.Target).DeviceAndAppManagementAssignmentFilterId,
+                            DeviceAndAppManagementAssignmentFilterType = ((GroupAssignmentTarget)assignment.Target).DeviceAndAppManagementAssignmentFilterType,
+                            GroupId = ((GroupAssignmentTarget)assignment.Target).GroupId
+                        },
+                        Source = assignment.Source,
+                        SourceId = assignment.SourceId
+                    })
+                    .ToList();
+
+                // Check if the new group ID already exists in the existing assignments
+                var existingGroupIDs = existingGroupAssignments.Select(a => a.Id).ToHashSet();
+                if (!existingGroupIDs.Contains(groupID))
+                {
+                    // Create a new assignment for the new group
+                    var newAssignment = new DeviceManagementConfigurationPolicyAssignment
+                    {
+                        OdataType = "#microsoft.graph.deviceManagementConfigurationPolicyAssignment",
+                        Id = groupID,
+                        Target = new GroupAssignmentTarget
+                        {
+                            OdataType = "#microsoft.graph.groupAssignmentTarget",
+                            DeviceAndAppManagementAssignmentFilterId = AssignmentFilterID,
+                            DeviceAndAppManagementAssignmentFilterType = AssignmentFilterType,
+                            GroupId = groupID
+                        },
+                        Source = DeviceAndAppManagementAssignmentSource.Direct,
+                        SourceId = groupID
+                    };
+
+                    // Add the new assignment to the list
+                    existingGroupAssignments.Add(newAssignment);
+                }
+
+                // Create a request body object and add all assignment objects to it
+                var requestBody = new Microsoft.Graph.Beta.DeviceManagement.ConfigurationPolicies.Item.Assign.AssignPostRequestBody
+                {
+                    Assignments = existingGroupAssignments
+                };
+
+                // Create a new assignment
+                await graphClient.DeviceManagement.ConfigurationPolicies[policyID].Assign.PostAsync(requestBody);
             }
             catch (ServiceException ex)
             {
-
-                MessageBox.Show(ex.Message);
+                MessageBox.Show($"An error occurred while assigning the settings catalog: {ex.Message}");
                 throw;
             }
-
-
         }
 
         async Task AssignCompliancePolcy(string policyID, string groupID)
@@ -1745,7 +1675,7 @@ namespace IntuneAssignments
                             }
 
                             // Assignments for Settings Catalog
-                            if (type == "Settings Catalog")
+                            if (type.Equals("Settings Catalog", StringComparison.OrdinalIgnoreCase))
                             {
 
                                 // Loop through each selected group and assign the policy to each group
