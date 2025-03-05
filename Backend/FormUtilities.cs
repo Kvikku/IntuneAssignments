@@ -357,8 +357,9 @@ namespace IntuneAssignments.Backend
 
             var result = await graphClient.Groups.GetAsync((requestConfiguration) =>
             {
+                requestConfiguration.QueryParameters.Count = true;
+                requestConfiguration.QueryParameters.Filter = "not(groupTypes/any(g:g eq 'Unified'))";
                 requestConfiguration.Headers.Add("ConsistencyLevel", "eventual");
-                // requestConfiguration.QueryParameters.Select = new string[] { "id", "memberShipRule", "displayName", "members" };
             });
 
 

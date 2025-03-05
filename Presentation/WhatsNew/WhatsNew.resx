@@ -117,7 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="rtbWhatsNew.Text" xml:space="preserve">
-    <value>Fixed bug when listing and assigning a large amount of objects. Begun work on adding filters for assignments. Currently working for compliance policies and settings catalog. (Please note that currently it adds the filter to existing groups. this wll be fixed)</value>
-  </data>
 </root>

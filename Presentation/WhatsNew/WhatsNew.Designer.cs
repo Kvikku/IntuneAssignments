@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WhatsNew));
             rtbWhatsNew = new RichTextBox();
             lblWhatsNew = new Label();
             linklblGithubURL = new LinkLabel();
@@ -47,7 +46,7 @@
             rtbWhatsNew.ReadOnly = true;
             rtbWhatsNew.Size = new Size(464, 165);
             rtbWhatsNew.TabIndex = 13;
-            rtbWhatsNew.Text = resources.GetString("rtbWhatsNew.Text");
+            rtbWhatsNew.Text = "Added filter support for the following types: Device configuration, ADMX template, Applications";
             // 
             // lblWhatsNew
             // 
@@ -82,7 +81,7 @@
             lblNewestVersion.Name = "lblNewestVersion";
             lblNewestVersion.Size = new Size(133, 15);
             lblNewestVersion.TabIndex = 16;
-            lblNewestVersion.Text = "Version 0.2.6-beta";
+            lblNewestVersion.Text = "Version 0.2.7-beta";
             // 
             // btnOk
             // 

@@ -580,6 +580,7 @@
             rtbDeploymentSummary.ForeColor = Color.Salmon;
             rtbDeploymentSummary.Location = new Point(796, 139);
             rtbDeploymentSummary.Name = "rtbDeploymentSummary";
+            rtbDeploymentSummary.ReadOnly = true;
             rtbDeploymentSummary.Size = new Size(491, 224);
             rtbDeploymentSummary.TabIndex = 9;
             rtbDeploymentSummary.Text = "";
