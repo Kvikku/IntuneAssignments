@@ -1289,7 +1289,7 @@ namespace IntuneAssignments
             }
         }
 
-        async Task AssignCompliancePolcy1(string policyID, string groupID)
+        async Task AssignCompliancePolicy(string policyID, string groupID)
         {
             // This method assigns a compliance policy to one or more groups
 
@@ -1414,9 +1414,8 @@ namespace IntuneAssignments
 
         async Task AssignCompliancePolcy(string policyID, string groupID)
         {
-            // This methods assigns a compliance policy to one or more groups
-
-            // the policy ID and group ID are passed as parameters to this method and used to create the assignment 
+            // This method is now obsolete and has been replaced by AssignCompliancePolicy1
+            // To be deleted
 
 
 
@@ -1782,7 +1781,7 @@ namespace IntuneAssignments
 
 
                                     // Assignment for Compliance Policies
-                                    await AssignCompliancePolcy1(policyID, groupID);
+                                    await AssignCompliancePolicy(policyID, groupID);
 
 
                                     // Log status to the logfile
