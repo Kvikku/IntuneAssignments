@@ -1220,12 +1220,6 @@ namespace IntuneAssignments
                 // Authenticate to Graph
                 var graphClient = CreateGraphServiceClient();
 
-                // Create a group assignment target object for the new group
-                var newGroupAssignmentTarget = new GroupAssignmentTarget
-                {
-                    GroupId = groupID
-                };
-
                 // Retrieve all existing assignments
                 var existingAssignments = await graphClient.DeviceManagement.ConfigurationPolicies[policyID]
                     .Assignments
@@ -1233,19 +1227,64 @@ namespace IntuneAssignments
 
                 // Extract existing group IDs and their filter IDs and types
                 var existingGroupAssignments = existingAssignments.Value
-                    .Select(assignment => new DeviceManagementConfigurationPolicyAssignment
+                    .Where(assignment => assignment.Target is GroupAssignmentTarget ||
+                                         assignment.Target is AllLicensedUsersAssignmentTarget ||
+                                         assignment.Target is AllDevicesAssignmentTarget)
+                    .Select(assignment =>
                     {
-                        OdataType = "#microsoft.graph.deviceManagementConfigurationPolicyAssignment",
-                        Id = ExtractGroupID(assignment.Id),
-                        Target = new GroupAssignmentTarget
+                        if (assignment.Target is GroupAssignmentTarget groupTarget)
                         {
-                            OdataType = "#microsoft.graph.groupAssignmentTarget",
-                            DeviceAndAppManagementAssignmentFilterId = ((GroupAssignmentTarget)assignment.Target).DeviceAndAppManagementAssignmentFilterId,
-                            DeviceAndAppManagementAssignmentFilterType = ((GroupAssignmentTarget)assignment.Target).DeviceAndAppManagementAssignmentFilterType,
-                            GroupId = ((GroupAssignmentTarget)assignment.Target).GroupId
-                        },
-                        Source = assignment.Source,
-                        SourceId = assignment.SourceId
+                            return new DeviceManagementConfigurationPolicyAssignment
+                            {
+                                OdataType = "#microsoft.graph.deviceManagementConfigurationPolicyAssignment",
+                                Id = ExtractGroupID(assignment.Id),
+                                Target = new GroupAssignmentTarget
+                                {
+                                    OdataType = "#microsoft.graph.groupAssignmentTarget",
+                                    DeviceAndAppManagementAssignmentFilterId = groupTarget.DeviceAndAppManagementAssignmentFilterId,
+                                    DeviceAndAppManagementAssignmentFilterType = groupTarget.DeviceAndAppManagementAssignmentFilterType,
+                                    GroupId = groupTarget.GroupId
+                                },
+                                Source = assignment.Source,
+                                SourceId = assignment.SourceId
+                            };
+                        }
+                        else if (assignment.Target is AllLicensedUsersAssignmentTarget licensedUsersTarget)
+                        {
+                            return new DeviceManagementConfigurationPolicyAssignment
+                            {
+                                OdataType = "#microsoft.graph.deviceManagementConfigurationPolicyAssignment",
+                                Id = ExtractGroupID(assignment.Id),
+                                Target = new AllLicensedUsersAssignmentTarget
+                                {
+                                    OdataType = "#microsoft.graph.allLicensedUsersAssignmentTarget",
+                                    DeviceAndAppManagementAssignmentFilterId = licensedUsersTarget.DeviceAndAppManagementAssignmentFilterId,
+                                    DeviceAndAppManagementAssignmentFilterType = licensedUsersTarget.DeviceAndAppManagementAssignmentFilterType
+                                },
+                                Source = assignment.Source,
+                                SourceId = assignment.SourceId
+                            };
+                        }
+                        else if (assignment.Target is AllDevicesAssignmentTarget deviceTarget)
+                        {
+                            return new DeviceManagementConfigurationPolicyAssignment
+                            {
+                                OdataType = "#microsoft.graph.deviceManagementConfigurationPolicyAssignment",
+                                Id = ExtractGroupID(assignment.Id),
+                                Target = new AllDevicesAssignmentTarget
+                                {
+                                    OdataType = "#microsoft.graph.allDeviceAssignmentTarget",
+                                    DeviceAndAppManagementAssignmentFilterId = deviceTarget.DeviceAndAppManagementAssignmentFilterId,
+                                    DeviceAndAppManagementAssignmentFilterType = deviceTarget.DeviceAndAppManagementAssignmentFilterType
+                                },
+                                Source = assignment.Source,
+                                SourceId = assignment.SourceId
+                            };
+                        }
+                        else
+                        {
+                            throw new InvalidCastException("Unsupported assignment target type.");
+                        }
                     })
                     .ToList();
 
@@ -1282,9 +1321,18 @@ namespace IntuneAssignments
                 // Create a new assignment
                 await graphClient.DeviceManagement.ConfigurationPolicies[policyID].Assign.PostAsync(requestBody);
             }
+
+            catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError ex)
+            {
+                MessageBox.Show($"An error occurred while assigning the settings catalog: {ex.Message}");
+                WriteToLog($"An error occurred while assigning the settings catalog: {ex.Message}");
+                throw;
+            }
+
             catch (ServiceException ex)
             {
                 MessageBox.Show($"An error occurred while assigning the settings catalog: {ex.Message}");
+                WriteToLog($"An error occurred while assigning the settings catalog: {ex.Message}");
                 throw;
             }
         }
