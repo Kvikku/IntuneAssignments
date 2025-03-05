@@ -1289,6 +1289,129 @@ namespace IntuneAssignments
             }
         }
 
+        async Task AssignCompliancePolcy1(string policyID, string groupID)
+        {
+            // This method assigns a compliance policy to one or more groups
+
+            try
+            {
+                // Authenticate to Graph
+                var graphClient = CreateGraphServiceClient();
+
+                // Retrieve all existing assignments
+                var existingAssignments = await graphClient.DeviceManagement.DeviceCompliancePolicies[policyID]
+                    .Assignments
+                    .GetAsync();
+
+                // Extract existing group IDs and their filter IDs and types
+                var existingGroupAssignments = existingAssignments.Value
+                    .Where(assignment => assignment.Target is GroupAssignmentTarget ||
+                                         assignment.Target is AllLicensedUsersAssignmentTarget ||
+                                         assignment.Target is AllDevicesAssignmentTarget)
+                    .Select(assignment =>
+                    {
+                        if (assignment.Target is GroupAssignmentTarget groupTarget)
+                        {
+                            return new DeviceCompliancePolicyAssignment
+                            {
+                                OdataType = "#microsoft.graph.deviceCompliancePolicyAssignment",
+                                Id = ExtractGroupID(assignment.Id),
+                                Target = new GroupAssignmentTarget
+                                {
+                                    OdataType = "#microsoft.graph.groupAssignmentTarget",
+                                    DeviceAndAppManagementAssignmentFilterId = groupTarget.DeviceAndAppManagementAssignmentFilterId,
+                                    DeviceAndAppManagementAssignmentFilterType = groupTarget.DeviceAndAppManagementAssignmentFilterType,
+                                    GroupId = groupTarget.GroupId
+                                },
+                                Source = assignment.Source,
+                                SourceId = assignment.SourceId
+                            };
+                        }
+                        else if (assignment.Target is AllLicensedUsersAssignmentTarget licensedUsersTarget)
+                        {
+                            return new DeviceCompliancePolicyAssignment
+                            {
+                                OdataType = "#microsoft.graph.deviceCompliancePolicyAssignment",
+                                Id = ExtractGroupID(assignment.Id),
+                                Target = new AllLicensedUsersAssignmentTarget
+                                {
+                                    OdataType = "#microsoft.graph.allLicensedUsersAssignmentTarget",
+                                    DeviceAndAppManagementAssignmentFilterId = licensedUsersTarget.DeviceAndAppManagementAssignmentFilterId,
+                                    DeviceAndAppManagementAssignmentFilterType = licensedUsersTarget.DeviceAndAppManagementAssignmentFilterType
+                                },
+                                Source = assignment.Source,
+                                SourceId = assignment.SourceId
+                            };
+                        }
+                        else if (assignment.Target is AllDevicesAssignmentTarget deviceTarget)
+                        {
+                            return new DeviceCompliancePolicyAssignment
+                            {
+                                OdataType = "#microsoft.graph.deviceCompliancePolicyAssignment",
+                                Id = ExtractGroupID(assignment.Id),
+                                Target = new AllDevicesAssignmentTarget
+                                {
+                                    OdataType = "#microsoft.graph.allDeviceAssignmentTarget",
+                                    DeviceAndAppManagementAssignmentFilterId = deviceTarget.DeviceAndAppManagementAssignmentFilterId,
+                                    DeviceAndAppManagementAssignmentFilterType = deviceTarget.DeviceAndAppManagementAssignmentFilterType
+                                },
+                                Source = assignment.Source,
+                                SourceId = assignment.SourceId
+                            };
+                        }
+                        else
+                        {
+                            throw new InvalidCastException("Unsupported assignment target type.");
+                        }
+                    })
+                    .ToList();
+
+                // Check if the new group ID already exists in the existing assignments
+                var existingGroupIDs = existingGroupAssignments.Select(a => a.Id).ToHashSet();
+                if (!existingGroupIDs.Contains(groupID))
+                {
+                    // Create a new assignment for the new group
+                    var newAssignment = new DeviceCompliancePolicyAssignment
+                    {
+                        OdataType = "#microsoft.graph.deviceCompliancePolicyAssignment",
+                        Id = groupID,
+                        Target = new GroupAssignmentTarget
+                        {
+                            OdataType = "#microsoft.graph.groupAssignmentTarget",
+                            DeviceAndAppManagementAssignmentFilterId = AssignmentFilterID,
+                            DeviceAndAppManagementAssignmentFilterType = AssignmentFilterType,
+                            GroupId = groupID
+                        },
+                        Source = DeviceAndAppManagementAssignmentSource.Direct,
+                        SourceId = groupID
+                    };
+
+                    // Add the new assignment to the list
+                    existingGroupAssignments.Add(newAssignment);
+                }
+
+                // Create a request body object and add all assignment objects to it
+                var requestBody = new Microsoft.Graph.Beta.DeviceManagement.DeviceCompliancePolicies.Item.Assign.AssignPostRequestBody
+                {
+                    Assignments = existingGroupAssignments
+                };
+
+                // Create a new assignment
+                await graphClient.DeviceManagement.DeviceCompliancePolicies[policyID].Assign.PostAsync(requestBody);
+            }
+            catch (ServiceException ex)
+            {
+                MessageBox.Show($"An error occurred while assigning the compliance policy: {ex.Message}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while assigning the compliance policy: {ex.Message}");
+                throw;
+            }
+        }
+
+
         async Task AssignCompliancePolcy(string policyID, string groupID)
         {
             // This methods assigns a compliance policy to one or more groups
@@ -1659,7 +1782,7 @@ namespace IntuneAssignments
 
 
                                     // Assignment for Compliance Policies
-                                    await AssignCompliancePolcy(policyID, groupID);
+                                    await AssignCompliancePolcy1(policyID, groupID);
 
 
                                     // Log status to the logfile
