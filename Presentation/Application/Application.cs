@@ -77,6 +77,11 @@ namespace IntuneAssignments
         public void Form1_Load(object sender, EventArgs e)
         {
 
+            cbFilter.Hide();
+            lblFilter.Hide();
+            pbFilterWarning.Hide();
+            rbFilterExclude.Hide();
+            rbFilterInclude.Hide();
 
 
             // Hides the login panel during application launch
@@ -694,10 +699,10 @@ namespace IntuneAssignments
                         }
                         else
                         {
-                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm,result.Id, "Not assigned");
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm, result.Id, "Not assigned");
                         }
 
-                        
+
                     }
                 }
 
@@ -722,7 +727,7 @@ namespace IntuneAssignments
                         }
                         else
                         {
-                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm,result.Id, "Not assigned");
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm, result.Id, "Not assigned");
                         }
                     }
                 }
@@ -746,7 +751,7 @@ namespace IntuneAssignments
                         }
                         else
                         {
-                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm,result.Id, "Not assigned");
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm, result.Id, "Not assigned");
                         }
                     }
                 }
@@ -771,7 +776,7 @@ namespace IntuneAssignments
                         }
                         else
                         {
-                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm,result.Id, "Not assigned");
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm, result.Id, "Not assigned");
                         }
                     }
                 }
@@ -801,7 +806,7 @@ namespace IntuneAssignments
                         }
                         else
                         {
-                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm,result.Id, "Not assigned");
+                            dtgDisplayApp.Rows.Add(result.DisplayName, platForm, result.Id, "Not assigned");
                         }
                     }
                 }
@@ -1488,8 +1493,6 @@ namespace IntuneAssignments
 
             // Sets the scope of the progress bar
 
-            // 
-
             int numberOfApps = clbAppAssignments.Items.Count;
             int numberOfGroups = clbGroupAssignment.Items.Count;
 
@@ -1497,18 +1500,14 @@ namespace IntuneAssignments
 
             progressBar1.Maximum = progressBarMaxValue;
 
-
-
             InstallIntent intent;
             if (!Enum.TryParse(rtbSummarizeIntent.Text, out intent))
             {
                 throw new ArgumentException("Invalid InstallIntent value.");
             }
 
-
             var mobileApps = await GetAllMobileAppsAsync();
             var Groups = await SearchAndGetAllGroupsAsync();
-
 
             // Loop through all apps in the checked listbox
             foreach (var app in clbAppAssignments.Items)
@@ -1518,48 +1517,49 @@ namespace IntuneAssignments
                 // This is the app ID for each app in the checked list box
                 // Use this for assignment purposes
 
-
-                // Testing only:
-                // MessageBox.Show(mobileAppID.ToString());
-
                 // Loop through all groups in the checked listbox
                 foreach (var group in clbGroupAssignment.Items)
                 {
                     var groupID = GetGroupIdByName(Groups, group.ToString());
-                    // This is the app ID for each group in the checked list box
-                    // Use this for assignment purposes
 
-
-                    // Testing only:
-                    // MessageBox.Show(groupID.ToString());
-
-
-                    var target = new GroupAssignmentTarget
+                    // Determine the target type based on the group ID
+                    DeviceAndAppManagementAssignmentTarget target;
+                    if (groupID == allUsersGroupID)
                     {
-                        GroupId = groupID,
-                    };
-
-                    var newAssignment = new MobileAppAssignment();
-                    {
-                        newAssignment.Target = target;
-                        newAssignment.Intent = intent;
-
+                        target = new AllLicensedUsersAssignmentTarget
+                        {
+                            OdataType = "#microsoft.graph.allLicensedUsersAssignmentTarget"
+                        };
                     }
+                    else if (groupID == allDevicesGroupID)
+                    {
+                        target = new AllDevicesAssignmentTarget
+                        {
+                            OdataType = "#microsoft.graph.allDevicesAssignmentTarget"
+                        };
+                    }
+                    else
+                    {
+                        target = new GroupAssignmentTarget
+                        {
+                            GroupId = groupID,
+                            OdataType = "#microsoft.graph.groupAssignmentTarget"
+                        };
+                    }
+
+                    target.DeviceAndAppManagementAssignmentFilterId = AssignmentFilterID;
+                    target.DeviceAndAppManagementAssignmentFilterType = AssignmentFilterType;
+                    
+
+                    var newAssignment = new MobileAppAssignment
+                    {
+                        Target = target,
+                        Intent = intent,
+                    };
 
                     try
                     {
-                        //await graphClient.DeviceAppManagement
-                        //    .MobileApps[mobileAppID]
-                        //    .Assignments
-                        //    .Request()
-                        //    .AddAsync(newAssignment);
-
-
-
-
-
                         // This might delete existing assignments
-
                         await graphClient.DeviceAppManagement.MobileApps[mobileAppID]
                             .Assignments
                             .PostAsync(newAssignment);
@@ -1568,19 +1568,12 @@ namespace IntuneAssignments
                         rtbDeploymentSummary.AppendText("\n");
 
                         progressBar1.Value++;
-
                     }
-
                     catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
                     {
-                        //MessageBox.Show(me.Message);
-
                         string jsonResponse = me.Message;
-
                         ApiErrorResponse errorResponse = JsonConvert.DeserializeObject<ApiErrorResponse>(jsonResponse);
-
                         string errorMessage = errorResponse.Message;
-
                         int operationIDIndex = errorMessage.IndexOf("Operation ID");
 
                         // Trim the error message for better readability
@@ -1588,7 +1581,6 @@ namespace IntuneAssignments
                         {
                             errorMessage = errorMessage.Substring(0, operationIDIndex);
                         }
-
 
                         WriteToLog("Error adding assignment for " + app.ToString() + " and " + group.ToString() + ": " + me.Message);
 
@@ -1598,13 +1590,8 @@ namespace IntuneAssignments
                         rtbDeploymentSummary.SelectionColor = rtbDeploymentSummary.ForeColor;
                         progressBar1.Value++;
                     }
-
                     catch (Exception ex)
                     {
-                        //Troubleshoot only
-                        //MessageBox.Show($"Error adding assignment for {app.ToString()} and {group.ToString()}: {ex.Message}");
-
-                        // variables for error message
                         string errorMessage = ex.Message;
                         string desiredMessage = "";
 
@@ -1617,27 +1604,14 @@ namespace IntuneAssignments
                             desiredMessage = errorMessage.Substring(start + 13, end - start - 13);
                         }
 
-
-
                         rtbDeploymentSummary.SelectionColor = Color.Red;
                         rtbDeploymentSummary.AppendText("Error when adding " + app.ToString() + " to " + group.ToString() + " as " + intent + "\n");
                         rtbDeploymentSummary.AppendText($"Error message: " + desiredMessage);
                         rtbDeploymentSummary.SelectionColor = rtbDeploymentSummary.ForeColor;
                         progressBar1.Value++;
-
                     }
-
-
-
-
                 }
-
-
-
-
             }
-
-
         }
 
 
@@ -1780,7 +1754,8 @@ namespace IntuneAssignments
                     //requestConfiguration.QueryParameters.Select = new string[] { "id", "displayName" };
                     //requestConfiguration.QueryParameters.Top = 1000; // Optional: Set the page size
 
-                };
+                }
+                ;
 
                 Groups.AddRange(result.Value);
             }
@@ -2166,9 +2141,17 @@ namespace IntuneAssignments
 
         }
 
-        private void btnSummarize_Click(object sender, EventArgs e)
+        private async void btnSummarize_Click(object sender, EventArgs e)
         {
+
             SummarizeAssignments();
+
+            cbFilter.Show();
+            lblFilter.Show();
+
+            var filters = await GetAllAssignmentFilters();
+            AddFiltersToDictionary(filterDictionary, filters);
+            AddFiltersToComboBox(cbFilter, filters);
         }
 
         private void btnReset_Click(object sender, EventArgs e)
@@ -2176,8 +2159,54 @@ namespace IntuneAssignments
             ClearSummary();
         }
 
-        private void btnDeployAssignments_Click(object sender, EventArgs e)
+        private async void btnDeployAssignments_Click(object sender, EventArgs e)
         {
+            if (cbFilter.SelectedIndex != 0)
+            {
+                if (rbFilterInclude.Checked == false && rbFilterExclude.Checked == false)
+                {
+                    MessageBox.Show("Please select an intent for the filter");
+                    WriteToLog("User clicked the Deploy button without selecting an intent for the filter");
+                    return;
+                }
+
+                if (rbFilterInclude.Checked == true || rbFilterExclude.Checked == true)
+                {
+                    WriteToLog("User selected a filter and an intent for the filter");
+
+
+                    // get the selected filter name
+                    var selectedFilter = cbFilter.Text;
+
+                    // get the filter ID from the dictionary
+                    foreach (var kvp in filterNameAndID)
+                    {
+                        if (kvp.Key == selectedFilter)
+                        {
+                            // update the filter ID
+                            AssignmentFilterID = kvp.Value;
+                        }
+
+                    }
+
+                    // get the filter type
+                    if (rbFilterInclude.Checked == true)
+                    {
+                        AssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.Include;
+                    }
+                    if (rbFilterExclude.Checked == true)
+                    {
+                        AssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.Exclude;
+                    }
+
+                }
+            }
+
+
+
+
+
+
             int numberOfApps = rtbSummarizeApps.Lines.Count();
             int numberOfGroups = rtbSummarizeGroups.Lines.Count();
             int numberOfAssignments = numberOfApps * numberOfGroups;
@@ -2189,7 +2218,7 @@ namespace IntuneAssignments
                 DialogResult result = MessageBox.Show("You are attempting to make 10 or more assignments. Are you sure?", "Large assignment detected", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
                 if (result == DialogResult.Yes)
                 {
-                    AddAppAssignment();
+                    await AddAppAssignment();
                 }
                 else
                 {
@@ -2200,7 +2229,7 @@ namespace IntuneAssignments
             }
             else if (numberOfAssignments <= 9)
             {
-                AddAppAssignment();
+                await AddAppAssignment();
             }
             else
             {
@@ -2494,6 +2523,24 @@ namespace IntuneAssignments
             int rowindex = dtgDisplayGroup.CurrentCell.RowIndex;
             int columnindex = dtgDisplayGroup.CurrentCell.ColumnIndex;
             CopyDataGridViewCellContent(rowindex, columnindex, dtgDisplayGroup);
+        }
+
+        private void cbFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Display a warning icon if the user selects a filter
+            if (cbFilter.SelectedIndex != 0)
+            {
+                pbFilterWarning.Show();
+                rbFilterExclude.Show();
+                rbFilterInclude.Show();
+            }
+
+            else
+            {
+                pbFilterWarning.Hide();
+                rbFilterExclude.Hide();
+                rbFilterInclude.Hide();
+            }
         }
     }
 }

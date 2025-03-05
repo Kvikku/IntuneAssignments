@@ -90,6 +90,11 @@
             btnSummarize = new Button();
             btnReset = new Button();
             panelSummary = new Panel();
+            rbFilterExclude = new RadioButton();
+            rbFilterInclude = new RadioButton();
+            pbFilterWarning = new PictureBox();
+            lblFilter = new Label();
+            cbFilter = new ComboBox();
             btn_ClearProgressBar = new Button();
             btnDeployDescription = new Button();
             lblSummary = new Label();
@@ -123,6 +128,7 @@
             cmsRightClickGroupAssignment.SuspendLayout();
             pnlIntent.SuspendLayout();
             panelSummary.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbFilterWarning).BeginInit();
             menuPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pBAppProtetion).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -747,7 +753,7 @@
             btnSummarize.FlatAppearance.BorderColor = Color.White;
             btnSummarize.FlatStyle = FlatStyle.Popup;
             btnSummarize.Font = new Font("Consolas", 12F);
-            btnSummarize.Location = new Point(12, 55);
+            btnSummarize.Location = new Point(12, 40);
             btnSummarize.Name = "btnSummarize";
             btnSummarize.Size = new Size(215, 38);
             btnSummarize.TabIndex = 14;
@@ -760,7 +766,7 @@
             btnReset.BackColor = Color.Salmon;
             btnReset.FlatStyle = FlatStyle.Popup;
             btnReset.Font = new Font("Consolas", 12F);
-            btnReset.Location = new Point(233, 55);
+            btnReset.Location = new Point(233, 39);
             btnReset.Name = "btnReset";
             btnReset.Size = new Size(131, 38);
             btnReset.TabIndex = 15;
@@ -772,6 +778,11 @@
             // panelSummary
             // 
             panelSummary.BorderStyle = BorderStyle.FixedSingle;
+            panelSummary.Controls.Add(rbFilterExclude);
+            panelSummary.Controls.Add(rbFilterInclude);
+            panelSummary.Controls.Add(pbFilterWarning);
+            panelSummary.Controls.Add(lblFilter);
+            panelSummary.Controls.Add(cbFilter);
             panelSummary.Controls.Add(btn_ClearProgressBar);
             panelSummary.Controls.Add(btnDeployDescription);
             panelSummary.Controls.Add(lblSummary);
@@ -790,6 +801,67 @@
             panelSummary.Name = "panelSummary";
             panelSummary.Size = new Size(1739, 426);
             panelSummary.TabIndex = 16;
+            // 
+            // rbFilterExclude
+            // 
+            rbFilterExclude.AutoSize = true;
+            rbFilterExclude.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            rbFilterExclude.ForeColor = Color.Salmon;
+            rbFilterExclude.Location = new Point(436, 32);
+            rbFilterExclude.Name = "rbFilterExclude";
+            rbFilterExclude.Size = new Size(74, 18);
+            rbFilterExclude.TabIndex = 27;
+            rbFilterExclude.TabStop = true;
+            rbFilterExclude.Text = "Exclude";
+            rbFilterExclude.UseVisualStyleBackColor = true;
+            // 
+            // rbFilterInclude
+            // 
+            rbFilterInclude.AutoSize = true;
+            rbFilterInclude.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            rbFilterInclude.ForeColor = Color.Salmon;
+            rbFilterInclude.Location = new Point(436, 14);
+            rbFilterInclude.Name = "rbFilterInclude";
+            rbFilterInclude.Size = new Size(74, 18);
+            rbFilterInclude.TabIndex = 26;
+            rbFilterInclude.TabStop = true;
+            rbFilterInclude.Text = "Include";
+            rbFilterInclude.UseVisualStyleBackColor = true;
+            // 
+            // pbFilterWarning
+            // 
+            pbFilterWarning.Image = Properties.Resources.complain;
+            pbFilterWarning.Location = new Point(516, 55);
+            pbFilterWarning.Name = "pbFilterWarning";
+            pbFilterWarning.Size = new Size(32, 24);
+            pbFilterWarning.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbFilterWarning.TabIndex = 25;
+            pbFilterWarning.TabStop = false;
+            // 
+            // lblFilter
+            // 
+            lblFilter.AutoSize = true;
+            lblFilter.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblFilter.ForeColor = Color.Salmon;
+            lblFilter.Location = new Point(370, 21);
+            lblFilter.Name = "lblFilter";
+            lblFilter.Size = new Size(49, 21);
+            lblFilter.TabIndex = 23;
+            lblFilter.Text = "Filter";
+            // 
+            // cbFilter
+            // 
+            cbFilter.BackColor = Color.FromArgb(46, 51, 73);
+            cbFilter.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbFilter.FlatStyle = FlatStyle.Flat;
+            cbFilter.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cbFilter.ForeColor = Color.Salmon;
+            cbFilter.FormattingEnabled = true;
+            cbFilter.Location = new Point(370, 56);
+            cbFilter.Name = "cbFilter";
+            cbFilter.Size = new Size(140, 22);
+            cbFilter.TabIndex = 24;
+            cbFilter.SelectedIndexChanged += cbFilter_SelectedIndexChanged;
             // 
             // btn_ClearProgressBar
             // 
@@ -1038,6 +1110,7 @@
             pnlIntent.PerformLayout();
             panelSummary.ResumeLayout(false);
             panelSummary.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbFilterWarning).EndInit();
             menuPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pBAppProtetion).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
@@ -1132,5 +1205,10 @@
         private DataGridViewTextBoxColumn Platform;
         private DataGridViewTextBoxColumn AppID;
         private DataGridViewTextBoxColumn Assigned;
+        private RadioButton rbFilterExclude;
+        private RadioButton rbFilterInclude;
+        private PictureBox pbFilterWarning;
+        private Label lblFilter;
+        private ComboBox cbFilter;
     }
 }
