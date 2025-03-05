@@ -1391,15 +1391,26 @@ namespace IntuneAssignments
                                 SourceId = assignment.SourceId
                             };
                         }
+
+                        //else if (assignment.Target is AllDevicesAssignmentTarget devicetarget)
+                        //{
+                        //    return new AllDevicesAssignmentTarget
+                        //    {
+                        //        OdataType = "#microsoft.graph.allDeviceAssignmentTarget",
+                        //        DeviceAndAppManagementAssignmentFilterId = devicetarget.DeviceAndAppManagementAssignmentFilterId,
+                        //        DeviceAndAppManagementAssignmentFilterType = devicetarget.DeviceAndAppManagementAssignmentFilterType
+                        //    };
+                        //}
+
                         else if (assignment.Target is AllDevicesAssignmentTarget deviceTarget)
                         {
                             return new DeviceCompliancePolicyAssignment
                             {
                                 OdataType = "#microsoft.graph.deviceCompliancePolicyAssignment",
                                 Id = ExtractGroupID(assignment.Id),
-                                Target = new AllDevicesAssignmentTarget
+                                Target = new GroupAssignmentTarget
                                 {
-                                    OdataType = "#microsoft.graph.allDeviceAssignmentTarget",
+                                    OdataType = "#microsoft.graph.groupAssignmentTarget",
                                     DeviceAndAppManagementAssignmentFilterId = deviceTarget.DeviceAndAppManagementAssignmentFilterId,
                                     DeviceAndAppManagementAssignmentFilterType = deviceTarget.DeviceAndAppManagementAssignmentFilterType
                                 },
@@ -1460,7 +1471,7 @@ namespace IntuneAssignments
         }
 
 
-        async Task AssignCompliancePolcy(string policyID, string groupID)
+        async Task TOBEDELETEDAssignCompliancePolcy(string policyID, string groupID)
         {
             // This method is now obsolete and has been replaced by AssignCompliancePolicy1
             // To be deleted
