@@ -18,7 +18,50 @@ namespace IntuneAssignments.Backend
 
         }
 
+
+        public static async Task<GraphServiceClient> GetSourceGraphClient()
+        {
+            try
+            {
+                var app = PublicClientApplicationBuilder
+                    .Create(TokenProvider.sourceClientID)
+                    .WithAuthority(new Uri(TokenProvider.authority))
+                    .WithRedirectUri(TokenProvider.redirectUri)
+                    .Build();
+
+                var accounts = await app.GetAccountsAsync();
+                AuthenticationResult result;
+
+                try
+                {
+                    result = await app.AcquireTokenSilent(TokenProvider.newScope, accounts.FirstOrDefault())
+                        .ExecuteAsync();
+                }
+                catch (MsalUiRequiredException)
+                {
+                    result = await app.AcquireTokenInteractive(TokenProvider.newScope)
+                        .WithPrompt(Prompt.SelectAccount)
+                        .ExecuteAsync();
+                }
+
+                TokenProvider.accessToken = result.AccessToken;
+                TokenProvider.tokenExpirationTime = result.ExpiresOn;
+
+                var authenticationProvider = new BaseBearerTokenAuthenticationProvider(new TokenProvider());
+                return new GraphServiceClient(authenticationProvider);
+            }
+            catch (Exception ex)
+            {
+                WriteToLog($"Error acquiring token: {ex.Message}");
+                throw;
+            }
+        }
+
+
     }
+
+    
+
 
     public class TokenProvider : IAccessTokenProvider
     {
@@ -44,6 +87,8 @@ namespace IntuneAssignments.Backend
 
         // This class will be used to provide the access token to the GraphServiceClient object interactively, with authentication done in the browser
 
+        public static string sourceClientID { get; set; }
+        public static string sourceTenantID { get; set; }
         public static string clientID { get; set; }
         public static string tenantID { get; set; }
 

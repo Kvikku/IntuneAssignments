@@ -21,6 +21,12 @@ namespace IntuneAssignments.Backend
         public static string primaryLogFile = Path.Combine(appDataPath, appFolderName, logFileName);
         public static string appSettingsFile = Path.Combine(appDataPath, appFolderName, appSettingsFileName);
 
+        public static string SourceTenantSettingsFileName = "SourceTenantSettings.json";
+        public static string DestinationTenantSettingsFileName = "DestinationTenantSettings.json";
+        public static string sourceTenantSettingsFile = Path.Combine(appDataPath, appFolderName, SourceTenantSettingsFileName);
+        public static string destinationTenantSettingsFile = Path.Combine(appDataPath, appFolderName, DestinationTenantSettingsFileName);
+
+
 
         // Old variable for permissions - delete
         public static List<string> permissionsToCheck = new List<string> { "Read and write Microsoft Intune apps", "Read Microsoft Intune device configuration and policies",

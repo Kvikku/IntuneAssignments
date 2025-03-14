@@ -29,20 +29,73 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            label1 = new Label();
+            lblSourceTenant = new Label();
+            pbDestinationTenant = new PictureBox();
+            pbSourceTenant = new PictureBox();
             pBHome = new PictureBox();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbDestinationTenant).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbSourceTenant).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pBHome).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(lblSourceTenant);
+            panel1.Controls.Add(pbDestinationTenant);
+            panel1.Controls.Add(pbSourceTenant);
             panel1.Controls.Add(pBHome);
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(102, 915);
             panel1.TabIndex = 0;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.Salmon;
+            label1.Location = new Point(11, 233);
+            label1.Name = "label1";
+            label1.Size = new Size(84, 15);
+            label1.TabIndex = 18;
+            label1.Text = "Destination";
+            // 
+            // lblSourceTenant
+            // 
+            lblSourceTenant.AutoSize = true;
+            lblSourceTenant.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblSourceTenant.ForeColor = Color.Salmon;
+            lblSourceTenant.Location = new Point(11, 148);
+            lblSourceTenant.Name = "lblSourceTenant";
+            lblSourceTenant.Size = new Size(49, 15);
+            lblSourceTenant.TabIndex = 17;
+            lblSourceTenant.Text = "Source";
+            // 
+            // pbDestinationTenant
+            // 
+            pbDestinationTenant.Image = Properties.Resources.azure;
+            pbDestinationTenant.Location = new Point(11, 166);
+            pbDestinationTenant.Name = "pbDestinationTenant";
+            pbDestinationTenant.Size = new Size(64, 64);
+            pbDestinationTenant.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbDestinationTenant.TabIndex = 16;
+            pbDestinationTenant.TabStop = false;
+            // 
+            // pbSourceTenant
+            // 
+            pbSourceTenant.Image = Properties.Resources.azure;
+            pbSourceTenant.Location = new Point(11, 81);
+            pbSourceTenant.Name = "pbSourceTenant";
+            pbSourceTenant.Size = new Size(64, 64);
+            pbSourceTenant.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbSourceTenant.TabIndex = 15;
+            pbSourceTenant.TabStop = false;
+            pbSourceTenant.Click += pbSourceTenant_Click;
             // 
             // pBHome
             // 
@@ -66,6 +119,9 @@
             Text = "Import";
             Load += Import_Load;
             panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbDestinationTenant).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbSourceTenant).EndInit();
             ((System.ComponentModel.ISupportInitialize)pBHome).EndInit();
             ResumeLayout(false);
         }
@@ -74,5 +130,9 @@
 
         private Panel panel1;
         private PictureBox pBHome;
+        private PictureBox pbDestinationTenant;
+        private PictureBox pbSourceTenant;
+        private Label label1;
+        private Label lblSourceTenant;
     }
 }

@@ -7,6 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Windows.Devices.Usb;
+using static IntuneAssignments.Backend.FormUtilities;
+using static IntuneAssignments.Backend.GlobalVariables;
+using static IntuneAssignments.Backend.GraphServiceClientCreator;
 
 namespace IntuneAssignments.Presentation.Import
 {
@@ -32,6 +36,11 @@ namespace IntuneAssignments.Presentation.Import
         private void Import_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private async void pbSourceTenant_Click(object sender, EventArgs e)
+        {
+            await GetSourceGraphClient();
         }
     }
 }
