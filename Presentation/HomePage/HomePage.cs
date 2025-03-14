@@ -4,6 +4,7 @@ using static IntuneAssignments.Backend.GlobalVariables;
 using static IntuneAssignments.Backend.FormUtilities;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using IntuneAssignments.Backend;
+using IntuneAssignments.Presentation.Import;
 
 namespace IntuneAssignments
 {
@@ -18,7 +19,7 @@ namespace IntuneAssignments
         {
             InitializeComponent();
 
-            
+
 
             this.StartPosition = FormStartPosition.CenterScreen;
         }
@@ -381,6 +382,15 @@ namespace IntuneAssignments
             WriteToLog("Opening the what's new page");
             WhatsNew whatsNew = new WhatsNew();
             whatsNew.ShowDialog();
+        }
+
+        private void pBImportExport_Click(object sender, EventArgs e)
+        {
+            // Open the import page
+            WriteToLog("Opening the import/export page");
+            this.Hide();
+            Import import = new Import();
+            import.Show();
         }
     }
 }

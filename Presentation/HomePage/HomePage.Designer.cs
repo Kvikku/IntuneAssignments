@@ -38,17 +38,20 @@
             pBConnectionStatus = new PictureBox();
             lblConnectionStatus = new Label();
             toolTip1 = new ToolTip(components);
+            pBImportExport = new PictureBox();
             lblAdditionalInfo = new Label();
             lblManageApplicationHeader = new Label();
             lblManageProfilesHeader = new Label();
             lblManageAppSettingsHeader = new Label();
             lblAboutHeader = new Label();
             pbWhatsNew = new PictureBox();
+            lblImportExport = new Label();
             ((System.ComponentModel.ISupportInitialize)pbGoToApplication).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbGoToPolicy).BeginInit();
             ((System.ComponentModel.ISupportInitialize)GoToAbout).BeginInit();
             ((System.ComponentModel.ISupportInitialize)GoToSettings).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pBConnectionStatus).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pBImportExport).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbWhatsNew).BeginInit();
             SuspendLayout();
             // 
@@ -57,7 +60,7 @@
             lblTenantName.AutoSize = true;
             lblTenantName.Font = new Font("Consolas", 12F, FontStyle.Bold);
             lblTenantName.ForeColor = Color.Salmon;
-            lblTenantName.Location = new Point(91, 338);
+            lblTenantName.Location = new Point(91, 403);
             lblTenantName.Name = "lblTenantName";
             lblTenantName.Size = new Size(108, 19);
             lblTenantName.TabIndex = 0;
@@ -90,7 +93,7 @@
             // GoToAbout
             // 
             GoToAbout.Image = (Image)resources.GetObject("GoToAbout.Image");
-            GoToAbout.Location = new Point(12, 223);
+            GoToAbout.Location = new Point(12, 314);
             GoToAbout.Name = "GoToAbout";
             GoToAbout.Size = new Size(64, 64);
             GoToAbout.SizeMode = PictureBoxSizeMode.AutoSize;
@@ -102,7 +105,7 @@
             // GoToSettings
             // 
             GoToSettings.Image = (Image)resources.GetObject("GoToSettings.Image");
-            GoToSettings.Location = new Point(12, 153);
+            GoToSettings.Location = new Point(12, 216);
             GoToSettings.Name = "GoToSettings";
             GoToSettings.Size = new Size(64, 64);
             GoToSettings.SizeMode = PictureBoxSizeMode.AutoSize;
@@ -113,7 +116,7 @@
             // 
             // pBConnectionStatus
             // 
-            pBConnectionStatus.Location = new Point(12, 319);
+            pBConnectionStatus.Location = new Point(12, 384);
             pBConnectionStatus.Name = "pBConnectionStatus";
             pBConnectionStatus.Size = new Size(64, 64);
             pBConnectionStatus.TabIndex = 5;
@@ -124,18 +127,30 @@
             lblConnectionStatus.AutoSize = true;
             lblConnectionStatus.Font = new Font("Consolas", 12F, FontStyle.Bold);
             lblConnectionStatus.ForeColor = Color.Salmon;
-            lblConnectionStatus.Location = new Point(91, 319);
+            lblConnectionStatus.Location = new Point(91, 384);
             lblConnectionStatus.Name = "lblConnectionStatus";
             lblConnectionStatus.Size = new Size(162, 19);
             lblConnectionStatus.TabIndex = 6;
             lblConnectionStatus.Text = "Connection status";
+            // 
+            // pBImportExport
+            // 
+            pBImportExport.Image = Properties.Resources.cloud_storage;
+            pBImportExport.Location = new Point(12, 153);
+            pBImportExport.Name = "pBImportExport";
+            pBImportExport.Size = new Size(64, 57);
+            pBImportExport.SizeMode = PictureBoxSizeMode.StretchImage;
+            pBImportExport.TabIndex = 13;
+            pBImportExport.TabStop = false;
+            toolTip1.SetToolTip(pBImportExport, "Configure authentication");
+            pBImportExport.Click += pBImportExport_Click;
             // 
             // lblAdditionalInfo
             // 
             lblAdditionalInfo.AutoSize = true;
             lblAdditionalInfo.Font = new Font("Consolas", 11.25F);
             lblAdditionalInfo.ForeColor = Color.Salmon;
-            lblAdditionalInfo.Location = new Point(91, 357);
+            lblAdditionalInfo.Location = new Point(91, 422);
             lblAdditionalInfo.Name = "lblAdditionalInfo";
             lblAdditionalInfo.Size = new Size(128, 18);
             lblAdditionalInfo.TabIndex = 7;
@@ -146,7 +161,7 @@
             lblManageApplicationHeader.AutoSize = true;
             lblManageApplicationHeader.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblManageApplicationHeader.ForeColor = Color.Salmon;
-            lblManageApplicationHeader.Location = new Point(91, 29);
+            lblManageApplicationHeader.Location = new Point(82, 29);
             lblManageApplicationHeader.Name = "lblManageApplicationHeader";
             lblManageApplicationHeader.Size = new Size(217, 32);
             lblManageApplicationHeader.TabIndex = 8;
@@ -157,7 +172,7 @@
             lblManageProfilesHeader.AutoSize = true;
             lblManageProfilesHeader.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblManageProfilesHeader.ForeColor = Color.Salmon;
-            lblManageProfilesHeader.Location = new Point(91, 100);
+            lblManageProfilesHeader.Location = new Point(82, 98);
             lblManageProfilesHeader.Name = "lblManageProfilesHeader";
             lblManageProfilesHeader.Size = new Size(169, 32);
             lblManageProfilesHeader.TabIndex = 9;
@@ -168,7 +183,7 @@
             lblManageAppSettingsHeader.AutoSize = true;
             lblManageAppSettingsHeader.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblManageAppSettingsHeader.ForeColor = Color.Salmon;
-            lblManageAppSettingsHeader.Location = new Point(91, 170);
+            lblManageAppSettingsHeader.Location = new Point(82, 229);
             lblManageAppSettingsHeader.Name = "lblManageAppSettingsHeader";
             lblManageAppSettingsHeader.Size = new Size(147, 32);
             lblManageAppSettingsHeader.TabIndex = 10;
@@ -179,7 +194,7 @@
             lblAboutHeader.AutoSize = true;
             lblAboutHeader.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblAboutHeader.ForeColor = Color.Salmon;
-            lblAboutHeader.Location = new Point(91, 238);
+            lblAboutHeader.Location = new Point(91, 329);
             lblAboutHeader.Name = "lblAboutHeader";
             lblAboutHeader.Size = new Size(79, 32);
             lblAboutHeader.TabIndex = 11;
@@ -195,13 +210,26 @@
             pbWhatsNew.TabStop = false;
             pbWhatsNew.Click += pbWhatsNew_Click;
             // 
+            // lblImportExport
+            // 
+            lblImportExport.AutoSize = true;
+            lblImportExport.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblImportExport.ForeColor = Color.Salmon;
+            lblImportExport.Location = new Point(82, 168);
+            lblImportExport.Name = "lblImportExport";
+            lblImportExport.Size = new Size(174, 32);
+            lblImportExport.TabIndex = 14;
+            lblImportExport.Text = "Import content";
+            // 
             // HomePage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             BackColor = Color.FromArgb(46, 51, 73);
-            ClientSize = new Size(484, 395);
+            ClientSize = new Size(484, 457);
+            Controls.Add(lblImportExport);
+            Controls.Add(pBImportExport);
             Controls.Add(pbWhatsNew);
             Controls.Add(lblAboutHeader);
             Controls.Add(lblManageAppSettingsHeader);
@@ -228,6 +256,7 @@
             ((System.ComponentModel.ISupportInitialize)GoToAbout).EndInit();
             ((System.ComponentModel.ISupportInitialize)GoToSettings).EndInit();
             ((System.ComponentModel.ISupportInitialize)pBConnectionStatus).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pBImportExport).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbWhatsNew).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -249,5 +278,7 @@
         private Label lblManageAppSettingsHeader;
         private Label lblAboutHeader;
         private PictureBox pbWhatsNew;
+        private Label lblImportExport;
+        private PictureBox pBImportExport;
     }
 }
