@@ -1532,6 +1532,7 @@ namespace IntuneAssignments
 
 
 
+
             // Loop through each existing assignment, extract the group ID and add that to the array of group ID's
             // This is to ensure that existing assignments are not overwritten and deleted by PostAsync() later in the code
             foreach (var group in groupIDList)
@@ -1743,36 +1744,18 @@ namespace IntuneAssignments
             }
         }
 
-
-
-
-
-
-        async Task AssignSelectedPolicies()
+        public async Task AssignSelectedPolicies()
         {
-
             WriteToLog("Preparing to assign policies to groups");
 
             // Gather the values from the selected policies and selected groups
-
-
-
-            Dictionary<string, List<string>> SelectedPolicies = GetSelectedPolicies(dtgDisplayPolicy);
-            Dictionary<string, string> SelectedGroups = GetSelectedGroups(dtgDisplayGroup);
-
-
-            // Create an object of form1 to use it's methods   
-            Application form1 = new Application();
-
+            var selectedPolicies = GetSelectedPolicies(dtgDisplayPolicy);
+            var selectedGroups = GetSelectedGroups(dtgDisplayGroup);
 
             // Sets the scope of the progress bar to the number of selected policies * number of selected groups
+            pBarDeployProgress.Maximum = selectedPolicies.Count * selectedGroups.Count;
 
-            int numberOfPolicies = SelectedPolicies.Count();
-            int numberOfGroups = SelectedGroups.Count();
-            int progressBarMaxValue = numberOfPolicies * numberOfGroups;
-            pBarDeployProgress.Maximum = progressBarMaxValue;
-
-            WriteToLog("A total of " + numberOfPolicies + " policies will be assigned to " + numberOfGroups + " groups.");
+            WriteToLog($"A total of {selectedPolicies.Count} policies will be assigned to {selectedGroups.Count} groups.");
 
             // Store default color for rich textbox
             var defaultColor = rtbDeploymentSummary.ForeColor;
@@ -1780,192 +1763,59 @@ namespace IntuneAssignments
             // Authenticate to Graph
             var graphClient = CreateGraphServiceClient();
 
-
-
-
-            // Iterate over the keys in the dictionary and retrieve the policy ID from graph
-            // for each selected cell in dtgdisplaypolicy --> assign to each selected cell in dtgdisplaygroup
-
-
             try
             {
-
-                foreach (string policy in SelectedPolicies.Keys)
+                foreach (var policy in selectedPolicies)
                 {
+                    var policyID = policy.Value[2];
+                    var type = policy.Value[0];
 
-                    if (SelectedPolicies.TryGetValue(policy, out List<string> dataList))
+                    foreach (var group in selectedGroups)
                     {
+                        var groupID = group.Value;
 
-                        if (dataList.Count >= 3)
+                        switch (type)
                         {
-
-                            // Type is the profile type (Compliance, Device Configuration, Settings Catalog)
-                            string type = dataList[0];
-                            //MessageBox.Show(ID);
-
-
-                            // ID is the policy ID in Graph
-                            string policyID = dataList[2];
-                            //MessageBox.Show(type);
-
-
-                            // Assignments needs to be separated into different foreach loops
-
-                            // Assignments for Compliance Policies
-                            if (type == "Compliance")
-                            {
-
-                                // Loop through each selected group and assign the policy to each group
-                                foreach (var group in SelectedGroups)
+                            case "Compliance":
+                                await AssignCompliancePolicy(policyID, groupID);
+                                break;
+                            case "Settings Catalog":
+                                await AssignSettingsCatalog(policyID, groupID);
+                                break;
+                            case "Device Configuration":
+                                await AssignDeviceConfiguration(policyID, groupID);
+                                break;
+                            case "Administrative Templates":
+                                await AssignADMXTemplate(policyID, groupID);
+                                break;
+                            default:
+                                if (type.Contains("Baseline", StringComparison.OrdinalIgnoreCase))
                                 {
-
-                                    string groupName = group.Key;
-                                    string groupID = group.Value;
-
-
-                                    // Assignment for Compliance Policies
-                                    await AssignCompliancePolicy(policyID, groupID);
-
-
-                                    // Log status to the logfile
-                                    WriteToLog(policy + " has been assigned to " + group.Key);
-
-                                    // Log status to the textbox
-                                    rtbDeploymentSummary.ForeColor = Color.Green;
-                                    rtbDeploymentSummary.AppendText(policy + " has been assigned to " + group.Key + Environment.NewLine);
-                                    pBarDeployProgress.Value++;
-                                    rtbDeploymentSummary.ForeColor = defaultColor;
-
-                                }
-                            }
-
-                            // Assignments for Settings Catalog
-                            if (type.Equals("Settings Catalog", StringComparison.OrdinalIgnoreCase))
-                            {
-
-                                // Loop through each selected group and assign the policy to each group
-                                foreach (var group in SelectedGroups)
-                                {
-
-                                    string groupName = group.Key;
-                                    string groupID = group.Value;
-
-
-                                    // Assignment for Settings Catalog
-                                    await AssignSettingsCatalog(policyID, groupID);
-
-                                    // Log status to the logfile
-                                    WriteToLog(policy + " has been assigned to " + group.Key);
-
-                                    // Log status to the textbox
-                                    rtbDeploymentSummary.ForeColor = Color.Green;
-                                    rtbDeploymentSummary.AppendText(policy + " has been assigned to " + group.Key + Environment.NewLine);
-                                    pBarDeployProgress.Value++;
-                                    rtbDeploymentSummary.ForeColor = defaultColor;
-                                }
-                            }
-
-                            // Assignments for Device Configuration Policies
-                            if (type == "Device Configuration")
-                            {
-
-                                // Loop through each selected group and assign the policy to each group
-                                foreach (var group in SelectedGroups)
-                                {
-
-                                    string groupName = group.Key;
-                                    string groupID = group.Value;
-
-
-                                    // Assignment for Device Configuration Policies
-                                    await AssignDeviceConfiguration(policyID, groupID);
-
-                                    // Log status to the logfile
-                                    WriteToLog(policy + " has been assigned to " + group.Key);
-
-                                    // Log status to the textbox
-                                    rtbDeploymentSummary.ForeColor = Color.Green;
-                                    rtbDeploymentSummary.AppendText(policy + " has been assigned to " + group.Key + Environment.NewLine);
-                                    pBarDeployProgress.Value++;
-                                    rtbDeploymentSummary.ForeColor = defaultColor;
-                                }
-                            }
-
-                            // Assignments for Administrative Templates
-                            if (type == "Administrative Templates")
-                            {
-
-                                // Loop through each selected group and assign the policy to each group
-                                foreach (var group in SelectedGroups)
-                                {
-
-                                    string groupName = group.Key;
-                                    string groupID = group.Value;
-
-                                    // Assignment for Administrative Templates
-                                    await AssignADMXTemplate(policyID, groupID);
-
-                                    // Log status to the logfile
-                                    WriteToLog(policy + " has been assigned to " + group.Key);
-
-                                    // Log status to the textbox
-                                    rtbDeploymentSummary.ForeColor = Color.Green;
-                                    rtbDeploymentSummary.AppendText(policy + " has been assigned to " + group.Key + Environment.NewLine);
-                                    pBarDeployProgress.Value++;
-                                    rtbDeploymentSummary.ForeColor = defaultColor;
-
-                                }
-                            }
-
-                            // Assignments for Security Baselines
-                            if (type.Contains("Baseline") || type.Contains("baseline"))
-                            {
-                                // Loop through each selected group and assign the policy to each group
-                                foreach (var group in SelectedGroups)
-                                {
-
-                                    string groupName = group.Key;
-                                    string groupID = group.Value;
-
-                                    // Assignment for Security Baselines
                                     await AssignSecurityBaseline(policyID, groupID);
-
-                                    // Log status to the logfile
-                                    WriteToLog(policy + " has been assigned to " + group.Key);
-
-                                    // Log status to the textbox
-                                    rtbDeploymentSummary.ForeColor = Color.Green;
-                                    rtbDeploymentSummary.AppendText(policy + " has been assigned to " + group.Key + Environment.NewLine);
-                                    pBarDeployProgress.Value++;
-                                    rtbDeploymentSummary.ForeColor = defaultColor;
-
                                 }
-                            }
+                                break;
                         }
+
+                        // Log status to the logfile and textbox
+                        WriteToLog($"{policy.Key} has been assigned to {group.Key}");
+                        rtbDeploymentSummary.ForeColor = Color.Green;
+                        rtbDeploymentSummary.AppendText($"{policy.Key} has been assigned to {group.Key}{Environment.NewLine}");
+                        pBarDeployProgress.Value++;
+                        rtbDeploymentSummary.ForeColor = defaultColor;
                     }
                 }
             }
             catch (ServiceException ex)
             {
-
-                // Log status to the logfile
+                // Log status to the logfile and textbox
                 WriteToLog("An error occurred during deployment. The error message is: ");
                 WriteToLog(ex.Message);
-
-                // Log error to the textbox
                 rtbDeploymentSummary.SelectionColor = Color.Red;
-                rtbDeploymentSummary.AppendText("An error occured when deploying policies. The error message is :" + Environment.NewLine);
-                rtbDeploymentSummary.AppendText(ex.Message + Environment.NewLine);
+                rtbDeploymentSummary.AppendText($"An error occurred when deploying policies. The error message is :{Environment.NewLine}");
+                rtbDeploymentSummary.AppendText($"{ex.Message}{Environment.NewLine}");
                 rtbDeploymentSummary.SelectionColor = rtbDeploymentSummary.ForeColor;
                 pBarDeployProgress.Value++;
-                //throw;
             }
-
-
-
-
-
-
         }
 
         public async void ListCompliancePolicies(DataGridView dataGridView)
@@ -2420,6 +2270,7 @@ namespace IntuneAssignments
                 pnlSummary.Visible = true;
                 cbLookUpAssignment.Visible = true;
                 MessageBox.Show("Finally you can review the summary and click deploy to deploy the policies to the selected groups");
+
 
 
 
