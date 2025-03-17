@@ -102,16 +102,35 @@ namespace IntuneAssignments.Presentation.Import
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            saveDestinationFile();
+
+            // TODO - Authenticate
+        }
+
+        private void saveDestinationFile()
+        {
             // Get the values from the text boxes
             string tenantName = tBTenantName.Text;
             string tenantID = tBTenantID.Text;
             string clientID = tBClientID.Text;
 
+            if(!CheckIfGUID(tenantID))
+            {
+                MessageBox.Show("Tenant ID is not a valid GUID");
+                return;
+            }
+
+            if(!CheckIfGUID(clientID)) 
+            {
+                MessageBox.Show("Client ID is not a valid GUID");
+                return;
+            }
+
+
             // Define the file path for the JSON file
             string filePath = destinationTenantSettingsFile;
 
             SaveSettings(tenantName, tenantID, clientID, filePath);
-
         }
     }
 }
