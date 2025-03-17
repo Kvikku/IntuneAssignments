@@ -102,8 +102,16 @@ namespace IntuneAssignments.Presentation.Import
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            
-            
+            // Get the values from the text boxes
+            string tenantName = tBTenantName.Text;
+            string tenantID = tBTenantID.Text;
+            string clientID = tBClientID.Text;
+
+            // Define the file path for the JSON file
+            string filePath = destinationTenantSettingsFile;
+
+            SaveSettings(tenantName, tenantID, clientID, filePath);
+
         }
     }
 }
