@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
-            label1 = new Label();
+            lblDestination = new Label();
             lblSourceTenant = new Label();
             pbDestinationTenant = new PictureBox();
             pbSourceTenant = new PictureBox();
@@ -43,7 +43,7 @@
             // panel1
             // 
             panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Controls.Add(label1);
+            panel1.Controls.Add(lblDestination);
             panel1.Controls.Add(lblSourceTenant);
             panel1.Controls.Add(pbDestinationTenant);
             panel1.Controls.Add(pbSourceTenant);
@@ -54,21 +54,22 @@
             panel1.Size = new Size(102, 915);
             panel1.TabIndex = 0;
             // 
-            // label1
+            // lblDestination
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.Salmon;
-            label1.Location = new Point(11, 233);
-            label1.Name = "label1";
-            label1.Size = new Size(84, 15);
-            label1.TabIndex = 18;
-            label1.Text = "Destination";
+            lblDestination.AutoSize = true;
+            lblDestination.Font = new Font("Consolas", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblDestination.ForeColor = Color.Salmon;
+            lblDestination.Location = new Point(11, 233);
+            lblDestination.Name = "lblDestination";
+            lblDestination.Size = new Size(84, 15);
+            lblDestination.TabIndex = 18;
+            lblDestination.Text = "Destination";
+            lblDestination.Click += lblDestination_Click;
             // 
             // lblSourceTenant
             // 
             lblSourceTenant.AutoSize = true;
-            lblSourceTenant.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblSourceTenant.Font = new Font("Consolas", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblSourceTenant.ForeColor = Color.Salmon;
             lblSourceTenant.Location = new Point(11, 148);
             lblSourceTenant.Name = "lblSourceTenant";
@@ -85,6 +86,7 @@
             pbDestinationTenant.SizeMode = PictureBoxSizeMode.StretchImage;
             pbDestinationTenant.TabIndex = 16;
             pbDestinationTenant.TabStop = false;
+            pbDestinationTenant.Click += pbDestinationTenant_Click;
             // 
             // pbSourceTenant
             // 
@@ -132,7 +134,7 @@
         private PictureBox pBHome;
         private PictureBox pbDestinationTenant;
         private PictureBox pbSourceTenant;
-        private Label label1;
+        private Label lblDestination;
         private Label lblSourceTenant;
     }
 }

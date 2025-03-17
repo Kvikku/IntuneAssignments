@@ -26,6 +26,47 @@ namespace IntuneAssignments.Presentation.Import
 
         }
 
+        
+
+        private void Import_Load(object sender, EventArgs e)
+        {
+
+        }
+
+
+
+
+
+
+
+
+
+
+        // Click events
+
+        private async void pbSourceTenant_Click(object sender, EventArgs e)
+        {
+            await GetSourceGraphClient();
+        }
+
+        private void pbDestinationTenant_Click(object sender, EventArgs e)
+        {
+            // Open the destination tenant settings form
+
+            DestinationTenantSettings destinationTenantSettings = new DestinationTenantSettings();
+            destinationTenantSettings.ShowDialog();
+            
+        }
+
+        private void lblDestination_Click(object sender, EventArgs e)
+        {
+            // Open the destination tenant settings form
+
+            DestinationTenantSettings destinationTenantSettings = new DestinationTenantSettings();
+            destinationTenantSettings.ShowDialog();
+            
+        }
+
         private void pBHome_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -33,14 +74,5 @@ namespace IntuneAssignments.Presentation.Import
             homePage.Show();
         }
 
-        private void Import_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private async void pbSourceTenant_Click(object sender, EventArgs e)
-        {
-            await GetSourceGraphClient();
-        }
     }
 }
