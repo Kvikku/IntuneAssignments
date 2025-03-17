@@ -12,6 +12,8 @@ using System.Windows.Forms;
 using static IntuneAssignments.Backend.FormUtilities;
 using static IntuneAssignments.Backend.GlobalVariables;
 using static IntuneAssignments.Backend.TenantSettings;
+using static IntuneAssignments.Backend.GraphServiceClientCreator;
+using static IntuneAssignments.Backend.TokenProvider;
 
 namespace IntuneAssignments.Presentation.Import
 {
@@ -100,11 +102,18 @@ namespace IntuneAssignments.Presentation.Import
             System.Diagnostics.Process.Start("explorer.exe", appDataFolder);
         }
 
-        private void btnOK_Click(object sender, EventArgs e)
+        private async void btnLogin_Click(object sender, EventArgs e)
         {
             saveDestinationFile();
 
             // TODO - Authenticate
+
+            await testAuth();
+        }
+
+        private async Task testAuth()
+        {
+            var test = await GetDestinationGraphClient();
         }
 
         private void saveDestinationFile()
@@ -114,13 +123,13 @@ namespace IntuneAssignments.Presentation.Import
             string tenantID = tBTenantID.Text;
             string clientID = tBClientID.Text;
 
-            if(!CheckIfGUID(tenantID))
+            if (!CheckIfGUID(tenantID))
             {
                 MessageBox.Show("Tenant ID is not a valid GUID");
                 return;
             }
 
-            if(!CheckIfGUID(clientID)) 
+            if (!CheckIfGUID(clientID))
             {
                 MessageBox.Show("Client ID is not a valid GUID");
                 return;
@@ -132,5 +141,7 @@ namespace IntuneAssignments.Presentation.Import
 
             SaveSettings(tenantName, tenantID, clientID, filePath);
         }
+
+        
     }
 }

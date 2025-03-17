@@ -2,6 +2,7 @@
 using Microsoft.Identity.Client;
 using Microsoft.Kiota.Abstractions.Authentication;
 using static IntuneAssignments.Backend.FormUtilities;
+using static IntuneAssignments.Backend.GlobalVariables;
 
 namespace IntuneAssignments.Backend
 {
@@ -19,12 +20,14 @@ namespace IntuneAssignments.Backend
         }
 
 
-        public static async Task<GraphServiceClient> GetSourceGraphClient()
+        public static async Task<GraphServiceClient> GetDestinationGraphClient()
         {
+
+
             try
             {
                 var app = PublicClientApplicationBuilder
-                    .Create(TokenProvider.sourceClientID)
+                    .Create(TokenProvider.destinationClientID)
                     .WithAuthority(new Uri(TokenProvider.authority))
                     .WithRedirectUri(TokenProvider.redirectUri)
                     .Build();
@@ -56,9 +59,9 @@ namespace IntuneAssignments.Backend
                 throw;
             }
         }
-
-
     }
+
+
 
     
 
@@ -87,6 +90,8 @@ namespace IntuneAssignments.Backend
 
         // This class will be used to provide the access token to the GraphServiceClient object interactively, with authentication done in the browser
 
+        public static string destinationClientID { get; set; }
+        public static string destinationTenantID { get; set; }
         public static string sourceClientID { get; set; }
         public static string sourceTenantID { get; set; }
         public static string clientID { get; set; }

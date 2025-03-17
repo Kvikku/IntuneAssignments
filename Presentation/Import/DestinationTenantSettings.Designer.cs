@@ -36,7 +36,7 @@
             lblTenantID = new Label();
             btnCheckPermissions = new Button();
             btnOpenFolder = new Button();
-            btnOK = new Button();
+            btnLogin = new Button();
             lblHeader = new Label();
             SuspendLayout();
             // 
@@ -134,19 +134,19 @@
             btnOpenFolder.UseVisualStyleBackColor = false;
             btnOpenFolder.Click += btnOpenFolder_Click;
             // 
-            // btnOK
+            // btnLogin
             // 
-            btnOK.BackColor = Color.Salmon;
-            btnOK.FlatStyle = FlatStyle.Popup;
-            btnOK.Font = new Font("Consolas", 12F);
-            btnOK.ForeColor = Color.FromArgb(46, 51, 73);
-            btnOK.Location = new Point(324, 163);
-            btnOK.Name = "btnOK";
-            btnOK.Size = new Size(149, 32);
-            btnOK.TabIndex = 26;
-            btnOK.Text = "Login";
-            btnOK.UseVisualStyleBackColor = false;
-            btnOK.Click += btnOK_Click;
+            btnLogin.BackColor = Color.Salmon;
+            btnLogin.FlatStyle = FlatStyle.Popup;
+            btnLogin.Font = new Font("Consolas", 12F);
+            btnLogin.ForeColor = Color.FromArgb(46, 51, 73);
+            btnLogin.Location = new Point(324, 163);
+            btnLogin.Name = "btnLogin";
+            btnLogin.Size = new Size(149, 32);
+            btnLogin.TabIndex = 26;
+            btnLogin.Text = "Login";
+            btnLogin.UseVisualStyleBackColor = false;
+            btnLogin.Click += btnLogin_Click;
             // 
             // lblHeader
             // 
@@ -168,7 +168,7 @@
             Controls.Add(lblHeader);
             Controls.Add(btnCheckPermissions);
             Controls.Add(btnOpenFolder);
-            Controls.Add(btnOK);
+            Controls.Add(btnLogin);
             Controls.Add(tBTenantName);
             Controls.Add(lblTenantFriendlyName);
             Controls.Add(tBClientID);
@@ -192,7 +192,7 @@
         private Label lblTenantID;
         private Button btnCheckPermissions;
         private Button btnOpenFolder;
-        private Button btnOK;
+        private Button btnLogin;
         private Label lblHeader;
     }
 }

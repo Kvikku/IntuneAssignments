@@ -46,7 +46,7 @@ namespace IntuneAssignments.Presentation.Import
 
         private async void pbSourceTenant_Click(object sender, EventArgs e)
         {
-            await GetSourceGraphClient();
+           // await GetDestinationGraphClient();
         }
 
         private void pbDestinationTenant_Click(object sender, EventArgs e)

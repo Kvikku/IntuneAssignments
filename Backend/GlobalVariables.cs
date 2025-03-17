@@ -3,7 +3,7 @@ using Microsoft.Graph.Beta.Models;
 
 namespace IntuneAssignments.Backend
 {
-    public class GlobalVariables
+    public static class GlobalVariables
     {
         // TODO - Delete program data folder variables
         public static string configurationFolder = @"C:\ProgramData\IntuneAssignments";
@@ -26,10 +26,10 @@ namespace IntuneAssignments.Backend
         public static string sourceTenantSettingsFile = Path.Combine(appDataPath, appFolderName, SourceTenantSettingsFileName);
         public static string destinationTenantSettingsFile = Path.Combine(appDataPath, appFolderName, DestinationTenantSettingsFileName);
 
-        public static string? sourceClientID { get; set; }
-        public static string? sourceTenantID { get; set; }
-        public static string? destinationClientID { get; set; }
-        public static string? destinationTenantID { get; set; }
+        //public static string? sourceClientID { get; set; }
+        //public static string? sourceTenantID { get; set; }
+        //public static string? destinationClientID { get; set; }
+        //public static string? destinationTenantID { get; set; }
 
 
         // Old variable for permissions - delete
