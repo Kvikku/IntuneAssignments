@@ -21,69 +21,6 @@ namespace IntuneAssignments.Backend
 
     }
 
-
-    public class DestinationClientCreator
-    {
-        public static GraphServiceClient CreateGraphServiceClient()
-        {
-            Console.WriteLine("Creating graph object");
-            var authenticationProvider = new BaseBearerTokenAuthenticationProvider(new TokenProvider());
-            return new GraphServiceClient(authenticationProvider);
-        }
-
-        public static async Task<GraphServiceClient> GetDestinationGraphClient()
-        {
-            try
-            {
-                var app = PublicClientApplicationBuilder
-                    .Create(TokenProvider.destinationClientID)
-                    .WithAuthority(new Uri(TokenProvider.destinationAuthority))
-                    .WithRedirectUri(TokenProvider.redirectUri)
-                    .Build();
-
-                var accounts = await app.GetAccountsAsync();
-                AuthenticationResult result;
-
-                if (!accounts.Any())
-                {
-                    result = await app.AcquireTokenInteractive(TokenProvider.newScope)
-                        .WithPrompt(Prompt.SelectAccount)
-                        .WithExtraScopesToConsent(TokenProvider.newScope) // Add this line to consent to all scopes
-                        .ExecuteAsync();
-                }
-                else
-                {
-                    try
-                    {
-                        result = await app.AcquireTokenSilent(TokenProvider.newScope, accounts.FirstOrDefault())
-                            .ExecuteAsync();
-                    }
-                    catch (MsalUiRequiredException)
-                    {
-                        result = await app.AcquireTokenInteractive(TokenProvider.newScope)
-                            .WithPrompt(Prompt.SelectAccount)
-                            .WithExtraScopesToConsent(TokenProvider.newScope) // Add this line to consent to all scopes
-                            .ExecuteAsync();
-                    }
-                }
-
-                TokenProvider.accessToken = result.AccessToken;
-                TokenProvider.tokenExpirationTime = result.ExpiresOn;
-
-                var authenticationProvider = new BaseBearerTokenAuthenticationProvider(new TokenProvider());
-                return new GraphServiceClient(authenticationProvider);
-            }
-            catch (Exception ex)
-            {
-                WriteToLog($"Error acquiring token: {ex.Message}");
-                throw;
-            }
-        }
-    }
-
-
-
-
     public class TokenProvider : IAccessTokenProvider
     {
 
@@ -108,14 +45,13 @@ namespace IntuneAssignments.Backend
 
         // This class will be used to provide the access token to the GraphServiceClient object interactively, with authentication done in the browser
 
-        public static string destinationClientID { get; set; }
-        public static string destinationTenantID { get; set; }
+
         public static string sourceClientID { get; set; }
         public static string sourceTenantID { get; set; }
         public static string clientID { get; set; }
         public static string tenantID { get; set; }
 
-        public static string destinationAuthority = $"https://login.microsoftonline.com/{destinationTenantID}";
+        
 
         public static string authority = $"https://login.microsoftonline.com/{tenantID}";
 
@@ -124,6 +60,8 @@ namespace IntuneAssignments.Backend
         public static GraphServiceClient? graphClient;
 
         public static string? accessToken;
+
+        
 
         public static DateTimeOffset tokenExpirationTime;
 

@@ -14,7 +14,7 @@ using static IntuneAssignments.Backend.GlobalVariables;
 using static IntuneAssignments.Backend.TenantSettings;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using static IntuneAssignments.Backend.TokenProvider;
-using static IntuneAssignments.Backend.DestinationClientCreator;
+using static IntuneAssignments.Backend.DestinationTenantGraphClient;
 
 namespace IntuneAssignments.Presentation.Import
 {
@@ -121,11 +121,15 @@ namespace IntuneAssignments.Presentation.Import
             destinationTenantID = tBTenantID.Text;
 
             // Update destinationAuthority after changing destinationTenantID
-            TokenProvider.destinationAuthority = $"https://login.microsoftonline.com/{destinationTenantID}";
+            DestinationTenantGraphClient.destinationAuthority = $"https://login.microsoftonline.com/{destinationTenantID}";
 
             var test = await GetDestinationGraphClient();
 
             var result = await test.DeviceManagement.ManagedDevices.GetAsync();
+
+            
+
+            MessageBox.Show("the number of devices is " + result.Value.Count.ToString());
         }
 
         private void saveDestinationFile()
