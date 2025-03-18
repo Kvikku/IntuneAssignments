@@ -34,15 +34,21 @@
             pbDestinationTenant = new PictureBox();
             pbSourceTenant = new PictureBox();
             pBHome = new PictureBox();
+            pbSourceConnectionCheck = new PictureBox();
+            pbDestinationChecker = new PictureBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbDestinationTenant).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbSourceTenant).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pBHome).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbSourceConnectionCheck).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbDestinationChecker).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(pbDestinationChecker);
+            panel1.Controls.Add(pbSourceConnectionCheck);
             panel1.Controls.Add(lblDestination);
             panel1.Controls.Add(lblSourceTenant);
             panel1.Controls.Add(pbDestinationTenant);
@@ -111,6 +117,26 @@
             pBHome.TabStop = false;
             pBHome.Click += pBHome_Click;
             // 
+            // pbSourceConnectionCheck
+            // 
+            pbSourceConnectionCheck.Image = Properties.Resources.cancel;
+            pbSourceConnectionCheck.Location = new Point(11, 166);
+            pbSourceConnectionCheck.Name = "pbSourceConnectionCheck";
+            pbSourceConnectionCheck.Size = new Size(38, 35);
+            pbSourceConnectionCheck.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbSourceConnectionCheck.TabIndex = 19;
+            pbSourceConnectionCheck.TabStop = false;
+            // 
+            // pbDestinationChecker
+            // 
+            pbDestinationChecker.Image = Properties.Resources.cancel;
+            pbDestinationChecker.Location = new Point(11, 312);
+            pbDestinationChecker.Name = "pbDestinationChecker";
+            pbDestinationChecker.Size = new Size(38, 35);
+            pbDestinationChecker.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbDestinationChecker.TabIndex = 20;
+            pbDestinationChecker.TabStop = false;
+            // 
             // Import
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -126,6 +152,8 @@
             ((System.ComponentModel.ISupportInitialize)pbDestinationTenant).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbSourceTenant).EndInit();
             ((System.ComponentModel.ISupportInitialize)pBHome).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbSourceConnectionCheck).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbDestinationChecker).EndInit();
             ResumeLayout(false);
         }
 
@@ -137,5 +165,7 @@
         private PictureBox pbSourceTenant;
         private Label lblDestination;
         private Label lblSourceTenant;
+        private PictureBox pbDestinationChecker;
+        private PictureBox pbSourceConnectionCheck;
     }
 }

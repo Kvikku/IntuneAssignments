@@ -114,6 +114,11 @@ namespace IntuneAssignments.Presentation.Import
             // TODO - Authenticate
 
             await AuthenticateToDestinationTenant();
+
+            Import import = System.Windows.Forms.Application.OpenForms["Import"] as Import;
+            import.CheckConnection();
+
+            this.Close();
         }
 
         private async Task AuthenticateToDestinationTenant()
@@ -135,6 +140,19 @@ namespace IntuneAssignments.Presentation.Import
             // Create the GraphServiceClient object
 
             DestinationTenantGraphClient.destinationGraphServiceClient = await GetDestinationGraphClient();
+
+            // test the connection
+            try
+            {
+                var me = await DestinationTenantGraphClient.destinationGraphServiceClient.Me.GetAsync();
+                WriteToLog("Connected to destination tenant as: " + me.UserPrincipalName);
+                isDestinationTenantConnected = true;
+            }
+            catch (Exception ex)
+            {
+                WriteToLog("Error connecting to destination tenant: " + ex.Message);
+                isDestinationTenantConnected = false;
+            }
         }
 
         private void saveDestinationFile()

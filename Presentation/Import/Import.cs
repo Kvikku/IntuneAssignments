@@ -31,10 +31,32 @@ namespace IntuneAssignments.Presentation.Import
         private void Import_Load(object sender, EventArgs e)
         {
 
+            CheckConnection();
         }
 
 
+        public void CheckConnection()
+        {
+            // Check if the source and tenant settings are authenticated
 
+            if (isSourceTenantConnected)
+            {
+                pbSourceConnectionCheck.Image = Properties.Resources.check;
+            }
+            else
+            {
+                pbSourceConnectionCheck.Image = Properties.Resources.cancel;
+            }
+
+            if (isDestinationTenantConnected)
+            {
+                pbDestinationChecker.Image = Properties.Resources.check;
+            }
+            else
+            {
+                pbDestinationChecker.Image = Properties.Resources.cancel;
+            }
+        }
 
 
 

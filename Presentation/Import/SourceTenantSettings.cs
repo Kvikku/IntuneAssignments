@@ -23,6 +23,7 @@ namespace IntuneAssignments.Presentation.Import
     {
         public SourceTenantSettings()
         {
+
             this.FormBorderStyle = FormBorderStyle.FixedDialog; // Makes the form not resizable and the parent form not clickable
             this.StartPosition = FormStartPosition.CenterScreen; // Center the form over its parent
 
@@ -37,6 +38,8 @@ namespace IntuneAssignments.Presentation.Import
             // Read the source tenant settings file
             readSourceTenantSettingsFile();
         }
+
+     
 
         private void createSourceTenantSettingsFile()
         {
@@ -90,6 +93,9 @@ namespace IntuneAssignments.Presentation.Import
 
         private void SourceTenantSettings_FormClosed(object sender, FormClosedEventArgs e)
         {
+            Import import = System.Windows.Forms.Application.OpenForms["Import"] as Import;
+            import.CheckConnection();
+
             // Show the parent form when the source tenant settings form is closed
             this.Show();
         }
@@ -114,7 +120,19 @@ namespace IntuneAssignments.Presentation.Import
             // Create the GraphServiceClient object
             SourceTenantGraphClient.sourceGraphServiceClient = await GetSourceGraphClient();
 
-            // 
+            // test the connection
+
+            try
+            {
+                var me = await SourceTenantGraphClient.sourceGraphServiceClient.Me.GetAsync();
+                WriteToLog("Connected to source tenant as: " + me.DisplayName);
+                isSourceTenantConnected = true;
+            }
+            catch (Exception ex)
+            {
+                WriteToLog("Error connecting to source tenant: " + ex.Message);
+                isSourceTenantConnected = false;
+            }
         }
 
         private void saveSourceFile()
@@ -149,6 +167,11 @@ namespace IntuneAssignments.Presentation.Import
             // TODO - Authenticate
 
             await AuthenticateToSourceTenant();
+
+            Import import = System.Windows.Forms.Application.OpenForms["Import"] as Import;
+            import.CheckConnection();
+
+            this.Close();
         }
 
         private void btnOpenFolder_Click(object sender, EventArgs e)

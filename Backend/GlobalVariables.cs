@@ -26,6 +26,9 @@ namespace IntuneAssignments.Backend
         public static string sourceTenantSettingsFile = Path.Combine(appDataPath, appFolderName, SourceTenantSettingsFileName);
         public static string destinationTenantSettingsFile = Path.Combine(appDataPath, appFolderName, DestinationTenantSettingsFileName);
 
+        public static bool isSourceTenantConnected = false;
+        public static bool isDestinationTenantConnected = false;
+
         //public static string? sourceClientID { get; set; }
         //public static string? sourceTenantID { get; set; }
         //public static string? destinationClientID { get; set; }
