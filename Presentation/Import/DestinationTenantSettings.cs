@@ -113,23 +113,28 @@ namespace IntuneAssignments.Presentation.Import
 
             // TODO - Authenticate
 
-            await testAuth();
+            await AuthenticateToDestinationTenant();
         }
 
-        private async Task testAuth()
+        private async Task AuthenticateToDestinationTenant()
         {
+            // Authenticate to the destination tenant
+
+            // Get the values from the text boxes and save them to the global variables
             destinationTenantID = tBTenantID.Text;
+            destinationClientID = tBClientID.Text;
+
+            WriteToLog("Destination Tenant ID: " + destinationTenantID);
+            WriteToLog("Destination Client ID: " + destinationClientID);
 
             // Update destinationAuthority after changing destinationTenantID
             DestinationTenantGraphClient.destinationAuthority = $"https://login.microsoftonline.com/{destinationTenantID}";
 
-            var test = await GetDestinationGraphClient();
+            WriteToLog("Destination Authority: " + DestinationTenantGraphClient.destinationAuthority);
 
-            var result = await test.DeviceManagement.ManagedDevices.GetAsync();
+            // Create the GraphServiceClient object
 
-            
-
-            MessageBox.Show("the number of devices is " + result.Value.Count.ToString());
+            DestinationTenantGraphClient.destinationGraphServiceClient = await GetDestinationGraphClient();
         }
 
         private void saveDestinationFile()

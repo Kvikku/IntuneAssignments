@@ -21,6 +21,8 @@ namespace IntuneAssignments.Backend
 
         public static string[] destinationScope = new string[] { "https://graph.microsoft.com/.default" };
 
+        public static GraphServiceClient destinationGraphServiceClient;
+
         public static string? destinationAccessToken;
         public static DateTimeOffset destinationTokenExpirationTime;
 
