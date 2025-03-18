@@ -1,7 +1,7 @@
 ﻿using Microsoft.Graph;
 using Microsoft.Graph.Beta.Models;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
-using static IntuneAssignments.Backend.GlobalVariables;
+using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 using Microsoft.Kiota.Abstractions;
 using Windows.ApplicationModel.Activation;
 using System.Linq;
@@ -12,7 +12,7 @@ using Microsoft.Graph.Beta.DeviceManagement.ConfigurationPolicies.Item.Assign;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace IntuneAssignments.Backend
+namespace IntuneAssignments.Backend.Utilities
 {
     public class FormUtilities
     {
@@ -116,7 +116,7 @@ namespace IntuneAssignments.Backend
                 }
                 // StreamWriter is automatically closed and disposed of when leaving the using block
             }
-            catch (System.IO.IOException ex)
+            catch (IOException ex)
             {
                 // Handle the exception
                 MessageBox.Show($"An error occurred while writing to the log file: {ex.Message}");

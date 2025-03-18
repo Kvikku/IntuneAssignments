@@ -1,45 +1,46 @@
-﻿using Microsoft.Graph.Beta;
-using Microsoft.Identity.Client;
-using Microsoft.Kiota.Abstractions.Authentication;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Graph.Beta;
+using Microsoft.Identity.Client;
+using Microsoft.Kiota.Abstractions.Authentication;
 
-using static IntuneAssignments.Backend.FormUtilities;
+using static IntuneAssignments.Backend.Utilities.FormUtilities;
+using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 
 namespace IntuneAssignments.Backend
 {
-    public class DestinationTenantGraphClient
+    public class SourceTenantGraphClient
     {
-        public static string destinationAuthority = $"https://login.microsoftonline.com/{destinationTenantID}";
-        public static string destinationClientID { get; set; }
-        public static string destinationTenantID { get; set; }
+        public static string sourceAuthority = $"https://login.microsoftonline.com/{sourceTenantID}";
+        public static string sourceClientID { get; set; }
+        public static string sourceTenantID { get; set; }
 
         public static string redirectUri = "http://localhost";  // Use a valid redirect URI
 
-        public static string[] destinationScope = new string[] { "https://graph.microsoft.com/.default" };
+        public static string[] sourceScope = new string[] { "https://graph.microsoft.com/.default" };
 
-        public static GraphServiceClient destinationGraphServiceClient;
+        public static GraphServiceClient sourceGraphServiceClient;
 
-        public static string? destinationAccessToken;
-        public static DateTimeOffset destinationTokenExpirationTime;
+        public static string? sourceAccessToken;
+        public static DateTimeOffset sourceTokenExpirationTime;
 
         public static GraphServiceClient CreateGraphServiceClient()
         {
             Console.WriteLine("Creating graph object");
-            var authenticationProvider = new BaseBearerTokenAuthenticationProvider(new DestinationTokenProvider());
+            var authenticationProvider = new BaseBearerTokenAuthenticationProvider(new SourceTokenProvider());
             return new GraphServiceClient(authenticationProvider);
         }
 
-        public static async Task<GraphServiceClient> GetDestinationGraphClient()
+        public static async Task<GraphServiceClient> GetSourceGraphClient()
         {
             try
             {
                 var app = PublicClientApplicationBuilder
-                    .Create(destinationClientID)
-                    .WithAuthority(new Uri(destinationAuthority))
+                    .Create(sourceClientID)
+                    .WithAuthority(new Uri(sourceAuthority))
                     .WithRedirectUri(redirectUri)
                     .Build();
 
@@ -48,31 +49,31 @@ namespace IntuneAssignments.Backend
 
                 if (!accounts.Any())
                 {
-                    result = await app.AcquireTokenInteractive(destinationScope)
+                    result = await app.AcquireTokenInteractive(sourceScope)
                         .WithPrompt(Prompt.SelectAccount)
-                        .WithExtraScopesToConsent(destinationScope) // Add this line to consent to all scopes
+                        .WithExtraScopesToConsent(sourceScope) // Add this line to consent to all scopes
                         .ExecuteAsync();
                 }
                 else
                 {
                     try
                     {
-                        result = await app.AcquireTokenSilent(destinationScope, accounts.FirstOrDefault())
+                        result = await app.AcquireTokenSilent(sourceScope, accounts.FirstOrDefault())
                             .ExecuteAsync();
                     }
                     catch (MsalUiRequiredException)
                     {
-                        result = await app.AcquireTokenInteractive(destinationScope)
+                        result = await app.AcquireTokenInteractive(sourceScope)
                             .WithPrompt(Prompt.SelectAccount)
-                            .WithExtraScopesToConsent(destinationScope) // Add this line to consent to all scopes
+                            .WithExtraScopesToConsent(sourceScope) // Add this line to consent to all scopes
                             .ExecuteAsync();
                     }
                 }
 
-                destinationAccessToken = result.AccessToken;
-                destinationTokenExpirationTime = result.ExpiresOn;
+                sourceAccessToken = result.AccessToken;
+                sourceTokenExpirationTime = result.ExpiresOn;
 
-                var authenticationProvider = new BaseBearerTokenAuthenticationProvider(new DestinationTokenProvider());
+                var authenticationProvider = new BaseBearerTokenAuthenticationProvider(new SourceTokenProvider());
                 return new GraphServiceClient(authenticationProvider);
             }
             catch (Exception ex)
@@ -82,7 +83,7 @@ namespace IntuneAssignments.Backend
             }
         }
 
-        public class DestinationTokenProvider : IAccessTokenProvider
+        public class SourceTokenProvider : IAccessTokenProvider
         {
             public async Task<string> GetAuthorizationTokenAsync(Uri uri, Dictionary<string, object> additionalAuthenticationContext = default,
                 CancellationToken cancellationToken = default)
@@ -90,18 +91,18 @@ namespace IntuneAssignments.Backend
                 var token = "";
 
                 // check if the token is still valid
-                if (destinationTokenExpirationTime > DateTimeOffset.UtcNow)
+                if (sourceTokenExpirationTime > DateTimeOffset.UtcNow)
                 {
                     WriteToLog("Token is still valid. Using existing token");
-                    return destinationAccessToken;
+                    return sourceAccessToken;
                 }
                 else
                 {
                     WriteToLog("Token is expired. Must acquire new token");
 
                     var app = PublicClientApplicationBuilder
-                       .Create(destinationClientID)
-                       .WithAuthority(new Uri(destinationAuthority))
+                       .Create(sourceClientID)
+                       .WithAuthority(new Uri(sourceAuthority))
                        .WithRedirectUri(redirectUri)
                        .Build();
 
@@ -110,14 +111,14 @@ namespace IntuneAssignments.Backend
                     AuthenticationResult result;
                     try
                     {
-                        result = await app.AcquireTokenSilent(destinationScope, accounts.FirstOrDefault())
+                        result = await app.AcquireTokenSilent(sourceScope, accounts.FirstOrDefault())
                             .ExecuteAsync();
                     }
                     catch (MsalUiRequiredException)
                     {
                         try
                         {
-                            result = await app.AcquireTokenInteractive(destinationScope)
+                            result = await app.AcquireTokenInteractive(sourceScope)
                             .WithPrompt(Prompt.SelectAccount)
                             .ExecuteAsync();
                         }
@@ -129,8 +130,8 @@ namespace IntuneAssignments.Backend
                     }
 
                     token = result.AccessToken;
-                    destinationAccessToken = result.AccessToken;
-                    destinationTokenExpirationTime = result.ExpiresOn;
+                    sourceAccessToken = result.AccessToken;
+                    sourceTokenExpirationTime = result.ExpiresOn;
 
                     return token;
                 }

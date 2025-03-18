@@ -1,8 +1,8 @@
 ﻿using Microsoft.Graph.Beta;
 using Microsoft.Identity.Client;
 using Microsoft.Kiota.Abstractions.Authentication;
-using static IntuneAssignments.Backend.FormUtilities;
-using static IntuneAssignments.Backend.GlobalVariables;
+using static IntuneAssignments.Backend.Utilities.FormUtilities;
+using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 
 namespace IntuneAssignments.Backend
 {

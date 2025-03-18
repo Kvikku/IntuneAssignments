@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static IntuneAssignments.Backend.FormUtilities;
+using static IntuneAssignments.Backend.Utilities.FormUtilities;
 
 namespace IntuneAssignments
 {

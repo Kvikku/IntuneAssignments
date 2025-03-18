@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Graph.Beta.Models;
-using static IntuneAssignments.Backend.GlobalVariables;
-using static IntuneAssignments.Backend.FormUtilities;
+using static IntuneAssignments.Backend.Utilities.GlobalVariables;
+using static IntuneAssignments.Backend.Utilities.FormUtilities;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using IntuneAssignments.Backend;
 using IntuneAssignments.Presentation.Import;

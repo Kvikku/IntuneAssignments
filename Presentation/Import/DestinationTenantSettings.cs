@@ -9,12 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static IntuneAssignments.Backend.FormUtilities;
-using static IntuneAssignments.Backend.GlobalVariables;
-using static IntuneAssignments.Backend.TenantSettings;
+using static IntuneAssignments.Backend.Utilities.FormUtilities;
+using static IntuneAssignments.Backend.Utilities.GlobalVariables;
+using static IntuneAssignments.Backend.Utilities.TenantSettings;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using static IntuneAssignments.Backend.TokenProvider;
 using static IntuneAssignments.Backend.DestinationTenantGraphClient;
+using IntuneAssignments.Backend.Utilities;
 
 namespace IntuneAssignments.Presentation.Import
 {

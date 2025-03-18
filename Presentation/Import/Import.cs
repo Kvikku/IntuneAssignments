@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.Devices.Usb;
-using static IntuneAssignments.Backend.FormUtilities;
-using static IntuneAssignments.Backend.GlobalVariables;
+using static IntuneAssignments.Backend.Utilities.FormUtilities;
+using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 
 namespace IntuneAssignments.Presentation.Import

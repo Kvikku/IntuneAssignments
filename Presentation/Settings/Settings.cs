@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using static IntuneAssignments.Backend.GlobalVariables;
-using static IntuneAssignments.Backend.FormUtilities;
+using static IntuneAssignments.Backend.Utilities.GlobalVariables;
+using static IntuneAssignments.Backend.Utilities.FormUtilities;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using static IntuneAssignments.Backend.TokenProvider;
 using IntuneAssignments.Backend;

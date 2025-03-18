@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntuneAssignments.Backend
+namespace IntuneAssignments.Backend.Utilities
 {
     
     // Maybe not needed after all. 

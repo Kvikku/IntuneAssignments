@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static IntuneAssignments.Application;
-using static IntuneAssignments.Backend.FormUtilities;
+using static IntuneAssignments.Backend.Utilities.FormUtilities;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 
 

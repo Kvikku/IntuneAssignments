@@ -2,14 +2,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Graph.Beta.Models;
 using Microsoft.Identity.Client;
 using System.Reflection;
-using static IntuneAssignments.Backend.GlobalVariables;
+using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
-using static IntuneAssignments.Backend.FormUtilities;
+using static IntuneAssignments.Backend.Utilities.FormUtilities;
 using System.Windows.Forms;
 using IntuneAssignments.Backend;
 using IntuneAssignments.Presentation.Application.App_protection;
 using Newtonsoft.Json;
 using Microsoft.Graph;
+using IntuneAssignments.Backend.Utilities;
 
 
 namespace IntuneAssignments

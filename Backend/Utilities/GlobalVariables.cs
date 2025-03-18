@@ -1,7 +1,7 @@
 ﻿using Microsoft.Graph.Beta.DeviceManagement.Intents.Item.Categories.Item;
 using Microsoft.Graph.Beta.Models;
 
-namespace IntuneAssignments.Backend
+namespace IntuneAssignments.Backend.Utilities
 {
     public static class GlobalVariables
     {

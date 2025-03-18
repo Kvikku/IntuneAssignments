@@ -1,10 +1,10 @@
 ﻿using Microsoft.Graph.Beta.Models;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
-using static IntuneAssignments.Backend.FormUtilities;
-using static IntuneAssignments.Backend.GlobalVariables;
+using static IntuneAssignments.Backend.Utilities.FormUtilities;
+using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 using System.Windows.Forms;
 using System.Threading.Tasks.Dataflow;
-using IntuneAssignments.Backend;
+using IntuneAssignments.Backend.Utilities;
 
 namespace IntuneAssignments
 {
