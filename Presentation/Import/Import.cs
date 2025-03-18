@@ -10,7 +10,9 @@ using System.Windows.Forms;
 using Windows.Devices.Usb;
 using static IntuneAssignments.Backend.Utilities.FormUtilities;
 using static IntuneAssignments.Backend.Utilities.GlobalVariables;
-using static IntuneAssignments.Backend.GraphServiceClientCreator;
+using static IntuneAssignments.Backend.SourceTenantGraphClient;
+using static IntuneAssignments.Backend.DestinationTenantGraphClient;
+using static IntuneAssignments.Backend.Intune_content_classes.SettingsCatalog;
 
 namespace IntuneAssignments.Presentation.Import
 {
@@ -121,6 +123,16 @@ namespace IntuneAssignments.Presentation.Import
         private void clbContentTypes_MouseLeave(object sender, EventArgs e)
         {
             clbContentTypes.Height = CollapsedHeight;
+        }
+
+        private async void btnListAll_Click(object sender, EventArgs e)
+        {
+            var client = await GetSourceGraphClient();
+
+
+            var result = await GetAllSettingsCatalogPolicies(client);
+
+            MessageBox.Show("Found " + result.Count + " policies");
         }
     }
 }

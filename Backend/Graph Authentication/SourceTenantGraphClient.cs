@@ -38,6 +38,14 @@ namespace IntuneAssignments.Backend
         {
             try
             {
+                // Check if the token is still valid
+                if (sourceTokenExpirationTime > DateTimeOffset.UtcNow)
+                {
+                    WriteToLog("Token is still valid. Using existing token");
+                    var authprovider = new BaseBearerTokenAuthenticationProvider(new SourceTokenProvider());
+                    return new GraphServiceClient(authprovider);
+                }
+
                 var app = PublicClientApplicationBuilder
                     .Create(sourceClientID)
                     .WithAuthority(new Uri(sourceAuthority))

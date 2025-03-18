@@ -166,7 +166,7 @@
             dtgImportContent.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dtgImportContent.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgImportContent.Columns.AddRange(new DataGridViewColumn[] { colName, colType, colPlatform, colID });
-            dtgImportContent.Location = new Point(3, 203);
+            dtgImportContent.Location = new Point(3, 102);
             dtgImportContent.Name = "dtgImportContent";
             dtgImportContent.Size = new Size(587, 356);
             dtgImportContent.TabIndex = 1;
@@ -214,19 +214,20 @@
             btnListAll.BackColor = Color.Salmon;
             btnListAll.FlatStyle = FlatStyle.Flat;
             btnListAll.ForeColor = Color.FromArgb(46, 51, 73);
-            btnListAll.Location = new Point(117, 137);
+            btnListAll.Location = new Point(115, 43);
             btnListAll.Name = "btnListAll";
             btnListAll.Size = new Size(96, 28);
             btnListAll.TabIndex = 5;
             btnListAll.Text = "List all";
             btnListAll.UseVisualStyleBackColor = false;
+            btnListAll.Click += btnListAll_Click;
             // 
             // btnSearch
             // 
             btnSearch.BackColor = Color.Salmon;
             btnSearch.FlatStyle = FlatStyle.Flat;
             btnSearch.ForeColor = Color.FromArgb(46, 51, 73);
-            btnSearch.Location = new Point(15, 136);
+            btnSearch.Location = new Point(13, 42);
             btnSearch.Name = "btnSearch";
             btnSearch.Size = new Size(96, 28);
             btnSearch.TabIndex = 4;
@@ -237,10 +238,11 @@
             // 
             tbSearch.BackColor = Color.FromArgb(46, 51, 73);
             tbSearch.BorderStyle = BorderStyle.None;
+            tbSearch.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tbSearch.ForeColor = Color.Salmon;
-            tbSearch.Location = new Point(15, 114);
+            tbSearch.Location = new Point(13, 14);
             tbSearch.Name = "tbSearch";
-            tbSearch.Size = new Size(150, 16);
+            tbSearch.Size = new Size(150, 22);
             tbSearch.TabIndex = 3;
             tbSearch.Text = "Enter search here";
             tbSearch.Click += tbSearch_Click;
@@ -252,7 +254,7 @@
             clbContentTypes.ForeColor = Color.Salmon;
             clbContentTypes.FormattingEnabled = true;
             clbContentTypes.Items.AddRange(new object[] { "Settings Catalog", "Device Compliance", "Device configuration", "ADMX Template", "Application", "Powershell script", "Remediation script", "macOS script" });
-            clbContentTypes.Location = new Point(327, 94);
+            clbContentTypes.Location = new Point(223, 3);
             clbContentTypes.Name = "clbContentTypes";
             clbContentTypes.ScrollAlwaysVisible = true;
             clbContentTypes.Size = new Size(215, 36);
