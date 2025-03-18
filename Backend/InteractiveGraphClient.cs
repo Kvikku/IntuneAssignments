@@ -46,8 +46,8 @@ namespace IntuneAssignments.Backend
         // This class will be used to provide the access token to the GraphServiceClient object interactively, with authentication done in the browser
 
 
-        public static string sourceClientID { get; set; }
-        public static string sourceTenantID { get; set; }
+        //public static string sourceClientID { get; set; }
+        //public static string sourceTenantID { get; set; }
         public static string clientID { get; set; }
         public static string tenantID { get; set; }
 

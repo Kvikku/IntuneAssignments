@@ -59,7 +59,7 @@
             lblDestination.AutoSize = true;
             lblDestination.Font = new Font("Consolas", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblDestination.ForeColor = Color.Salmon;
-            lblDestination.Location = new Point(11, 233);
+            lblDestination.Location = new Point(11, 294);
             lblDestination.Name = "lblDestination";
             lblDestination.Size = new Size(84, 15);
             lblDestination.TabIndex = 18;
@@ -76,11 +76,12 @@
             lblSourceTenant.Size = new Size(49, 15);
             lblSourceTenant.TabIndex = 17;
             lblSourceTenant.Text = "Source";
+            lblSourceTenant.Click += lblSourceTenant_Click;
             // 
             // pbDestinationTenant
             // 
             pbDestinationTenant.Image = Properties.Resources.azure;
-            pbDestinationTenant.Location = new Point(11, 166);
+            pbDestinationTenant.Location = new Point(11, 227);
             pbDestinationTenant.Name = "pbDestinationTenant";
             pbDestinationTenant.Size = new Size(64, 64);
             pbDestinationTenant.SizeMode = PictureBoxSizeMode.StretchImage;
