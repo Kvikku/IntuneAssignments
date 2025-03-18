@@ -28,20 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            pbDestinationChecker = new PictureBox();
+            pbSourceConnectionCheck = new PictureBox();
             lblDestination = new Label();
             lblSourceTenant = new Label();
             pbDestinationTenant = new PictureBox();
             pbSourceTenant = new PictureBox();
             pBHome = new PictureBox();
-            pbSourceConnectionCheck = new PictureBox();
-            pbDestinationChecker = new PictureBox();
+            dtgImportContent = new DataGridView();
+            colName = new DataGridViewTextBoxColumn();
+            colType = new DataGridViewTextBoxColumn();
+            colPlatform = new DataGridViewTextBoxColumn();
+            colID = new DataGridViewTextBoxColumn();
+            pnlMainContent = new Panel();
+            btnListAll = new Button();
+            btnSearch = new Button();
+            tbSearch = new TextBox();
+            clbContentTypes = new CheckedListBox();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbDestinationChecker).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbSourceConnectionCheck).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbDestinationTenant).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbSourceTenant).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pBHome).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pbSourceConnectionCheck).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pbDestinationChecker).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dtgImportContent).BeginInit();
+            pnlMainContent.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -59,6 +72,26 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(102, 915);
             panel1.TabIndex = 0;
+            // 
+            // pbDestinationChecker
+            // 
+            pbDestinationChecker.Image = Properties.Resources.cancel;
+            pbDestinationChecker.Location = new Point(11, 312);
+            pbDestinationChecker.Name = "pbDestinationChecker";
+            pbDestinationChecker.Size = new Size(38, 35);
+            pbDestinationChecker.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbDestinationChecker.TabIndex = 20;
+            pbDestinationChecker.TabStop = false;
+            // 
+            // pbSourceConnectionCheck
+            // 
+            pbSourceConnectionCheck.Image = Properties.Resources.cancel;
+            pbSourceConnectionCheck.Location = new Point(11, 166);
+            pbSourceConnectionCheck.Name = "pbSourceConnectionCheck";
+            pbSourceConnectionCheck.Size = new Size(38, 35);
+            pbSourceConnectionCheck.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbSourceConnectionCheck.TabIndex = 19;
+            pbSourceConnectionCheck.TabStop = false;
             // 
             // lblDestination
             // 
@@ -117,25 +150,115 @@
             pBHome.TabStop = false;
             pBHome.Click += pBHome_Click;
             // 
-            // pbSourceConnectionCheck
+            // dtgImportContent
             // 
-            pbSourceConnectionCheck.Image = Properties.Resources.cancel;
-            pbSourceConnectionCheck.Location = new Point(11, 166);
-            pbSourceConnectionCheck.Name = "pbSourceConnectionCheck";
-            pbSourceConnectionCheck.Size = new Size(38, 35);
-            pbSourceConnectionCheck.SizeMode = PictureBoxSizeMode.StretchImage;
-            pbSourceConnectionCheck.TabIndex = 19;
-            pbSourceConnectionCheck.TabStop = false;
+            dtgImportContent.AllowUserToAddRows = false;
+            dtgImportContent.AllowUserToDeleteRows = false;
+            dtgImportContent.BackgroundColor = Color.FromArgb(46, 51, 73);
+            dtgImportContent.BorderStyle = BorderStyle.None;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.Salmon;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dtgImportContent.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dtgImportContent.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dtgImportContent.Columns.AddRange(new DataGridViewColumn[] { colName, colType, colPlatform, colID });
+            dtgImportContent.Location = new Point(3, 203);
+            dtgImportContent.Name = "dtgImportContent";
+            dtgImportContent.Size = new Size(587, 356);
+            dtgImportContent.TabIndex = 1;
             // 
-            // pbDestinationChecker
+            // colName
             // 
-            pbDestinationChecker.Image = Properties.Resources.cancel;
-            pbDestinationChecker.Location = new Point(11, 312);
-            pbDestinationChecker.Name = "pbDestinationChecker";
-            pbDestinationChecker.Size = new Size(38, 35);
-            pbDestinationChecker.SizeMode = PictureBoxSizeMode.StretchImage;
-            pbDestinationChecker.TabIndex = 20;
-            pbDestinationChecker.TabStop = false;
+            colName.HeaderText = "Name";
+            colName.Name = "colName";
+            colName.ReadOnly = true;
+            colName.Width = 150;
+            // 
+            // colType
+            // 
+            colType.HeaderText = "Type";
+            colType.Name = "colType";
+            colType.ReadOnly = true;
+            // 
+            // colPlatform
+            // 
+            colPlatform.HeaderText = "Platform";
+            colPlatform.Name = "colPlatform";
+            colPlatform.ReadOnly = true;
+            // 
+            // colID
+            // 
+            colID.HeaderText = "ID";
+            colID.Name = "colID";
+            colID.ReadOnly = true;
+            colID.Width = 150;
+            // 
+            // pnlMainContent
+            // 
+            pnlMainContent.Controls.Add(btnListAll);
+            pnlMainContent.Controls.Add(btnSearch);
+            pnlMainContent.Controls.Add(tbSearch);
+            pnlMainContent.Controls.Add(clbContentTypes);
+            pnlMainContent.Controls.Add(dtgImportContent);
+            pnlMainContent.Location = new Point(108, 12);
+            pnlMainContent.Name = "pnlMainContent";
+            pnlMainContent.Size = new Size(1453, 813);
+            pnlMainContent.TabIndex = 2;
+            // 
+            // btnListAll
+            // 
+            btnListAll.BackColor = Color.Salmon;
+            btnListAll.FlatStyle = FlatStyle.Flat;
+            btnListAll.ForeColor = Color.FromArgb(46, 51, 73);
+            btnListAll.Location = new Point(117, 137);
+            btnListAll.Name = "btnListAll";
+            btnListAll.Size = new Size(96, 28);
+            btnListAll.TabIndex = 5;
+            btnListAll.Text = "List all";
+            btnListAll.UseVisualStyleBackColor = false;
+            // 
+            // btnSearch
+            // 
+            btnSearch.BackColor = Color.Salmon;
+            btnSearch.FlatStyle = FlatStyle.Flat;
+            btnSearch.ForeColor = Color.FromArgb(46, 51, 73);
+            btnSearch.Location = new Point(15, 136);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new Size(96, 28);
+            btnSearch.TabIndex = 4;
+            btnSearch.Text = "Search";
+            btnSearch.UseVisualStyleBackColor = false;
+            // 
+            // tbSearch
+            // 
+            tbSearch.BackColor = Color.FromArgb(46, 51, 73);
+            tbSearch.BorderStyle = BorderStyle.None;
+            tbSearch.ForeColor = Color.Salmon;
+            tbSearch.Location = new Point(15, 114);
+            tbSearch.Name = "tbSearch";
+            tbSearch.Size = new Size(150, 16);
+            tbSearch.TabIndex = 3;
+            tbSearch.Text = "Enter search here";
+            tbSearch.Click += tbSearch_Click;
+            // 
+            // clbContentTypes
+            // 
+            clbContentTypes.BackColor = Color.FromArgb(46, 51, 73);
+            clbContentTypes.BorderStyle = BorderStyle.None;
+            clbContentTypes.ForeColor = Color.Salmon;
+            clbContentTypes.FormattingEnabled = true;
+            clbContentTypes.Items.AddRange(new object[] { "Settings Catalog", "Device Compliance", "Device configuration", "ADMX Template", "Application", "Powershell script", "Remediation script", "macOS script" });
+            clbContentTypes.Location = new Point(327, 94);
+            clbContentTypes.Name = "clbContentTypes";
+            clbContentTypes.ScrollAlwaysVisible = true;
+            clbContentTypes.Size = new Size(215, 36);
+            clbContentTypes.TabIndex = 2;
+            clbContentTypes.MouseEnter += clbContentTypes_MouseEnter;
+            clbContentTypes.MouseLeave += clbContentTypes_MouseLeave;
             // 
             // Import
             // 
@@ -143,17 +266,20 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1882, 915);
+            Controls.Add(pnlMainContent);
             Controls.Add(panel1);
             Name = "Import";
-            Text = "Import";
             Load += Import_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbDestinationChecker).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbSourceConnectionCheck).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbDestinationTenant).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbSourceTenant).EndInit();
             ((System.ComponentModel.ISupportInitialize)pBHome).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pbSourceConnectionCheck).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pbDestinationChecker).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dtgImportContent).EndInit();
+            pnlMainContent.ResumeLayout(false);
+            pnlMainContent.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -167,5 +293,15 @@
         private Label lblSourceTenant;
         private PictureBox pbDestinationChecker;
         private PictureBox pbSourceConnectionCheck;
+        private DataGridView dtgImportContent;
+        private Panel pnlMainContent;
+        private CheckedListBox clbContentTypes;
+        private DataGridViewTextBoxColumn colName;
+        private DataGridViewTextBoxColumn colType;
+        private DataGridViewTextBoxColumn colPlatform;
+        private DataGridViewTextBoxColumn colID;
+        private TextBox tbSearch;
+        private Button btnSearch;
+        private Button btnListAll;
     }
 }

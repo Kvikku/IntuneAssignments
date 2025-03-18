@@ -16,6 +16,9 @@ namespace IntuneAssignments.Presentation.Import
 {
     public partial class Import : Form
     {
+        private const int ExpandedHeight = 200; // Adjust as needed
+        private const int CollapsedHeight = 100; // Adjust as needed
+
         public Import()
         {
             InitializeComponent();
@@ -103,6 +106,21 @@ namespace IntuneAssignments.Presentation.Import
             // Open the source tenant settings form
             SourceTenantSettings sourceTenantSettings = new SourceTenantSettings();
             sourceTenantSettings.ShowDialog();
+        }
+
+        private void tbSearch_Click(object sender, EventArgs e)
+        {
+            tbSearch.Text = "";
+        }
+
+        private void clbContentTypes_MouseEnter(object sender, EventArgs e)
+        {
+            clbContentTypes.Height = ExpandedHeight;
+        }
+
+        private void clbContentTypes_MouseLeave(object sender, EventArgs e)
+        {
+            clbContentTypes.Height = CollapsedHeight;
         }
     }
 }
