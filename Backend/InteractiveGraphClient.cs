@@ -19,32 +19,52 @@ namespace IntuneAssignments.Backend
 
         }
 
+    }
+
+
+    public class DestinationClientCreator
+    {
+        public static GraphServiceClient CreateGraphServiceClient()
+        {
+            Console.WriteLine("Creating graph object");
+            var authenticationProvider = new BaseBearerTokenAuthenticationProvider(new TokenProvider());
+            return new GraphServiceClient(authenticationProvider);
+        }
 
         public static async Task<GraphServiceClient> GetDestinationGraphClient()
         {
-
-
             try
             {
                 var app = PublicClientApplicationBuilder
                     .Create(TokenProvider.destinationClientID)
-                    .WithAuthority(new Uri(TokenProvider.authority))
+                    .WithAuthority(new Uri(TokenProvider.destinationAuthority))
                     .WithRedirectUri(TokenProvider.redirectUri)
                     .Build();
 
                 var accounts = await app.GetAccountsAsync();
                 AuthenticationResult result;
 
-                try
-                {
-                    result = await app.AcquireTokenSilent(TokenProvider.newScope, accounts.FirstOrDefault())
-                        .ExecuteAsync();
-                }
-                catch (MsalUiRequiredException)
+                if (!accounts.Any())
                 {
                     result = await app.AcquireTokenInteractive(TokenProvider.newScope)
                         .WithPrompt(Prompt.SelectAccount)
+                        .WithExtraScopesToConsent(TokenProvider.newScope) // Add this line to consent to all scopes
                         .ExecuteAsync();
+                }
+                else
+                {
+                    try
+                    {
+                        result = await app.AcquireTokenSilent(TokenProvider.newScope, accounts.FirstOrDefault())
+                            .ExecuteAsync();
+                    }
+                    catch (MsalUiRequiredException)
+                    {
+                        result = await app.AcquireTokenInteractive(TokenProvider.newScope)
+                            .WithPrompt(Prompt.SelectAccount)
+                            .WithExtraScopesToConsent(TokenProvider.newScope) // Add this line to consent to all scopes
+                            .ExecuteAsync();
+                    }
                 }
 
                 TokenProvider.accessToken = result.AccessToken;
@@ -62,8 +82,6 @@ namespace IntuneAssignments.Backend
     }
 
 
-
-    
 
 
     public class TokenProvider : IAccessTokenProvider
@@ -96,6 +114,8 @@ namespace IntuneAssignments.Backend
         public static string sourceTenantID { get; set; }
         public static string clientID { get; set; }
         public static string tenantID { get; set; }
+
+        public static string destinationAuthority = $"https://login.microsoftonline.com/{destinationTenantID}";
 
         public static string authority = $"https://login.microsoftonline.com/{tenantID}";
 

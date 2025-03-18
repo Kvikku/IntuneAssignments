@@ -14,6 +14,7 @@ using static IntuneAssignments.Backend.GlobalVariables;
 using static IntuneAssignments.Backend.TenantSettings;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using static IntuneAssignments.Backend.TokenProvider;
+using static IntuneAssignments.Backend.DestinationClientCreator;
 
 namespace IntuneAssignments.Presentation.Import
 {
@@ -106,6 +107,10 @@ namespace IntuneAssignments.Presentation.Import
         {
             saveDestinationFile();
 
+
+            
+
+
             // TODO - Authenticate
 
             await testAuth();
@@ -113,7 +118,14 @@ namespace IntuneAssignments.Presentation.Import
 
         private async Task testAuth()
         {
+            destinationTenantID = tBTenantID.Text;
+
+            // Update destinationAuthority after changing destinationTenantID
+            TokenProvider.destinationAuthority = $"https://login.microsoftonline.com/{destinationTenantID}";
+
             var test = await GetDestinationGraphClient();
+
+            var result = await test.DeviceManagement.ManagedDevices.GetAsync();
         }
 
         private void saveDestinationFile()
