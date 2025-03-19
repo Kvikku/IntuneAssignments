@@ -194,9 +194,28 @@ namespace IntuneAssignments.Presentation.Import
 
         private async void btnGroupListAll_Click(object sender, EventArgs e)
         {
+            pBarGroupLoading.Show();
+
             var groups = await GetAllGroups(destinationGraphServiceClient);
 
             AddGroupsToDTG(groups, dtgGroups);
+
+            pBarGroupLoading.Hide();
+        }
+
+        private async void btnGroupSearch_Click(object sender, EventArgs e)
+        {
+            pBarGroupLoading.Show();
+            var groups = await SearchForGroups(destinationGraphServiceClient, tBoxGroupSearch.Text.ToString());
+
+            AddGroupsToDTG(groups, dtgGroups);
+            pBarGroupLoading.Hide();
+        }
+
+        private void btnClearGroupDTG_Click(object sender, EventArgs e)
+        {
+            // Clear the groups datagridview
+            ClearDataGridView(dtgGroups);
         }
     }
 }

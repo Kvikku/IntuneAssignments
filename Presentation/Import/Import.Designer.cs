@@ -47,8 +47,13 @@
             colID = new DataGridViewTextBoxColumn();
             pnlMainContent = new Panel();
             pnlGroups = new Panel();
+            btnClearGroupDTG = new Button();
             pBarGroupLoading = new ProgressBar();
             dtgGroups = new DataGridView();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
             btnGroupListAll = new Button();
             btnGroupSearch = new Button();
             tBoxGroupSearch = new TextBox();
@@ -59,10 +64,6 @@
             btnSearch = new Button();
             tbSearch = new TextBox();
             clbContentTypes = new CheckedListBox();
-            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbDestinationChecker).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbSourceConnectionCheck).BeginInit();
@@ -247,6 +248,7 @@
             // 
             // pnlGroups
             // 
+            pnlGroups.Controls.Add(btnClearGroupDTG);
             pnlGroups.Controls.Add(pBarGroupLoading);
             pnlGroups.Controls.Add(dtgGroups);
             pnlGroups.Controls.Add(btnGroupListAll);
@@ -257,11 +259,24 @@
             pnlGroups.Size = new Size(645, 606);
             pnlGroups.TabIndex = 10;
             // 
+            // btnClearGroupDTG
+            // 
+            btnClearGroupDTG.BackColor = Color.Salmon;
+            btnClearGroupDTG.FlatStyle = FlatStyle.Flat;
+            btnClearGroupDTG.ForeColor = Color.FromArgb(46, 51, 73);
+            btnClearGroupDTG.Location = new Point(230, 75);
+            btnClearGroupDTG.Name = "btnClearGroupDTG";
+            btnClearGroupDTG.Size = new Size(96, 28);
+            btnClearGroupDTG.TabIndex = 15;
+            btnClearGroupDTG.Text = "Clear";
+            btnClearGroupDTG.UseVisualStyleBackColor = false;
+            btnClearGroupDTG.Click += btnClearGroupDTG_Click;
+            // 
             // pBarGroupLoading
             // 
             pBarGroupLoading.Location = new Point(26, 105);
             pBarGroupLoading.Name = "pBarGroupLoading";
-            pBarGroupLoading.Size = new Size(198, 23);
+            pBarGroupLoading.Size = new Size(300, 23);
             pBarGroupLoading.Style = ProgressBarStyle.Marquee;
             pBarGroupLoading.TabIndex = 14;
             // 
@@ -300,6 +315,32 @@
             dtgGroups.Size = new Size(558, 409);
             dtgGroups.TabIndex = 11;
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.HeaderText = "Name";
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
+            dataGridViewTextBoxColumn1.Width = 250;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.HeaderText = "Group type";
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            dataGridViewTextBoxColumn3.HeaderText = "Rule";
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            dataGridViewTextBoxColumn4.HeaderText = "ID";
+            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            dataGridViewTextBoxColumn4.ReadOnly = true;
+            dataGridViewTextBoxColumn4.Width = 200;
+            // 
             // btnGroupListAll
             // 
             btnGroupListAll.BackColor = Color.Salmon;
@@ -324,6 +365,7 @@
             btnGroupSearch.TabIndex = 12;
             btnGroupSearch.Text = "Search";
             btnGroupSearch.UseVisualStyleBackColor = false;
+            btnGroupSearch.Click += this.btnGroupSearch_Click;
             // 
             // tBoxGroupSearch
             // 
@@ -425,32 +467,6 @@
             clbContentTypes.MouseEnter += clbContentTypes_MouseEnter;
             clbContentTypes.MouseLeave += clbContentTypes_MouseLeave;
             // 
-            // dataGridViewTextBoxColumn1
-            // 
-            dataGridViewTextBoxColumn1.HeaderText = "Name";
-            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            dataGridViewTextBoxColumn1.ReadOnly = true;
-            dataGridViewTextBoxColumn1.Width = 250;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            dataGridViewTextBoxColumn2.HeaderText = "Group type";
-            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            dataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            dataGridViewTextBoxColumn3.HeaderText = "Rule";
-            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            dataGridViewTextBoxColumn3.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            dataGridViewTextBoxColumn4.HeaderText = "ID";
-            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            dataGridViewTextBoxColumn4.ReadOnly = true;
-            dataGridViewTextBoxColumn4.Width = 200;
-            // 
             // Import
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -510,5 +526,6 @@
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private Button btnClearGroupDTG;
     }
 }
