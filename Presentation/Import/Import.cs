@@ -13,6 +13,8 @@ using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 using static IntuneAssignments.Backend.SourceTenantGraphClient;
 using static IntuneAssignments.Backend.DestinationTenantGraphClient;
 using static IntuneAssignments.Backend.Intune_content_classes.SettingsCatalog;
+using static IntuneAssignments.Backend.IntuneContentClasses.Groups;
+using Microsoft.Graph.Beta.NetworkAccess.Reports.MicrosoftGraphNetworkaccessGetDiscoveredApplicationSegmentReportWithStartDateTimeWithEndDateTimeuserIdUserId;
 
 namespace IntuneAssignments.Presentation.Import
 {
@@ -188,6 +190,13 @@ namespace IntuneAssignments.Presentation.Import
         private void tBoxGroupSearch_Click(object sender, EventArgs e)
         {
             tBoxGroupSearch.Text = "";
+        }
+
+        private async void btnGroupListAll_Click(object sender, EventArgs e)
+        {
+            var groups = await GetAllGroups(destinationGraphServiceClient);
+
+            AddGroupsToDTG(groups, dtgGroups);
         }
     }
 }
