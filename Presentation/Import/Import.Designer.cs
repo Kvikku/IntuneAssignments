@@ -30,6 +30,8 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             panel1 = new Panel();
             pbDestinationChecker = new PictureBox();
             pbSourceConnectionCheck = new PictureBox();
@@ -44,6 +46,16 @@
             colPlatform = new DataGridViewTextBoxColumn();
             colID = new DataGridViewTextBoxColumn();
             pnlMainContent = new Panel();
+            pnlGroups = new Panel();
+            pBarGroupLoading = new ProgressBar();
+            dtgGroups = new DataGridView();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
+            btnGroupListAll = new Button();
+            btnGroupSearch = new Button();
+            tBoxGroupSearch = new TextBox();
             cBoxAssignments = new CheckBox();
             btnImportContet = new Button();
             pBarLoading = new ProgressBar();
@@ -59,6 +71,8 @@
             ((System.ComponentModel.ISupportInitialize)pBHome).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgImportContent).BeginInit();
             pnlMainContent.SuspendLayout();
+            pnlGroups.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgGroups).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -217,6 +231,7 @@
             // 
             // pnlMainContent
             // 
+            pnlMainContent.Controls.Add(pnlGroups);
             pnlMainContent.Controls.Add(cBoxAssignments);
             pnlMainContent.Controls.Add(btnImportContet);
             pnlMainContent.Controls.Add(pBarLoading);
@@ -230,23 +245,142 @@
             pnlMainContent.Size = new Size(1453, 813);
             pnlMainContent.TabIndex = 2;
             // 
+            // pnlGroups
+            // 
+            pnlGroups.Controls.Add(pBarGroupLoading);
+            pnlGroups.Controls.Add(dtgGroups);
+            pnlGroups.Controls.Add(btnGroupListAll);
+            pnlGroups.Controls.Add(btnGroupSearch);
+            pnlGroups.Controls.Add(tBoxGroupSearch);
+            pnlGroups.Location = new Point(773, 28);
+            pnlGroups.Name = "pnlGroups";
+            pnlGroups.Size = new Size(645, 606);
+            pnlGroups.TabIndex = 10;
+            // 
+            // pBarGroupLoading
+            // 
+            pBarGroupLoading.Location = new Point(26, 105);
+            pBarGroupLoading.Name = "pBarGroupLoading";
+            pBarGroupLoading.Size = new Size(198, 23);
+            pBarGroupLoading.Style = ProgressBarStyle.Marquee;
+            pBarGroupLoading.TabIndex = 14;
+            // 
+            // dtgGroups
+            // 
+            dtgGroups.AllowUserToAddRows = false;
+            dtgGroups.AllowUserToDeleteRows = false;
+            dtgGroups.BackgroundColor = Color.FromArgb(46, 51, 73);
+            dtgGroups.BorderStyle = BorderStyle.None;
+            dtgGroups.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dtgGroups.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.Salmon;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dtgGroups.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dtgGroups.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dtgGroups.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4 });
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(46, 51, 73);
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle4.ForeColor = Color.Salmon;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dtgGroups.DefaultCellStyle = dataGridViewCellStyle4;
+            dtgGroups.EnableHeadersVisualStyles = false;
+            dtgGroups.GridColor = Color.Salmon;
+            dtgGroups.Location = new Point(26, 144);
+            dtgGroups.Name = "dtgGroups";
+            dtgGroups.RowHeadersVisible = false;
+            dtgGroups.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgGroups.Size = new Size(558, 409);
+            dtgGroups.TabIndex = 11;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.HeaderText = "Name";
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
+            dataGridViewTextBoxColumn1.Width = 250;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.HeaderText = "Type";
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            dataGridViewTextBoxColumn3.HeaderText = "Platform";
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            dataGridViewTextBoxColumn4.HeaderText = "ID";
+            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            dataGridViewTextBoxColumn4.ReadOnly = true;
+            dataGridViewTextBoxColumn4.Width = 200;
+            // 
+            // btnGroupListAll
+            // 
+            btnGroupListAll.BackColor = Color.Salmon;
+            btnGroupListAll.FlatStyle = FlatStyle.Flat;
+            btnGroupListAll.ForeColor = Color.FromArgb(46, 51, 73);
+            btnGroupListAll.Location = new Point(128, 75);
+            btnGroupListAll.Name = "btnGroupListAll";
+            btnGroupListAll.Size = new Size(96, 28);
+            btnGroupListAll.TabIndex = 13;
+            btnGroupListAll.Text = "List all";
+            btnGroupListAll.UseVisualStyleBackColor = false;
+            // 
+            // btnGroupSearch
+            // 
+            btnGroupSearch.BackColor = Color.Salmon;
+            btnGroupSearch.FlatStyle = FlatStyle.Flat;
+            btnGroupSearch.ForeColor = Color.FromArgb(46, 51, 73);
+            btnGroupSearch.Location = new Point(26, 74);
+            btnGroupSearch.Name = "btnGroupSearch";
+            btnGroupSearch.Size = new Size(96, 28);
+            btnGroupSearch.TabIndex = 12;
+            btnGroupSearch.Text = "Search";
+            btnGroupSearch.UseVisualStyleBackColor = false;
+            // 
+            // tBoxGroupSearch
+            // 
+            tBoxGroupSearch.BackColor = Color.FromArgb(46, 51, 73);
+            tBoxGroupSearch.BorderStyle = BorderStyle.None;
+            tBoxGroupSearch.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            tBoxGroupSearch.ForeColor = Color.Salmon;
+            tBoxGroupSearch.Location = new Point(26, 46);
+            tBoxGroupSearch.Name = "tBoxGroupSearch";
+            tBoxGroupSearch.Size = new Size(150, 22);
+            tBoxGroupSearch.TabIndex = 11;
+            tBoxGroupSearch.Text = "Enter search here";
+            tBoxGroupSearch.Click += tBoxGroupSearch_Click;
+            // 
             // cBoxAssignments
             // 
             cBoxAssignments.AutoSize = true;
             cBoxAssignments.ForeColor = Color.Salmon;
-            cBoxAssignments.Location = new Point(700, 196);
+            cBoxAssignments.Location = new Point(520, 76);
             cBoxAssignments.Name = "cBoxAssignments";
-            cBoxAssignments.Size = new Size(134, 19);
+            cBoxAssignments.Size = new Size(117, 19);
             cBoxAssignments.TabIndex = 9;
-            cBoxAssignments.Text = "Include assignments";
+            cBoxAssignments.Text = "Add assignments";
             cBoxAssignments.UseVisualStyleBackColor = true;
+            cBoxAssignments.CheckedChanged += cBoxAssignments_CheckedChanged;
             // 
             // btnImportContet
             // 
             btnImportContet.BackColor = Color.Salmon;
             btnImportContet.FlatStyle = FlatStyle.Flat;
             btnImportContet.ForeColor = Color.FromArgb(46, 51, 73);
-            btnImportContet.Location = new Point(700, 162);
+            btnImportContet.Location = new Point(520, 42);
             btnImportContet.Name = "btnImportContet";
             btnImportContet.Size = new Size(134, 28);
             btnImportContet.TabIndex = 7;
@@ -336,6 +470,9 @@
             ((System.ComponentModel.ISupportInitialize)dtgImportContent).EndInit();
             pnlMainContent.ResumeLayout(false);
             pnlMainContent.PerformLayout();
+            pnlGroups.ResumeLayout(false);
+            pnlGroups.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgGroups).EndInit();
             ResumeLayout(false);
         }
 
@@ -362,5 +499,15 @@
         private DataGridViewTextBoxColumn colID;
         private Button btnImportContet;
         private CheckBox cBoxAssignments;
+        private Panel pnlGroups;
+        private ProgressBar pBarGroupLoading;
+        private DataGridView dtgGroups;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private Button btnGroupListAll;
+        private Button btnGroupSearch;
+        private TextBox tBoxGroupSearch;
     }
 }

@@ -36,6 +36,8 @@ namespace IntuneAssignments.Presentation.Import
         private void Import_Load(object sender, EventArgs e)
         {
             pBarLoading.Hide();
+            pBarGroupLoading.Hide();
+            pnlGroups.Hide();
             CheckConnection();
         }
 
@@ -169,6 +171,23 @@ namespace IntuneAssignments.Presentation.Import
         private void btnImportContet_Click(object sender, EventArgs e)
         {
             // Import the selected content
+        }
+
+        private void cBoxAssignments_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cBoxAssignments.Checked)
+            {
+                pnlGroups.Show();
+            }
+            else
+            {
+                pnlGroups.Hide();
+            }
+        }
+
+        private void tBoxGroupSearch_Click(object sender, EventArgs e)
+        {
+            tBoxGroupSearch.Text = "";
         }
     }
 }
