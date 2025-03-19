@@ -38,16 +38,16 @@
             pbSourceTenant = new PictureBox();
             pBHome = new PictureBox();
             dtgImportContent = new DataGridView();
-            colName = new DataGridViewTextBoxColumn();
-            colType = new DataGridViewTextBoxColumn();
-            colPlatform = new DataGridViewTextBoxColumn();
-            colID = new DataGridViewTextBoxColumn();
             pnlMainContent = new Panel();
             pBarLoading = new ProgressBar();
             btnListAll = new Button();
             btnSearch = new Button();
             tbSearch = new TextBox();
             clbContentTypes = new CheckedListBox();
+            colName = new DataGridViewTextBoxColumn();
+            colType = new DataGridViewTextBoxColumn();
+            colPlatform = new DataGridViewTextBoxColumn();
+            colID = new DataGridViewTextBoxColumn();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbDestinationChecker).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbSourceConnectionCheck).BeginInit();
@@ -169,34 +169,8 @@
             dtgImportContent.Columns.AddRange(new DataGridViewColumn[] { colName, colType, colPlatform, colID });
             dtgImportContent.Location = new Point(3, 102);
             dtgImportContent.Name = "dtgImportContent";
-            dtgImportContent.Size = new Size(587, 356);
+            dtgImportContent.Size = new Size(691, 588);
             dtgImportContent.TabIndex = 1;
-            // 
-            // colName
-            // 
-            colName.HeaderText = "Name";
-            colName.Name = "colName";
-            colName.ReadOnly = true;
-            colName.Width = 150;
-            // 
-            // colType
-            // 
-            colType.HeaderText = "Type";
-            colType.Name = "colType";
-            colType.ReadOnly = true;
-            // 
-            // colPlatform
-            // 
-            colPlatform.HeaderText = "Platform";
-            colPlatform.Name = "colPlatform";
-            colPlatform.ReadOnly = true;
-            // 
-            // colID
-            // 
-            colID.HeaderText = "ID";
-            colID.Name = "colID";
-            colID.ReadOnly = true;
-            colID.Width = 150;
             // 
             // pnlMainContent
             // 
@@ -273,6 +247,32 @@
             clbContentTypes.MouseEnter += clbContentTypes_MouseEnter;
             clbContentTypes.MouseLeave += clbContentTypes_MouseLeave;
             // 
+            // colName
+            // 
+            colName.HeaderText = "Name";
+            colName.Name = "colName";
+            colName.ReadOnly = true;
+            colName.Width = 250;
+            // 
+            // colType
+            // 
+            colType.HeaderText = "Type";
+            colType.Name = "colType";
+            colType.ReadOnly = true;
+            // 
+            // colPlatform
+            // 
+            colPlatform.HeaderText = "Platform";
+            colPlatform.Name = "colPlatform";
+            colPlatform.ReadOnly = true;
+            // 
+            // colID
+            // 
+            colID.HeaderText = "ID";
+            colID.Name = "colID";
+            colID.ReadOnly = true;
+            colID.Width = 200;
+            // 
             // Import
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -309,13 +309,13 @@
         private DataGridView dtgImportContent;
         private Panel pnlMainContent;
         private CheckedListBox clbContentTypes;
-        private DataGridViewTextBoxColumn colName;
-        private DataGridViewTextBoxColumn colType;
-        private DataGridViewTextBoxColumn colPlatform;
-        private DataGridViewTextBoxColumn colID;
         private TextBox tbSearch;
         private Button btnSearch;
         private Button btnListAll;
         private ProgressBar pBarLoading;
+        private DataGridViewTextBoxColumn colName;
+        private DataGridViewTextBoxColumn colType;
+        private DataGridViewTextBoxColumn colPlatform;
+        private DataGridViewTextBoxColumn colID;
     }
 }

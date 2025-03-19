@@ -25,9 +25,11 @@ namespace IntuneAssignments.Backend.Intune_content_classes
 
         public static async Task<List<DeviceManagementConfigurationPolicy>> SearchForSettingsCatalog(GraphServiceClient graphServiceClient, string searchQuery)
         {
+            // This method searches the Intune settings catalog for a specific query and returns the results as a list of DeviceManagementConfigurationPolicy objects
             try
             {
-                // This method searches the Intune settings catalog for a specific query and returns the results as a list of DeviceManagementConfigurationPolicy objects
+                WriteToLog("Searching for settings catalog policies. Search query: " + searchQuery);
+
                 var result = await graphServiceClient.DeviceManagement.ConfigurationPolicies.GetAsync((requestConfiguration) =>
                 {
                     requestConfiguration.QueryParameters.Filter = $"contains(Name,'{searchQuery}')";
@@ -43,6 +45,8 @@ namespace IntuneAssignments.Backend.Intune_content_classes
                 });
                 // start the iteration
                 await pageIterator.IterateAsync();
+
+                WriteToLog($"Found {configurationPolicies.Count} settings catalog policies.");
 
                 // return the list of policies
                 return configurationPolicies;
@@ -73,9 +77,11 @@ namespace IntuneAssignments.Backend.Intune_content_classes
 
         public static async Task<List<DeviceManagementConfigurationPolicy>> GetAllSettingsCatalogPolicies(GraphServiceClient graphServiceClient)
         {
+            // This method retrieves all the configuration policies (Settings catalog) from Intune and returns them as a list of DeviceManagementConfigurationPolicy objects
             try
             {
-                // This method retrieves all the configuration policies (Settings catalog) from Intune and returns them as a list of DeviceManagementConfigurationPolicy objects
+                WriteToLog("Retrieving all settings catalog policies.");
+
                 var result = await graphServiceClient.DeviceManagement.ConfigurationPolicies.GetAsync((requestConfiguration) =>
                 {
                     requestConfiguration.QueryParameters.Top = 1000;
@@ -91,6 +97,8 @@ namespace IntuneAssignments.Backend.Intune_content_classes
                 });
                 // start the iteration
                 await pageIterator.IterateAsync();
+
+                WriteToLog($"Found {configurationPolicies.Count} settings catalog policies.");
 
                 // return the list of policies
                 return configurationPolicies;
@@ -134,6 +142,8 @@ namespace IntuneAssignments.Backend.Intune_content_classes
 
             try
             {
+                WriteToLog("Adding settings catalog policies to the DataGridView.");
+
                 // Iterate through the policies and add them to the DataGridView
                 foreach (var policy in policies)
                 {
