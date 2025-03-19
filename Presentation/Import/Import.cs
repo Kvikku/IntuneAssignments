@@ -22,6 +22,7 @@ namespace IntuneAssignments.Presentation.Import
     {
         private const int ExpandedHeight = 200; // Adjust as needed
         private const int CollapsedHeight = 100; // Adjust as needed
+        private bool assignments = false;
 
         public Import()
         {
@@ -199,10 +200,12 @@ namespace IntuneAssignments.Presentation.Import
             if (cBoxAssignments.Checked)
             {
                 pnlGroups.Show();
+                assignments = true;
             }
             else
             {
                 pnlGroups.Hide();
+                assignments = false;
             }
         }
 
@@ -273,7 +276,7 @@ namespace IntuneAssignments.Presentation.Import
 
             // Import the policies
 
-            await ImportMultipleSettingsCatalog(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary);
+            await ImportMultipleSettingsCatalog(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments);
         }
     }
 }

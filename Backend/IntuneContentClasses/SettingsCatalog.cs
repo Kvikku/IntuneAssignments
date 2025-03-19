@@ -185,7 +185,7 @@ namespace IntuneAssignments.Backend.Intune_content_classes
             return matchingRows;
         }
 
-        public static async Task ImportMultipleSettingsCatalog(GraphServiceClient sourceGraphServiceClient, GraphServiceClient destinationGraphServiceClient, DataGridView dtg, List<string> policies, RichTextBox rtb)
+        public static async Task ImportMultipleSettingsCatalog(GraphServiceClient sourceGraphServiceClient, GraphServiceClient destinationGraphServiceClient, DataGridView dtg, List<string> policies, RichTextBox rtb, bool assignments)
         {
             // This method imports multiple settings catalog policies from the source tenant to the destination tenant
             try
@@ -200,6 +200,10 @@ namespace IntuneAssignments.Backend.Intune_content_classes
                 {
                     try
                     {
+                        // add assignments if the bool variable is true
+
+
+
                         // Get the policy from the source tenant with settings
                         var result = await sourceGraphServiceClient.DeviceManagement.ConfigurationPolicies[policy].GetAsync((requestConfiguration) =>
                         {
