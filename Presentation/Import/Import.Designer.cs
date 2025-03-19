@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panel1 = new Panel();
             pbDestinationChecker = new PictureBox();
             pbSourceConnectionCheck = new PictureBox();
@@ -38,16 +39,18 @@
             pbSourceTenant = new PictureBox();
             pBHome = new PictureBox();
             dtgImportContent = new DataGridView();
+            colName = new DataGridViewTextBoxColumn();
+            colType = new DataGridViewTextBoxColumn();
+            colPlatform = new DataGridViewTextBoxColumn();
+            colID = new DataGridViewTextBoxColumn();
             pnlMainContent = new Panel();
+            cBoxAssignments = new CheckBox();
+            btnImportContet = new Button();
             pBarLoading = new ProgressBar();
             btnListAll = new Button();
             btnSearch = new Button();
             tbSearch = new TextBox();
             clbContentTypes = new CheckedListBox();
-            colName = new DataGridViewTextBoxColumn();
-            colType = new DataGridViewTextBoxColumn();
-            colPlatform = new DataGridViewTextBoxColumn();
-            colID = new DataGridViewTextBoxColumn();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbDestinationChecker).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbSourceConnectionCheck).BeginInit();
@@ -157,6 +160,8 @@
             dtgImportContent.AllowUserToDeleteRows = false;
             dtgImportContent.BackgroundColor = Color.FromArgb(46, 51, 73);
             dtgImportContent.BorderStyle = BorderStyle.None;
+            dtgImportContent.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dtgImportContent.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = Color.Salmon;
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
@@ -167,13 +172,53 @@
             dtgImportContent.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dtgImportContent.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgImportContent.Columns.AddRange(new DataGridViewColumn[] { colName, colType, colPlatform, colID });
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(46, 51, 73);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = Color.Salmon;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dtgImportContent.DefaultCellStyle = dataGridViewCellStyle2;
+            dtgImportContent.EnableHeadersVisualStyles = false;
+            dtgImportContent.GridColor = Color.Salmon;
             dtgImportContent.Location = new Point(3, 102);
             dtgImportContent.Name = "dtgImportContent";
-            dtgImportContent.Size = new Size(691, 588);
+            dtgImportContent.RowHeadersVisible = false;
+            dtgImportContent.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgImportContent.Size = new Size(651, 588);
             dtgImportContent.TabIndex = 1;
+            // 
+            // colName
+            // 
+            colName.HeaderText = "Name";
+            colName.Name = "colName";
+            colName.ReadOnly = true;
+            colName.Width = 250;
+            // 
+            // colType
+            // 
+            colType.HeaderText = "Type";
+            colType.Name = "colType";
+            colType.ReadOnly = true;
+            // 
+            // colPlatform
+            // 
+            colPlatform.HeaderText = "Platform";
+            colPlatform.Name = "colPlatform";
+            colPlatform.ReadOnly = true;
+            // 
+            // colID
+            // 
+            colID.HeaderText = "ID";
+            colID.Name = "colID";
+            colID.ReadOnly = true;
+            colID.Width = 200;
             // 
             // pnlMainContent
             // 
+            pnlMainContent.Controls.Add(cBoxAssignments);
+            pnlMainContent.Controls.Add(btnImportContet);
             pnlMainContent.Controls.Add(pBarLoading);
             pnlMainContent.Controls.Add(btnListAll);
             pnlMainContent.Controls.Add(btnSearch);
@@ -184,6 +229,30 @@
             pnlMainContent.Name = "pnlMainContent";
             pnlMainContent.Size = new Size(1453, 813);
             pnlMainContent.TabIndex = 2;
+            // 
+            // cBoxAssignments
+            // 
+            cBoxAssignments.AutoSize = true;
+            cBoxAssignments.ForeColor = Color.Salmon;
+            cBoxAssignments.Location = new Point(700, 196);
+            cBoxAssignments.Name = "cBoxAssignments";
+            cBoxAssignments.Size = new Size(134, 19);
+            cBoxAssignments.TabIndex = 9;
+            cBoxAssignments.Text = "Include assignments";
+            cBoxAssignments.UseVisualStyleBackColor = true;
+            // 
+            // btnImportContet
+            // 
+            btnImportContet.BackColor = Color.Salmon;
+            btnImportContet.FlatStyle = FlatStyle.Flat;
+            btnImportContet.ForeColor = Color.FromArgb(46, 51, 73);
+            btnImportContet.Location = new Point(700, 162);
+            btnImportContet.Name = "btnImportContet";
+            btnImportContet.Size = new Size(134, 28);
+            btnImportContet.TabIndex = 7;
+            btnImportContet.Text = "Import";
+            btnImportContet.UseVisualStyleBackColor = false;
+            btnImportContet.Click += btnImportContet_Click;
             // 
             // pBarLoading
             // 
@@ -247,32 +316,6 @@
             clbContentTypes.MouseEnter += clbContentTypes_MouseEnter;
             clbContentTypes.MouseLeave += clbContentTypes_MouseLeave;
             // 
-            // colName
-            // 
-            colName.HeaderText = "Name";
-            colName.Name = "colName";
-            colName.ReadOnly = true;
-            colName.Width = 250;
-            // 
-            // colType
-            // 
-            colType.HeaderText = "Type";
-            colType.Name = "colType";
-            colType.ReadOnly = true;
-            // 
-            // colPlatform
-            // 
-            colPlatform.HeaderText = "Platform";
-            colPlatform.Name = "colPlatform";
-            colPlatform.ReadOnly = true;
-            // 
-            // colID
-            // 
-            colID.HeaderText = "ID";
-            colID.Name = "colID";
-            colID.ReadOnly = true;
-            colID.Width = 200;
-            // 
             // Import
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -317,5 +360,7 @@
         private DataGridViewTextBoxColumn colType;
         private DataGridViewTextBoxColumn colPlatform;
         private DataGridViewTextBoxColumn colID;
+        private Button btnImportContet;
+        private CheckBox cBoxAssignments;
     }
 }
