@@ -39,6 +39,7 @@ namespace IntuneAssignments.Presentation.Import
         {
             pBarLoading.Hide();
             pBarGroupLoading.Hide();
+            pBarImportStatus.Hide();
             pnlGroups.Hide();
             CheckConnection();
         }
@@ -155,11 +156,17 @@ namespace IntuneAssignments.Presentation.Import
             pBarLoading.Hide();
         }
 
-        private void btnImportContet_Click(object sender, EventArgs e)
+        private async void btnImportContet_Click(object sender, EventArgs e)
         {
-            var selectedPolicies = GetSettingsCatalogFromDTG(dtgImportContent);// Import the selected content
+            pBarImportStatus.Show();
 
-            MessageBox.Show(selectedPolicies.Count.ToString());
+            
+            await ImportSettingsCatalog();
+
+
+
+
+            pBarImportStatus.Hide();
         }
 
         private void cBoxAssignments_CheckedChanged(object sender, EventArgs e)
@@ -232,5 +239,16 @@ namespace IntuneAssignments.Presentation.Import
             AddSettingsCatalogToDTG(result, dtgImportContent);
         }
 
+        private async Task ImportSettingsCatalog()
+        {
+            // Import the selected settings catalog policies
+
+            // Get the selected policies
+            var policies = GetSettingsCatalogFromDTG(dtgImportContent);
+
+            // Import the policies
+
+            await ImportMultipleSettingsCatalog(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary);
+        }
     }
 }

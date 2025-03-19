@@ -46,6 +46,8 @@
             colPlatform = new DataGridViewTextBoxColumn();
             colID = new DataGridViewTextBoxColumn();
             pnlMainContent = new Panel();
+            pnlStatusOutput = new Panel();
+            rtbDeploymentSummary = new RichTextBox();
             btnClearContentDTG = new Button();
             pnlGroups = new Panel();
             btnClearGroupDTG = new Button();
@@ -65,6 +67,7 @@
             btnSearch = new Button();
             tbSearch = new TextBox();
             clbContentTypes = new CheckedListBox();
+            pBarImportStatus = new ProgressBar();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbDestinationChecker).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbSourceConnectionCheck).BeginInit();
@@ -73,6 +76,7 @@
             ((System.ComponentModel.ISupportInitialize)pBHome).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgImportContent).BeginInit();
             pnlMainContent.SuspendLayout();
+            pnlStatusOutput.SuspendLayout();
             pnlGroups.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgGroups).BeginInit();
             SuspendLayout();
@@ -202,7 +206,7 @@
             dtgImportContent.Name = "dtgImportContent";
             dtgImportContent.RowHeadersVisible = false;
             dtgImportContent.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgImportContent.Size = new Size(651, 588);
+            dtgImportContent.Size = new Size(651, 546);
             dtgImportContent.TabIndex = 1;
             // 
             // colName
@@ -233,6 +237,8 @@
             // 
             // pnlMainContent
             // 
+            pnlMainContent.Controls.Add(pBarImportStatus);
+            pnlMainContent.Controls.Add(pnlStatusOutput);
             pnlMainContent.Controls.Add(btnClearContentDTG);
             pnlMainContent.Controls.Add(pnlGroups);
             pnlMainContent.Controls.Add(cBoxAssignments);
@@ -245,8 +251,27 @@
             pnlMainContent.Controls.Add(dtgImportContent);
             pnlMainContent.Location = new Point(108, 12);
             pnlMainContent.Name = "pnlMainContent";
-            pnlMainContent.Size = new Size(1453, 813);
+            pnlMainContent.Size = new Size(1762, 891);
             pnlMainContent.TabIndex = 2;
+            // 
+            // pnlStatusOutput
+            // 
+            pnlStatusOutput.Controls.Add(rtbDeploymentSummary);
+            pnlStatusOutput.Location = new Point(1407, 42);
+            pnlStatusOutput.Name = "pnlStatusOutput";
+            pnlStatusOutput.Size = new Size(335, 606);
+            pnlStatusOutput.TabIndex = 17;
+            // 
+            // rtbDeploymentSummary
+            // 
+            rtbDeploymentSummary.BackColor = Color.FromArgb(46, 51, 73);
+            rtbDeploymentSummary.BorderStyle = BorderStyle.None;
+            rtbDeploymentSummary.ForeColor = Color.Salmon;
+            rtbDeploymentSummary.Location = new Point(13, 35);
+            rtbDeploymentSummary.Name = "rtbDeploymentSummary";
+            rtbDeploymentSummary.Size = new Size(307, 552);
+            rtbDeploymentSummary.TabIndex = 21;
+            rtbDeploymentSummary.Text = "";
             // 
             // btnClearContentDTG
             // 
@@ -269,7 +294,7 @@
             pnlGroups.Controls.Add(btnGroupListAll);
             pnlGroups.Controls.Add(btnGroupSearch);
             pnlGroups.Controls.Add(tBoxGroupSearch);
-            pnlGroups.Location = new Point(773, 28);
+            pnlGroups.Location = new Point(686, 102);
             pnlGroups.Name = "pnlGroups";
             pnlGroups.Size = new Size(645, 606);
             pnlGroups.TabIndex = 10;
@@ -399,7 +424,7 @@
             // 
             cBoxAssignments.AutoSize = true;
             cBoxAssignments.ForeColor = Color.Salmon;
-            cBoxAssignments.Location = new Point(520, 76);
+            cBoxAssignments.Location = new Point(686, 45);
             cBoxAssignments.Name = "cBoxAssignments";
             cBoxAssignments.Size = new Size(117, 19);
             cBoxAssignments.TabIndex = 9;
@@ -412,7 +437,7 @@
             btnImportContet.BackColor = Color.Salmon;
             btnImportContet.FlatStyle = FlatStyle.Flat;
             btnImportContet.ForeColor = Color.FromArgb(46, 51, 73);
-            btnImportContet.Location = new Point(520, 42);
+            btnImportContet.Location = new Point(686, 11);
             btnImportContet.Name = "btnImportContet";
             btnImportContet.Size = new Size(134, 28);
             btnImportContet.TabIndex = 7;
@@ -482,6 +507,14 @@
             clbContentTypes.MouseEnter += clbContentTypes_MouseEnter;
             clbContentTypes.MouseLeave += clbContentTypes_MouseLeave;
             // 
+            // pBarImportStatus
+            // 
+            pBarImportStatus.Location = new Point(686, 70);
+            pBarImportStatus.Name = "pBarImportStatus";
+            pBarImportStatus.Size = new Size(300, 23);
+            pBarImportStatus.Style = ProgressBarStyle.Marquee;
+            pBarImportStatus.TabIndex = 16;
+            // 
             // Import
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -502,6 +535,7 @@
             ((System.ComponentModel.ISupportInitialize)dtgImportContent).EndInit();
             pnlMainContent.ResumeLayout(false);
             pnlMainContent.PerformLayout();
+            pnlStatusOutput.ResumeLayout(false);
             pnlGroups.ResumeLayout(false);
             pnlGroups.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dtgGroups).EndInit();
@@ -543,5 +577,8 @@
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private Button btnClearGroupDTG;
         private Button btnClearContentDTG;
+        private Panel pnlStatusOutput;
+        private RichTextBox rtbDeploymentSummary;
+        private ProgressBar pBarImportStatus;
     }
 }

@@ -185,17 +185,60 @@ namespace IntuneAssignments.Backend.Intune_content_classes
             return matchingRows;
         }
 
-        public static async Task ImportSingleSettingsCatalog(GraphServiceClient sourceGraphServiceClient, GraphServiceClient destinationGraphServiceClient, string[] policyIDs)
+        public static async Task ImportMultipleSettingsCatalog(GraphServiceClient sourceGraphServiceClient, GraphServiceClient destinationGraphServiceClient,DataGridView dtg, List<string> policies, RichTextBox rtb)
         {
             // This method imports a single settings catalog policy from the source tenant to the destination tenant
             try
             {
+                // TODO - Error handling and data validation
+
+                rtb.AppendText($"Importing {policies.Count} settings catalog policies.\n");
+
+                // Begin importing the policies
+
+                foreach (var policy in policies)
+                {
+                    // Get the policy from the source tenant with settings
+                    var result = await sourceGraphServiceClient.DeviceManagement.ConfigurationPolicies[policy].GetAsync((requestConfiguration) =>
+                    {
+                        requestConfiguration.QueryParameters.Expand = new[] { "settings" }; // Expand the settings of each policy. Note - this might take some time to load
+                    });
+
+                    // Create a new policy object
+
+                    var newPolicy = new DeviceManagementConfigurationPolicy
+                    {
+                        Name = result.Name,
+                        Description = result.Description,
+                        Platforms = result.Platforms,
+                        Technologies = result.Technologies,
+                        RoleScopeTagIds = result.RoleScopeTagIds,
+                        Settings = result.Settings,
+                    };
+
+                    // Import the policy to the destination tenant
+                    var import = await destinationGraphServiceClient.DeviceManagement.ConfigurationPolicies.PostAsync(newPolicy);
+                    rtb.AppendText($"Imported policy: {import.Name}\n");
+                }
 
             }
-            catch (Exception)
+            catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
             {
-
-                throw;
+                // Log the error message
+                WriteToLog($"ODataError: {me.Message}");
+                MessageBox.Show(me.Message);
+            }
+            catch (ServiceException ex)
+            {
+                // Log the error message
+                WriteToLog($"ServiceException: {ex.Message}");
+                MessageBox.Show(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                // Log the error message
+                WriteToLog($"Exception: {ex.Message}");
+                MessageBox.Show(ex.Message);
             }
 
         }
