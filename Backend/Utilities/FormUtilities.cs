@@ -89,6 +89,26 @@ namespace IntuneAssignments.Backend.Utilities
             sw.Close();
         }
 
+        public static void WriteToImportStatusFile(string data)
+        {
+            try
+            {
+                // Use the using statement to ensure proper disposal of StreamWriter
+                using (StreamWriter sw = new StreamWriter(importStatusFile, true))
+                {
+                    // Write the data to the import status file
+                    sw.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - {data}");
+                }
+                // StreamWriter is automatically closed and disposed of when leaving the using block
+            }
+            catch (IOException ex)
+            {
+                // Handle the exception
+                MessageBox.Show($"An error occurred while writing to the import status file: {ex.Message}");
+            }
+        }
+
+
         public static void WriteToLog(string data)
         {
 
@@ -1463,7 +1483,6 @@ namespace IntuneAssignments.Backend.Utilities
 
             
         }
-
 
     }
 }

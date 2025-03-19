@@ -25,9 +25,14 @@ namespace IntuneAssignments.Backend.Utilities
         public static string DestinationTenantSettingsFileName = "DestinationTenantSettings.json";
         public static string sourceTenantSettingsFile = Path.Combine(appDataPath, appFolderName, SourceTenantSettingsFileName);
         public static string destinationTenantSettingsFile = Path.Combine(appDataPath, appFolderName, DestinationTenantSettingsFileName);
+        public static string ImportStatusFileName = $"{DateTime.Now:yyyy-MM-dd-HH-mm}-ImportStatus.log";
+        public static string importStatusFile = Path.Combine(appDataPath, appFolderName, ImportStatusFileName);
 
         public static bool isSourceTenantConnected = false;
         public static bool isDestinationTenantConnected = false;
+
+        public static string sourceTenantName { get; set; }
+        public static string destinationTenantName { get; set; }
 
         //public static string? sourceClientID { get; set; }
         //public static string? sourceTenantID { get; set; }

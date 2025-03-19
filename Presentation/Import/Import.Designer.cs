@@ -46,6 +46,7 @@
             colPlatform = new DataGridViewTextBoxColumn();
             colID = new DataGridViewTextBoxColumn();
             pnlMainContent = new Panel();
+            pBarImportStatus = new ProgressBar();
             pnlStatusOutput = new Panel();
             rtbDeploymentSummary = new RichTextBox();
             btnClearContentDTG = new Button();
@@ -67,7 +68,9 @@
             btnSearch = new Button();
             tbSearch = new TextBox();
             clbContentTypes = new CheckedListBox();
-            pBarImportStatus = new ProgressBar();
+            lblHeader = new Label();
+            lblGroups = new Label();
+            lblStatus = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbDestinationChecker).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbSourceConnectionCheck).BeginInit();
@@ -202,11 +205,11 @@
             dtgImportContent.DefaultCellStyle = dataGridViewCellStyle2;
             dtgImportContent.EnableHeadersVisualStyles = false;
             dtgImportContent.GridColor = Color.Salmon;
-            dtgImportContent.Location = new Point(3, 102);
+            dtgImportContent.Location = new Point(3, 133);
             dtgImportContent.Name = "dtgImportContent";
             dtgImportContent.RowHeadersVisible = false;
             dtgImportContent.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgImportContent.Size = new Size(651, 546);
+            dtgImportContent.Size = new Size(651, 755);
             dtgImportContent.TabIndex = 1;
             // 
             // colName
@@ -237,6 +240,7 @@
             // 
             // pnlMainContent
             // 
+            pnlMainContent.Controls.Add(lblHeader);
             pnlMainContent.Controls.Add(pBarImportStatus);
             pnlMainContent.Controls.Add(pnlStatusOutput);
             pnlMainContent.Controls.Add(btnClearContentDTG);
@@ -254,12 +258,21 @@
             pnlMainContent.Size = new Size(1762, 891);
             pnlMainContent.TabIndex = 2;
             // 
+            // pBarImportStatus
+            // 
+            pBarImportStatus.Location = new Point(686, 70);
+            pBarImportStatus.Name = "pBarImportStatus";
+            pBarImportStatus.Size = new Size(300, 23);
+            pBarImportStatus.Style = ProgressBarStyle.Marquee;
+            pBarImportStatus.TabIndex = 16;
+            // 
             // pnlStatusOutput
             // 
+            pnlStatusOutput.Controls.Add(lblStatus);
             pnlStatusOutput.Controls.Add(rtbDeploymentSummary);
-            pnlStatusOutput.Location = new Point(1407, 42);
+            pnlStatusOutput.Location = new Point(1337, 133);
             pnlStatusOutput.Name = "pnlStatusOutput";
-            pnlStatusOutput.Size = new Size(335, 606);
+            pnlStatusOutput.Size = new Size(422, 606);
             pnlStatusOutput.TabIndex = 17;
             // 
             // rtbDeploymentSummary
@@ -269,7 +282,7 @@
             rtbDeploymentSummary.ForeColor = Color.Salmon;
             rtbDeploymentSummary.Location = new Point(13, 35);
             rtbDeploymentSummary.Name = "rtbDeploymentSummary";
-            rtbDeploymentSummary.Size = new Size(307, 552);
+            rtbDeploymentSummary.Size = new Size(406, 552);
             rtbDeploymentSummary.TabIndex = 21;
             rtbDeploymentSummary.Text = "";
             // 
@@ -278,7 +291,7 @@
             btnClearContentDTG.BackColor = Color.Salmon;
             btnClearContentDTG.FlatStyle = FlatStyle.Flat;
             btnClearContentDTG.ForeColor = Color.FromArgb(46, 51, 73);
-            btnClearContentDTG.Location = new Point(217, 42);
+            btnClearContentDTG.Location = new Point(207, 71);
             btnClearContentDTG.Name = "btnClearContentDTG";
             btnClearContentDTG.Size = new Size(96, 28);
             btnClearContentDTG.TabIndex = 16;
@@ -288,13 +301,14 @@
             // 
             // pnlGroups
             // 
+            pnlGroups.Controls.Add(lblGroups);
             pnlGroups.Controls.Add(btnClearGroupDTG);
             pnlGroups.Controls.Add(pBarGroupLoading);
             pnlGroups.Controls.Add(dtgGroups);
             pnlGroups.Controls.Add(btnGroupListAll);
             pnlGroups.Controls.Add(btnGroupSearch);
             pnlGroups.Controls.Add(tBoxGroupSearch);
-            pnlGroups.Location = new Point(686, 102);
+            pnlGroups.Location = new Point(686, 133);
             pnlGroups.Name = "pnlGroups";
             pnlGroups.Size = new Size(645, 606);
             pnlGroups.TabIndex = 10;
@@ -447,7 +461,7 @@
             // 
             // pBarLoading
             // 
-            pBarLoading.Location = new Point(13, 73);
+            pBarLoading.Location = new Point(3, 102);
             pBarLoading.Name = "pBarLoading";
             pBarLoading.Size = new Size(198, 23);
             pBarLoading.Style = ProgressBarStyle.Marquee;
@@ -458,7 +472,7 @@
             btnListAll.BackColor = Color.Salmon;
             btnListAll.FlatStyle = FlatStyle.Flat;
             btnListAll.ForeColor = Color.FromArgb(46, 51, 73);
-            btnListAll.Location = new Point(115, 42);
+            btnListAll.Location = new Point(105, 71);
             btnListAll.Name = "btnListAll";
             btnListAll.Size = new Size(96, 28);
             btnListAll.TabIndex = 5;
@@ -471,7 +485,7 @@
             btnSearch.BackColor = Color.Salmon;
             btnSearch.FlatStyle = FlatStyle.Flat;
             btnSearch.ForeColor = Color.FromArgb(46, 51, 73);
-            btnSearch.Location = new Point(13, 42);
+            btnSearch.Location = new Point(3, 71);
             btnSearch.Name = "btnSearch";
             btnSearch.Size = new Size(96, 28);
             btnSearch.TabIndex = 4;
@@ -485,7 +499,7 @@
             tbSearch.BorderStyle = BorderStyle.None;
             tbSearch.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tbSearch.ForeColor = Color.Salmon;
-            tbSearch.Location = new Point(13, 14);
+            tbSearch.Location = new Point(3, 43);
             tbSearch.Name = "tbSearch";
             tbSearch.Size = new Size(150, 22);
             tbSearch.TabIndex = 3;
@@ -499,21 +513,46 @@
             clbContentTypes.ForeColor = Color.Salmon;
             clbContentTypes.FormattingEnabled = true;
             clbContentTypes.Items.AddRange(new object[] { "Settings Catalog", "Device Compliance", "Device configuration", "ADMX Template", "Application", "Powershell script", "Remediation script", "macOS script" });
-            clbContentTypes.Location = new Point(223, 3);
+            clbContentTypes.Location = new Point(439, 28);
             clbContentTypes.Name = "clbContentTypes";
             clbContentTypes.ScrollAlwaysVisible = true;
-            clbContentTypes.Size = new Size(215, 36);
+            clbContentTypes.Size = new Size(215, 90);
             clbContentTypes.TabIndex = 2;
             clbContentTypes.MouseEnter += clbContentTypes_MouseEnter;
             clbContentTypes.MouseLeave += clbContentTypes_MouseLeave;
             // 
-            // pBarImportStatus
+            // lblHeader
             // 
-            pBarImportStatus.Location = new Point(686, 70);
-            pBarImportStatus.Name = "pBarImportStatus";
-            pBarImportStatus.Size = new Size(300, 23);
-            pBarImportStatus.Style = ProgressBarStyle.Marquee;
-            pBarImportStatus.TabIndex = 16;
+            lblHeader.AutoSize = true;
+            lblHeader.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblHeader.ForeColor = Color.Salmon;
+            lblHeader.Location = new Point(3, 6);
+            lblHeader.Name = "lblHeader";
+            lblHeader.Size = new Size(152, 30);
+            lblHeader.TabIndex = 18;
+            lblHeader.Text = "Import content";
+            // 
+            // lblGroups
+            // 
+            lblGroups.AutoSize = true;
+            lblGroups.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblGroups.ForeColor = Color.Salmon;
+            lblGroups.Location = new Point(26, 4);
+            lblGroups.Name = "lblGroups";
+            lblGroups.Size = new Size(223, 30);
+            lblGroups.TabIndex = 19;
+            lblGroups.Text = "Groups for assignment";
+            // 
+            // lblStatus
+            // 
+            lblStatus.AutoSize = true;
+            lblStatus.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblStatus.ForeColor = Color.Salmon;
+            lblStatus.Location = new Point(3, 3);
+            lblStatus.Name = "lblStatus";
+            lblStatus.Size = new Size(217, 30);
+            lblStatus.TabIndex = 20;
+            lblStatus.Text = "Deployment summary";
             // 
             // Import
             // 
@@ -536,6 +575,7 @@
             pnlMainContent.ResumeLayout(false);
             pnlMainContent.PerformLayout();
             pnlStatusOutput.ResumeLayout(false);
+            pnlStatusOutput.PerformLayout();
             pnlGroups.ResumeLayout(false);
             pnlGroups.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dtgGroups).EndInit();
@@ -580,5 +620,8 @@
         private Panel pnlStatusOutput;
         private RichTextBox rtbDeploymentSummary;
         private ProgressBar pBarImportStatus;
+        private Label lblHeader;
+        private Label lblStatus;
+        private Label lblGroups;
     }
 }

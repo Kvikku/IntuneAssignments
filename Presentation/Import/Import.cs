@@ -158,15 +158,40 @@ namespace IntuneAssignments.Presentation.Import
 
         private async void btnImportContet_Click(object sender, EventArgs e)
         {
+            // Show the progress bar
             pBarImportStatus.Show();
 
-            
+            // Create a new file to store the import status
+            CreateImportStatusFile();
+
+            // Import the settings catalog
             await ImportSettingsCatalog();
 
 
 
-
+            // Hide the progress bar
             pBarImportStatus.Hide();
+        }
+
+        private void CreateImportStatusFile()
+        {
+            // Create a new file to store the import status
+            if (!System.IO.File.Exists(importStatusFile))
+            {
+                using (System.IO.StreamWriter sw = System.IO.File.CreateText(importStatusFile))
+                {
+                    sw.WriteLine("Import Status File");
+                    sw.WriteLine("==================");
+                    sw.WriteLine($"Timestamp: {DateTime.Now}");
+                    sw.WriteLine("Status: Started");
+                    sw.WriteLine($"User: {Environment.UserName}");
+                    sw.WriteLine($"Source Tenant ID: {sourceTenantID}");
+                    sw.WriteLine($"Source Client ID: {sourceClientID}");
+                    sw.WriteLine($"Destination Tenant ID: {destinationTenantID}");
+                    sw.WriteLine($"Destination Client ID: {destinationClientID}");
+                    sw.WriteLine("Import process initiated.");
+                }
+            }
         }
 
         private void cBoxAssignments_CheckedChanged(object sender, EventArgs e)
