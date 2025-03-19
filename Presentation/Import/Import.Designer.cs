@@ -46,6 +46,7 @@
             colPlatform = new DataGridViewTextBoxColumn();
             colID = new DataGridViewTextBoxColumn();
             pnlMainContent = new Panel();
+            btnClearContentDTG = new Button();
             pnlGroups = new Panel();
             btnClearGroupDTG = new Button();
             pBarGroupLoading = new ProgressBar();
@@ -232,6 +233,7 @@
             // 
             // pnlMainContent
             // 
+            pnlMainContent.Controls.Add(btnClearContentDTG);
             pnlMainContent.Controls.Add(pnlGroups);
             pnlMainContent.Controls.Add(cBoxAssignments);
             pnlMainContent.Controls.Add(btnImportContet);
@@ -245,6 +247,19 @@
             pnlMainContent.Name = "pnlMainContent";
             pnlMainContent.Size = new Size(1453, 813);
             pnlMainContent.TabIndex = 2;
+            // 
+            // btnClearContentDTG
+            // 
+            btnClearContentDTG.BackColor = Color.Salmon;
+            btnClearContentDTG.FlatStyle = FlatStyle.Flat;
+            btnClearContentDTG.ForeColor = Color.FromArgb(46, 51, 73);
+            btnClearContentDTG.Location = new Point(217, 42);
+            btnClearContentDTG.Name = "btnClearContentDTG";
+            btnClearContentDTG.Size = new Size(96, 28);
+            btnClearContentDTG.TabIndex = 16;
+            btnClearContentDTG.Text = "Clear";
+            btnClearContentDTG.UseVisualStyleBackColor = false;
+            btnClearContentDTG.Click += btnClearContentDTG_Click;
             // 
             // pnlGroups
             // 
@@ -365,7 +380,7 @@
             btnGroupSearch.TabIndex = 12;
             btnGroupSearch.Text = "Search";
             btnGroupSearch.UseVisualStyleBackColor = false;
-            btnGroupSearch.Click += this.btnGroupSearch_Click;
+            btnGroupSearch.Click += btnGroupSearch_Click;
             // 
             // tBoxGroupSearch
             // 
@@ -418,7 +433,7 @@
             btnListAll.BackColor = Color.Salmon;
             btnListAll.FlatStyle = FlatStyle.Flat;
             btnListAll.ForeColor = Color.FromArgb(46, 51, 73);
-            btnListAll.Location = new Point(115, 43);
+            btnListAll.Location = new Point(115, 42);
             btnListAll.Name = "btnListAll";
             btnListAll.Size = new Size(96, 28);
             btnListAll.TabIndex = 5;
@@ -527,5 +542,6 @@
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private Button btnClearGroupDTG;
+        private Button btnClearContentDTG;
     }
 }

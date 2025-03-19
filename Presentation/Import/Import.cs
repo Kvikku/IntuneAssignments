@@ -134,7 +134,7 @@ namespace IntuneAssignments.Presentation.Import
             // Show the progress bar
             pBarLoading.Show();
 
-
+            await AddAllSettingsCatalog();
 
 
             // Hide the progress bar
@@ -153,21 +153,6 @@ namespace IntuneAssignments.Presentation.Import
 
             // Hide the progress bar
             pBarLoading.Hide();
-        }
-
-        // Methods for the import process //
-
-        // Settings catalog
-
-        private async Task SearchAndAddSettingsCatalog()
-        {
-            // Search for settings catalog policies
-
-            var result = await SearchForSettingsCatalog(sourceGraphServiceClient, tbSearch.Text.ToString());
-
-
-            AddSettingsCatalogToDTG(result, dtgImportContent);
-
         }
 
         private void btnImportContet_Click(object sender, EventArgs e)
@@ -217,5 +202,33 @@ namespace IntuneAssignments.Presentation.Import
             // Clear the groups datagridview
             ClearDataGridView(dtgGroups);
         }
+
+        private void btnClearContentDTG_Click(object sender, EventArgs e)
+        {
+            // Clear the content datagridview
+            ClearDataGridView(dtgImportContent);
+        }
+
+
+
+        // Methods for the import process //
+
+        // Settings catalog
+
+        private async Task SearchAndAddSettingsCatalog()
+        {
+            // Search for settings catalog policies
+            var result = await SearchForSettingsCatalog(sourceGraphServiceClient, tbSearch.Text.ToString());
+            AddSettingsCatalogToDTG(result, dtgImportContent);
+
+        }
+
+        private async Task AddAllSettingsCatalog()
+        {
+            // Add all settings catalog policies
+            var result = await GetAllSettingsCatalogPolicies(sourceGraphServiceClient);
+            AddSettingsCatalogToDTG(result, dtgImportContent);
+        }
+
     }
 }
