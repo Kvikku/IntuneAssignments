@@ -157,7 +157,9 @@ namespace IntuneAssignments.Presentation.Import
 
         private void btnImportContet_Click(object sender, EventArgs e)
         {
-            // Import the selected content
+            var selectedPolicies = GetSettingsCatalogFromDTG(dtgImportContent);// Import the selected content
+
+            MessageBox.Show(selectedPolicies.Count.ToString());
         }
 
         private void cBoxAssignments_CheckedChanged(object sender, EventArgs e)

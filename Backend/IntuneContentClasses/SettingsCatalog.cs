@@ -33,7 +33,7 @@ namespace IntuneAssignments.Backend.Intune_content_classes
                 var result = await graphServiceClient.DeviceManagement.ConfigurationPolicies.GetAsync((requestConfiguration) =>
                 {
                     requestConfiguration.QueryParameters.Filter = $"contains(Name,'{searchQuery}')";
-                    requestConfiguration.QueryParameters.Expand = new[] { "settings" }; // Expand the settings of each policy. Note - this might take some time to load
+                    //requestConfiguration.QueryParameters.Expand = new[] { "settings" }; // Expand the settings of each policy. Note - this might take some time to load
                 });
 
                 List<DeviceManagementConfigurationPolicy> configurationPolicies = new List<DeviceManagementConfigurationPolicy>();
@@ -85,7 +85,7 @@ namespace IntuneAssignments.Backend.Intune_content_classes
                 var result = await graphServiceClient.DeviceManagement.ConfigurationPolicies.GetAsync((requestConfiguration) =>
                 {
                     requestConfiguration.QueryParameters.Top = 1000;
-                    requestConfiguration.QueryParameters.Expand = new[] { "settings" }; // Expand the settings of each policy. Note - this might take some time to load
+                    //requestConfiguration.QueryParameters.Expand = new[] { "settings" }; // Expand the settings of each policy. Note - this might take some time to load
                 });
 
                 List<DeviceManagementConfigurationPolicy> configurationPolicies = new List<DeviceManagementConfigurationPolicy>();
@@ -153,7 +153,7 @@ namespace IntuneAssignments.Backend.Intune_content_classes
                         throw new InvalidOperationException("Policy properties cannot be null.");
                     }
 
-                    dtg.Rows.Add(policy.Name,"Settings Catalog",policy.Platforms,policy.Id );
+                    dtg.Rows.Add(policy.Name, "Settings Catalog", policy.Platforms, policy.Id);
                 }
             }
             catch (Exception ex)
@@ -164,6 +164,42 @@ namespace IntuneAssignments.Backend.Intune_content_classes
             }
         }
 
+        public static List<string> GetSettingsCatalogFromDTG(DataGridView dtg)
+        {
+            string type = "Settings Catalog";
+            List<string> matchingRows = new List<string>();
 
+            foreach (DataGridViewRow row in dtg.Rows)
+            {
+                if (row.Cells[1].Value != null && row.Cells[1].Value.ToString() == type && row.Cells[3].Value != null)
+                {
+                    // Get the policy ID
+                    var cellValue = row.Cells[3].Value?.ToString();
+                    if (cellValue != null)
+                    {
+                        matchingRows.Add(cellValue);
+                    }
+                }
+            }
+
+            return matchingRows;
+        }
+
+        public static async Task ImportSingleSettingsCatalog(GraphServiceClient sourceGraphServiceClient, GraphServiceClient destinationGraphServiceClient, string[] policyIDs)
+        {
+            // This method imports a single settings catalog policy from the source tenant to the destination tenant
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+   
     }
-}
+}   
+
