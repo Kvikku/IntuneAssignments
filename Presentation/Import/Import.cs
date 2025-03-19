@@ -35,7 +35,7 @@ namespace IntuneAssignments.Presentation.Import
 
         private void Import_Load(object sender, EventArgs e)
         {
-
+            pBarLoading.Hide();
             CheckConnection();
         }
 
@@ -127,12 +127,45 @@ namespace IntuneAssignments.Presentation.Import
 
         private async void btnListAll_Click(object sender, EventArgs e)
         {
-            var client = await GetSourceGraphClient();
+            // Show the progress bar
+            pBarLoading.Show();
 
 
-            var result = await GetAllSettingsCatalogPolicies(client);
 
-            MessageBox.Show("Found " + result.Count + " policies");
+
+            // Hide the progress bar
+            pBarLoading.Hide();
         }
+
+        private async void btnSearch_Click(object sender, EventArgs e)
+        {
+            // Show the progress bar
+            pBarLoading.Show();
+
+
+            await SearchAndAddSettingsCatalog();
+
+
+
+            // Hide the progress bar
+            pBarLoading.Hide();
+        }
+
+        // Methods for the import process //
+
+        // Settings catalog
+
+        private async Task SearchAndAddSettingsCatalog()
+        {
+            // Search for settings catalog policies
+
+            var result = await SearchForSettingsCatalog(sourceGraphServiceClient, tbSearch.Text.ToString());
+
+
+            AddSettingsCatalogToDTG(result, dtgImportContent);
+
+        }
+
+
     }
 }

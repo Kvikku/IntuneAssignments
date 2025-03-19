@@ -43,6 +43,7 @@
             colPlatform = new DataGridViewTextBoxColumn();
             colID = new DataGridViewTextBoxColumn();
             pnlMainContent = new Panel();
+            pBarLoading = new ProgressBar();
             btnListAll = new Button();
             btnSearch = new Button();
             tbSearch = new TextBox();
@@ -199,6 +200,7 @@
             // 
             // pnlMainContent
             // 
+            pnlMainContent.Controls.Add(pBarLoading);
             pnlMainContent.Controls.Add(btnListAll);
             pnlMainContent.Controls.Add(btnSearch);
             pnlMainContent.Controls.Add(tbSearch);
@@ -208,6 +210,14 @@
             pnlMainContent.Name = "pnlMainContent";
             pnlMainContent.Size = new Size(1453, 813);
             pnlMainContent.TabIndex = 2;
+            // 
+            // pBarLoading
+            // 
+            pBarLoading.Location = new Point(13, 73);
+            pBarLoading.Name = "pBarLoading";
+            pBarLoading.Size = new Size(198, 23);
+            pBarLoading.Style = ProgressBarStyle.Marquee;
+            pBarLoading.TabIndex = 6;
             // 
             // btnListAll
             // 
@@ -233,6 +243,7 @@
             btnSearch.TabIndex = 4;
             btnSearch.Text = "Search";
             btnSearch.UseVisualStyleBackColor = false;
+            btnSearch.Click += btnSearch_Click;
             // 
             // tbSearch
             // 
@@ -305,5 +316,6 @@
         private TextBox tbSearch;
         private Button btnSearch;
         private Button btnListAll;
+        private ProgressBar pBarLoading;
     }
 }
