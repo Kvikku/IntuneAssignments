@@ -15,6 +15,7 @@ using static IntuneAssignments.Backend.DestinationTenantGraphClient;
 using static IntuneAssignments.Backend.Intune_content_classes.SettingsCatalog;
 using static IntuneAssignments.Backend.IntuneContentClasses.Groups;
 using Microsoft.Graph.Beta.NetworkAccess.Reports.MicrosoftGraphNetworkaccessGetDiscoveredApplicationSegmentReportWithStartDateTimeWithEndDateTimeuserIdUserId;
+using Microsoft.Graph.Beta.Security.ThreatIntelligence.WhoisRecords.Item;
 
 namespace IntuneAssignments.Presentation.Import
 {
@@ -170,18 +171,16 @@ namespace IntuneAssignments.Presentation.Import
             if (cBoxAssignments.Checked)
             {
                 assignments = true;
-
-                // Get the selected groups
+                WriteToImportStatusFile("Assignments: True");
             }
             else
             {
                 assignments = false;
             }
 
-            // Import the settings catalog
-            await ImportSettingsCatalog();
 
-
+            // Settings catalog section
+            await SettingsCatalogOrchestrator();
 
             // Hide the progress bar
             pBarImportStatus.Hide();
@@ -259,11 +258,43 @@ namespace IntuneAssignments.Presentation.Import
             ClearDataGridView(dtgImportContent);
         }
 
+        private List<string> GetAllGroupIDsFromDTG(DataGridView dtg)
+        {
+            // Get all the group IDs from the datagridview
+            List<string> groupIDs = new List<string>();
+            foreach (DataGridViewRow row in dtg.Rows)
+            {
+                groupIDs.Add(row.Cells[3].Value.ToString());
+            }
+            // Return the group IDs
+            return groupIDs;
+        }
+
 
 
         // Methods for the import process //
 
         // Settings catalog
+
+        private async Task SettingsCatalogOrchestrator()
+        {
+            // Orchestrates the settings catalog import process
+
+            // Clear the dictionary
+            settingsCatalogNameAndID.Clear();
+
+            // Populate the settings catalog dictionary
+            foreach (DataGridViewRow row in dtgImportContent.Rows)
+            {
+                if (row.Cells[1].Value == "Settings Catalog")
+                {
+                    AddItemsToDictionary(settingsCatalogNameAndID, row.Cells[0].Value.ToString(), row.Cells[3].Value.ToString());
+                }
+            }
+
+            // Import the settings catalog
+            await ImportSettingsCatalog();
+        }
 
         private async Task SearchAndAddSettingsCatalog()
         {
@@ -287,9 +318,12 @@ namespace IntuneAssignments.Presentation.Import
             // Get the selected policies
             var policies = GetSettingsCatalogFromDTG(dtgImportContent);
 
+            // Get the selected groups
+            var groupIDs = GetAllGroupIDsFromDTG(dtgGroups);
+
             // Import the policies
 
-            await ImportMultipleSettingsCatalog(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments);
+            await ImportMultipleSettingsCatalog(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, groupIDs);
         }
 
         private void btnClearSelectedFromGroupDTG_Click(object sender, EventArgs e)

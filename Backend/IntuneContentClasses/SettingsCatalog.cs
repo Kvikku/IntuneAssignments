@@ -7,6 +7,7 @@ using Microsoft.Graph;
 using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
 using static IntuneAssignments.Backend.Utilities.FormUtilities;
+using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 
 namespace IntuneAssignments.Backend.Intune_content_classes
 {
@@ -185,7 +186,7 @@ namespace IntuneAssignments.Backend.Intune_content_classes
             return matchingRows;
         }
 
-        public static async Task ImportMultipleSettingsCatalog(GraphServiceClient sourceGraphServiceClient, GraphServiceClient destinationGraphServiceClient, DataGridView dtg, List<string> policies, RichTextBox rtb, bool assignments)
+        public static async Task ImportMultipleSettingsCatalog(GraphServiceClient sourceGraphServiceClient, GraphServiceClient destinationGraphServiceClient, DataGridView dtg, List<string> policies, RichTextBox rtb, bool assignments, List<string> groups)
         {
             // This method imports multiple settings catalog policies from the source tenant to the destination tenant
             try
@@ -200,10 +201,6 @@ namespace IntuneAssignments.Backend.Intune_content_classes
                 {
                     try
                     {
-                        // add assignments if the bool variable is true
-
-
-
                         // Get the policy from the source tenant with settings
                         var result = await sourceGraphServiceClient.DeviceManagement.ConfigurationPolicies[policy].GetAsync((requestConfiguration) =>
                         {
@@ -219,12 +216,62 @@ namespace IntuneAssignments.Backend.Intune_content_classes
                             Technologies = result.Technologies,
                             RoleScopeTagIds = result.RoleScopeTagIds,
                             Settings = result.Settings,
+                            Assignments = new List<DeviceManagementConfigurationPolicyAssignment>() // Initialize the Assignments property
                         };
+
+                        // add assignments if the bool variable is true
+
+                        //if (assignments)
+                        //{
+                        //    // add an assignment object to the policy
+
+                        //    foreach (var group in groups)
+                        //    {
+                        //        // Create a group assignment target object
+                        //        var groupAssignmentTarget = new GroupAssignmentTarget
+                        //        {
+                        //            GroupId = group
+                        //        };
+
+                        //        // Create a configuration policy assignment object
+                        //        var deviceConfigurationAssignmentTarget = new DeviceConfigurationAssignment
+                        //        {
+                        //            Target = groupAssignmentTarget
+                        //        };
+
+                        //        // Create a new device management configuration policy assignment object
+                        //        var assignmentBody = new DeviceManagementConfigurationPolicyAssignment
+                        //        {
+                        //            OdataType = "#microsoft.graph.deviceManagementConfigurationPolicyAssignment",
+                        //            Id = group,
+                        //            Target = new GroupAssignmentTarget
+                        //            {
+                        //                OdataType = "#microsoft.graph.groupAssignmentTarget",
+                        //                DeviceAndAppManagementAssignmentFilterId = null,
+                        //                DeviceAndAppManagementAssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.Include,
+                        //                GroupId = group,
+                        //            },
+                        //            Source = DeviceAndAppManagementAssignmentSource.Direct,
+                        //            SourceId = group,
+
+                        //        };
+                        //        // add each assignment to the list of assignments
+                        //        newPolicy.Assignments.Add(assignmentBody);
+                        //    }
+                        //}
+
 
                         // Import the policy to the destination tenant
                         var import = await destinationGraphServiceClient.DeviceManagement.ConfigurationPolicies.PostAsync(newPolicy);
                         rtb.AppendText($"Imported policy: {import.Name}\n");
                         WriteToImportStatusFile($"Imported policy: {import.Name}");
+
+                        if (assignments)
+                        {
+                            await AssignGroupsToSingleSettingsCatalog(import.Id, groups, destinationGraphServiceClient);
+                        }
+                        
+
                     }
                     catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
                     {
@@ -257,7 +304,93 @@ namespace IntuneAssignments.Backend.Intune_content_classes
                 WriteToImportStatusFile($"Error during import process. Error message: {ex.Message}");
             }
         }
-   
+
+        public static async Task AssignGroupsToSingleSettingsCatalog(string policyID, List<string> groupID ,GraphServiceClient destinationGraphServiceClient)
+
+        {
+            // This method will assign an array of groups to a single settings catalog policy
+
+            // Check for null values
+
+            if (policyID == null)
+            {
+                throw new ArgumentNullException(nameof(policyID));
+            }
+
+            if (groupID == null)
+            {
+                throw new ArgumentNullException(nameof(groupID));
+            }
+
+            if (destinationGraphServiceClient == null)
+            {
+                throw new ArgumentNullException(nameof(destinationGraphServiceClient));
+            }
+
+
+            // Create an empty list to store the assignments
+            List<DeviceManagementConfigurationPolicyAssignment> assignments = new List<DeviceManagementConfigurationPolicyAssignment>();
+
+            // Loop through the groupID array and create a group assignment target object for each group
+
+            foreach (var group in groupID)
+            {
+                // Create a group assignment target object
+                var groupAssignmentTarget = new GroupAssignmentTarget
+                {
+                    GroupId = group
+                };
+
+                // Create a configuration policy assignment object
+                var deviceConfigurationAssignmentTarget = new DeviceConfigurationAssignment
+                {
+                    Target = groupAssignmentTarget
+                };
+
+                // Create a new device management configuration policy assignment object
+                var assignment = new DeviceManagementConfigurationPolicyAssignment
+                {
+                    OdataType = "#microsoft.graph.deviceManagementConfigurationPolicyAssignment",
+                    Id = group,
+                    Target = new GroupAssignmentTarget
+                    {
+                        OdataType = "#microsoft.graph.groupAssignmentTarget",
+                        DeviceAndAppManagementAssignmentFilterId = null,
+                        DeviceAndAppManagementAssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.Include,
+                        GroupId = group,
+                    },
+                    Source = DeviceAndAppManagementAssignmentSource.Direct,
+                    SourceId = group,
+
+                };
+                // add each assignment to the list of assignments
+                assignments.Add(assignment);
+            }
+
+            // Create a request body object and add all assignment object to it
+            var requestBody = new Microsoft.Graph.Beta.DeviceManagement.ConfigurationPolicies.Item.Assign.AssignPostRequestBody
+            {
+                Assignments = assignments
+            };
+
+            // Assign the policy to the groups
+
+
+
+            try
+            {
+                var result = await destinationGraphServiceClient.DeviceManagement.ConfigurationPolicies[policyID].Assign.PostAsAssignPostResponseAsync(requestBody);
+                WriteToImportStatusFile("Assigned groups to policy " + policyID);
+            }
+            catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
+            {
+                WriteToImportStatusFile("Error assigning groups to policy " + policyID + " (ID:" + policyID + "). Error message: " + me.Message);
+            }
+
+
+        }
+
+
     }
 }   
 

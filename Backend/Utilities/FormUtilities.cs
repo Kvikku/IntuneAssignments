@@ -1492,5 +1492,10 @@ namespace IntuneAssignments.Backend.Utilities
             
         }
 
+        public static void AddItemsToDictionary(Dictionary<string, string> dictionary, string name, string id)
+        {
+            // Add the items to the dictionary
+            dictionary.Add(name, id);
+        }
     }
 }
