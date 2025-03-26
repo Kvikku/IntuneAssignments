@@ -32,6 +32,14 @@ namespace IntuneAssignments.Backend.Utilities
             dataGridView.Rows.Clear();
         }
 
+        public static void ClearSelectedDataGridViewRow(DataGridView dataGridView)
+        {
+            foreach (DataGridViewRow row in dataGridView.SelectedRows)
+            {
+                dataGridView.Rows.RemoveAt(row.Index);
+            }
+        }
+
         public static void ClearCheckedListBox(CheckedListBox checkedListBox)
         {
 

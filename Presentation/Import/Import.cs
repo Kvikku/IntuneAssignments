@@ -136,7 +136,7 @@ namespace IntuneAssignments.Presentation.Import
             // Show the progress bar
             pBarLoading.Show();
 
-            await AddAllSettingsCatalog();
+            await AddAllSettingsCatalogToDTG();
 
 
             // Hide the progress bar
@@ -164,6 +164,19 @@ namespace IntuneAssignments.Presentation.Import
 
             // Create a new file to store the import status
             CreateImportStatusFile();
+
+            // Check for assignments
+
+            if (cBoxAssignments.Checked)
+            {
+                assignments = true;
+
+                // Get the selected groups
+            }
+            else
+            {
+                assignments = false;
+            }
 
             // Import the settings catalog
             await ImportSettingsCatalog();
@@ -260,9 +273,9 @@ namespace IntuneAssignments.Presentation.Import
 
         }
 
-        private async Task AddAllSettingsCatalog()
+        private async Task AddAllSettingsCatalogToDTG()
         {
-            // Add all settings catalog policies
+            // Add all settings catalog policies to the datagridview
             var result = await GetAllSettingsCatalogPolicies(sourceGraphServiceClient);
             AddSettingsCatalogToDTG(result, dtgImportContent);
         }
@@ -277,6 +290,12 @@ namespace IntuneAssignments.Presentation.Import
             // Import the policies
 
             await ImportMultipleSettingsCatalog(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments);
+        }
+
+        private void btnClearSelectedFromGroupDTG_Click(object sender, EventArgs e)
+        {
+            // Clear the selected groups datagridview
+            ClearSelectedDataGridViewRow(dtgGroups);
         }
     }
 }

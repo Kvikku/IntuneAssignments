@@ -46,11 +46,21 @@
             colPlatform = new DataGridViewTextBoxColumn();
             colID = new DataGridViewTextBoxColumn();
             pnlMainContent = new Panel();
+            panel2 = new Panel();
+            lblHeader = new Label();
+            tbSearch = new TextBox();
+            btnSearch = new Button();
+            btnClearContentDTG = new Button();
+            btnListAll = new Button();
+            clbContentTypes = new CheckedListBox();
+            pBarLoading = new ProgressBar();
             pBarImportStatus = new ProgressBar();
             pnlStatusOutput = new Panel();
+            lblStatus = new Label();
             rtbDeploymentSummary = new RichTextBox();
-            btnClearContentDTG = new Button();
             pnlGroups = new Panel();
+            btnClearSelectedFromGroupDTG = new Button();
+            lblGroups = new Label();
             btnClearGroupDTG = new Button();
             pBarGroupLoading = new ProgressBar();
             dtgGroups = new DataGridView();
@@ -63,14 +73,6 @@
             tBoxGroupSearch = new TextBox();
             cBoxAssignments = new CheckBox();
             btnImportContet = new Button();
-            pBarLoading = new ProgressBar();
-            btnListAll = new Button();
-            btnSearch = new Button();
-            tbSearch = new TextBox();
-            clbContentTypes = new CheckedListBox();
-            lblHeader = new Label();
-            lblGroups = new Label();
-            lblStatus = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbDestinationChecker).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbSourceConnectionCheck).BeginInit();
@@ -79,6 +81,7 @@
             ((System.ComponentModel.ISupportInitialize)pBHome).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgImportContent).BeginInit();
             pnlMainContent.SuspendLayout();
+            panel2.SuspendLayout();
             pnlStatusOutput.SuspendLayout();
             pnlGroups.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgGroups).BeginInit();
@@ -205,11 +208,11 @@
             dtgImportContent.DefaultCellStyle = dataGridViewCellStyle2;
             dtgImportContent.EnableHeadersVisualStyles = false;
             dtgImportContent.GridColor = Color.Salmon;
-            dtgImportContent.Location = new Point(3, 133);
+            dtgImportContent.Location = new Point(16, 144);
             dtgImportContent.Name = "dtgImportContent";
             dtgImportContent.RowHeadersVisible = false;
             dtgImportContent.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgImportContent.Size = new Size(651, 755);
+            dtgImportContent.Size = new Size(614, 459);
             dtgImportContent.TabIndex = 1;
             // 
             // colName
@@ -240,40 +243,147 @@
             // 
             // pnlMainContent
             // 
-            pnlMainContent.Controls.Add(lblHeader);
+            pnlMainContent.Controls.Add(panel2);
             pnlMainContent.Controls.Add(pBarImportStatus);
             pnlMainContent.Controls.Add(pnlStatusOutput);
-            pnlMainContent.Controls.Add(btnClearContentDTG);
             pnlMainContent.Controls.Add(pnlGroups);
             pnlMainContent.Controls.Add(cBoxAssignments);
             pnlMainContent.Controls.Add(btnImportContet);
-            pnlMainContent.Controls.Add(pBarLoading);
-            pnlMainContent.Controls.Add(btnListAll);
-            pnlMainContent.Controls.Add(btnSearch);
-            pnlMainContent.Controls.Add(tbSearch);
-            pnlMainContent.Controls.Add(clbContentTypes);
-            pnlMainContent.Controls.Add(dtgImportContent);
             pnlMainContent.Location = new Point(108, 12);
             pnlMainContent.Name = "pnlMainContent";
             pnlMainContent.Size = new Size(1762, 891);
             pnlMainContent.TabIndex = 2;
             // 
+            // panel2
+            // 
+            panel2.BorderStyle = BorderStyle.FixedSingle;
+            panel2.Controls.Add(dtgImportContent);
+            panel2.Controls.Add(lblHeader);
+            panel2.Controls.Add(tbSearch);
+            panel2.Controls.Add(btnSearch);
+            panel2.Controls.Add(btnClearContentDTG);
+            panel2.Controls.Add(btnListAll);
+            panel2.Controls.Add(clbContentTypes);
+            panel2.Controls.Add(pBarLoading);
+            panel2.Location = new Point(3, 11);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(666, 606);
+            panel2.TabIndex = 19;
+            // 
+            // lblHeader
+            // 
+            lblHeader.AutoSize = true;
+            lblHeader.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblHeader.ForeColor = Color.Salmon;
+            lblHeader.Location = new Point(3, 9);
+            lblHeader.Name = "lblHeader";
+            lblHeader.Size = new Size(152, 30);
+            lblHeader.TabIndex = 18;
+            lblHeader.Text = "Import content";
+            // 
+            // tbSearch
+            // 
+            tbSearch.BackColor = Color.FromArgb(46, 51, 73);
+            tbSearch.BorderStyle = BorderStyle.None;
+            tbSearch.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            tbSearch.ForeColor = Color.Salmon;
+            tbSearch.Location = new Point(3, 46);
+            tbSearch.Name = "tbSearch";
+            tbSearch.Size = new Size(150, 22);
+            tbSearch.TabIndex = 3;
+            tbSearch.Text = "Enter search here";
+            tbSearch.Click += tbSearch_Click;
+            // 
+            // btnSearch
+            // 
+            btnSearch.BackColor = Color.Salmon;
+            btnSearch.FlatStyle = FlatStyle.Flat;
+            btnSearch.ForeColor = Color.FromArgb(46, 51, 73);
+            btnSearch.Location = new Point(3, 74);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new Size(96, 28);
+            btnSearch.TabIndex = 4;
+            btnSearch.Text = "Search";
+            btnSearch.UseVisualStyleBackColor = false;
+            btnSearch.Click += btnSearch_Click;
+            // 
+            // btnClearContentDTG
+            // 
+            btnClearContentDTG.BackColor = Color.Salmon;
+            btnClearContentDTG.FlatStyle = FlatStyle.Flat;
+            btnClearContentDTG.ForeColor = Color.FromArgb(46, 51, 73);
+            btnClearContentDTG.Location = new Point(207, 74);
+            btnClearContentDTG.Name = "btnClearContentDTG";
+            btnClearContentDTG.Size = new Size(96, 28);
+            btnClearContentDTG.TabIndex = 16;
+            btnClearContentDTG.Text = "Clear";
+            btnClearContentDTG.UseVisualStyleBackColor = false;
+            btnClearContentDTG.Click += btnClearContentDTG_Click;
+            // 
+            // btnListAll
+            // 
+            btnListAll.BackColor = Color.Salmon;
+            btnListAll.FlatStyle = FlatStyle.Flat;
+            btnListAll.ForeColor = Color.FromArgb(46, 51, 73);
+            btnListAll.Location = new Point(105, 74);
+            btnListAll.Name = "btnListAll";
+            btnListAll.Size = new Size(96, 28);
+            btnListAll.TabIndex = 5;
+            btnListAll.Text = "List all";
+            btnListAll.UseVisualStyleBackColor = false;
+            btnListAll.Click += btnListAll_Click;
+            // 
+            // clbContentTypes
+            // 
+            clbContentTypes.BackColor = Color.FromArgb(46, 51, 73);
+            clbContentTypes.BorderStyle = BorderStyle.None;
+            clbContentTypes.ForeColor = Color.Salmon;
+            clbContentTypes.FormattingEnabled = true;
+            clbContentTypes.Items.AddRange(new object[] { "Settings Catalog", "Device Compliance", "Device configuration", "ADMX Template", "Application", "Powershell script", "Remediation script", "macOS script" });
+            clbContentTypes.Location = new Point(448, 4);
+            clbContentTypes.Name = "clbContentTypes";
+            clbContentTypes.ScrollAlwaysVisible = true;
+            clbContentTypes.Size = new Size(215, 90);
+            clbContentTypes.TabIndex = 2;
+            clbContentTypes.MouseEnter += clbContentTypes_MouseEnter;
+            clbContentTypes.MouseLeave += clbContentTypes_MouseLeave;
+            // 
+            // pBarLoading
+            // 
+            pBarLoading.Location = new Point(3, 105);
+            pBarLoading.Name = "pBarLoading";
+            pBarLoading.Size = new Size(198, 23);
+            pBarLoading.Style = ProgressBarStyle.Marquee;
+            pBarLoading.TabIndex = 6;
+            // 
             // pBarImportStatus
             // 
-            pBarImportStatus.Location = new Point(686, 70);
+            pBarImportStatus.Location = new Point(19, 669);
             pBarImportStatus.Name = "pBarImportStatus";
-            pBarImportStatus.Size = new Size(300, 23);
+            pBarImportStatus.Size = new Size(300, 37);
             pBarImportStatus.Style = ProgressBarStyle.Marquee;
             pBarImportStatus.TabIndex = 16;
             // 
             // pnlStatusOutput
             // 
+            pnlStatusOutput.BorderStyle = BorderStyle.FixedSingle;
             pnlStatusOutput.Controls.Add(lblStatus);
             pnlStatusOutput.Controls.Add(rtbDeploymentSummary);
-            pnlStatusOutput.Location = new Point(1337, 133);
+            pnlStatusOutput.Location = new Point(1326, 11);
             pnlStatusOutput.Name = "pnlStatusOutput";
             pnlStatusOutput.Size = new Size(422, 606);
             pnlStatusOutput.TabIndex = 17;
+            // 
+            // lblStatus
+            // 
+            lblStatus.AutoSize = true;
+            lblStatus.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblStatus.ForeColor = Color.Salmon;
+            lblStatus.Location = new Point(3, 3);
+            lblStatus.Name = "lblStatus";
+            lblStatus.Size = new Size(217, 30);
+            lblStatus.TabIndex = 20;
+            lblStatus.Text = "Deployment summary";
             // 
             // rtbDeploymentSummary
             // 
@@ -286,21 +396,10 @@
             rtbDeploymentSummary.TabIndex = 21;
             rtbDeploymentSummary.Text = "";
             // 
-            // btnClearContentDTG
-            // 
-            btnClearContentDTG.BackColor = Color.Salmon;
-            btnClearContentDTG.FlatStyle = FlatStyle.Flat;
-            btnClearContentDTG.ForeColor = Color.FromArgb(46, 51, 73);
-            btnClearContentDTG.Location = new Point(207, 71);
-            btnClearContentDTG.Name = "btnClearContentDTG";
-            btnClearContentDTG.Size = new Size(96, 28);
-            btnClearContentDTG.TabIndex = 16;
-            btnClearContentDTG.Text = "Clear";
-            btnClearContentDTG.UseVisualStyleBackColor = false;
-            btnClearContentDTG.Click += btnClearContentDTG_Click;
-            // 
             // pnlGroups
             // 
+            pnlGroups.BorderStyle = BorderStyle.FixedSingle;
+            pnlGroups.Controls.Add(btnClearSelectedFromGroupDTG);
             pnlGroups.Controls.Add(lblGroups);
             pnlGroups.Controls.Add(btnClearGroupDTG);
             pnlGroups.Controls.Add(pBarGroupLoading);
@@ -308,10 +407,34 @@
             pnlGroups.Controls.Add(btnGroupListAll);
             pnlGroups.Controls.Add(btnGroupSearch);
             pnlGroups.Controls.Add(tBoxGroupSearch);
-            pnlGroups.Location = new Point(686, 133);
+            pnlGroups.Location = new Point(675, 11);
             pnlGroups.Name = "pnlGroups";
             pnlGroups.Size = new Size(645, 606);
             pnlGroups.TabIndex = 10;
+            // 
+            // btnClearSelectedFromGroupDTG
+            // 
+            btnClearSelectedFromGroupDTG.BackColor = Color.Salmon;
+            btnClearSelectedFromGroupDTG.FlatStyle = FlatStyle.Flat;
+            btnClearSelectedFromGroupDTG.ForeColor = Color.FromArgb(46, 51, 73);
+            btnClearSelectedFromGroupDTG.Location = new Point(332, 75);
+            btnClearSelectedFromGroupDTG.Name = "btnClearSelectedFromGroupDTG";
+            btnClearSelectedFromGroupDTG.Size = new Size(96, 28);
+            btnClearSelectedFromGroupDTG.TabIndex = 20;
+            btnClearSelectedFromGroupDTG.Text = "Clear selected";
+            btnClearSelectedFromGroupDTG.UseVisualStyleBackColor = false;
+            btnClearSelectedFromGroupDTG.Click += btnClearSelectedFromGroupDTG_Click;
+            // 
+            // lblGroups
+            // 
+            lblGroups.AutoSize = true;
+            lblGroups.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblGroups.ForeColor = Color.Salmon;
+            lblGroups.Location = new Point(26, 4);
+            lblGroups.Name = "lblGroups";
+            lblGroups.Size = new Size(223, 30);
+            lblGroups.TabIndex = 19;
+            lblGroups.Text = "Groups for assignment";
             // 
             // btnClearGroupDTG
             // 
@@ -322,7 +445,7 @@
             btnClearGroupDTG.Name = "btnClearGroupDTG";
             btnClearGroupDTG.Size = new Size(96, 28);
             btnClearGroupDTG.TabIndex = 15;
-            btnClearGroupDTG.Text = "Clear";
+            btnClearGroupDTG.Text = "Clear all";
             btnClearGroupDTG.UseVisualStyleBackColor = false;
             btnClearGroupDTG.Click += btnClearGroupDTG_Click;
             // 
@@ -330,7 +453,7 @@
             // 
             pBarGroupLoading.Location = new Point(26, 105);
             pBarGroupLoading.Name = "pBarGroupLoading";
-            pBarGroupLoading.Size = new Size(300, 23);
+            pBarGroupLoading.Size = new Size(402, 23);
             pBarGroupLoading.Style = ProgressBarStyle.Marquee;
             pBarGroupLoading.TabIndex = 14;
             // 
@@ -366,7 +489,7 @@
             dtgGroups.Name = "dtgGroups";
             dtgGroups.RowHeadersVisible = false;
             dtgGroups.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgGroups.Size = new Size(558, 409);
+            dtgGroups.Size = new Size(558, 459);
             dtgGroups.TabIndex = 11;
             // 
             // dataGridViewTextBoxColumn1
@@ -413,7 +536,7 @@
             btnGroupSearch.BackColor = Color.Salmon;
             btnGroupSearch.FlatStyle = FlatStyle.Flat;
             btnGroupSearch.ForeColor = Color.FromArgb(46, 51, 73);
-            btnGroupSearch.Location = new Point(26, 74);
+            btnGroupSearch.Location = new Point(26, 75);
             btnGroupSearch.Name = "btnGroupSearch";
             btnGroupSearch.Size = new Size(96, 28);
             btnGroupSearch.TabIndex = 12;
@@ -438,7 +561,7 @@
             // 
             cBoxAssignments.AutoSize = true;
             cBoxAssignments.ForeColor = Color.Salmon;
-            cBoxAssignments.Location = new Point(686, 45);
+            cBoxAssignments.Location = new Point(189, 623);
             cBoxAssignments.Name = "cBoxAssignments";
             cBoxAssignments.Size = new Size(117, 19);
             cBoxAssignments.TabIndex = 9;
@@ -450,109 +573,15 @@
             // 
             btnImportContet.BackColor = Color.Salmon;
             btnImportContet.FlatStyle = FlatStyle.Flat;
+            btnImportContet.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnImportContet.ForeColor = Color.FromArgb(46, 51, 73);
-            btnImportContet.Location = new Point(686, 11);
+            btnImportContet.Location = new Point(19, 623);
             btnImportContet.Name = "btnImportContet";
-            btnImportContet.Size = new Size(134, 28);
+            btnImportContet.Size = new Size(164, 40);
             btnImportContet.TabIndex = 7;
             btnImportContet.Text = "Import";
             btnImportContet.UseVisualStyleBackColor = false;
             btnImportContet.Click += btnImportContet_Click;
-            // 
-            // pBarLoading
-            // 
-            pBarLoading.Location = new Point(3, 102);
-            pBarLoading.Name = "pBarLoading";
-            pBarLoading.Size = new Size(198, 23);
-            pBarLoading.Style = ProgressBarStyle.Marquee;
-            pBarLoading.TabIndex = 6;
-            // 
-            // btnListAll
-            // 
-            btnListAll.BackColor = Color.Salmon;
-            btnListAll.FlatStyle = FlatStyle.Flat;
-            btnListAll.ForeColor = Color.FromArgb(46, 51, 73);
-            btnListAll.Location = new Point(105, 71);
-            btnListAll.Name = "btnListAll";
-            btnListAll.Size = new Size(96, 28);
-            btnListAll.TabIndex = 5;
-            btnListAll.Text = "List all";
-            btnListAll.UseVisualStyleBackColor = false;
-            btnListAll.Click += btnListAll_Click;
-            // 
-            // btnSearch
-            // 
-            btnSearch.BackColor = Color.Salmon;
-            btnSearch.FlatStyle = FlatStyle.Flat;
-            btnSearch.ForeColor = Color.FromArgb(46, 51, 73);
-            btnSearch.Location = new Point(3, 71);
-            btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(96, 28);
-            btnSearch.TabIndex = 4;
-            btnSearch.Text = "Search";
-            btnSearch.UseVisualStyleBackColor = false;
-            btnSearch.Click += btnSearch_Click;
-            // 
-            // tbSearch
-            // 
-            tbSearch.BackColor = Color.FromArgb(46, 51, 73);
-            tbSearch.BorderStyle = BorderStyle.None;
-            tbSearch.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tbSearch.ForeColor = Color.Salmon;
-            tbSearch.Location = new Point(3, 43);
-            tbSearch.Name = "tbSearch";
-            tbSearch.Size = new Size(150, 22);
-            tbSearch.TabIndex = 3;
-            tbSearch.Text = "Enter search here";
-            tbSearch.Click += tbSearch_Click;
-            // 
-            // clbContentTypes
-            // 
-            clbContentTypes.BackColor = Color.FromArgb(46, 51, 73);
-            clbContentTypes.BorderStyle = BorderStyle.None;
-            clbContentTypes.ForeColor = Color.Salmon;
-            clbContentTypes.FormattingEnabled = true;
-            clbContentTypes.Items.AddRange(new object[] { "Settings Catalog", "Device Compliance", "Device configuration", "ADMX Template", "Application", "Powershell script", "Remediation script", "macOS script" });
-            clbContentTypes.Location = new Point(439, 28);
-            clbContentTypes.Name = "clbContentTypes";
-            clbContentTypes.ScrollAlwaysVisible = true;
-            clbContentTypes.Size = new Size(215, 90);
-            clbContentTypes.TabIndex = 2;
-            clbContentTypes.MouseEnter += clbContentTypes_MouseEnter;
-            clbContentTypes.MouseLeave += clbContentTypes_MouseLeave;
-            // 
-            // lblHeader
-            // 
-            lblHeader.AutoSize = true;
-            lblHeader.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblHeader.ForeColor = Color.Salmon;
-            lblHeader.Location = new Point(3, 6);
-            lblHeader.Name = "lblHeader";
-            lblHeader.Size = new Size(152, 30);
-            lblHeader.TabIndex = 18;
-            lblHeader.Text = "Import content";
-            // 
-            // lblGroups
-            // 
-            lblGroups.AutoSize = true;
-            lblGroups.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblGroups.ForeColor = Color.Salmon;
-            lblGroups.Location = new Point(26, 4);
-            lblGroups.Name = "lblGroups";
-            lblGroups.Size = new Size(223, 30);
-            lblGroups.TabIndex = 19;
-            lblGroups.Text = "Groups for assignment";
-            // 
-            // lblStatus
-            // 
-            lblStatus.AutoSize = true;
-            lblStatus.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblStatus.ForeColor = Color.Salmon;
-            lblStatus.Location = new Point(3, 3);
-            lblStatus.Name = "lblStatus";
-            lblStatus.Size = new Size(217, 30);
-            lblStatus.TabIndex = 20;
-            lblStatus.Text = "Deployment summary";
             // 
             // Import
             // 
@@ -574,6 +603,8 @@
             ((System.ComponentModel.ISupportInitialize)dtgImportContent).EndInit();
             pnlMainContent.ResumeLayout(false);
             pnlMainContent.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             pnlStatusOutput.ResumeLayout(false);
             pnlStatusOutput.PerformLayout();
             pnlGroups.ResumeLayout(false);
@@ -623,5 +654,7 @@
         private Label lblHeader;
         private Label lblStatus;
         private Label lblGroups;
+        private Panel panel2;
+        private Button btnClearSelectedFromGroupDTG;
     }
 }
