@@ -1550,13 +1550,47 @@ namespace IntuneAssignments
 
                     target.DeviceAndAppManagementAssignmentFilterId = AssignmentFilterID;
                     target.DeviceAndAppManagementAssignmentFilterType = AssignmentFilterType;
-                    
 
                     var newAssignment = new MobileAppAssignment
                     {
                         Target = target,
                         Intent = intent,
                     };
+
+
+                    // iOS specific settings
+
+                    // TO DO - Continue
+                    // Isremovable is only valid for required intent
+
+                    //// Check if the app is an iOS app
+                    var appType = await graphClient.DeviceAppManagement.MobileApps[mobileAppID].GetAsync();
+
+
+                    if (appType.OdataType == "#microsoft.graph.iosVppApp")
+                    {
+                        var settings = new IosVppAppAssignmentSettings
+                        {
+                            OdataType = "#microsoft.graph.iosVppAppAssignmentSettings",
+                            UseDeviceLicensing = true,
+                            VpnConfigurationId = null,
+                            UninstallOnDeviceRemoval = true,
+                            PreventManagedAppBackup = true,
+                            PreventAutoAppUpdate = false
+                        };
+
+                        if (newAssignment.Intent == InstallIntent.Required)
+                        {
+                            settings.IsRemovable = false;
+                        }
+                        else
+                        {
+
+                        }
+
+                        newAssignment.Settings = settings;
+                    }
+
 
                     try
                     {
