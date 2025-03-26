@@ -45,7 +45,7 @@ namespace IntuneAssignments.Presentation.Import
 
         private void Import_Load(object sender, EventArgs e)
         {
-            pnlAddFilter.Visible = false;
+            
             cbAddFilter.Hide();
             pnlAddFilter.Hide();
             pBarLoading.Hide();
@@ -146,6 +146,8 @@ namespace IntuneAssignments.Presentation.Import
             // Show the progress bar
             pBarLoading.Show();
 
+            ClearDataGridView(dtgImportContent);
+
             await AddAllSettingsCatalogToDTG();
 
 
@@ -158,6 +160,7 @@ namespace IntuneAssignments.Presentation.Import
             // Show the progress bar
             pBarLoading.Show();
 
+            ClearDataGridView(dtgImportContent);
 
             await SearchAndAddSettingsCatalog();
 

@@ -201,6 +201,7 @@
             // 
             dtgImportContent.AllowUserToAddRows = false;
             dtgImportContent.AllowUserToDeleteRows = false;
+            dtgImportContent.AllowUserToResizeColumns = false;
             dtgImportContent.BackgroundColor = Color.FromArgb(46, 51, 73);
             dtgImportContent.BorderStyle = BorderStyle.None;
             dtgImportContent.CellBorderStyle = DataGridViewCellBorderStyle.None;
@@ -227,6 +228,7 @@
             dtgImportContent.GridColor = Color.Salmon;
             dtgImportContent.Location = new Point(-1, 142);
             dtgImportContent.Name = "dtgImportContent";
+            dtgImportContent.ReadOnly = true;
             dtgImportContent.RowHeadersVisible = false;
             dtgImportContent.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dtgImportContent.Size = new Size(679, 459);
@@ -317,6 +319,7 @@
             dtgFilters.Location = new Point(3, 51);
             dtgFilters.MultiSelect = false;
             dtgFilters.Name = "dtgFilters";
+            dtgFilters.ReadOnly = true;
             dtgFilters.RowHeadersVisible = false;
             dtgFilters.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dtgFilters.Size = new Size(658, 209);
@@ -622,6 +625,7 @@
             // 
             dtgGroups.AllowUserToAddRows = false;
             dtgGroups.AllowUserToDeleteRows = false;
+            dtgGroups.AllowUserToResizeColumns = false;
             dtgGroups.BackgroundColor = Color.FromArgb(46, 51, 73);
             dtgGroups.BorderStyle = BorderStyle.None;
             dtgGroups.CellBorderStyle = DataGridViewCellBorderStyle.None;
@@ -648,6 +652,7 @@
             dtgGroups.GridColor = Color.Salmon;
             dtgGroups.Location = new Point(3, 142);
             dtgGroups.Name = "dtgGroups";
+            dtgGroups.ReadOnly = true;
             dtgGroups.RowHeadersVisible = false;
             dtgGroups.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dtgGroups.Size = new Size(658, 459);
