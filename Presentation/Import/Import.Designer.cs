@@ -49,6 +49,11 @@
             colPlatform = new DataGridViewTextBoxColumn();
             colID = new DataGridViewTextBoxColumn();
             pnlMainContent = new Panel();
+            pnlImportControls = new Panel();
+            btnImportContet = new Button();
+            cBoxAssignments = new CheckBox();
+            cbAddFilter = new CheckBox();
+            pBarImportStatus = new ProgressBar();
             pnlAddFilter = new Panel();
             dtgFilters = new DataGridView();
             dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
@@ -58,8 +63,7 @@
             rbFilterExclude = new RadioButton();
             rbFilterInclude = new RadioButton();
             lblFilterHeader = new Label();
-            cbAddFilter = new CheckBox();
-            panel2 = new Panel();
+            pnlImportContent = new Panel();
             btnClearSelectedPoliciesFromDTG = new Button();
             lblHeader = new Label();
             tbSearch = new TextBox();
@@ -68,7 +72,6 @@
             btnListAll = new Button();
             clbContentTypes = new CheckedListBox();
             pBarLoading = new ProgressBar();
-            pBarImportStatus = new ProgressBar();
             pnlStatusOutput = new Panel();
             lblStatus = new Label();
             rtbDeploymentSummary = new RichTextBox();
@@ -85,9 +88,8 @@
             btnGroupListAll = new Button();
             btnGroupSearch = new Button();
             tBoxGroupSearch = new TextBox();
-            cBoxAssignments = new CheckBox();
-            btnImportContet = new Button();
             ToolTipImport = new ToolTip(components);
+            CheckForAuthentication = new System.Windows.Forms.Timer(components);
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbDestinationChecker).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbSourceConnectionCheck).BeginInit();
@@ -96,9 +98,10 @@
             ((System.ComponentModel.ISupportInitialize)pBHome).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgImportContent).BeginInit();
             pnlMainContent.SuspendLayout();
+            pnlImportControls.SuspendLayout();
             pnlAddFilter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgFilters).BeginInit();
-            panel2.SuspendLayout();
+            pnlImportContent.SuspendLayout();
             pnlStatusOutput.SuspendLayout();
             pnlGroups.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgGroups).BeginInit();
@@ -262,18 +265,72 @@
             // 
             // pnlMainContent
             // 
+            pnlMainContent.Controls.Add(pnlImportControls);
             pnlMainContent.Controls.Add(pnlAddFilter);
-            pnlMainContent.Controls.Add(cbAddFilter);
-            pnlMainContent.Controls.Add(panel2);
-            pnlMainContent.Controls.Add(pBarImportStatus);
+            pnlMainContent.Controls.Add(pnlImportContent);
             pnlMainContent.Controls.Add(pnlStatusOutput);
             pnlMainContent.Controls.Add(pnlGroups);
-            pnlMainContent.Controls.Add(cBoxAssignments);
-            pnlMainContent.Controls.Add(btnImportContet);
             pnlMainContent.Location = new Point(108, 12);
             pnlMainContent.Name = "pnlMainContent";
             pnlMainContent.Size = new Size(1762, 891);
             pnlMainContent.TabIndex = 2;
+            // 
+            // pnlImportControls
+            // 
+            pnlImportControls.Controls.Add(btnImportContet);
+            pnlImportControls.Controls.Add(cBoxAssignments);
+            pnlImportControls.Controls.Add(cbAddFilter);
+            pnlImportControls.Controls.Add(pBarImportStatus);
+            pnlImportControls.Location = new Point(3, 623);
+            pnlImportControls.Name = "pnlImportControls";
+            pnlImportControls.Size = new Size(361, 208);
+            pnlImportControls.TabIndex = 22;
+            // 
+            // btnImportContet
+            // 
+            btnImportContet.BackColor = Color.Salmon;
+            btnImportContet.FlatStyle = FlatStyle.Flat;
+            btnImportContet.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnImportContet.ForeColor = Color.FromArgb(46, 51, 73);
+            btnImportContet.Location = new Point(21, 16);
+            btnImportContet.Name = "btnImportContet";
+            btnImportContet.Size = new Size(164, 40);
+            btnImportContet.TabIndex = 7;
+            btnImportContet.Text = "Import";
+            btnImportContet.UseVisualStyleBackColor = false;
+            btnImportContet.Click += btnImportContet_Click;
+            // 
+            // cBoxAssignments
+            // 
+            cBoxAssignments.AutoSize = true;
+            cBoxAssignments.ForeColor = Color.Salmon;
+            cBoxAssignments.Location = new Point(191, 16);
+            cBoxAssignments.Name = "cBoxAssignments";
+            cBoxAssignments.Size = new Size(117, 19);
+            cBoxAssignments.TabIndex = 9;
+            cBoxAssignments.Text = "Add assignments";
+            cBoxAssignments.UseVisualStyleBackColor = true;
+            cBoxAssignments.CheckedChanged += cBoxAssignments_CheckedChanged;
+            // 
+            // cbAddFilter
+            // 
+            cbAddFilter.AutoSize = true;
+            cbAddFilter.ForeColor = Color.Salmon;
+            cbAddFilter.Location = new Point(191, 37);
+            cbAddFilter.Name = "cbAddFilter";
+            cbAddFilter.Size = new Size(75, 19);
+            cbAddFilter.TabIndex = 20;
+            cbAddFilter.Text = "Add filter";
+            cbAddFilter.UseVisualStyleBackColor = true;
+            cbAddFilter.CheckedChanged += cbAddFilter_CheckedChanged;
+            // 
+            // pBarImportStatus
+            // 
+            pBarImportStatus.Location = new Point(21, 62);
+            pBarImportStatus.Name = "pBarImportStatus";
+            pBarImportStatus.Size = new Size(300, 37);
+            pBarImportStatus.Style = ProgressBarStyle.Marquee;
+            pBarImportStatus.TabIndex = 16;
             // 
             // pnlAddFilter
             // 
@@ -362,7 +419,6 @@
             rbFilterExclude.Name = "rbFilterExclude";
             rbFilterExclude.Size = new Size(74, 18);
             rbFilterExclude.TabIndex = 31;
-            rbFilterExclude.TabStop = true;
             rbFilterExclude.Text = "Exclude";
             rbFilterExclude.UseVisualStyleBackColor = true;
             rbFilterExclude.Click += rbFilterExclude_Click;
@@ -370,6 +426,7 @@
             // rbFilterInclude
             // 
             rbFilterInclude.AutoSize = true;
+            rbFilterInclude.Checked = true;
             rbFilterInclude.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             rbFilterInclude.ForeColor = Color.Salmon;
             rbFilterInclude.Location = new Point(211, 9);
@@ -392,34 +449,22 @@
             lblFilterHeader.TabIndex = 20;
             lblFilterHeader.Text = "Filter for assignment";
             // 
-            // cbAddFilter
+            // pnlImportContent
             // 
-            cbAddFilter.AutoSize = true;
-            cbAddFilter.ForeColor = Color.Salmon;
-            cbAddFilter.Location = new Point(189, 644);
-            cbAddFilter.Name = "cbAddFilter";
-            cbAddFilter.Size = new Size(75, 19);
-            cbAddFilter.TabIndex = 20;
-            cbAddFilter.Text = "Add filter";
-            cbAddFilter.UseVisualStyleBackColor = true;
-            cbAddFilter.CheckedChanged += cbAddFilter_CheckedChanged;
-            // 
-            // panel2
-            // 
-            panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(btnClearSelectedPoliciesFromDTG);
-            panel2.Controls.Add(dtgImportContent);
-            panel2.Controls.Add(lblHeader);
-            panel2.Controls.Add(tbSearch);
-            panel2.Controls.Add(btnSearch);
-            panel2.Controls.Add(btnClearContentDTG);
-            panel2.Controls.Add(btnListAll);
-            panel2.Controls.Add(clbContentTypes);
-            panel2.Controls.Add(pBarLoading);
-            panel2.Location = new Point(3, 11);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(666, 606);
-            panel2.TabIndex = 19;
+            pnlImportContent.BorderStyle = BorderStyle.FixedSingle;
+            pnlImportContent.Controls.Add(btnClearSelectedPoliciesFromDTG);
+            pnlImportContent.Controls.Add(dtgImportContent);
+            pnlImportContent.Controls.Add(lblHeader);
+            pnlImportContent.Controls.Add(tbSearch);
+            pnlImportContent.Controls.Add(btnSearch);
+            pnlImportContent.Controls.Add(btnClearContentDTG);
+            pnlImportContent.Controls.Add(btnListAll);
+            pnlImportContent.Controls.Add(clbContentTypes);
+            pnlImportContent.Controls.Add(pBarLoading);
+            pnlImportContent.Location = new Point(3, 11);
+            pnlImportContent.Name = "pnlImportContent";
+            pnlImportContent.Size = new Size(666, 606);
+            pnlImportContent.TabIndex = 19;
             // 
             // btnClearSelectedPoliciesFromDTG
             // 
@@ -519,14 +564,6 @@
             pBarLoading.Size = new Size(402, 23);
             pBarLoading.Style = ProgressBarStyle.Marquee;
             pBarLoading.TabIndex = 6;
-            // 
-            // pBarImportStatus
-            // 
-            pBarImportStatus.Location = new Point(19, 669);
-            pBarImportStatus.Name = "pBarImportStatus";
-            pBarImportStatus.Size = new Size(300, 37);
-            pBarImportStatus.Style = ProgressBarStyle.Marquee;
-            pBarImportStatus.TabIndex = 16;
             // 
             // pnlStatusOutput
             // 
@@ -723,31 +760,11 @@
             tBoxGroupSearch.Text = "Enter search here";
             tBoxGroupSearch.Click += tBoxGroupSearch_Click;
             // 
-            // cBoxAssignments
+            // CheckForAuthentication
             // 
-            cBoxAssignments.AutoSize = true;
-            cBoxAssignments.ForeColor = Color.Salmon;
-            cBoxAssignments.Location = new Point(189, 623);
-            cBoxAssignments.Name = "cBoxAssignments";
-            cBoxAssignments.Size = new Size(117, 19);
-            cBoxAssignments.TabIndex = 9;
-            cBoxAssignments.Text = "Add assignments";
-            cBoxAssignments.UseVisualStyleBackColor = true;
-            cBoxAssignments.CheckedChanged += cBoxAssignments_CheckedChanged;
-            // 
-            // btnImportContet
-            // 
-            btnImportContet.BackColor = Color.Salmon;
-            btnImportContet.FlatStyle = FlatStyle.Flat;
-            btnImportContet.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnImportContet.ForeColor = Color.FromArgb(46, 51, 73);
-            btnImportContet.Location = new Point(19, 623);
-            btnImportContet.Name = "btnImportContet";
-            btnImportContet.Size = new Size(164, 40);
-            btnImportContet.TabIndex = 7;
-            btnImportContet.Text = "Import";
-            btnImportContet.UseVisualStyleBackColor = false;
-            btnImportContet.Click += btnImportContet_Click;
+            CheckForAuthentication.Enabled = true;
+            CheckForAuthentication.Interval = 1000;
+            CheckForAuthentication.Tick += CheckForAuthentication_Tick;
             // 
             // Import
             // 
@@ -768,12 +785,13 @@
             ((System.ComponentModel.ISupportInitialize)pBHome).EndInit();
             ((System.ComponentModel.ISupportInitialize)dtgImportContent).EndInit();
             pnlMainContent.ResumeLayout(false);
-            pnlMainContent.PerformLayout();
+            pnlImportControls.ResumeLayout(false);
+            pnlImportControls.PerformLayout();
             pnlAddFilter.ResumeLayout(false);
             pnlAddFilter.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dtgFilters).EndInit();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
+            pnlImportContent.ResumeLayout(false);
+            pnlImportContent.PerformLayout();
             pnlStatusOutput.ResumeLayout(false);
             pnlStatusOutput.PerformLayout();
             pnlGroups.ResumeLayout(false);
@@ -819,7 +837,7 @@
         private Label lblHeader;
         private Label lblStatus;
         private Label lblGroups;
-        private Panel panel2;
+        private Panel pnlImportContent;
         private Button btnClearSelectedFromGroupDTG;
         private CheckBox cbAddFilter;
         private Panel pnlAddFilter;
@@ -837,5 +855,7 @@
         private DataGridViewTextBoxColumn colID;
         private ToolTip ToolTipImport;
         private Button btnClearSelectedPoliciesFromDTG;
+        private Panel pnlImportControls;
+        private System.Windows.Forms.Timer CheckForAuthentication;
     }
 }

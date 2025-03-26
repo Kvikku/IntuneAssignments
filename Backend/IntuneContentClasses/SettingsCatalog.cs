@@ -203,6 +203,12 @@ namespace IntuneAssignments.Backend.Intune_content_classes
                     WriteToImportStatusFile($"Group assignments will be added..");
                 }
 
+                if (filter)
+                {
+                    rtb.AppendText($"Filters will be added.\n");
+                    WriteToImportStatusFile($"Filters will be added..");
+                }
+
                 // Begin importing the policies
                 foreach (var policy in policies)
                 {
@@ -225,47 +231,6 @@ namespace IntuneAssignments.Backend.Intune_content_classes
                             Settings = result.Settings,
                             Assignments = new List<DeviceManagementConfigurationPolicyAssignment>() // Initialize the Assignments property
                         };
-
-                        // add assignments if the bool variable is true
-
-                        //if (assignments)
-                        //{
-                        //    // add an assignment object to the policy
-
-                        //    foreach (var group in groups)
-                        //    {
-                        //        // Create a group assignment target object
-                        //        var groupAssignmentTarget = new GroupAssignmentTarget
-                        //        {
-                        //            GroupId = group
-                        //        };
-
-                        //        // Create a configuration policy assignment object
-                        //        var deviceConfigurationAssignmentTarget = new DeviceConfigurationAssignment
-                        //        {
-                        //            Target = groupAssignmentTarget
-                        //        };
-
-                        //        // Create a new device management configuration policy assignment object
-                        //        var assignmentBody = new DeviceManagementConfigurationPolicyAssignment
-                        //        {
-                        //            OdataType = "#microsoft.graph.deviceManagementConfigurationPolicyAssignment",
-                        //            Id = group,
-                        //            Target = new GroupAssignmentTarget
-                        //            {
-                        //                OdataType = "#microsoft.graph.groupAssignmentTarget",
-                        //                DeviceAndAppManagementAssignmentFilterId = null,
-                        //                DeviceAndAppManagementAssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.Include,
-                        //                GroupId = group,
-                        //            },
-                        //            Source = DeviceAndAppManagementAssignmentSource.Direct,
-                        //            SourceId = group,
-
-                        //        };
-                        //        // add each assignment to the list of assignments
-                        //        newPolicy.Assignments.Add(assignmentBody);
-                        //    }
-                        //}
 
 
                         // Import the policy to the destination tenant
@@ -395,11 +360,7 @@ namespace IntuneAssignments.Backend.Intune_content_classes
             {
                 WriteToImportStatusFile("Error assigning groups to policy " + policyID + " (ID:" + policyID + "). Error message: " + me.Message);
             }
-
-
         }
-
-
     }
 }   
 

@@ -45,7 +45,9 @@ namespace IntuneAssignments.Presentation.Import
 
         private void Import_Load(object sender, EventArgs e)
         {
-            
+            pnlImportControls.Hide();
+            pnlStatusOutput.Hide();
+            pnlImportContent.Hide();
             cbAddFilter.Hide();
             pnlAddFilter.Hide();
             pBarLoading.Hide();
@@ -53,6 +55,9 @@ namespace IntuneAssignments.Presentation.Import
             pBarImportStatus.Hide();
             pnlGroups.Hide();
             CheckConnection();
+
+            CheckForAuthentication.Start();
+
         }
 
 
@@ -79,10 +84,26 @@ namespace IntuneAssignments.Presentation.Import
             }
         }
 
+        private void CheckForAuthentication_Tick(object sender, EventArgs e)
+        {
+            CheckIfSourceAndDestinationIsAuthenticated();
+        }
 
-
-
-
+        public bool CheckIfSourceAndDestinationIsAuthenticated()
+        {
+            // Check if the source and destination tenants are authenticated
+            if (isSourceTenantConnected && isDestinationTenantConnected)
+            {
+                CheckForAuthentication.Stop();
+                pnlImportControls.Show();
+                pnlImportContent.Show();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
 
         // Click events
@@ -173,7 +194,7 @@ namespace IntuneAssignments.Presentation.Import
         private async void btnImportContet_Click(object sender, EventArgs e)
         {
             // Check if no radio button are selected
-            if (pnlAddFilter.Visible = true && !rbFilterInclude.Checked && !rbFilterExclude.Checked)
+            if (pnlAddFilter.Visible && !rbFilterInclude.Checked && !rbFilterExclude.Checked)
             {
                 MessageBox.Show("Please select a filter type");
                 return;
@@ -181,6 +202,9 @@ namespace IntuneAssignments.Presentation.Import
 
             // Show the progress bar
             pBarImportStatus.Show();
+
+            // Show the panel for output
+            pnlStatusOutput.Show();
 
             // Create a new file to store the import status
             CreateImportStatusFile();
@@ -206,7 +230,7 @@ namespace IntuneAssignments.Presentation.Import
                 SelectedFilterName = dtgFilters.SelectedRows[0].Cells[0].Value.ToString();
                 SelectedFilterID = dtgFilters.SelectedRows[0].Cells[3].Value.ToString();
 
-                
+
 
                 // get the filter type
                 if (rbFilterInclude.Checked == true)
@@ -373,7 +397,7 @@ namespace IntuneAssignments.Presentation.Import
 
             // Import the policies
 
-            await ImportMultipleSettingsCatalog(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments,filter, groupIDs);
+            await ImportMultipleSettingsCatalog(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
         }
 
         private void btnClearSelectedFromGroupDTG_Click(object sender, EventArgs e)
@@ -416,6 +440,7 @@ namespace IntuneAssignments.Presentation.Import
                 filter = true;
                 pnlAddFilter.Show();
                 filter = true;
+                ClearDataGridView(dtgFilters);
                 await AddFiltersToDTG(destinationGraphServiceClient, dtgFilters);
             }
             else
@@ -431,5 +456,7 @@ namespace IntuneAssignments.Presentation.Import
             // Clear the selected groups datagridview
             ClearSelectedDataGridViewRow(dtgImportContent);
         }
+
+       
     }
 }
