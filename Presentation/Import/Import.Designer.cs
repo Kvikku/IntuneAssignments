@@ -28,10 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             panel1 = new Panel();
             pbDestinationChecker = new PictureBox();
             pbSourceConnectionCheck = new PictureBox();
@@ -47,12 +50,17 @@
             colID = new DataGridViewTextBoxColumn();
             pnlMainContent = new Panel();
             pnlAddFilter = new Panel();
+            dtgFilters = new DataGridView();
+            dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
+            Rule = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn7 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn8 = new DataGridViewTextBoxColumn();
             rbFilterExclude = new RadioButton();
             rbFilterInclude = new RadioButton();
-            cbFilter = new ComboBox();
             lblFilterHeader = new Label();
             cbAddFilter = new CheckBox();
             panel2 = new Panel();
+            btnClearSelectedPoliciesFromDTG = new Button();
             lblHeader = new Label();
             tbSearch = new TextBox();
             btnSearch = new Button();
@@ -79,6 +87,7 @@
             tBoxGroupSearch = new TextBox();
             cBoxAssignments = new CheckBox();
             btnImportContet = new Button();
+            ToolTipImport = new ToolTip(components);
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbDestinationChecker).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbSourceConnectionCheck).BeginInit();
@@ -88,6 +97,7 @@
             ((System.ComponentModel.ISupportInitialize)dtgImportContent).BeginInit();
             pnlMainContent.SuspendLayout();
             pnlAddFilter.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgFilters).BeginInit();
             panel2.SuspendLayout();
             pnlStatusOutput.SuspendLayout();
             pnlGroups.SuspendLayout();
@@ -215,11 +225,11 @@
             dtgImportContent.DefaultCellStyle = dataGridViewCellStyle2;
             dtgImportContent.EnableHeadersVisualStyles = false;
             dtgImportContent.GridColor = Color.Salmon;
-            dtgImportContent.Location = new Point(16, 144);
+            dtgImportContent.Location = new Point(-1, 142);
             dtgImportContent.Name = "dtgImportContent";
             dtgImportContent.RowHeadersVisible = false;
             dtgImportContent.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgImportContent.Size = new Size(614, 459);
+            dtgImportContent.Size = new Size(679, 459);
             dtgImportContent.TabIndex = 1;
             // 
             // colName
@@ -246,7 +256,7 @@
             colID.HeaderText = "ID";
             colID.Name = "colID";
             colID.ReadOnly = true;
-            colID.Width = 200;
+            colID.Width = 220;
             // 
             // pnlMainContent
             // 
@@ -266,21 +276,86 @@
             // pnlAddFilter
             // 
             pnlAddFilter.BorderStyle = BorderStyle.FixedSingle;
+            pnlAddFilter.Controls.Add(dtgFilters);
             pnlAddFilter.Controls.Add(rbFilterExclude);
             pnlAddFilter.Controls.Add(rbFilterInclude);
-            pnlAddFilter.Controls.Add(cbFilter);
             pnlAddFilter.Controls.Add(lblFilterHeader);
             pnlAddFilter.Location = new Point(675, 623);
             pnlAddFilter.Name = "pnlAddFilter";
-            pnlAddFilter.Size = new Size(645, 229);
+            pnlAddFilter.Size = new Size(645, 265);
             pnlAddFilter.TabIndex = 21;
+            // 
+            // dtgFilters
+            // 
+            dtgFilters.AllowUserToAddRows = false;
+            dtgFilters.AllowUserToDeleteRows = false;
+            dtgFilters.AllowUserToResizeColumns = false;
+            dtgFilters.BackgroundColor = Color.FromArgb(46, 51, 73);
+            dtgFilters.BorderStyle = BorderStyle.None;
+            dtgFilters.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dtgFilters.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.Salmon;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dtgFilters.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dtgFilters.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dtgFilters.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn5, Rule, dataGridViewTextBoxColumn7, dataGridViewTextBoxColumn8 });
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(46, 51, 73);
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle4.ForeColor = Color.Salmon;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dtgFilters.DefaultCellStyle = dataGridViewCellStyle4;
+            dtgFilters.EnableHeadersVisualStyles = false;
+            dtgFilters.GridColor = Color.Salmon;
+            dtgFilters.Location = new Point(3, 51);
+            dtgFilters.MultiSelect = false;
+            dtgFilters.Name = "dtgFilters";
+            dtgFilters.RowHeadersVisible = false;
+            dtgFilters.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgFilters.Size = new Size(658, 209);
+            dtgFilters.TabIndex = 19;
+            ToolTipImport.SetToolTip(dtgFilters, "Select the filter that you want to use");
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            dataGridViewTextBoxColumn5.HeaderText = "Name";
+            dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            dataGridViewTextBoxColumn5.ReadOnly = true;
+            dataGridViewTextBoxColumn5.Width = 150;
+            // 
+            // Rule
+            // 
+            Rule.HeaderText = "Rule";
+            Rule.Name = "Rule";
+            Rule.ReadOnly = true;
+            Rule.Width = 200;
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            dataGridViewTextBoxColumn7.HeaderText = "Platform";
+            dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            dataGridViewTextBoxColumn7.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            dataGridViewTextBoxColumn8.HeaderText = "ID";
+            dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            dataGridViewTextBoxColumn8.ReadOnly = true;
+            dataGridViewTextBoxColumn8.Width = 200;
             // 
             // rbFilterExclude
             // 
             rbFilterExclude.AutoSize = true;
             rbFilterExclude.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             rbFilterExclude.ForeColor = Color.Salmon;
-            rbFilterExclude.Location = new Point(175, 64);
+            rbFilterExclude.Location = new Point(211, 27);
             rbFilterExclude.Name = "rbFilterExclude";
             rbFilterExclude.Size = new Size(74, 18);
             rbFilterExclude.TabIndex = 31;
@@ -294,7 +369,7 @@
             rbFilterInclude.AutoSize = true;
             rbFilterInclude.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             rbFilterInclude.ForeColor = Color.Salmon;
-            rbFilterInclude.Location = new Point(175, 46);
+            rbFilterInclude.Location = new Point(211, 9);
             rbFilterInclude.Name = "rbFilterInclude";
             rbFilterInclude.Size = new Size(74, 18);
             rbFilterInclude.TabIndex = 30;
@@ -302,19 +377,6 @@
             rbFilterInclude.Text = "Include";
             rbFilterInclude.UseVisualStyleBackColor = true;
             rbFilterInclude.Click += rbFilterInclude_Click;
-            // 
-            // cbFilter
-            // 
-            cbFilter.BackColor = Color.FromArgb(46, 51, 73);
-            cbFilter.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbFilter.FlatStyle = FlatStyle.Flat;
-            cbFilter.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            cbFilter.ForeColor = Color.Salmon;
-            cbFilter.FormattingEnabled = true;
-            cbFilter.Location = new Point(3, 45);
-            cbFilter.Name = "cbFilter";
-            cbFilter.Size = new Size(157, 22);
-            cbFilter.TabIndex = 29;
             // 
             // lblFilterHeader
             // 
@@ -342,6 +404,7 @@
             // panel2
             // 
             panel2.BorderStyle = BorderStyle.FixedSingle;
+            panel2.Controls.Add(btnClearSelectedPoliciesFromDTG);
             panel2.Controls.Add(dtgImportContent);
             panel2.Controls.Add(lblHeader);
             panel2.Controls.Add(tbSearch);
@@ -354,6 +417,19 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(666, 606);
             panel2.TabIndex = 19;
+            // 
+            // btnClearSelectedPoliciesFromDTG
+            // 
+            btnClearSelectedPoliciesFromDTG.BackColor = Color.Salmon;
+            btnClearSelectedPoliciesFromDTG.FlatStyle = FlatStyle.Flat;
+            btnClearSelectedPoliciesFromDTG.ForeColor = Color.FromArgb(46, 51, 73);
+            btnClearSelectedPoliciesFromDTG.Location = new Point(309, 74);
+            btnClearSelectedPoliciesFromDTG.Name = "btnClearSelectedPoliciesFromDTG";
+            btnClearSelectedPoliciesFromDTG.Size = new Size(96, 28);
+            btnClearSelectedPoliciesFromDTG.TabIndex = 21;
+            btnClearSelectedPoliciesFromDTG.Text = "Clear selected";
+            btnClearSelectedPoliciesFromDTG.UseVisualStyleBackColor = false;
+            btnClearSelectedPoliciesFromDTG.Click += btnClearSelectedPoliciesFromDTG_Click;
             // 
             // lblHeader
             // 
@@ -401,7 +477,7 @@
             btnClearContentDTG.Name = "btnClearContentDTG";
             btnClearContentDTG.Size = new Size(96, 28);
             btnClearContentDTG.TabIndex = 16;
-            btnClearContentDTG.Text = "Clear";
+            btnClearContentDTG.Text = "Clear all";
             btnClearContentDTG.UseVisualStyleBackColor = false;
             btnClearContentDTG.Click += btnClearContentDTG_Click;
             // 
@@ -437,7 +513,7 @@
             // 
             pBarLoading.Location = new Point(3, 105);
             pBarLoading.Name = "pBarLoading";
-            pBarLoading.Size = new Size(198, 23);
+            pBarLoading.Size = new Size(402, 23);
             pBarLoading.Style = ProgressBarStyle.Marquee;
             pBarLoading.TabIndex = 6;
             // 
@@ -502,7 +578,7 @@
             btnClearSelectedFromGroupDTG.BackColor = Color.Salmon;
             btnClearSelectedFromGroupDTG.FlatStyle = FlatStyle.Flat;
             btnClearSelectedFromGroupDTG.ForeColor = Color.FromArgb(46, 51, 73);
-            btnClearSelectedFromGroupDTG.Location = new Point(332, 75);
+            btnClearSelectedFromGroupDTG.Location = new Point(309, 75);
             btnClearSelectedFromGroupDTG.Name = "btnClearSelectedFromGroupDTG";
             btnClearSelectedFromGroupDTG.Size = new Size(96, 28);
             btnClearSelectedFromGroupDTG.TabIndex = 20;
@@ -515,7 +591,7 @@
             lblGroups.AutoSize = true;
             lblGroups.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblGroups.ForeColor = Color.Salmon;
-            lblGroups.Location = new Point(26, 4);
+            lblGroups.Location = new Point(3, 4);
             lblGroups.Name = "lblGroups";
             lblGroups.Size = new Size(223, 30);
             lblGroups.TabIndex = 19;
@@ -526,7 +602,7 @@
             btnClearGroupDTG.BackColor = Color.Salmon;
             btnClearGroupDTG.FlatStyle = FlatStyle.Flat;
             btnClearGroupDTG.ForeColor = Color.FromArgb(46, 51, 73);
-            btnClearGroupDTG.Location = new Point(230, 75);
+            btnClearGroupDTG.Location = new Point(207, 75);
             btnClearGroupDTG.Name = "btnClearGroupDTG";
             btnClearGroupDTG.Size = new Size(96, 28);
             btnClearGroupDTG.TabIndex = 15;
@@ -536,7 +612,7 @@
             // 
             // pBarGroupLoading
             // 
-            pBarGroupLoading.Location = new Point(26, 105);
+            pBarGroupLoading.Location = new Point(3, 105);
             pBarGroupLoading.Name = "pBarGroupLoading";
             pBarGroupLoading.Size = new Size(402, 23);
             pBarGroupLoading.Style = ProgressBarStyle.Marquee;
@@ -550,31 +626,31 @@
             dtgGroups.BorderStyle = BorderStyle.None;
             dtgGroups.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dtgGroups.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.Salmon;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle3.ForeColor = Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dtgGroups.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = Color.Salmon;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle5.ForeColor = Color.Black;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dtgGroups.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dtgGroups.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgGroups.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4 });
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(46, 51, 73);
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle4.ForeColor = Color.Salmon;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
-            dtgGroups.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.FromArgb(46, 51, 73);
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle6.ForeColor = Color.Salmon;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dtgGroups.DefaultCellStyle = dataGridViewCellStyle6;
             dtgGroups.EnableHeadersVisualStyles = false;
             dtgGroups.GridColor = Color.Salmon;
-            dtgGroups.Location = new Point(26, 144);
+            dtgGroups.Location = new Point(3, 142);
             dtgGroups.Name = "dtgGroups";
             dtgGroups.RowHeadersVisible = false;
             dtgGroups.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgGroups.Size = new Size(558, 459);
+            dtgGroups.Size = new Size(658, 459);
             dtgGroups.TabIndex = 11;
             // 
             // dataGridViewTextBoxColumn1
@@ -608,7 +684,7 @@
             btnGroupListAll.BackColor = Color.Salmon;
             btnGroupListAll.FlatStyle = FlatStyle.Flat;
             btnGroupListAll.ForeColor = Color.FromArgb(46, 51, 73);
-            btnGroupListAll.Location = new Point(128, 75);
+            btnGroupListAll.Location = new Point(105, 75);
             btnGroupListAll.Name = "btnGroupListAll";
             btnGroupListAll.Size = new Size(96, 28);
             btnGroupListAll.TabIndex = 13;
@@ -621,7 +697,7 @@
             btnGroupSearch.BackColor = Color.Salmon;
             btnGroupSearch.FlatStyle = FlatStyle.Flat;
             btnGroupSearch.ForeColor = Color.FromArgb(46, 51, 73);
-            btnGroupSearch.Location = new Point(26, 75);
+            btnGroupSearch.Location = new Point(3, 75);
             btnGroupSearch.Name = "btnGroupSearch";
             btnGroupSearch.Size = new Size(96, 28);
             btnGroupSearch.TabIndex = 12;
@@ -635,7 +711,7 @@
             tBoxGroupSearch.BorderStyle = BorderStyle.None;
             tBoxGroupSearch.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tBoxGroupSearch.ForeColor = Color.Salmon;
-            tBoxGroupSearch.Location = new Point(26, 46);
+            tBoxGroupSearch.Location = new Point(3, 46);
             tBoxGroupSearch.Name = "tBoxGroupSearch";
             tBoxGroupSearch.Size = new Size(150, 22);
             tBoxGroupSearch.TabIndex = 11;
@@ -690,6 +766,7 @@
             pnlMainContent.PerformLayout();
             pnlAddFilter.ResumeLayout(false);
             pnlAddFilter.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgFilters).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             pnlStatusOutput.ResumeLayout(false);
@@ -717,10 +794,6 @@
         private Button btnSearch;
         private Button btnListAll;
         private ProgressBar pBarLoading;
-        private DataGridViewTextBoxColumn colName;
-        private DataGridViewTextBoxColumn colType;
-        private DataGridViewTextBoxColumn colPlatform;
-        private DataGridViewTextBoxColumn colID;
         private Button btnImportContet;
         private CheckBox cBoxAssignments;
         private Panel pnlGroups;
@@ -748,6 +821,16 @@
         private Label lblFilterHeader;
         private RadioButton rbFilterExclude;
         private RadioButton rbFilterInclude;
-        private ComboBox cbFilter;
+        private DataGridView dtgFilters;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private DataGridViewTextBoxColumn Rule;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private DataGridViewTextBoxColumn colName;
+        private DataGridViewTextBoxColumn colType;
+        private DataGridViewTextBoxColumn colPlatform;
+        private DataGridViewTextBoxColumn colID;
+        private ToolTip ToolTipImport;
+        private Button btnClearSelectedPoliciesFromDTG;
     }
 }

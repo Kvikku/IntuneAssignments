@@ -14,9 +14,13 @@ using static IntuneAssignments.Backend.SourceTenantGraphClient;
 using static IntuneAssignments.Backend.DestinationTenantGraphClient;
 using static IntuneAssignments.Backend.Intune_content_classes.SettingsCatalog;
 using static IntuneAssignments.Backend.IntuneContentClasses.Groups;
+using static IntuneAssignments.Backend.IntuneContentClasses.Filters;
 using Microsoft.Graph.Beta.NetworkAccess.Reports.MicrosoftGraphNetworkaccessGetDiscoveredApplicationSegmentReportWithStartDateTimeWithEndDateTimeuserIdUserId;
 using Microsoft.Graph.Beta.Security.ThreatIntelligence.WhoisRecords.Item;
 using Windows.Graphics.Printing.PrintSupport;
+using Microsoft.Graph.Beta;
+using Microsoft.Graph.Beta.Models;
+using IntuneAssignments.Backend.IntuneContentClasses;
 
 namespace IntuneAssignments.Presentation.Import
 {
@@ -41,6 +45,7 @@ namespace IntuneAssignments.Presentation.Import
 
         private void Import_Load(object sender, EventArgs e)
         {
+            pnlAddFilter.Visible = false;
             cbAddFilter.Hide();
             pnlAddFilter.Hide();
             pBarLoading.Hide();
@@ -164,6 +169,13 @@ namespace IntuneAssignments.Presentation.Import
 
         private async void btnImportContet_Click(object sender, EventArgs e)
         {
+            // Check if no radio button are selected
+            if (pnlAddFilter.Visible = true && !rbFilterInclude.Checked && !rbFilterExclude.Checked)
+            {
+                MessageBox.Show("Please select a filter type");
+                return;
+            }
+
             // Show the progress bar
             pBarImportStatus.Show();
 
@@ -180,6 +192,35 @@ namespace IntuneAssignments.Presentation.Import
             else
             {
                 assignments = false;
+                WriteToImportStatusFile("Assignments: False");
+            }
+
+            if (cbAddFilter.Checked)
+            {
+                filter = true;
+                WriteToImportStatusFile("Filter: True");
+
+                SelectedFilterName = dtgFilters.SelectedRows[0].Cells[0].Value.ToString();
+                SelectedFilterID = dtgFilters.SelectedRows[0].Cells[3].Value.ToString();
+
+                
+
+                // get the filter type
+                if (rbFilterInclude.Checked == true)
+                {
+                    deviceAndAppManagementAssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.Include;
+                }
+                if (rbFilterExclude.Checked == true)
+                {
+                    deviceAndAppManagementAssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.Exclude;
+                }
+
+
+            }
+            else
+            {
+                filter = false;
+                WriteToImportStatusFile("Filter: False");
             }
 
 
@@ -329,7 +370,7 @@ namespace IntuneAssignments.Presentation.Import
 
             // Import the policies
 
-            await ImportMultipleSettingsCatalog(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, groupIDs);
+            await ImportMultipleSettingsCatalog(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments,filter, groupIDs);
         }
 
         private void btnClearSelectedFromGroupDTG_Click(object sender, EventArgs e)
@@ -349,14 +390,30 @@ namespace IntuneAssignments.Presentation.Import
             rbFilterInclude.Checked = false;
         }
 
-        private void cbAddFilter_CheckedChanged(object sender, EventArgs e)
+        private async Task AddFiltersToDTG(GraphServiceClient graphServiceClient, DataGridView dtg)
+        {
+            // Add filters to the datagridview
+            // Get the filters
+            var filters = await GetAllAssignmentFilters(graphServiceClient);
+
+            // Add the filters to the datagridview
+            foreach (var filter in filters)
+            {
+                dtg.Rows.Add(filter.DisplayName, filter.Rule, filter.Platform, filter.Id);
+            }
+        }
+
+
+        private async void cbAddFilter_CheckedChanged(object sender, EventArgs e)
         {
             // Show or hide the filter options
             if (cbAddFilter.Checked)
             {
+                pnlAddFilter.Visible = true;
                 filter = true;
                 pnlAddFilter.Show();
                 filter = true;
+                await AddFiltersToDTG(destinationGraphServiceClient, dtgFilters);
             }
             else
             {
@@ -364,6 +421,12 @@ namespace IntuneAssignments.Presentation.Import
                 pnlAddFilter.Hide();
                 filter = false;
             }
+        }
+
+        private void btnClearSelectedPoliciesFromDTG_Click(object sender, EventArgs e)
+        {
+            // Clear the selected groups datagridview
+            ClearSelectedDataGridViewRow(dtgImportContent);
         }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
 using static IntuneAssignments.Backend.Utilities.FormUtilities;
 using static IntuneAssignments.Backend.Utilities.GlobalVariables;
+using static IntuneAssignments.Backend.IntuneContentClasses.Filters;
 
 namespace IntuneAssignments.Backend.Intune_content_classes
 {
@@ -186,7 +187,7 @@ namespace IntuneAssignments.Backend.Intune_content_classes
             return matchingRows;
         }
 
-        public static async Task ImportMultipleSettingsCatalog(GraphServiceClient sourceGraphServiceClient, GraphServiceClient destinationGraphServiceClient, DataGridView dtg, List<string> policies, RichTextBox rtb, bool assignments, List<string> groups)
+        public static async Task ImportMultipleSettingsCatalog(GraphServiceClient sourceGraphServiceClient, GraphServiceClient destinationGraphServiceClient, DataGridView dtg, List<string> policies, RichTextBox rtb, bool assignments,bool filter, List<string> groups)
         {
             // This method imports multiple settings catalog policies from the source tenant to the destination tenant
             try
@@ -341,6 +342,8 @@ namespace IntuneAssignments.Backend.Intune_content_classes
 
             foreach (var group in groupID)
             {
+                
+
                 // Create a group assignment target object
                 var groupAssignmentTarget = new GroupAssignmentTarget
                 {
@@ -361,8 +364,8 @@ namespace IntuneAssignments.Backend.Intune_content_classes
                     Target = new GroupAssignmentTarget
                     {
                         OdataType = "#microsoft.graph.groupAssignmentTarget",
-                        DeviceAndAppManagementAssignmentFilterId = null,
-                        DeviceAndAppManagementAssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.Include,
+                        DeviceAndAppManagementAssignmentFilterId = SelectedFilterID,
+                        DeviceAndAppManagementAssignmentFilterType = deviceAndAppManagementAssignmentFilterType,
                         GroupId = group,
                     },
                     Source = DeviceAndAppManagementAssignmentSource.Direct,
