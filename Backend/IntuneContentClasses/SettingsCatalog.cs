@@ -389,7 +389,7 @@ namespace IntuneAssignments.Backend.Intune_content_classes
             try
             {
                 var result = await destinationGraphServiceClient.DeviceManagement.ConfigurationPolicies[policyID].Assign.PostAsAssignPostResponseAsync(requestBody);
-                WriteToImportStatusFile("Assigned groups to policy " + policyID);
+                WriteToImportStatusFile("Assigned groups to policy " + policyID + " with filter type" + deviceAndAppManagementAssignmentFilterType.ToString());
             }
             catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
             {
