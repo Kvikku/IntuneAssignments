@@ -552,7 +552,7 @@
             clbContentTypes.Location = new Point(448, 4);
             clbContentTypes.Name = "clbContentTypes";
             clbContentTypes.ScrollAlwaysVisible = true;
-            clbContentTypes.Size = new Size(215, 90);
+            clbContentTypes.Size = new Size(215, 126);
             clbContentTypes.TabIndex = 2;
             clbContentTypes.MouseEnter += clbContentTypes_MouseEnter;
             clbContentTypes.MouseLeave += clbContentTypes_MouseLeave;

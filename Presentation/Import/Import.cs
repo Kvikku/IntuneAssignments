@@ -215,6 +215,21 @@ namespace IntuneAssignments.Presentation.Import
             {
                 assignments = true;
                 WriteToImportStatusFile("Assignments: True");
+
+                // Get the selected group names from the dtg (first column)
+                List<string> groupNames = new List<string>();
+                foreach (DataGridViewRow row in dtgGroups.Rows)
+                {
+                    groupNames.Add(row.Cells[0].Value.ToString());
+                }
+
+                WriteToImportStatusFile("The following groups will be added as the assignment");
+                foreach (var group in groupNames)
+                {
+                    WriteToImportStatusFile(group);
+                }
+                WriteToImportStatusFile("=====================================");
+
             }
             else
             {
@@ -226,11 +241,12 @@ namespace IntuneAssignments.Presentation.Import
             {
                 filter = true;
                 WriteToImportStatusFile("Filter: True");
+                WriteToImportStatusFile($"Selected Filter: {dtgFilters.SelectedRows[0].Cells[0].Value.ToString()}");
+                WriteToImportStatusFile($"Selected Filter Rule: {dtgFilters.SelectedRows[0].Cells[1].Value.ToString()}");
+                WriteToImportStatusFile($"Selected Filter ID: {dtgFilters.SelectedRows[0].Cells[3].Value.ToString()}");
 
                 SelectedFilterName = dtgFilters.SelectedRows[0].Cells[0].Value.ToString();
                 SelectedFilterID = dtgFilters.SelectedRows[0].Cells[3].Value.ToString();
-
-
 
                 // get the filter type
                 if (rbFilterInclude.Checked == true)
@@ -241,8 +257,6 @@ namespace IntuneAssignments.Presentation.Import
                 {
                     deviceAndAppManagementAssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.Exclude;
                 }
-
-
             }
             else
             {
