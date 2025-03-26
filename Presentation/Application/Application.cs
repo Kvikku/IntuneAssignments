@@ -2577,5 +2577,10 @@ namespace IntuneAssignments
                 rbFilterInclude.Hide();
             }
         }
+
+        private void rbFilterInclude_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

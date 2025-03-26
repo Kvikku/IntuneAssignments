@@ -16,6 +16,7 @@ using static IntuneAssignments.Backend.Intune_content_classes.SettingsCatalog;
 using static IntuneAssignments.Backend.IntuneContentClasses.Groups;
 using Microsoft.Graph.Beta.NetworkAccess.Reports.MicrosoftGraphNetworkaccessGetDiscoveredApplicationSegmentReportWithStartDateTimeWithEndDateTimeuserIdUserId;
 using Microsoft.Graph.Beta.Security.ThreatIntelligence.WhoisRecords.Item;
+using Windows.Graphics.Printing.PrintSupport;
 
 namespace IntuneAssignments.Presentation.Import
 {
@@ -24,6 +25,7 @@ namespace IntuneAssignments.Presentation.Import
         private const int ExpandedHeight = 200; // Adjust as needed
         private const int CollapsedHeight = 100; // Adjust as needed
         private bool assignments = false;
+        private bool filter = false;
 
         public Import()
         {
@@ -39,6 +41,8 @@ namespace IntuneAssignments.Presentation.Import
 
         private void Import_Load(object sender, EventArgs e)
         {
+            cbAddFilter.Hide();
+            pnlAddFilter.Hide();
             pBarLoading.Hide();
             pBarGroupLoading.Hide();
             pBarImportStatus.Hide();
@@ -213,11 +217,13 @@ namespace IntuneAssignments.Presentation.Import
             {
                 pnlGroups.Show();
                 assignments = true;
+                cbAddFilter.Show();
             }
             else
             {
                 pnlGroups.Hide();
                 assignments = false;
+                cbAddFilter.Hide();
             }
         }
 
@@ -330,6 +336,34 @@ namespace IntuneAssignments.Presentation.Import
         {
             // Clear the selected groups datagridview
             ClearSelectedDataGridViewRow(dtgGroups);
+        }
+
+        private void rbFilterInclude_Click(object sender, EventArgs e)
+        {
+            // Set the filter to include
+            rbFilterExclude.Checked = false;
+        }
+
+        private void rbFilterExclude_Click(object sender, EventArgs e)
+        {
+            rbFilterInclude.Checked = false;
+        }
+
+        private void cbAddFilter_CheckedChanged(object sender, EventArgs e)
+        {
+            // Show or hide the filter options
+            if (cbAddFilter.Checked)
+            {
+                filter = true;
+                pnlAddFilter.Show();
+                filter = true;
+            }
+            else
+            {
+                filter = false;
+                pnlAddFilter.Hide();
+                filter = false;
+            }
         }
     }
 }

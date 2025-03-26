@@ -46,6 +46,12 @@
             colPlatform = new DataGridViewTextBoxColumn();
             colID = new DataGridViewTextBoxColumn();
             pnlMainContent = new Panel();
+            pnlAddFilter = new Panel();
+            rbFilterExclude = new RadioButton();
+            rbFilterInclude = new RadioButton();
+            cbFilter = new ComboBox();
+            lblFilterHeader = new Label();
+            cbAddFilter = new CheckBox();
             panel2 = new Panel();
             lblHeader = new Label();
             tbSearch = new TextBox();
@@ -81,6 +87,7 @@
             ((System.ComponentModel.ISupportInitialize)pBHome).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgImportContent).BeginInit();
             pnlMainContent.SuspendLayout();
+            pnlAddFilter.SuspendLayout();
             panel2.SuspendLayout();
             pnlStatusOutput.SuspendLayout();
             pnlGroups.SuspendLayout();
@@ -243,6 +250,8 @@
             // 
             // pnlMainContent
             // 
+            pnlMainContent.Controls.Add(pnlAddFilter);
+            pnlMainContent.Controls.Add(cbAddFilter);
             pnlMainContent.Controls.Add(panel2);
             pnlMainContent.Controls.Add(pBarImportStatus);
             pnlMainContent.Controls.Add(pnlStatusOutput);
@@ -253,6 +262,82 @@
             pnlMainContent.Name = "pnlMainContent";
             pnlMainContent.Size = new Size(1762, 891);
             pnlMainContent.TabIndex = 2;
+            // 
+            // pnlAddFilter
+            // 
+            pnlAddFilter.BorderStyle = BorderStyle.FixedSingle;
+            pnlAddFilter.Controls.Add(rbFilterExclude);
+            pnlAddFilter.Controls.Add(rbFilterInclude);
+            pnlAddFilter.Controls.Add(cbFilter);
+            pnlAddFilter.Controls.Add(lblFilterHeader);
+            pnlAddFilter.Location = new Point(675, 623);
+            pnlAddFilter.Name = "pnlAddFilter";
+            pnlAddFilter.Size = new Size(645, 229);
+            pnlAddFilter.TabIndex = 21;
+            // 
+            // rbFilterExclude
+            // 
+            rbFilterExclude.AutoSize = true;
+            rbFilterExclude.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            rbFilterExclude.ForeColor = Color.Salmon;
+            rbFilterExclude.Location = new Point(175, 64);
+            rbFilterExclude.Name = "rbFilterExclude";
+            rbFilterExclude.Size = new Size(74, 18);
+            rbFilterExclude.TabIndex = 31;
+            rbFilterExclude.TabStop = true;
+            rbFilterExclude.Text = "Exclude";
+            rbFilterExclude.UseVisualStyleBackColor = true;
+            rbFilterExclude.Click += rbFilterExclude_Click;
+            // 
+            // rbFilterInclude
+            // 
+            rbFilterInclude.AutoSize = true;
+            rbFilterInclude.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            rbFilterInclude.ForeColor = Color.Salmon;
+            rbFilterInclude.Location = new Point(175, 46);
+            rbFilterInclude.Name = "rbFilterInclude";
+            rbFilterInclude.Size = new Size(74, 18);
+            rbFilterInclude.TabIndex = 30;
+            rbFilterInclude.TabStop = true;
+            rbFilterInclude.Text = "Include";
+            rbFilterInclude.UseVisualStyleBackColor = true;
+            rbFilterInclude.Click += rbFilterInclude_Click;
+            // 
+            // cbFilter
+            // 
+            cbFilter.BackColor = Color.FromArgb(46, 51, 73);
+            cbFilter.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbFilter.FlatStyle = FlatStyle.Flat;
+            cbFilter.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cbFilter.ForeColor = Color.Salmon;
+            cbFilter.FormattingEnabled = true;
+            cbFilter.Location = new Point(3, 45);
+            cbFilter.Name = "cbFilter";
+            cbFilter.Size = new Size(157, 22);
+            cbFilter.TabIndex = 29;
+            // 
+            // lblFilterHeader
+            // 
+            lblFilterHeader.AutoSize = true;
+            lblFilterHeader.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblFilterHeader.ForeColor = Color.Salmon;
+            lblFilterHeader.Location = new Point(3, 9);
+            lblFilterHeader.Name = "lblFilterHeader";
+            lblFilterHeader.Size = new Size(202, 30);
+            lblFilterHeader.TabIndex = 20;
+            lblFilterHeader.Text = "Filter for assignment";
+            // 
+            // cbAddFilter
+            // 
+            cbAddFilter.AutoSize = true;
+            cbAddFilter.ForeColor = Color.Salmon;
+            cbAddFilter.Location = new Point(189, 644);
+            cbAddFilter.Name = "cbAddFilter";
+            cbAddFilter.Size = new Size(75, 19);
+            cbAddFilter.TabIndex = 20;
+            cbAddFilter.Text = "Add filter";
+            cbAddFilter.UseVisualStyleBackColor = true;
+            cbAddFilter.CheckedChanged += cbAddFilter_CheckedChanged;
             // 
             // panel2
             // 
@@ -603,6 +688,8 @@
             ((System.ComponentModel.ISupportInitialize)dtgImportContent).EndInit();
             pnlMainContent.ResumeLayout(false);
             pnlMainContent.PerformLayout();
+            pnlAddFilter.ResumeLayout(false);
+            pnlAddFilter.PerformLayout();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             pnlStatusOutput.ResumeLayout(false);
@@ -656,5 +743,11 @@
         private Label lblGroups;
         private Panel panel2;
         private Button btnClearSelectedFromGroupDTG;
+        private CheckBox cbAddFilter;
+        private Panel pnlAddFilter;
+        private Label lblFilterHeader;
+        private RadioButton rbFilterExclude;
+        private RadioButton rbFilterInclude;
+        private ComboBox cbFilter;
     }
 }
