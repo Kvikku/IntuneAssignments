@@ -1497,5 +1497,17 @@ namespace IntuneAssignments.Backend.Utilities
             // Add the items to the dictionary
             dictionary.Add(name, id);
         }
+
+        public static void GetCheckedItemsFromCheckedListBox(CheckedListBox checkedListBox, List<string> checkedItems)
+        {
+            // Clear the list
+            checkedItems.Clear();
+            // Loop through the checked items
+            foreach (var item in checkedListBox.CheckedItems)
+            {
+                // Add the checked items to the list
+                checkedItems.Add(item.ToString());
+            }
+        }
     }
 }

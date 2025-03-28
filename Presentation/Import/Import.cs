@@ -45,9 +45,9 @@ namespace IntuneAssignments.Presentation.Import
 
         private void Import_Load(object sender, EventArgs e)
         {
-            pnlImportControls.Hide();
+            //pnlImportControls.Hide();
             pnlStatusOutput.Hide();
-            pnlImportContent.Hide();
+            //pnlImportContent.Hide();
             cbAddFilter.Hide();
             pnlAddFilter.Hide();
             pBarLoading.Hide();
@@ -169,7 +169,15 @@ namespace IntuneAssignments.Presentation.Import
 
             ClearDataGridView(dtgImportContent);
 
-            await AddAllSettingsCatalogToDTG();
+
+            // Get the categories the user wants to search for
+            List<string> categories = new();
+            GetCheckedItemsFromCheckedListBox(clbContentTypes, categories);
+
+            if (categories.Contains("Settings Catalog"))
+            {
+                await SearchAndAddSettingsCatalog();
+            }
 
 
             // Hide the progress bar
@@ -183,7 +191,15 @@ namespace IntuneAssignments.Presentation.Import
 
             ClearDataGridView(dtgImportContent);
 
-            await SearchAndAddSettingsCatalog();
+            // Get the categories the user wants to search for
+            List<string> categories = new();
+            GetCheckedItemsFromCheckedListBox(clbContentTypes, categories);
+
+            if (categories.Contains("Settings Catalog"))
+            {
+                await SearchAndAddSettingsCatalog();
+            }
+
 
 
 
