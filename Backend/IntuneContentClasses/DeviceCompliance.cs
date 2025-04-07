@@ -13,7 +13,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 {
     public class DeviceCompliance
     {
-        public static async Task<List<DeviceManagementCompliancePolicy>> GetAllDeviceCompliancePolicies(GraphServiceClient graphServiceClient)
+        public static async Task<List<DeviceCompliancePolicy>> GetAllDeviceCompliancePolicies(GraphServiceClient graphServiceClient)
         {
             // This method retrieves all the device compliance policies from Intune and returns them as a list of DeviceManagementCompliancePolicy objects
             try
@@ -25,9 +25,14 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     requestConfiguration.QueryParameters.Top = 1000;
                 });
 
-                List<DeviceManagementCompliancePolicy> compliancePolicies = new List<DeviceManagementCompliancePolicy>();
+                if (result == null)
+                {
+                    throw new InvalidOperationException("The result from the Graph API is null.");
+                }
+
+                List<DeviceCompliancePolicy> compliancePolicies = new List<DeviceCompliancePolicy>();
                 // Iterate through the pages of results
-                var pageIterator = PageIterator<DeviceManagementCompliancePolicy, DeviceCompliancePolicyCollectionResponse>.CreatePageIterator(graphServiceClient, result, (policy) =>
+                var pageIterator = PageIterator<DeviceCompliancePolicy, DeviceCompliancePolicyCollectionResponse>.CreatePageIterator(graphServiceClient, result, (policy) =>
                 {
                     compliancePolicies.Add(policy);
                     return true;
@@ -42,28 +47,22 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
             }
             catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
             {
-                // Log the error message
-                WriteToLog($"ODataError: {me.Message}");
-                MessageBox.Show(me.Message);
+                HandleException(me, "ODataError occurred");
             }
             catch (ServiceException ex)
             {
-                // Log the error message
-                WriteToLog($"ServiceException: {ex.Message}");
-                MessageBox.Show(ex.Message);
+                HandleException(ex, "ServiceException occurred");
             }
             catch (Exception ex)
             {
-                // Log the error message
-                WriteToLog($"Exception: {ex.Message}");
-                MessageBox.Show(ex.Message);
+                HandleException(ex, "An unexpected error occurred");
             }
 
             // Return an empty list if an exception occurs
-            return new List<DeviceManagementCompliancePolicy>();
+            return new List<DeviceCompliancePolicy>();
         }
 
-        public static async Task<List<DeviceManagementCompliancePolicy>> SearchForDeviceCompliancePolicies(GraphServiceClient graphServiceClient, string searchQuery)
+        public static async Task<List<DeviceCompliancePolicy>> SearchForDeviceCompliancePolicies(GraphServiceClient graphServiceClient, string searchQuery)
         {
             // This method searches the Intune device compliance policies for a specific query and returns the results as a list of DeviceManagementCompliancePolicy objects
             try
@@ -72,12 +71,12 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
                 var result = await graphServiceClient.DeviceManagement.DeviceCompliancePolicies.GetAsync((requestConfiguration) =>
                 {
-                    requestConfiguration.QueryParameters.Filter = $"contains(Name,'{searchQuery}')";
+                    requestConfiguration.QueryParameters.Filter = $"contains(displayName,'{searchQuery}')";
                 });
 
-                List<DeviceManagementCompliancePolicy> compliancePolicies = new List<DeviceManagementCompliancePolicy>();
+                List<DeviceCompliancePolicy> compliancePolicies = new List<DeviceCompliancePolicy>();
                 // Iterate through the pages of results
-                var pageIterator = PageIterator<DeviceManagementCompliancePolicy, DeviceCompliancePolicyCollectionResponse>.CreatePageIterator(graphServiceClient, result, (policy) =>
+                var pageIterator = PageIterator<DeviceCompliancePolicy, DeviceCompliancePolicyCollectionResponse>.CreatePageIterator(graphServiceClient, result, (policy) =>
                 {
                     compliancePolicies.Add(policy);
                     return true;
@@ -92,25 +91,188 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
             }
             catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
             {
-                // Log the error message
-                WriteToLog($"ODataError: {me.Message}");
-                MessageBox.Show(me.Message);
+                HandleException(me, "ODataError occurred");
             }
             catch (ServiceException ex)
             {
-                // Log the error message
-                WriteToLog($"ServiceException: {ex.Message}");
-                MessageBox.Show(ex.Message);
+                HandleException(ex, "ServiceException occurred");
             }
             catch (Exception ex)
             {
-                // Log the error message
-                WriteToLog($"Exception: {ex.Message}");
-                MessageBox.Show(ex.Message);
+                HandleException(ex, "An unexpected error occurred");
             }
 
             // Return an empty list if an exception occurs
-            return new List<DeviceManagementCompliancePolicy>();
+            return new List<DeviceCompliancePolicy>();
         }
+
+        public static void AddDeviceComplianceToDTG(List<DeviceCompliancePolicy> policies, System.Windows.Forms.DataGridView dtg)
+        {
+            // Check if the policies list is null
+            if (policies == null)
+            {
+                throw new ArgumentNullException(nameof(policies), "The policies list cannot be null.");
+            }
+
+            // Check if the DataGridView is null
+            if (dtg == null)
+            {
+                throw new ArgumentNullException(nameof(dtg), "The DataGridView cannot be null.");
+            }
+
+            try
+            {
+                WriteToLog("Adding device compliance policies to the DataGridView.");
+
+                // Iterate through the policies and add them to the DataGridView
+                foreach (var policy in policies)
+                {
+                    // Check if required properties are not null
+                    if (policy.Id == null || policy.DisplayName == null || policy.Description == null)
+                    {
+                        throw new InvalidOperationException("Policy properties cannot be null.");
+                    }
+
+                    dtg.Rows.Add(policy.DisplayName, "Device Compliance", policy.OdataType, policy.Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, "An unexpected error occurred");
+            }
+        }
+
+        public static List<string> GetDeviceComplianceFromDTG(System.Windows.Forms.DataGridView dtg)
+        {
+            string type = "Device Compliance";
+            List<string> matchingRows = new List<string>();
+
+            foreach (System.Windows.Forms.DataGridViewRow row in dtg.Rows)
+            {
+                if (row.Cells[1].Value != null && row.Cells[1].Value.ToString() == type && row.Cells[3].Value != null)
+                {
+                    // Get the policy ID
+                    var cellValue = row.Cells[3].Value?.ToString();
+                    if (cellValue != null)
+                    {
+                        matchingRows.Add(cellValue);
+                    }
+                }
+            }
+
+            return matchingRows;
+        }
+
+        public static async Task ImportMultipleDeviceCompliancePolicies(GraphServiceClient sourceGraphServiceClient, GraphServiceClient destinationGraphServiceClient, System.Windows.Forms.DataGridView dtg, List<string> policies, System.Windows.Forms.RichTextBox rtb, bool assignments, bool filter, List<string> groups)
+        {
+            try
+            {
+                rtb.AppendText($"Importing {policies.Count} device compliance policies.\n");
+                WriteToLog($"Importing {policies.Count} device compliance policies.");
+
+                if (assignments)
+                {
+                    rtb.AppendText("Group assignments will be added.\n");
+                    WriteToLog("Group assignments will be added.");
+                }
+
+                if (filter)
+                {
+                    rtb.AppendText("Filters will be added.\n");
+                    WriteToLog("Filters will be added.");
+                }
+
+                foreach (var policy in policies)
+                {
+                    try
+                    {
+                        var result = await sourceGraphServiceClient.DeviceManagement.DeviceCompliancePolicies[policy].GetAsync();
+
+                        var newPolicy = new DeviceCompliancePolicy
+                        {
+                            DisplayName = result.DisplayName,
+                            Description = result.Description,
+                            RoleScopeTagIds = result.RoleScopeTagIds,
+                            Assignments = new List<DeviceCompliancePolicyAssignment>()
+                        };
+
+                        var import = await destinationGraphServiceClient.DeviceManagement.DeviceCompliancePolicies.PostAsync(newPolicy);
+                        rtb.AppendText($"Imported policy: {import.DisplayName}\n");
+                        WriteToLog($"Imported policy: {import.DisplayName}");
+
+                        if (assignments)
+                        {
+                            await AssignGroupsToSingleDeviceCompliance(import.Id, groups, destinationGraphServiceClient);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        HandleException(ex, "An unexpected error occurred");
+                        rtb.AppendText($"Error importing policy {policy}: {ex.Message}\n");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, "An unexpected error occurred");
+                rtb.AppendText($"An unexpected error occurred: {ex.Message}\n");
+            }
+        }
+
+        public static async Task AssignGroupsToSingleDeviceCompliance(string policyID, List<string> groupIDs, GraphServiceClient destinationGraphServiceClient)
+        {
+            if (policyID == null)
+            {
+                throw new ArgumentNullException(nameof(policyID));
+            }
+
+            if (groupIDs == null)
+            {
+                throw new ArgumentNullException(nameof(groupIDs));
+            }
+
+            if (destinationGraphServiceClient == null)
+            {
+                throw new ArgumentNullException(nameof(destinationGraphServiceClient));
+            }
+
+            List<DeviceCompliancePolicyAssignment> assignments = new List<DeviceCompliancePolicyAssignment>();
+
+            foreach (var group in groupIDs)
+            {
+                var assignment = new DeviceCompliancePolicyAssignment
+                {
+                    Target = new GroupAssignmentTarget
+                    {
+                        GroupId = group
+                    }
+                };
+
+                assignments.Add(assignment);
+            }
+
+            var requestBody = new Microsoft.Graph.Beta.DeviceManagement.DeviceCompliancePolicies.Item.Assign.AssignPostRequestBody
+            {
+                Assignments = assignments
+            };
+
+            try
+            {
+                await destinationGraphServiceClient.DeviceManagement.DeviceCompliancePolicies[policyID].Assign.PostAsync(requestBody);
+                WriteToLog($"Assigned groups to policy {policyID}");
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, "An unexpected error occurred");
+            }
+        }
+
+        public static string TranslateComplianceODataTypeToPlatform(string odatatype)
+        {
+            string platForm = "Unknown";
+
+
+        }
+
     }
 }

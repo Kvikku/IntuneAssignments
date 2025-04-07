@@ -154,7 +154,11 @@ namespace IntuneAssignments.Backend.Utilities
 
         }
 
-
+        public static void HandleException(Exception ex, string contextMessage)
+        {
+            WriteToLog($"{contextMessage}: {ex.Message}");
+            MessageBox.Show($"{contextMessage}: {ex.Message}");
+        }
 
         public static List<string> ReadLastLines(string filePath, int lineCount)
         {

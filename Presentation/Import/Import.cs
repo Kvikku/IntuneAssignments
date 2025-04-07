@@ -13,6 +13,7 @@ using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 using static IntuneAssignments.Backend.SourceTenantGraphClient;
 using static IntuneAssignments.Backend.DestinationTenantGraphClient;
 using static IntuneAssignments.Backend.Intune_content_classes.SettingsCatalog;
+using static IntuneAssignments.Backend.IntuneContentClasses.DeviceCompliance;
 using static IntuneAssignments.Backend.IntuneContentClasses.Groups;
 using static IntuneAssignments.Backend.IntuneContentClasses.Filters;
 using Microsoft.Graph.Beta.NetworkAccess.Reports.MicrosoftGraphNetworkaccessGetDiscoveredApplicationSegmentReportWithStartDateTimeWithEndDateTimeuserIdUserId;
@@ -21,6 +22,7 @@ using Windows.Graphics.Printing.PrintSupport;
 using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
 using IntuneAssignments.Backend.IntuneContentClasses;
+
 
 namespace IntuneAssignments.Presentation.Import
 {
@@ -176,7 +178,11 @@ namespace IntuneAssignments.Presentation.Import
 
             if (categories.Contains("Settings Catalog"))
             {
-                await SearchAndAddSettingsCatalog();
+                await AddAllSettingsCatalogToDTG();
+            }
+            if (categories.Contains("Device Compliance"))
+            {
+                await AddAllDeviceComplianceToDTG();
             }
 
 
@@ -198,6 +204,10 @@ namespace IntuneAssignments.Presentation.Import
             if (categories.Contains("Settings Catalog"))
             {
                 await SearchAndAddSettingsCatalog();
+            }
+            if (categories.Contains("Device Compliance"))
+            {
+                await SearchAndAddDeviceCompliance();
             }
 
 
@@ -378,9 +388,6 @@ namespace IntuneAssignments.Presentation.Import
 
         // Methods for the import process //
 
-        // Device compliance
-
-        
 
         // Settings catalog
 
@@ -433,6 +440,24 @@ namespace IntuneAssignments.Presentation.Import
 
             await ImportMultipleSettingsCatalog(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
         }
+
+
+        // Device compliance
+        private async Task SearchAndAddDeviceCompliance()
+        {
+            // Search for device compliance policies
+            var result = await SearchForDeviceCompliancePolicies(sourceGraphServiceClient, tbSearch.Text.ToString());
+            AddDeviceComplianceToDTG(result, dtgImportContent);
+        }
+
+        private async Task AddAllDeviceComplianceToDTG()
+        {
+            // Add all device compliance policies to the datagridview
+            var result = await GetAllDeviceCompliancePolicies(sourceGraphServiceClient);
+            AddDeviceComplianceToDTG(result, dtgImportContent);
+        }
+
+
 
         private void btnClearSelectedFromGroupDTG_Click(object sender, EventArgs e)
         {
