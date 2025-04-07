@@ -204,7 +204,6 @@
             // 
             dtgImportContent.AllowUserToAddRows = false;
             dtgImportContent.AllowUserToDeleteRows = false;
-            dtgImportContent.AllowUserToResizeColumns = false;
             dtgImportContent.BackgroundColor = Color.FromArgb(46, 51, 73);
             dtgImportContent.BorderStyle = BorderStyle.None;
             dtgImportContent.CellBorderStyle = DataGridViewCellBorderStyle.None;
@@ -348,7 +347,6 @@
             // 
             dtgFilters.AllowUserToAddRows = false;
             dtgFilters.AllowUserToDeleteRows = false;
-            dtgFilters.AllowUserToResizeColumns = false;
             dtgFilters.BackgroundColor = Color.FromArgb(46, 51, 73);
             dtgFilters.BorderStyle = BorderStyle.None;
             dtgFilters.CellBorderStyle = DataGridViewCellBorderStyle.None;
@@ -662,7 +660,6 @@
             // 
             dtgGroups.AllowUserToAddRows = false;
             dtgGroups.AllowUserToDeleteRows = false;
-            dtgGroups.AllowUserToResizeColumns = false;
             dtgGroups.BackgroundColor = Color.FromArgb(46, 51, 73);
             dtgGroups.BorderStyle = BorderStyle.None;
             dtgGroups.CellBorderStyle = DataGridViewCellBorderStyle.None;
