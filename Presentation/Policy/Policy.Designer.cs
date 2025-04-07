@@ -733,6 +733,7 @@
             txtboxDescription.Location = new Point(6, 54);
             txtboxDescription.Multiline = true;
             txtboxDescription.Name = "txtboxDescription";
+            txtboxDescription.ReadOnly = true;
             txtboxDescription.Size = new Size(339, 218);
             txtboxDescription.TabIndex = 11;
             toolTipPolicy.SetToolTip(txtboxDescription, "Enter a desired description. Leave blank to not add or change the description field. Existing description will be overwritten");

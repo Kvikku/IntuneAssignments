@@ -188,17 +188,78 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 {
                     try
                     {
-                        var result = await sourceGraphServiceClient.DeviceManagement.DeviceCompliancePolicies[policy].GetAsync();
-
-                        var newPolicy = new DeviceCompliancePolicy
+                        var result = await sourceGraphServiceClient.DeviceManagement.DeviceCompliancePolicies[policy].GetAsync((requestConfiguration) =>
                         {
-                            DisplayName = result.DisplayName,
-                            Description = result.Description,
-                            RoleScopeTagIds = result.RoleScopeTagIds,
-                            Assignments = new List<DeviceCompliancePolicyAssignment>()
+                            requestConfiguration.QueryParameters.Expand = new string[] { "scheduledActionsForRule" };
+                        });
+
+                        // Get the type of the policy with reflection
+                        var type = result.GetType();
+
+                        // Create a new instance of the same type
+                        var newPolicy = Activator.CreateInstance(type);
+
+                        // Copy all settings from the source policy to the new policy
+                        foreach (var property in result.GetType().GetProperties())
+                        {
+                            if (property.CanWrite && property.Name != "Id" && property.Name != "CreatedDateTime" && property.Name != "LastModifiedDateTime")
+                            {
+                                var value = property.GetValue(result);
+                                if (value != null)
+                                {
+                                    property.SetValue(newPolicy, value);
+                                }
+                            }
+                        }
+
+                        
+                        
+
+                        // Cast the new policy to DeviceCompliancePolicy
+                        var deviceCompliancePolicy = newPolicy as DeviceCompliancePolicy;
+
+
+                        // new device compliance scheduled action rule
+
+                        var testRule = new DeviceComplianceScheduledActionForRule
+                        {
+                            RuleName = "Test Rule",
+                            ScheduledActionConfigurations = new List<DeviceComplianceActionItem>()
+                            {
+                                new DeviceComplianceActionItem
+                                {
+                                    ActionType = DeviceComplianceActionType.Block,
+                                    GracePeriodHours = 8,
+                                    NotificationMessageCCList = new List<string>(),
+                                    NotificationTemplateId = ""
+                                }
+                            }
                         };
 
-                        var import = await destinationGraphServiceClient.DeviceManagement.DeviceCompliancePolicies.PostAsync(newPolicy);
+                        deviceCompliancePolicy.ScheduledActionsForRule = new List<DeviceComplianceScheduledActionForRule>
+                        {
+                            testRule
+                        };
+
+
+                        //// Ensure the ScheduledActionsForRule is copied
+                        //if (result.ScheduledActionsForRule != null)
+                        //{
+                        //    deviceCompliancePolicy.ScheduledActionsForRule = new List<DeviceComplianceScheduledActionForRule>();
+                        //    foreach (var action in result.ScheduledActionsForRule)
+                        //    {
+                        //        var newAction = new DeviceComplianceScheduledActionForRule
+                        //        {
+                        //            RuleName = action.RuleName,
+                        //            ScheduledActionConfigurations = action.ScheduledActionConfigurations
+
+                        //        };
+                        //        deviceCompliancePolicy.ScheduledActionsForRule.Add(newAction);
+                        //    }
+                        //}
+
+
+                        var import = await destinationGraphServiceClient.DeviceManagement.DeviceCompliancePolicies.PostAsync(deviceCompliancePolicy);
                         rtb.AppendText($"Imported policy: {import.DisplayName}\n");
                         WriteToLog($"Imported policy: {import.DisplayName}");
 

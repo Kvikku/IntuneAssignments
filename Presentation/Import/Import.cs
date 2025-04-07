@@ -32,6 +32,8 @@ namespace IntuneAssignments.Presentation.Import
         private const int CollapsedHeight = 100; // Adjust as needed
         private bool assignments = false;
         private bool filter = false;
+        private bool settingsCatalog = false;
+        private bool deviceCompliance = false;
 
         public Import()
         {
@@ -226,6 +228,9 @@ namespace IntuneAssignments.Presentation.Import
                 return;
             }
 
+            // Check what type of content is selected
+
+
             // Show the progress bar
             pBarImportStatus.Show();
 
@@ -290,9 +295,40 @@ namespace IntuneAssignments.Presentation.Import
                 WriteToImportStatusFile("Filter: False");
             }
 
+            // Get all selected content from the column
+            List<string> contentTypes = new();
+            foreach (DataGridViewRow row in dtgImportContent.Rows)
+            {
+                // only add if unique
+                if (contentTypes.Contains(row.Cells[1].Value.ToString()))
+                {
+                    continue;
+                }
+                contentTypes.Add(row.Cells[1].Value.ToString());
+            }
 
-            // Settings catalog section
-            await SettingsCatalogOrchestrator();
+            // Write to the import status file
+            WriteToImportStatusFile("The following content types will be imported:");
+            foreach (var content in contentTypes)
+            {
+                WriteToImportStatusFile(content);
+            }
+            WriteToImportStatusFile("=====================================");
+
+            if (contentTypes.Contains("Settings Catalog"))
+            {
+                // Settings catalog section
+                //await SettingsCatalogOrchestrator();
+            }
+            if (contentTypes.Contains("Device Compliance"))
+            {
+                // Device compliance section
+                await DeviceComplianceOrchestrator();
+            }
+
+            
+
+
 
             // Hide the progress bar
             pBarImportStatus.Hide();
@@ -406,9 +442,9 @@ namespace IntuneAssignments.Presentation.Import
                     AddItemsToDictionary(settingsCatalogNameAndID, row.Cells[0].Value.ToString(), row.Cells[3].Value.ToString());
                 }
             }
-
-            // Import the settings catalog
-            await ImportSettingsCatalog();
+            
+                // Import the settings catalog
+                await ImportSettingsCatalog();
         }
 
         private async Task SearchAndAddSettingsCatalog()
@@ -443,6 +479,27 @@ namespace IntuneAssignments.Presentation.Import
 
 
         // Device compliance
+
+        private async Task DeviceComplianceOrchestrator()
+        {
+            // Orchestrates the settings catalog import process
+
+            // Clear the dictionary
+            deviceComplianceNameAndID.Clear();
+
+            // Populate the settings catalog dictionary
+            foreach (DataGridViewRow row in dtgImportContent.Rows)
+            {
+                if (row.Cells[1].Value == "Device Compliance")
+                {
+                    AddItemsToDictionary(deviceComplianceNameAndID, row.Cells[0].Value.ToString(), row.Cells[3].Value.ToString());
+                }
+            }
+
+            // Import the settings catalog
+            await ImportDeviceCompliance();
+        }
+
         private async Task SearchAndAddDeviceCompliance()
         {
             // Search for device compliance policies
@@ -455,6 +512,21 @@ namespace IntuneAssignments.Presentation.Import
             // Add all device compliance policies to the datagridview
             var result = await GetAllDeviceCompliancePolicies(sourceGraphServiceClient);
             AddDeviceComplianceToDTG(result, dtgImportContent);
+        }
+
+        private async Task ImportDeviceCompliance()
+        {
+            // Import the selected settings catalog policies
+
+            // Get the selected policies
+            var policies = GetDeviceComplianceFromDTG(dtgImportContent);
+
+            // Get the selected groups
+            var groupIDs = GetAllGroupIDsFromDTG(dtgGroups);
+
+            // Import the policies
+
+            await ImportMultipleDeviceCompliancePolicies(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
         }
 
 
