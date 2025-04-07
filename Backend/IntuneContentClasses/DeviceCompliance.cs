@@ -133,7 +133,9 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                         throw new InvalidOperationException("Policy properties cannot be null.");
                     }
 
-                    dtg.Rows.Add(policy.DisplayName, "Device Compliance", policy.OdataType, policy.Id);
+                    var platform = TranslateComplianceODataTypeToPlatform(policy.OdataType);
+
+                    dtg.Rows.Add(policy.DisplayName, "Device Compliance", platform, policy.Id);
                 }
             }
             catch (Exception ex)
@@ -269,9 +271,36 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
         public static string TranslateComplianceODataTypeToPlatform(string odatatype)
         {
-            string platForm = "Unknown";
+            string platform = "Unknown";
 
+            if (string.IsNullOrEmpty(odatatype))
+            {
+                return platform;
+            }
 
+            switch (odatatype.ToLower())
+            {
+                case "#microsoft.graph.ioscompliancepolicy":
+                    platform = "iOS";
+                    break;
+                case "#microsoft.graph.windows10compliancepolicy":
+                    platform = "Windows";
+                    break;
+                case "#microsoft.graph.macoscompliancepolicy":
+                    platform = "macOS";
+                    break;
+                case "#microsoft.graph.androidworkprofilecompliancepolicy":
+                    platform = "Android Work Profile";
+                    break;
+                case "#microsoft.graph.androiddeviceownercompliancepolicy":
+                    platform = "Android Device Owner";
+                    break;
+                default:
+                    platform = "Unknown";
+                    break;
+            }
+
+            return platform;
         }
 
     }
