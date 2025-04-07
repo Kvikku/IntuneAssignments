@@ -193,6 +193,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                             requestConfiguration.QueryParameters.Expand = new string[] { "scheduledActionsForRule" };
                         });
 
+                        //var rules = await sourceGraphServiceClient.DeviceManagement.DeviceCompliancePolicies[policy].ScheduledActionsForRule.GetAsync();
+
                         // Get the type of the policy with reflection
                         var type = result.GetType();
 
@@ -220,6 +222,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
 
                         // new device compliance scheduled action rule
+
+                        // Note - this manual test works. Need to copy the scheduled actions for rule
 
                         var testRule = new DeviceComplianceScheduledActionForRule
                         {
