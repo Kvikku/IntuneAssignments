@@ -17,6 +17,8 @@ With this app you can:
 
 And before you ask - No, we don't talk about policy sets in Intune. Policy sets is missing a lot of features and is quite buggy, in my honest opinion.
 
+You will also be able to copy content from a template tenant to a new tenant!
+
 
 __NOTE - This application is a work in progress. Errors, crashes and unexpected behaviour can occur__
 
