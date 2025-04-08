@@ -1,29 +1,20 @@
-﻿using System;
+﻿using Microsoft.Graph;
+using Microsoft.Graph.Beta;
+using Microsoft.Graph.Beta.Models;
+using Microsoft.Graph.Beta.Models.Networkaccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Graph;
-using Microsoft.Graph.Beta;
-using Microsoft.Graph.Beta.Models;
+using static IntuneAssignments.Backend.IntuneContentClasses.Filters;
 using static IntuneAssignments.Backend.Utilities.FormUtilities;
 using static IntuneAssignments.Backend.Utilities.GlobalVariables;
-using static IntuneAssignments.Backend.IntuneContentClasses.Filters;
 
 namespace IntuneAssignments.Backend.IntuneContentClasses
 {
     public class DeviceConfiguration
     {
-        /*
-         * TODO
-         * Search
-         * List all 
-         * Add to dtg
-         * Import content
-         * Assignment
-         * Filter
-         */
-
         public static async Task<List<Microsoft.Graph.Beta.Models.DeviceConfiguration>> SearchForDeviceConfigurations(GraphServiceClient graphServiceClient, string searchQuery)
         {
             try
@@ -175,27 +166,53 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 {
                     try
                     {
-                        var originalConfig = await sourceGraphServiceClient
-                            .DeviceManagement
-                            .DeviceConfigurations[configId]
-                            .GetAsync(requestConfiguration =>
+                        var originalConfig = await sourceGraphServiceClient.DeviceManagement.DeviceConfigurations[configId].GetAsync(requestConfiguration =>
                             {
                                 // Expand settings if needed
-                                // requestConfiguration.QueryParameters.Expand = new[] { "settings" };
+                                //requestConfiguration.QueryParameters.Expand = new[] { "settings" };
                             });
 
-                        var newConfig = new Microsoft.Graph.Beta.Models.DeviceConfiguration
-                        {
-                            DisplayName = originalConfig.DisplayName,
-                            Description = originalConfig.Description,
-                            RoleScopeTagIds = originalConfig.RoleScopeTagIds
-                            // Add other properties as needed
-                        };
+                        // get the type of the policy object
+                        var typeOfPolicy = originalConfig.GetType();
 
-                        var import = await destinationGraphServiceClient
-                            .DeviceManagement
-                            .DeviceConfigurations
-                            .PostAsync(newConfig);
+                        // create a new instance of the policy object
+                        var testRequestBody = Activator.CreateInstance(typeOfPolicy);
+
+                        // copy all the properties from the original policy
+                        foreach (var property in typeOfPolicy.GetProperties())
+                        {
+                            if (property.CanWrite)
+                            {
+                                var value = property.GetValue(originalConfig);
+
+                                property.SetValue(testRequestBody, value);
+                            }
+                        }
+
+                        // cast the object to a DeviceConfiguration (this is necessary for the PostAsync method)
+                        var deviceConfiguration = testRequestBody as Microsoft.Graph.Beta.Models.DeviceConfiguration;
+
+                        deviceConfiguration.Assignments = deviceConfiguration.Assignments ?? new List<DeviceConfigurationAssignment>();
+                        deviceConfiguration.GroupAssignments = deviceConfiguration.GroupAssignments ?? new List<DeviceConfigurationGroupAssignment>();
+                        deviceConfiguration.DeviceStatuses = deviceConfiguration.DeviceStatuses ?? new List<DeviceConfigurationDeviceStatus>();
+                        deviceConfiguration.DeviceSettingStateSummaries = deviceConfiguration.DeviceSettingStateSummaries ?? new List<SettingStateDeviceSummary>();
+                        deviceConfiguration.UserStatuses = deviceConfiguration.UserStatuses ?? new List<DeviceConfigurationUserStatus>();
+
+
+
+                        // Special case for Windows 10 General Configuration policies
+                        if (deviceConfiguration.OdataType != null &&
+                            deviceConfiguration.OdataType.Equals("#microsoft.graph.windows10GeneralConfiguration", StringComparison.OrdinalIgnoreCase))
+                        {
+                            // Windows 10 General Configuration policies are not supported for import.
+                            // Ensure the PrivacyAccessControls property exists and is accessible.
+                            if (deviceConfiguration is Windows10GeneralConfiguration windows10Config)
+                            {
+                                windows10Config.PrivacyAccessControls = windows10Config.PrivacyAccessControls ?? new List<WindowsPrivacyDataAccessControlItem>();
+                            }
+                        }
+
+                        var import = await destinationGraphServiceClient.DeviceManagement.DeviceConfigurations.PostAsync(deviceConfiguration);
 
                         rtb.AppendText($"Imported device configuration: {import.DisplayName}\n");
                         WriteToImportStatusFile($"Imported device configuration: {import.DisplayName}");
@@ -217,7 +234,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
             }
         }
 
-        public static async Task AssignGroupsToSingleDeviceConfiguration(string configId,List<string> groupIds,GraphServiceClient destinationGraphServiceClient)
+        public static async Task AssignGroupsToSingleDeviceConfiguration(string configId, List<string> groupIds, GraphServiceClient destinationGraphServiceClient)
         {
             try
             {
@@ -247,7 +264,12 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                         Target = new DeviceAndAppManagementAssignmentTarget
                         {
                             OdataType = "#microsoft.graph.groupAssignmentTarget",
-                            GroupId = group
+                            AdditionalData = new Dictionary<string, object>
+                            {
+                                { "groupId", group }
+                            },
+                            DeviceAndAppManagementAssignmentFilterType = deviceAndAppManagementAssignmentFilterType,
+                            DeviceAndAppManagementAssignmentFilterId = SelectedFilterID
                         }
                     });
                 }
@@ -259,11 +281,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
                 try
                 {
-                    var result = await destinationGraphServiceClient
-                        .DeviceManagement
-                        .DeviceConfigurations[configId]
-                        .Assign
-                        .PostAsync(requestBody);
+                    var result = await destinationGraphServiceClient.DeviceManagement.DeviceConfigurations[configId].Assign.PostAsAssignPostResponseAsync(requestBody);
 
                     WriteToImportStatusFile("Assigned groups to device configuration " + configId);
                 }

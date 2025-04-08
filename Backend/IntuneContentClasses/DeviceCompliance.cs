@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static IntuneAssignments.Backend.Utilities.FormUtilities;
 using static IntuneAssignments.Backend.Utilities.GlobalVariables;
+using static IntuneAssignments.Backend.IntuneContentClasses.Filters;
 
 namespace IntuneAssignments.Backend.IntuneContentClasses
 {
@@ -318,7 +319,9 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 {
                     Target = new GroupAssignmentTarget
                     {
-                        GroupId = group
+                        GroupId = group,
+                        DeviceAndAppManagementAssignmentFilterId = SelectedFilterID,
+                        DeviceAndAppManagementAssignmentFilterType = deviceAndAppManagementAssignmentFilterType
                     }
                 };
 

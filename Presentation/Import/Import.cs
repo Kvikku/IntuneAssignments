@@ -12,6 +12,7 @@ using static IntuneAssignments.Backend.Utilities.FormUtilities;
 using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 using static IntuneAssignments.Backend.SourceTenantGraphClient;
 using static IntuneAssignments.Backend.DestinationTenantGraphClient;
+using static IntuneAssignments.Backend.IntuneContentClasses.DeviceConfiguration;
 using static IntuneAssignments.Backend.Intune_content_classes.SettingsCatalog;
 using static IntuneAssignments.Backend.IntuneContentClasses.DeviceCompliance;
 using static IntuneAssignments.Backend.IntuneContentClasses.Groups;
@@ -186,6 +187,10 @@ namespace IntuneAssignments.Presentation.Import
             {
                 await AddAllDeviceComplianceToDTG();
             }
+            if (categories.Contains("Device Configuration"))
+            {
+                await AddAllDeviceConfigurationToDTG();
+            }
 
 
             // Hide the progress bar
@@ -210,6 +215,10 @@ namespace IntuneAssignments.Presentation.Import
             if (categories.Contains("Device Compliance"))
             {
                 await SearchAndAddDeviceCompliance();
+            }
+            if (categories.Contains("Device Configuration"))
+            {
+                await SearchAndAddDeviceConfiguration();
             }
 
 
@@ -325,8 +334,13 @@ namespace IntuneAssignments.Presentation.Import
                 // Device compliance section
                 await DeviceComplianceOrchestrator();
             }
+            if (contentTypes.Contains("Device Configuration"))
+            {
+                // Device configuration section
+                await DeviceConfigurationOrchestrator();
+            }
 
-            
+
 
 
 
@@ -529,8 +543,55 @@ namespace IntuneAssignments.Presentation.Import
             await ImportMultipleDeviceCompliancePolicies(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
         }
 
+        // Device configuration
+
+        private async Task DeviceConfigurationOrchestrator()
+        {
+            // Orchestrates the settings catalog import process
+            // Clear the dictionary
+            deviceComplianceNameAndID.Clear();
+            // Populate the settings catalog dictionary
+            foreach (DataGridViewRow row in dtgImportContent.Rows)
+            {
+                if (row.Cells[1].Value == "Device Configuration")
+                {
+                    AddItemsToDictionary(deviceComplianceNameAndID, row.Cells[0].Value.ToString(), row.Cells[3].Value.ToString());
+                }
+            }
+            // Import the settings catalog
+            await ImportDeviceConfiguration();
+        }
+
+        private async Task SearchAndAddDeviceConfiguration()
+        {
+            // Search for device configuration policies
+            var result = await SearchForDeviceConfigurations(sourceGraphServiceClient, tbSearch.Text.ToString());
+            AddDeviceConfigurationsToDTG(result, dtgImportContent);
+        }
+
+        private async Task AddAllDeviceConfigurationToDTG()
+        {
+            // Add all device configuration policies to the datagridview
+            var result = await GetAllDeviceConfigurations(sourceGraphServiceClient);
+            AddDeviceConfigurationsToDTG(result, dtgImportContent);
+        }
+
+        private async Task ImportDeviceConfiguration()
+        {
+            // Import the selected settings catalog policies
+            // Get the selected policies
+            var policies = GetDeviceConfigurationsFromDTG(dtgImportContent);
+            // Get the selected groups
+            var groupIDs = GetAllGroupIDsFromDTG(dtgGroups);
+            // Import the policies
+            await ImportMultipleDeviceConfigurations(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
+        }
 
 
+
+
+
+        // Other methods //
         private void btnClearSelectedFromGroupDTG_Click(object sender, EventArgs e)
         {
             // Clear the selected groups datagridview
