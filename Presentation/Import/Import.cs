@@ -318,7 +318,7 @@ namespace IntuneAssignments.Presentation.Import
             if (contentTypes.Contains("Settings Catalog"))
             {
                 // Settings catalog section
-                //await SettingsCatalogOrchestrator();
+                await SettingsCatalogOrchestrator();
             }
             if (contentTypes.Contains("Device Compliance"))
             {

@@ -108,7 +108,7 @@ namespace IntuneAssignments.Backend.Intune_content_classes
                         throw new InvalidOperationException("Policy properties cannot be null.");
                     }
 
-                    dtg.Rows.Add(policy.Name, "Settings Catalog", policy.Platforms, policy.Id);
+                    dtg.Rows.Add(policy.Name.ToString(), "Settings Catalog", policy.Platforms.ToString(), policy.Id.ToString());
                 }
             }
             catch (Exception ex)
