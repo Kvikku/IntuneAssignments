@@ -198,6 +198,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                         var groupPolicyConfiguration = testRequestBody as Microsoft.Graph.Beta.Models.GroupPolicyConfiguration;
 
                         groupPolicyConfiguration.Assignments = groupPolicyConfiguration.Assignments ?? new List<GroupPolicyConfigurationAssignment>();
+                        groupPolicyConfiguration.OdataType = "#microsoft.Graph.Beta.Models.GroupPolicyConfiguration";
 
                         var import = await destinationGraphServiceClient.DeviceManagement.GroupPolicyConfigurations.PostAsync(groupPolicyConfiguration);
 

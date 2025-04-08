@@ -192,9 +192,10 @@ namespace IntuneAssignments.Presentation.Import
             {
                 await AddAllDeviceConfigurationToDTG();
             }
-            if (categories.Contains("ADMX Template"))
+            if (categories.Contains("Group Policy Configuration"))
             {
-                await AddAllADMXTemplateToDTG();
+                //await AddAllADMXTemplateToDTG();
+                // Note - ADMX templates are not supported yet, and they might never be supported because Microsoft is pushing Settings Catalog
             }
 
 
@@ -225,9 +226,10 @@ namespace IntuneAssignments.Presentation.Import
             {
                 await SearchAndAddDeviceConfiguration();
             }
-            if (categories.Contains("ADMX Template"))
+            if (categories.Contains("Group Policy Configuration"))
             {
-                await SearchAndAddADMXTemplate();
+                //await SearchAndAddADMXTemplate();
+                // Note - ADMX templates are not supported yet, and they might never be supported because Microsoft is pushing Settings Catalog
             }
 
 
@@ -348,10 +350,12 @@ namespace IntuneAssignments.Presentation.Import
                 // Device configuration section
                 await DeviceConfigurationOrchestrator();
             }
-            if (contentTypes.Contains("ADMX Template"))
+            if (contentTypes.Contains("Group Policy Configuration"))
             {
                 // ADMX template section
-                await ADMXTemplateOrchestrator();
+                //await ADMXTemplateOrchestrator();
+
+                // Note - ADMX templates are not supported yet, and they might never be supported because Microsoft is pushing Settings Catalog
             }
 
 
@@ -470,9 +474,9 @@ namespace IntuneAssignments.Presentation.Import
                     AddItemsToDictionary(settingsCatalogNameAndID, row.Cells[0].Value.ToString(), row.Cells[3].Value.ToString());
                 }
             }
-            
-                // Import the settings catalog
-                await ImportSettingsCatalog();
+
+            // Import the settings catalog
+            await ImportSettingsCatalog();
         }
 
         private async Task SearchAndAddSettingsCatalog()
@@ -612,7 +616,7 @@ namespace IntuneAssignments.Presentation.Import
             // Populate the settings catalog dictionary
             foreach (DataGridViewRow row in dtgImportContent.Rows)
             {
-                if (row.Cells[1].Value == "ADMX Template")
+                if (row.Cells[1].Value == "Group Policy Configuration")
                 {
                     AddItemsToDictionary(ADMXtemplateNameAndID, row.Cells[0].Value.ToString(), row.Cells[3].Value.ToString());
                 }
@@ -707,6 +711,9 @@ namespace IntuneAssignments.Presentation.Import
             ClearSelectedDataGridViewRow(dtgImportContent);
         }
 
-       
+        private void pBarLoading_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

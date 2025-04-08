@@ -546,7 +546,7 @@
             clbContentTypes.BorderStyle = BorderStyle.None;
             clbContentTypes.ForeColor = Color.Salmon;
             clbContentTypes.FormattingEnabled = true;
-            clbContentTypes.Items.AddRange(new object[] { "Settings Catalog", "Device Compliance", "Device Configuration", "ADMX Template", "Application", "Powershell script", "Remediation script", "macOS script" });
+            clbContentTypes.Items.AddRange(new object[] { "Settings Catalog", "Device Compliance", "Device Configuration", "Group Policy Configuration", "Application", "Powershell script", "Remediation script", "macOS script" });
             clbContentTypes.Location = new Point(448, 4);
             clbContentTypes.Name = "clbContentTypes";
             clbContentTypes.ScrollAlwaysVisible = true;
@@ -562,6 +562,7 @@
             pBarLoading.Size = new Size(402, 23);
             pBarLoading.Style = ProgressBarStyle.Marquee;
             pBarLoading.TabIndex = 6;
+            pBarLoading.Click += pBarLoading_Click;
             // 
             // pnlStatusOutput
             // 
