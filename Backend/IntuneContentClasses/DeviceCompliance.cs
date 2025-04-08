@@ -282,14 +282,14 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     }
                     catch (Exception ex)
                     {
-                        HandleException(ex, "An unexpected error occurred");
+                        HandleException(ex, "An unexpected error occurred",false);
                         rtb.AppendText($"Error importing policy {policy}: {ex.Message}\n");
                     }
                 }
             }
             catch (Exception ex)
             {
-                HandleException(ex, "An unexpected error occurred");
+                HandleException(ex, "An unexpected error occurred",false);
                 rtb.AppendText($"An unexpected error occurred: {ex.Message}\n");
             }
         }

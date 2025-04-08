@@ -195,7 +195,8 @@ namespace IntuneAssignments.Backend.Intune_content_classes
                     }
                     catch (Exception ex)
                     {
-                        HandleException(ex, $"Error importing policy {policy}");
+                        HandleException(ex, $"Error importing policy {policy}", false);
+                        rtb.AppendText($"Failed to import {ex.Message}");
                     }
                 }
             }

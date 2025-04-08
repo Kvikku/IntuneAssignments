@@ -172,11 +172,26 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                                 //requestConfiguration.QueryParameters.Expand = new[] { "settings" };
                             });
 
+                        if (originalConfig.OdataType.Equals("#microsoft.graph.iosDeviceFeaturesConfiguration"))
+                        {
+                            MessageBox.Show("iOS Device Feature template is currently bugged in graph SDK. Handle manually until this is resolved");
+                            rtb.AppendText("iOS Device Feature template is currently bugged in graph SDK. Handle manually until this is resolved");
+                            continue;
+                        }
+
                         // get the type of the policy object
                         var typeOfPolicy = originalConfig.GetType();
 
+                        if (typeOfPolicy.IsAbstract)
+                        {
+                            MessageBox.Show("Error - Abstract class detected");
+                            return;
+                        }
+
                         // create a new instance of the policy object
                         var testRequestBody = Activator.CreateInstance(typeOfPolicy);
+
+
 
                         // copy all the properties from the original policy
                         foreach (var property in typeOfPolicy.GetProperties())
@@ -224,13 +239,19 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     }
                     catch (Exception ex)
                     {
-                        HandleException(ex, $"Error importing device configuration {configId}");
+                        HandleException(ex, $"Error importing device configuration {configId}",false);
+                        
+                        // Change color of the error output text to red and then reset it for the next text entry
+
+
+
+                        rtb.AppendText(ex.Message + Environment.NewLine);
                     }
                 }
             }
             catch (Exception ex)
             {
-                HandleException(ex, "An error occurred during the import process");
+                HandleException(ex, "An error occurred during the import process",false);
             }
         }
 

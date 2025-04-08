@@ -1,16 +1,17 @@
-﻿using Microsoft.Graph;
+﻿using IntuneAssignments.Presentation.Import;
+using Microsoft.Graph;
+using Microsoft.Graph.Beta;
+using Microsoft.Graph.Beta.DeviceManagement.ConfigurationPolicies.Item.Assign;
+using Microsoft.Graph.Beta.DeviceManagement.DeviceCompliancePolicies.Item.Assign;
+using Microsoft.Graph.Beta.DeviceManagement.Intents.Item.Assign;
 using Microsoft.Graph.Beta.Models;
+using Microsoft.Kiota.Abstractions;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
+using Windows.ApplicationModel.Activation;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using static IntuneAssignments.Backend.Utilities.GlobalVariables;
-using Microsoft.Kiota.Abstractions;
-using Windows.ApplicationModel.Activation;
-using System.Linq;
-using Microsoft.Graph.Beta;
-using Microsoft.Graph.Beta.DeviceManagement.Intents.Item.Assign;
-using Microsoft.Graph.Beta.DeviceManagement.DeviceCompliancePolicies.Item.Assign;
-using Microsoft.Graph.Beta.DeviceManagement.ConfigurationPolicies.Item.Assign;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace IntuneAssignments.Backend.Utilities
 {
@@ -154,10 +155,15 @@ namespace IntuneAssignments.Backend.Utilities
 
         }
 
-        public static void HandleException(Exception ex, string contextMessage)
+        public static void HandleException(Exception ex, string contextMessage, bool showMessageBox = true)
         {
-            WriteToLog($"{contextMessage}: {ex.Message}");
-            MessageBox.Show($"{contextMessage}: {ex.Message}");
+            string logMessage = $"{contextMessage}: {ex.Message}";
+            WriteToLog(logMessage);
+
+            if (showMessageBox)
+            {
+                MessageBox.Show(logMessage);
+            }
         }
 
         public static List<string> ReadLastLines(string filePath, int lineCount)
