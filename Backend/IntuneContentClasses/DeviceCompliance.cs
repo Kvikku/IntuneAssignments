@@ -69,10 +69,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
             {
                 WriteToLog("Searching for device compliance policies. Search query: " + searchQuery);
 
-                var result = await graphServiceClient.DeviceManagement.DeviceCompliancePolicies.GetAsync((requestConfiguration) =>
-                {
-                    requestConfiguration.QueryParameters.Filter = $"contains(displayName,'{searchQuery}')";
-                });
+                var result = await graphServiceClient.DeviceManagement.DeviceCompliancePolicies.GetAsync();
+
 
                 List<DeviceCompliancePolicy> compliancePolicies = new List<DeviceCompliancePolicy>();
                 // Iterate through the pages of results
@@ -84,10 +82,19 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 // start the iteration
                 await pageIterator.IterateAsync();
 
+
                 WriteToLog($"Found {compliancePolicies.Count} device compliance policies.");
 
+                // Filter the collected policies based on the searchQuery - Graph API does not allow for server side filtering 
+                var filteredPolicies = compliancePolicies
+                    .Where(policy => policy.DisplayName != null && policy.DisplayName.Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+                WriteToLog($"Filtered policies count: {filteredPolicies.Count}");
+
+
                 // return the list of policies
-                return compliancePolicies;
+                return filteredPolicies;
             }
             catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError me)
             {
