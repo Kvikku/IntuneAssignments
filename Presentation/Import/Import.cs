@@ -15,6 +15,7 @@ using static IntuneAssignments.Backend.DestinationTenantGraphClient;
 using static IntuneAssignments.Backend.IntuneContentClasses.DeviceConfiguration;
 using static IntuneAssignments.Backend.Intune_content_classes.SettingsCatalog;
 using static IntuneAssignments.Backend.IntuneContentClasses.DeviceCompliance;
+using static IntuneAssignments.Backend.IntuneContentClasses.ADMXtemplates;
 using static IntuneAssignments.Backend.IntuneContentClasses.Groups;
 using static IntuneAssignments.Backend.IntuneContentClasses.Filters;
 using Microsoft.Graph.Beta.NetworkAccess.Reports.MicrosoftGraphNetworkaccessGetDiscoveredApplicationSegmentReportWithStartDateTimeWithEndDateTimeuserIdUserId;
@@ -191,6 +192,10 @@ namespace IntuneAssignments.Presentation.Import
             {
                 await AddAllDeviceConfigurationToDTG();
             }
+            if (categories.Contains("ADMX Template"))
+            {
+                await AddAllADMXTemplateToDTG();
+            }
 
 
             // Hide the progress bar
@@ -219,6 +224,10 @@ namespace IntuneAssignments.Presentation.Import
             if (categories.Contains("Device Configuration"))
             {
                 await SearchAndAddDeviceConfiguration();
+            }
+            if (categories.Contains("ADMX Template"))
+            {
+                await SearchAndAddADMXTemplate();
             }
 
 
@@ -338,6 +347,11 @@ namespace IntuneAssignments.Presentation.Import
             {
                 // Device configuration section
                 await DeviceConfigurationOrchestrator();
+            }
+            if (contentTypes.Contains("ADMX Template"))
+            {
+                // ADMX template section
+                await ADMXTemplateOrchestrator();
             }
 
 
@@ -555,7 +569,7 @@ namespace IntuneAssignments.Presentation.Import
             {
                 if (row.Cells[1].Value == "Device Configuration")
                 {
-                    AddItemsToDictionary(deviceComplianceNameAndID, row.Cells[0].Value.ToString(), row.Cells[3].Value.ToString());
+                    AddItemsToDictionary(deviceConfigurationNameAndID, row.Cells[0].Value.ToString(), row.Cells[3].Value.ToString());
                 }
             }
             // Import the settings catalog
@@ -588,7 +602,51 @@ namespace IntuneAssignments.Presentation.Import
         }
 
 
+        // ADMX template (Group policy configurations)
 
+        private async Task ADMXTemplateOrchestrator()
+        {
+            // Orchestrates the admx templates  import process
+            // Clear the dictionary
+            ADMXtemplateNameAndID.Clear();
+            // Populate the settings catalog dictionary
+            foreach (DataGridViewRow row in dtgImportContent.Rows)
+            {
+                if (row.Cells[1].Value == "ADMX Template")
+                {
+                    AddItemsToDictionary(ADMXtemplateNameAndID, row.Cells[0].Value.ToString(), row.Cells[3].Value.ToString());
+                }
+            }
+            // Import the settings catalog
+            await ImportADMXTemplate();
+        }
+
+
+
+        private async Task SearchAndAddADMXTemplate()
+        {
+            // Search for admx templates 
+            var result = await SearchForGroupPolicyConfigurations(sourceGraphServiceClient, tbSearch.Text.ToString());
+            AddGroupPolicyConfigurationsToDTG(result, dtgImportContent);
+        }
+
+        private async Task AddAllADMXTemplateToDTG()
+        {
+            // Add all ADMXtemplateNameAndID policies to the datagridview
+            var result = await GetAllGroupPolicyConfigurations(sourceGraphServiceClient);
+            AddGroupPolicyConfigurationsToDTG(result, dtgImportContent);
+        }
+
+        private async Task ImportADMXTemplate()
+        {
+            // Import the selected ADMXtemplateNameAndID policies
+            // Get the selected policies
+            var policies = GetGroupPolicyConfigurationsFromDTG(dtgImportContent);
+            // Get the selected groups
+            var groupIDs = GetAllGroupIDsFromDTG(dtgGroups);
+            // Import the policies
+            await ImportMultipleGroupPolicyConfigurations(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
+        }
 
 
         // Other methods //

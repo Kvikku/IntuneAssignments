@@ -85,6 +85,8 @@ namespace IntuneAssignments.Backend.Utilities
         // Create a dictionary to store settings catalog name and ID
         public static Dictionary<string, string> settingsCatalogNameAndID = new Dictionary<string, string>();
         public static Dictionary<string, string> deviceComplianceNameAndID = new Dictionary<string, string>();
+        public static Dictionary<string, string> deviceConfigurationNameAndID = new Dictionary<string, string>();
+        public static Dictionary<string, string> ADMXtemplateNameAndID = new Dictionary<string, string>();
 
         public static string? AssignmentFilterID = null;
         public static DeviceAndAppManagementAssignmentFilterType AssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.None;
