@@ -19,6 +19,7 @@ using static IntuneAssignments.Backend.IntuneContentClasses.ADMXtemplates;
 using static IntuneAssignments.Backend.IntuneContentClasses.Groups;
 using static IntuneAssignments.Backend.IntuneContentClasses.Filters;
 using static IntuneAssignments.Backend.IntuneContentClasses.ProactiveRemediations;
+using static IntuneAssignments.Backend.IntuneContentClasses.PowerShellScripts;
 using Microsoft.Graph.Beta.NetworkAccess.Reports.MicrosoftGraphNetworkaccessGetDiscoveredApplicationSegmentReportWithStartDateTimeWithEndDateTimeuserIdUserId;
 using Microsoft.Graph.Beta.Security.ThreatIntelligence.WhoisRecords.Item;
 using Windows.Graphics.Printing.PrintSupport;
@@ -202,6 +203,10 @@ namespace IntuneAssignments.Presentation.Import
             {
                 await AddAllProactiveRemediationsToDTG();
             }
+            if (categories.Contains("PowerShell script"))
+            {
+                await AddAllPowerShellScripts();
+            }
 
 
             // Hide the progress bar
@@ -239,6 +244,10 @@ namespace IntuneAssignments.Presentation.Import
             if (categories.Contains("Proactive Remediations"))
             {
                 await SearchAndAddProactiveRemediations();
+            }
+            if (categories.Contains("PowerShell script"))
+            {
+                await SearchAndAddPowerShellScripts();
             }
 
 
@@ -370,6 +379,10 @@ namespace IntuneAssignments.Presentation.Import
             {
                 // Proactive remediations section
                 await ProactiveRemediationsOrchestrator();
+            }
+            if (contentTypes.Contains("PowerShell Script"))
+            {
+                await PowerShellScriptOrchestrator();
             }
 
 
@@ -710,6 +723,54 @@ namespace IntuneAssignments.Presentation.Import
             // Import the policies
             await ImportMultipleProactiveRemediations(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
         }
+
+        // PowerShell scripts
+
+        private async Task PowerShellScriptOrchestrator()
+        {
+            // Orchestrates the proactive remediations import process
+            // Clear the dictionary
+            powerShellScriptsNameAndID.Clear();
+            // Populate the settings catalog dictionary
+            foreach (DataGridViewRow row in dtgImportContent.Rows)
+            {
+                if (row.Cells[1].Value == "PowerShell Script")
+                {
+                    AddItemsToDictionary(powerShellScriptsNameAndID, row.Cells[0].Value.ToString(), row.Cells[3].Value.ToString());
+                }
+            }
+            // Import the settings catalog
+            await ImportPowerShellScripts();
+        }
+
+        private async Task SearchAndAddPowerShellScripts()
+        {
+            // Search for proactive remediations
+            var result = await SearchForPowerShellScripts(sourceGraphServiceClient, tbSearch.Text.ToString());
+            AddPowerShellScriptsToDTG(result, dtgImportContent);
+        }
+
+        private async Task AddAllPowerShellScripts()
+        {
+            // Add all proactive remediations to the datagridview
+            var result = await GetAllPowerShellScripts(sourceGraphServiceClient);
+            AddPowerShellScriptsToDTG(result, dtgImportContent);
+        }
+
+        private async Task ImportPowerShellScripts()
+        {
+            // Import the selected proactive remediations
+            // Get the selected policies
+            var policies = GetPowerShellScriptsFromDTG(dtgImportContent);
+            // Get the selected groups
+            var groupIDs = GetAllGroupIDsFromDTG(dtgGroups);
+            // Import the policies
+            await ImportMultiplePowerShellScripts(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
+        }
+
+
+
+
 
 
 
