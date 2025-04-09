@@ -89,6 +89,7 @@ namespace IntuneAssignments.Backend.Utilities
         public static Dictionary<string, string> ADMXtemplateNameAndID = new Dictionary<string, string>();
         public static Dictionary<string, string> proactiveRemediationNameAndID = new Dictionary<string, string>();
         public static Dictionary<string, string> powerShellScriptsNameAndID = new Dictionary<string, string>();
+        public static Dictionary<string, string> autopilotProfilesNameAndID = new Dictionary<string, string>();
 
 
         public static string? AssignmentFilterID = null;

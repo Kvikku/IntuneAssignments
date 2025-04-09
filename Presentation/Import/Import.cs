@@ -20,6 +20,7 @@ using static IntuneAssignments.Backend.IntuneContentClasses.Groups;
 using static IntuneAssignments.Backend.IntuneContentClasses.Filters;
 using static IntuneAssignments.Backend.IntuneContentClasses.ProactiveRemediations;
 using static IntuneAssignments.Backend.IntuneContentClasses.PowerShellScripts;
+using static IntuneAssignments.Backend.IntuneContentClasses.WindowsAutoPilotProfiles;
 using Microsoft.Graph.Beta.NetworkAccess.Reports.MicrosoftGraphNetworkaccessGetDiscoveredApplicationSegmentReportWithStartDateTimeWithEndDateTimeuserIdUserId;
 using Microsoft.Graph.Beta.Security.ThreatIntelligence.WhoisRecords.Item;
 using Windows.Graphics.Printing.PrintSupport;
@@ -207,6 +208,10 @@ namespace IntuneAssignments.Presentation.Import
             {
                 await AddAllPowerShellScripts();
             }
+            if (categories.Contains("Windows Autopilot"))
+            {
+                await AddAllWindowsAutopilotProfilesToDTG();
+            }
 
 
             // Hide the progress bar
@@ -248,6 +253,10 @@ namespace IntuneAssignments.Presentation.Import
             if (categories.Contains("PowerShell script"))
             {
                 await SearchAndAddPowerShellScripts();
+            }
+            if (categories.Contains("Windows Autopilot"))
+            {
+                await SearchAndAddWindowsAutopilotProfiles();
             }
 
 
@@ -383,6 +392,11 @@ namespace IntuneAssignments.Presentation.Import
             if (contentTypes.Contains("PowerShell Script"))
             {
                 await PowerShellScriptOrchestrator();
+            }
+            if (contentTypes.Contains("Windows Autopilot"))
+            {
+                // Windows autopilot profiles section
+                await WindowsAutopilotProfilesOrchestrator();
             }
 
 
@@ -768,7 +782,49 @@ namespace IntuneAssignments.Presentation.Import
             await ImportMultiplePowerShellScripts(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
         }
 
+        // Windows autopilot profiles
 
+        private async Task WindowsAutopilotProfilesOrchestrator()
+        {
+            // Orchestrates the autopilot profiles import process
+            // Clear the dictionary
+            autopilotProfilesNameAndID.Clear();
+            // Populate the settings catalog dictionary
+            foreach (DataGridViewRow row in dtgImportContent.Rows)
+            {
+                if (row.Cells[1].Value == "Windows Autopilot Profiles")
+                {
+                    AddItemsToDictionary(autopilotProfilesNameAndID, row.Cells[0].Value.ToString(), row.Cells[3].Value.ToString());
+                }
+            }
+            // Import the settings catalog
+            await ImportWindowsAutopilotProfiles();
+        }
+
+        private async Task SearchAndAddWindowsAutopilotProfiles()
+        {
+            // Search for autopilot profiles
+            var result = await SearchForWindowsAutoPilotProfiles(sourceGraphServiceClient, tbSearch.Text.ToString());
+            AddWindowsAutoPilotProfilesToDTG(result, dtgImportContent);
+        }
+
+        private async Task AddAllWindowsAutopilotProfilesToDTG()
+        {
+            // Add all autopilot profiles to the datagridview
+            var result = await GetAllWindowsAutoPilotProfiles(sourceGraphServiceClient);
+            AddWindowsAutoPilotProfilesToDTG(result, dtgImportContent);
+        }
+
+        private async Task ImportWindowsAutopilotProfiles()
+        {
+            // Import the selected autopilot profiles
+            // Get the selected policies
+            var policies = GetWindowsAutoPilotProfilesFromDTG(dtgImportContent);
+            // Get the selected groups
+            var groupIDs = GetAllGroupIDsFromDTG(dtgGroups);
+            // Import the policies
+            await ImportMultipleWindowsAutoPilotProfiles(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
+        }
 
 
 

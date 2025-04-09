@@ -22,7 +22,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
                 var result = await graphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles.GetAsync((requestConfiguration) =>
                 {
-                    requestConfiguration.QueryParameters.Filter = $"contains(Name,'{searchQuery}')";
+                    requestConfiguration.QueryParameters.Filter = $"contains(displayName,'{searchQuery}')";
                 });
 
                 List<WindowsAutopilotDeploymentProfile> profiles = new List<WindowsAutopilotDeploymentProfile>();
@@ -97,7 +97,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                         throw new InvalidOperationException("Profile properties cannot be null.");
                     }
 
-                    dtg.Rows.Add(profile.DisplayName.ToString(), "Windows AutoPilot Profiles", profile.AssignedDevicesCount.ToString(), profile.Id.ToString());
+                    dtg.Rows.Add(profile.DisplayName.ToString(), "Windows AutoPilot Profile", "Windows", profile.Id.ToString());
                 }
             }
             catch (Exception ex)
@@ -157,27 +157,35 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 {
                     try
                     {
-                        var result = await sourceGraphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles[profile].GetAsync((requestConfiguration) =>
-                        {
-                            requestConfiguration.QueryParameters.Expand = new[] { "settings" };
-                        });
+                        var result = await sourceGraphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles[profile].GetAsync();
 
-                        var newProfile = new WindowsAutopilotDeploymentProfile
+                        // Check what Autopilot profile it is
+
+                        if (result.OdataType.Contains("ActiveDirectory", StringComparison.OrdinalIgnoreCase))
                         {
-                            DisplayName = result.DisplayName,
-                            Description = result.Description,
-                            RoleScopeTagIds = result.RoleScopeTagIds,
-                            AssignedDevicesCount = result.AssignedDevicesCount,
-                            Assignments = new List<WindowsAutopilotDeploymentProfileAssignment>()
+                            // TODO - Continue
+                        }
+
+                        var requestBody = new WindowsAutopilotDeploymentProfile
+                        {
                         };
 
-                        var import = await destinationGraphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles.PostAsync(newProfile);
-                        rtb.AppendText($"Imported profile: {import.DisplayName}\n");
-                        WriteToImportStatusFile($"Imported profile: {import.DisplayName}");
+                        foreach (var property in profile.GetType().GetProperties())
+                        {
+                            var value = property.GetValue(profile);
+                            if (value != null && property.CanWrite)
+                            {
+                                property.SetValue(requestBody, value);
+                            }
+                        }
+
+                        var import = await destinationGraphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles.PostAsync(requestBody);
+                        rtb.AppendText($"Imported profile: {requestBody.DisplayName}\n");
+                        WriteToImportStatusFile($"Imported profile: {requestBody.DisplayName}");
 
                         if (assignments)
                         {
-                            await AssignGroupsToSingleWindowsAutoPilotProfile(import.Id, groups, destinationGraphServiceClient);
+                            await AssignGroupsToSingleWindowsAutoPilotProfile(requestBody.Id, groups, destinationGraphServiceClient);
                         }
                     }
                     catch (Exception ex)
@@ -235,12 +243,12 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
                 var requestBody = new Microsoft.Graph.Beta.DeviceManagement.WindowsAutopilotDeploymentProfiles.Item.Assign.AssignPostRequestBody
                 {
-                    Assignments = assignments
+                    
                 };
 
                 try
                 {
-                    var result = await destinationGraphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles[profileID].Assign.PostAsAssignPostResponseAsync(requestBody);
+                    await destinationGraphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles[profileID].Assign.PostAsync(requestBody);
                     WriteToImportStatusFile("Assigned groups to profile " + profileID + " with filter type" + deviceAndAppManagementAssignmentFilterType.ToString());
                 }
                 catch (Exception ex)
