@@ -18,6 +18,7 @@ using static IntuneAssignments.Backend.IntuneContentClasses.DeviceCompliance;
 using static IntuneAssignments.Backend.IntuneContentClasses.ADMXtemplates;
 using static IntuneAssignments.Backend.IntuneContentClasses.Groups;
 using static IntuneAssignments.Backend.IntuneContentClasses.Filters;
+using static IntuneAssignments.Backend.IntuneContentClasses.ProactiveRemediations;
 using Microsoft.Graph.Beta.NetworkAccess.Reports.MicrosoftGraphNetworkaccessGetDiscoveredApplicationSegmentReportWithStartDateTimeWithEndDateTimeuserIdUserId;
 using Microsoft.Graph.Beta.Security.ThreatIntelligence.WhoisRecords.Item;
 using Windows.Graphics.Printing.PrintSupport;
@@ -197,6 +198,10 @@ namespace IntuneAssignments.Presentation.Import
                 //await AddAllADMXTemplateToDTG();
                 // Note - ADMX templates are not supported yet, and they might never be supported because Microsoft is pushing Settings Catalog
             }
+            if (categories.Contains("Proactive Remediations"))
+            {
+                await AddAllProactiveRemediationsToDTG();
+            }
 
 
             // Hide the progress bar
@@ -230,6 +235,10 @@ namespace IntuneAssignments.Presentation.Import
             {
                 //await SearchAndAddADMXTemplate();
                 // Note - ADMX templates are not supported yet, and they might never be supported because Microsoft is pushing Settings Catalog
+            }
+            if (categories.Contains("Proactive Remediations"))
+            {
+                await SearchAndAddProactiveRemediations();
             }
 
 
@@ -356,6 +365,11 @@ namespace IntuneAssignments.Presentation.Import
                 //await ADMXTemplateOrchestrator();
 
                 // Note - ADMX templates are not supported yet, and they might never be supported because Microsoft is pushing Settings Catalog
+            }
+            if (contentTypes.Contains("Proactive Remediations"))
+            {
+                // Proactive remediations section
+                await ProactiveRemediationsOrchestrator();
             }
 
 
@@ -651,6 +665,52 @@ namespace IntuneAssignments.Presentation.Import
             // Import the policies
             await ImportMultipleGroupPolicyConfigurations(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
         }
+
+
+        // Proactive remediations (Device health scripts)
+
+        private async Task ProactiveRemediationsOrchestrator()
+        {
+            // Orchestrates the proactive remediations import process
+            // Clear the dictionary
+            proactiveRemediationNameAndID.Clear();
+            // Populate the settings catalog dictionary
+            foreach (DataGridViewRow row in dtgImportContent.Rows)
+            {
+                if (row.Cells[1].Value == "Proactive Remediations")
+                {
+                    AddItemsToDictionary(proactiveRemediationNameAndID, row.Cells[0].Value.ToString(), row.Cells[3].Value.ToString());
+                }
+            }
+            // Import the settings catalog
+            await ImportProactiveRemediations();
+        }
+
+        private async Task SearchAndAddProactiveRemediations()
+        {
+            // Search for proactive remediations
+            var result = await SearchForProactiveRemediations(sourceGraphServiceClient, tbSearch.Text.ToString());
+            AddProactiveRemediationsToDTG(result, dtgImportContent);
+        }
+
+        private async Task AddAllProactiveRemediationsToDTG()
+        {
+            // Add all proactive remediations to the datagridview
+            var result = await GetAllProactiveRemediations(sourceGraphServiceClient);
+            AddProactiveRemediationsToDTG(result, dtgImportContent);
+        }
+
+        private async Task ImportProactiveRemediations()
+        {
+            // Import the selected proactive remediations
+            // Get the selected policies
+            var policies = GetProactiveRemediationsFromDTG(dtgImportContent);
+            // Get the selected groups
+            var groupIDs = GetAllGroupIDsFromDTG(dtgGroups);
+            // Import the policies
+            await ImportMultipleProactiveRemediations(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
+        }
+
 
 
         // Other methods //
