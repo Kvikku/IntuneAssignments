@@ -209,7 +209,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
                             if (assignments)
                             {
-                                await AssignGroupsToSingleWindowsAutoPilotProfile(requestBody.Id, groups, destinationGraphServiceClient);
+                                await AssignGroupsToSingleWindowsAutoPilotProfile(import.Id, groups, destinationGraphServiceClient);
                             }
                         }
                     }
@@ -251,29 +251,32 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 {
                     var assignment = new WindowsAutopilotDeploymentProfileAssignment
                     {
-                        OdataType = "#microsoft.graph.windowsAutopilotDeploymentProfileAssignment",
-                        Id = group,
+                        Id = profileID + "_" + group +"_0",
+                        Source = DeviceAndAppManagementAssignmentSource.Direct,
+                        SourceId = profileID,
                         Target = new GroupAssignmentTarget
                         {
                             OdataType = "#microsoft.graph.groupAssignmentTarget",
-                            DeviceAndAppManagementAssignmentFilterId = SelectedFilterID,
-                            DeviceAndAppManagementAssignmentFilterType = deviceAndAppManagementAssignmentFilterType,
                             GroupId = group,
                         },
-                        Source = DeviceAndAppManagementAssignmentSource.Direct,
-                        SourceId = group,
                     };
                     assignments.Add(assignment);
+
+                    await destinationGraphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles[profileID].Assignments.PostAsync(assignment);
                 }
 
-                var requestBody = new Microsoft.Graph.Beta.DeviceManagement.WindowsAutopilotDeploymentProfiles.Item.Assign.AssignPostRequestBody
-                {
-                    
-                };
+                //var requestBody = new Microsoft.Graph.Beta.DeviceManagement.WindowsAutopilotDeploymentProfiles.Item.Assign.AssignPostRequestBody
+                //{
+                //    AdditionalData = new Dictionary<string, object>
+                //    {
+                //        { "Assignments", assignments }
+                //    },
+                //};
+
 
                 try
                 {
-                    await destinationGraphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles[profileID].Assign.PostAsync(requestBody);
+                    //await destinationGraphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles[profileID].Assign.PostAsync(requestBody);
                     WriteToImportStatusFile("Assigned groups to profile " + profileID + " with filter type" + deviceAndAppManagementAssignmentFilterType.ToString());
                 }
                 catch (Exception ex)
