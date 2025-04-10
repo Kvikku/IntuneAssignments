@@ -393,7 +393,7 @@ namespace IntuneAssignments.Presentation.Import
             {
                 await PowerShellScriptOrchestrator();
             }
-            if (contentTypes.Contains("Windows Autopilot"))
+            if (contentTypes.Contains("Windows AutoPilot Profile"))
             {
                 // Windows autopilot profiles section
                 await WindowsAutopilotProfilesOrchestrator();

@@ -110,7 +110,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
         {
             try
             {
-                string type = "Windows AutoPilot Profiles";
+                string type = "Windows AutoPilot Profile";
                 List<string> matchingRows = new List<string>();
 
                 foreach (DataGridViewRow row in dtg.Rows)
@@ -163,29 +163,54 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
                         if (result.OdataType.Contains("ActiveDirectory", StringComparison.OrdinalIgnoreCase))
                         {
-                            // TODO - Continue
-                        }
-
-                        var requestBody = new WindowsAutopilotDeploymentProfile
-                        {
-                        };
-
-                        foreach (var property in profile.GetType().GetProperties())
-                        {
-                            var value = property.GetValue(profile);
-                            if (value != null && property.CanWrite)
+                            var requestBody = new ActiveDirectoryWindowsAutopilotDeploymentProfile()
                             {
-                                property.SetValue(requestBody, value);
+
+                            };
+
+                            foreach (var property in result.GetType().GetProperties())
+                            {
+                                var value = property.GetValue(result);
+                                if (value != null && property.CanWrite)
+                                {
+                                    property.SetValue(requestBody, value);
+                                }
                             }
+
+                            var import = await destinationGraphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles.PostAsync(requestBody);
+                            rtb.AppendText($"Imported profile: {requestBody.DisplayName}\n");
+                            WriteToImportStatusFile($"Imported profile: {requestBody.DisplayName}");
+
+                            if (assignments)
+                            {
+                                await AssignGroupsToSingleWindowsAutoPilotProfile(requestBody.Id, groups, destinationGraphServiceClient);
+                            }
+
                         }
 
-                        var import = await destinationGraphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles.PostAsync(requestBody);
-                        rtb.AppendText($"Imported profile: {requestBody.DisplayName}\n");
-                        WriteToImportStatusFile($"Imported profile: {requestBody.DisplayName}");
-
-                        if (assignments)
+                        else if (result.OdataType.Contains("azureAD"))
                         {
-                            await AssignGroupsToSingleWindowsAutoPilotProfile(requestBody.Id, groups, destinationGraphServiceClient);
+                            var requestBody = new WindowsAutopilotDeploymentProfile
+                            {
+                            };
+
+                            foreach (var property in result.GetType().GetProperties())
+                            {
+                                var value = property.GetValue(result);
+                                if (value != null && property.CanWrite)
+                                {
+                                    property.SetValue(requestBody, value);
+                                }
+                            }
+                            var import = await destinationGraphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles.PostAsync(requestBody);
+                            rtb.AppendText($"Imported profile: {requestBody.DisplayName}\n");
+                            WriteToImportStatusFile($"Imported profile: {requestBody.DisplayName}");
+
+
+                            if (assignments)
+                            {
+                                await AssignGroupsToSingleWindowsAutoPilotProfile(requestBody.Id, groups, destinationGraphServiceClient);
+                            }
                         }
                     }
                     catch (Exception ex)
