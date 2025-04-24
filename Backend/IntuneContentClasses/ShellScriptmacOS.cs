@@ -37,17 +37,14 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 var result = await graphServiceClient.DeviceManagement.DeviceShellScripts.GetAsync((requestConfiguration) =>
                 {
                     // Filter for macOS platform and name contains search query
-                    requestConfiguration.QueryParameters.Filter = $"contains(displayName,'{searchQuery}') and platform eq 'macOS'";
+                    requestConfiguration.QueryParameters.Filter = $"contains(displayName,'{searchQuery}')";
                     requestConfiguration.QueryParameters.Top = 1000; // Adjust as needed
                 });
 
                 List<DeviceShellScript> shellScripts = new List<DeviceShellScript>();
                 var pageIterator = PageIterator<DeviceShellScript, DeviceShellScriptCollectionResponse>.CreatePageIterator(graphServiceClient, result, (script) =>
                 {
-                    // Ensure we only add macOS scripts if the filter wasn't fully effective server-side
-                    if (script.Platform == DevicePlatformType.MacOS) {
-                        shellScripts.Add(script);
-                    }
+                    shellScripts.Add(script);
                     return true;
                 });
                 await pageIterator.IterateAsync();
@@ -71,17 +68,13 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
                 var result = await graphServiceClient.DeviceManagement.DeviceShellScripts.GetAsync((requestConfiguration) =>
                 {
-                    requestConfiguration.QueryParameters.Filter = "platform eq 'macOS'"; // Filter specifically for macOS
                     requestConfiguration.QueryParameters.Top = 1000; // Adjust as needed
                 });
 
                 List<DeviceShellScript> shellScripts = new List<DeviceShellScript>();
                 var pageIterator = PageIterator<DeviceShellScript, DeviceShellScriptCollectionResponse>.CreatePageIterator(graphServiceClient, result, (script) =>
                 {
-                     // Double-check platform just in case
-                    if (script.Platform == DevicePlatformType.MacOS) {
-                        shellScripts.Add(script);
-                    }
+                    shellScripts.Add(script);
                     return true;
                 });
                 await pageIterator.IterateAsync();
@@ -124,7 +117,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     }
 
                     // Assuming columns are: Name, Type, Platform, ID
-                    dtg.Rows.Add(script.DisplayName, "macOS Shell Script", script.Platform.ToString(), script.Id);
+                    dtg.Rows.Add(script.DisplayName, "macOS Shell Script", "macOS", script.Id);
                 }
             }
             catch (Exception ex)
@@ -188,9 +181,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     try
                     {
                         // Get the full script object, including script content
-                        var sourceScript = await sourceGraphServiceClient.DeviceManagement.DeviceShellScripts[scriptId].GetAsync((requestConfig) => {
-                            requestConfig.QueryParameters.Select = new string[] { "id", "displayName", "description", "scriptContent", "runAsAccount", "fileName", "roleScopeTagIds", "blockExecutionNotifications", "executionFrequency", "retryCount", "runAsAccount", "showInMacOSEnterprisePortal" }; // Add properties needed for creation
-                        });
+                        var sourceScript = await sourceGraphServiceClient.DeviceManagement.DeviceShellScripts[scriptId].GetAsync();
 
 
                         if (sourceScript == null)
@@ -200,30 +191,19 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                              continue;
                         }
 
-                         if (sourceScript.Platform != DevicePlatformType.MacOS)
-                        {
-                            rtb.AppendText($"Script '{sourceScript.DisplayName}' (ID: {scriptId}) is not a macOS script. Skipping.\n");
-                            WriteToImportStatusFile($"Script '{sourceScript.DisplayName}' (ID: {scriptId}) is not a macOS script. Skipping.");
-                            continue;
-                        }
-
-
                         var newScript = new DeviceShellScript
                         {
-                            OdataType = "#microsoft.graph.deviceShellScript",
-                            DisplayName = sourceScript.DisplayName,
-                            Description = sourceScript.Description,
-                            ScriptContent = sourceScript.ScriptContent, // Requires scriptContent to be fetched
-                            RunAsAccount = sourceScript.RunAsAccount,
-                            FileName = sourceScript.FileName, // Requires fileName
-                            RoleScopeTagIds = sourceScript.RoleScopeTagIds,
-                            Platform = DevicePlatformType.MacOS, // Explicitly set platform
-                            BlockExecutionNotifications = sourceScript.BlockExecutionNotifications,
-                            ExecutionFrequency = sourceScript.ExecutionFrequency,
-                            RetryCount = sourceScript.RetryCount,
-                            ShowInMacOSEnterprisePortal = sourceScript.ShowInMacOSEnterprisePortal
-                            // Assignments are handled separately
+                            
                         };
+
+                        foreach (var property in sourceScript.GetType().GetProperties())
+                        {
+                            var value = property.GetValue(sourceScript);
+                            if (value != null && property.CanWrite)
+                            {
+                                property.SetValue(newScript, value);
+                            }
+                        }
 
                         var importResult = await destinationGraphServiceClient.DeviceManagement.DeviceShellScripts.PostAsync(newScript);
 
