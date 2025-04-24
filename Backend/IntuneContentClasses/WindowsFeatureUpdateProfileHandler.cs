@@ -157,13 +157,12 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     WriteToImportStatusFile("Group assignments will be added.");
                 }
 
-                // Note: Filters might not apply directly to Windows Feature Update profiles in the same way as Settings Catalog.
-                // Adjust logic if filter application is needed and supported differently.
-                if (filter)
-                {
-                    rtb.AppendText("Filters will be added (if applicable).\n");
-                    WriteToImportStatusFile("Filters will be added (if applicable).");
-                }
+                // Note: Filters are not supported for feature updates yet
+                //if (filter)
+                //{
+                //    rtb.AppendText("Filters will be added (if applicable).\n");
+                //    WriteToImportStatusFile("Filters will be added (if applicable).");
+                //}
 
                 foreach (var profileId in profileIDs)
                 {
@@ -184,17 +183,28 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                         {
                         };
 
-                        // Copy properties from the source profile to the new profile
+          
                         foreach (var property in sourceProfile.GetType().GetProperties())
                         {
+                            if (property.Name.Equals("createdDateTime", StringComparison.OrdinalIgnoreCase) ||
+                                property.Name.Equals("lastModifiedDateTime", StringComparison.OrdinalIgnoreCase))
+                            {
+                                continue; // Skip these properties
+                            }
+
                             var value = property.GetValue(sourceProfile);
                             if (value != null && property.CanWrite)
                             {
                                 property.SetValue(newProfile, value);
                             }
                         }
+                        
+
+                        newProfile.Id = "";
+                        newProfile.OdataType = "#microsoft.graph.windowsFeatureUpdateProfile";
 
                         // Create the profile in the destination tenant
+                        
                         var importedProfile = await destinationGraphServiceClient.DeviceManagement.WindowsFeatureUpdateProfiles.PostAsync(newProfile);
 
                         // Add null check for importedProfile and DisplayName
@@ -211,8 +221,11 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     {
                         // Log the specific profile ID that failed
                         HandleException(ex, $"Error importing Windows Feature Update profile with ID {profileId}", false);
-                        rtb.AppendText($"Failed to import profile ID {profileId}: {ex.Message}\n");
-                        WriteToImportStatusFile($"Failed to import profile ID {profileId}: {ex.Message}");
+                        HandleException(ex, "This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active", false);
+                        rtb.AppendText($"Failed to import Windows Feature Update profile ID {profileId}: {ex.Message}\n");
+                        rtb.AppendText($"This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active\n");
+                        WriteToImportStatusFile($"Failed to import Windows Feature Update profile ID {profileId}: {ex.Message}");
+                        WriteToImportStatusFile("This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active");
                     }
                 }
                 rtb.AppendText("Windows Feature Update profile import process finished.\n");
