@@ -91,6 +91,7 @@ namespace IntuneAssignments.Backend.Utilities
         public static Dictionary<string, string> powerShellScriptsNameAndID = new Dictionary<string, string>();
         public static Dictionary<string, string> autopilotProfilesNameAndID = new Dictionary<string, string>();
         public static Dictionary<string, string> macOSShellScriptsNameAndID = new Dictionary<string, string>();
+        public static Dictionary<string, string> WindowsFeatureUpdateProfileNameAndID = new Dictionary<string, string>();
 
 
         public static string? AssignmentFilterID = null;

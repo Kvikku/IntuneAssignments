@@ -22,6 +22,7 @@ using static IntuneAssignments.Backend.IntuneContentClasses.ProactiveRemediation
 using static IntuneAssignments.Backend.IntuneContentClasses.PowerShellScripts;
 using static IntuneAssignments.Backend.IntuneContentClasses.WindowsAutoPilotProfiles;
 using static IntuneAssignments.Backend.IntuneContentClasses.ShellScriptmacOS;
+using static IntuneAssignments.Backend.IntuneContentClasses.WindowsFeatureUpdateProfileHandler;
 using Microsoft.Graph.Beta.NetworkAccess.Reports.MicrosoftGraphNetworkaccessGetDiscoveredApplicationSegmentReportWithStartDateTimeWithEndDateTimeuserIdUserId;
 using Microsoft.Graph.Beta.Security.ThreatIntelligence.WhoisRecords.Item;
 using Windows.Graphics.Printing.PrintSupport;
@@ -217,6 +218,10 @@ namespace IntuneAssignments.Presentation.Import
             {
                 await AddAllMacOSShellScriptsToDTG();
             }
+            if (categories.Contains("Windows Feature Update Profiles"))
+            {
+                await AddAllWindowsFeatureUpdateProfilesToDTG();
+            }
 
 
             // Hide the progress bar
@@ -266,6 +271,10 @@ namespace IntuneAssignments.Presentation.Import
             if (categories.Contains("macOS script"))
             {
                 await SearchAndAddMacOSShellScripts();
+            }
+            if (categories.Contains("Windows Feature Update Profiles"))
+            {
+                await SearchAndAddWindowsFeatureUpdateProfiles();
             }
 
 
@@ -411,6 +420,11 @@ namespace IntuneAssignments.Presentation.Import
             {
                 // macOS shell scripts section
                 await MacOSShellScriptsOrchestrator();
+            }
+            if (contentTypes.Contains("Windows Feature Update Profiles"))
+            {
+                // Windows feature update profiles section
+                await WindowsFeatureUpdateProfilesOrchestrator();
             }
 
 
@@ -884,6 +898,50 @@ namespace IntuneAssignments.Presentation.Import
             await ImportMultipleShellScriptmacOS(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
         }
 
+
+        // Windows Feature Update Profiles
+
+        private async Task WindowsFeatureUpdateProfilesOrchestrator()
+        {
+            // Orchestrates the windows feature update profiles import process
+            // Clear the dictionary
+            WindowsFeatureUpdateProfileNameAndID.Clear();
+            // Populate the settings catalog dictionary
+            foreach (DataGridViewRow row in dtgImportContent.Rows)
+            {
+                if (row.Cells[1].Value == "Windows Feature Update Profiles")
+                {
+                    AddItemsToDictionary(WindowsFeatureUpdateProfileNameAndID, row.Cells[0].Value.ToString(), row.Cells[3].Value.ToString());
+                }
+            }
+            // Import the settings catalog
+            await ImportWindowsFeatureUpdateProfiles();
+        }
+
+        private async Task SearchAndAddWindowsFeatureUpdateProfiles()
+        {
+            // Search for windows feature update profiles
+            var result = await SearchForWindowsFeatureUpdateProfiles(sourceGraphServiceClient, tbSearch.Text.ToString());
+            AddWindowsFeatureUpdateProfilesToDTG(result, dtgImportContent);
+        }
+
+        private async Task AddAllWindowsFeatureUpdateProfilesToDTG()
+        {
+            // Add all windows feature update profiles to the datagridview
+            var result = await GetAllWindowsFeatureUpdateProfiles(sourceGraphServiceClient);
+            AddWindowsFeatureUpdateProfilesToDTG(result, dtgImportContent);
+        }
+
+        private async Task ImportWindowsFeatureUpdateProfiles()
+        {
+            // Import the selected windows feature update profiles
+            // Get the selected policies
+            var policies = GetWindowsFeatureUpdateProfilesFromDTG(dtgImportContent);
+            // Get the selected groups
+            var groupIDs = GetAllGroupIDsFromDTG(dtgGroups);
+            // Import the policies
+            await ImportMultipleWindowsFeatureUpdateProfiles(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
+        }
 
 
 
