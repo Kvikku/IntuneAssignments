@@ -421,7 +421,7 @@ namespace IntuneAssignments.Presentation.Import
                 // macOS shell scripts section
                 await MacOSShellScriptsOrchestrator();
             }
-            if (contentTypes.Contains("Windows Feature Update Profiles"))
+            if (contentTypes.Contains("Windows Feature Update"))
             {
                 // Windows feature update profiles section
                 await WindowsFeatureUpdateProfilesOrchestrator();

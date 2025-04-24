@@ -49,7 +49,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
                 var result = await graphServiceClient.DeviceManagement.WindowsFeatureUpdateProfiles.GetAsync((requestConfiguration) =>
                 {
-                    requestConfiguration.QueryParameters.Top = 1000; // Adjust as needed
+                    //requestConfiguration.QueryParameters.Top = 1000; // Adjust as needed
                 });
 
                 List<WindowsFeatureUpdateProfile> profiles = new List<WindowsFeatureUpdateProfile>();
@@ -182,16 +182,17 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                         // Create the new profile object for the destination tenant
                         var newProfile = new WindowsFeatureUpdateProfile
                         {
-                            DisplayName = sourceProfile.DisplayName,
-                            Description = sourceProfile.Description,
-                            FeatureUpdateVersion = sourceProfile.FeatureUpdateVersion, // Example property, adjust based on actual needed properties
-                            // Copy other relevant properties like:
-                            DeployableContentDisplayName = sourceProfile.DeployableContentDisplayName,
-                            // InstallLatestWindowsDriverOnUpdate = sourceProfile.InstallLatestWindowsDriverOnUpdate, // Removed as property doesn't exist
-                            RolloutSettings = sourceProfile.RolloutSettings, // Be careful with complex types, might need deep copy or recreation
-                            RoleScopeTagIds = sourceProfile.RoleScopeTagIds,
-                            // Assignments are handled separately below
                         };
+
+                        // Copy properties from the source profile to the new profile
+                        foreach (var property in sourceProfile.GetType().GetProperties())
+                        {
+                            var value = property.GetValue(sourceProfile);
+                            if (value != null && property.CanWrite)
+                            {
+                                property.SetValue(newProfile, value);
+                            }
+                        }
 
                         // Create the profile in the destination tenant
                         var importedProfile = await destinationGraphServiceClient.DeviceManagement.WindowsFeatureUpdateProfiles.PostAsync(newProfile);
