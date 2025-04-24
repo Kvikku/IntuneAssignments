@@ -21,6 +21,7 @@ using static IntuneAssignments.Backend.IntuneContentClasses.Filters;
 using static IntuneAssignments.Backend.IntuneContentClasses.ProactiveRemediations;
 using static IntuneAssignments.Backend.IntuneContentClasses.PowerShellScripts;
 using static IntuneAssignments.Backend.IntuneContentClasses.WindowsAutoPilotProfiles;
+using static IntuneAssignments.Backend.IntuneContentClasses.ShellScriptmacOS;
 using Microsoft.Graph.Beta.NetworkAccess.Reports.MicrosoftGraphNetworkaccessGetDiscoveredApplicationSegmentReportWithStartDateTimeWithEndDateTimeuserIdUserId;
 using Microsoft.Graph.Beta.Security.ThreatIntelligence.WhoisRecords.Item;
 using Windows.Graphics.Printing.PrintSupport;
@@ -212,6 +213,10 @@ namespace IntuneAssignments.Presentation.Import
             {
                 await AddAllWindowsAutopilotProfilesToDTG();
             }
+            if (categories.Contains("macOS script"))
+            {
+                await AddAllMacOSShellScriptsToDTG();
+            }
 
 
             // Hide the progress bar
@@ -257,6 +262,10 @@ namespace IntuneAssignments.Presentation.Import
             if (categories.Contains("Windows Autopilot"))
             {
                 await SearchAndAddWindowsAutopilotProfiles();
+            }
+            if (categories.Contains("macOS script"))
+            {
+                await SearchAndAddMacOSShellScripts();
             }
 
 
@@ -397,6 +406,11 @@ namespace IntuneAssignments.Presentation.Import
             {
                 // Windows autopilot profiles section
                 await WindowsAutopilotProfilesOrchestrator();
+            }
+            if (contentTypes.Contains("macOS Shell Script"))
+            {
+                // macOS shell scripts section
+                await MacOSShellScriptsOrchestrator();
             }
 
 
@@ -826,6 +840,49 @@ namespace IntuneAssignments.Presentation.Import
             await ImportMultipleWindowsAutoPilotProfiles(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
         }
 
+        // macOS shell scripts
+        
+        private async Task MacOSShellScriptsOrchestrator()
+        {
+            // Orchestrates the macOS shell scripts import process
+            // Clear the dictionary
+            macOSShellScriptsNameAndID.Clear();
+            // Populate the settings catalog dictionary
+            foreach (DataGridViewRow row in dtgImportContent.Rows)
+            {
+                if (row.Cells[1].Value == "macOS Shell Script")
+                {
+                    AddItemsToDictionary(macOSShellScriptsNameAndID, row.Cells[0].Value.ToString(), row.Cells[3].Value.ToString());
+                }
+            }
+            // Import the settings catalog
+            await ImportMacOSShellScripts();
+        }
+
+        private async Task SearchAndAddMacOSShellScripts()
+        {
+            // Search for macOS shell scripts
+            var result = await SearchForShellScriptmacOS(sourceGraphServiceClient, tbSearch.Text.ToString());
+            AddShellScriptmacOSToDTG(result, dtgImportContent);
+        }
+
+        private async Task AddAllMacOSShellScriptsToDTG()
+        {
+            // Add all macOS shell scripts to the datagridview
+            var result = await GetAllShellScriptmacOS(sourceGraphServiceClient);
+            AddShellScriptmacOSToDTG(result, dtgImportContent);
+        }
+
+        private async Task ImportMacOSShellScripts()
+        {
+            // Import the selected macOS shell scripts
+            // Get the selected policies
+            var policies = GetShellScriptmacOSFromDTG(dtgImportContent);
+            // Get the selected groups
+            var groupIDs = GetAllGroupIDsFromDTG(dtgGroups);
+            // Import the policies
+            await ImportMultipleShellScriptmacOS(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
+        }
 
 
 
