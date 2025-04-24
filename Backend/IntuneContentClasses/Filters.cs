@@ -19,7 +19,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
         public static Dictionary<string, string> filterNameAndID = new Dictionary<string, string>();
         public static string SelectedFilterName = "";
-        public static string SelectedFilterID = "";
+        public static string SelectedFilterID = null;
         public static DeviceAndAppManagementAssignmentFilterType deviceAndAppManagementAssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.None;
 
 

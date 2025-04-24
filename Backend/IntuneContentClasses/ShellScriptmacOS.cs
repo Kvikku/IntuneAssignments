@@ -205,6 +205,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                             }
                         }
 
+                        newScript.Id = "";
+
                         var importResult = await destinationGraphServiceClient.DeviceManagement.DeviceShellScripts.PostAsync(newScript);
 
                         if (importResult != null)

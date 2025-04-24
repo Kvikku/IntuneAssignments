@@ -157,38 +157,46 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 {
                     try
                     {
+                        
+                        
                         var result = await sourceGraphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles[profile].GetAsync();
 
                         // Check what Autopilot profile it is
 
+                        
+
                         if (result.OdataType.Contains("ActiveDirectory", StringComparison.OrdinalIgnoreCase))
                         {
                             // NOTE - This currently does not work
-                            
-                            var requestBody = new ActiveDirectoryWindowsAutopilotDeploymentProfile()
-                            {
 
-                            };
+                            MessageBox.Show("Hybrid Autopilot profiles are currently bugged in Graph API/C# SDK. Please handle manually for now.");
+                            rtb.AppendText($"Hybrid Autopilot profiles are currently bugged in Graph API/C# SDK. Please handle manually for now.\n");
+                            WriteToImportStatusFile($"Hybrid Autopilot profiles are currently bugged in Graph API/C# SDK. Please handle manually for now.");
 
-                            foreach (var property in result.GetType().GetProperties())
-                            {
-                                var value = property.GetValue(result);
-                                if (value != null && property.CanWrite)
-                                {
-                                    property.SetValue(requestBody, value);
-                                }
-                            }
+                            //var requestBody = new ActiveDirectoryWindowsAutopilotDeploymentProfile()
+                            //{
 
-                            requestBody.Id = "";
+                            //};
 
-                            await destinationGraphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles.PostAsync(requestBody);
-                            rtb.AppendText($"Imported profile: {requestBody.DisplayName}\n");
-                            WriteToImportStatusFile($"Imported profile: {requestBody.DisplayName}");
+                            //foreach (var property in result.GetType().GetProperties())
+                            //{
+                            //    var value = property.GetValue(result);
+                            //    if (value != null && property.CanWrite)
+                            //    {
+                            //        property.SetValue(requestBody, value);
+                            //    }
+                            //}
 
-                            if (assignments)
-                            {
-                                await AssignGroupsToSingleWindowsAutoPilotProfile(requestBody.Id, groups, destinationGraphServiceClient);
-                            }
+                            //requestBody.Id = "";
+
+                            //await destinationGraphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles.PostAsync(requestBody);
+                            //rtb.AppendText($"Imported profile: {requestBody.DisplayName}\n");
+                            //WriteToImportStatusFile($"Imported profile: {requestBody.DisplayName}");
+
+                            //if (assignments)
+                            //{
+                            //    await AssignGroupsToSingleWindowsAutoPilotProfile(requestBody.Id, groups, destinationGraphServiceClient);
+                            //}
 
                         }
 
