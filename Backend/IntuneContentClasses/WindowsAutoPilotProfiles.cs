@@ -163,6 +163,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
                         if (result.OdataType.Contains("ActiveDirectory", StringComparison.OrdinalIgnoreCase))
                         {
+                            // NOTE - This currently does not work
+                            
                             var requestBody = new ActiveDirectoryWindowsAutopilotDeploymentProfile()
                             {
 
@@ -177,7 +179,9 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                                 }
                             }
 
-                            var import = await destinationGraphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles.PostAsync(requestBody);
+                            requestBody.Id = "";
+
+                            await destinationGraphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles.PostAsync(requestBody);
                             rtb.AppendText($"Imported profile: {requestBody.DisplayName}\n");
                             WriteToImportStatusFile($"Imported profile: {requestBody.DisplayName}");
 

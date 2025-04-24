@@ -172,6 +172,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                             }
                         }
 
+                        requestBody.Id = "";
+
                         var import = await destinationGraphServiceClient.DeviceManagement.DeviceManagementScripts.PostAsync(requestBody);
                         rtb.AppendText($"Imported script: {requestBody.DisplayName}\n");
                         WriteToImportStatusFile($"Imported script: {requestBody.DisplayName}");
