@@ -23,6 +23,7 @@ using static IntuneAssignments.Backend.IntuneContentClasses.PowerShellScripts;
 using static IntuneAssignments.Backend.IntuneContentClasses.WindowsAutoPilotProfiles;
 using static IntuneAssignments.Backend.IntuneContentClasses.ShellScriptmacOS;
 using static IntuneAssignments.Backend.IntuneContentClasses.WindowsFeatureUpdateProfileHandler;
+using static IntuneAssignments.Backend.IntuneContentClasses.WindowsQualityUpdatePoliciesHandler;
 using Microsoft.Graph.Beta.NetworkAccess.Reports.MicrosoftGraphNetworkaccessGetDiscoveredApplicationSegmentReportWithStartDateTimeWithEndDateTimeuserIdUserId;
 using Microsoft.Graph.Beta.Security.ThreatIntelligence.WhoisRecords.Item;
 using Windows.Graphics.Printing.PrintSupport;
@@ -222,6 +223,10 @@ namespace IntuneAssignments.Presentation.Import
             {
                 await AddAllWindowsFeatureUpdateProfilesToDTG();
             }
+            if (categories.Contains("Windows Quality Update Policies"))
+            {
+                await AddAllWindowsQualityUpdatePoliciesToDTG();
+            }
 
 
             // Hide the progress bar
@@ -275,6 +280,10 @@ namespace IntuneAssignments.Presentation.Import
             if (categories.Contains("Windows Feature Update Profiles"))
             {
                 await SearchAndAddWindowsFeatureUpdateProfiles();
+            }
+            if (categories.Contains("Windows Quality Update Policies"))
+            {
+                await SearchAndAddWindowsQualityUpdatePolicies();
             }
 
 
@@ -425,6 +434,11 @@ namespace IntuneAssignments.Presentation.Import
             {
                 // Windows feature update profiles section
                 await WindowsFeatureUpdateProfilesOrchestrator();
+            }
+            if (contentTypes.Contains("Windows Quality Update"))
+            {
+                // Windows quality update policies section
+                await WindowsQualityUpdatePolicyOrchestrator();
             }
 
 
@@ -943,6 +957,49 @@ namespace IntuneAssignments.Presentation.Import
             await ImportMultipleWindowsFeatureUpdateProfiles(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
         }
 
+        // Windows Quality Update Policies
+
+        private async Task WindowsQualityUpdatePolicyOrchestrator()
+        {
+            // Orchestrates the windows quality update policy import process
+            // Clear the dictionary
+            WindowsQualityUpdatePolicyNameAndID.Clear();
+            // Populate the settings catalog dictionary
+            foreach (DataGridViewRow row in dtgImportContent.Rows)
+            {
+                if (row.Cells[1].Value == "Windows Quality Update Policies")
+                {
+                    AddItemsToDictionary(WindowsQualityUpdatePolicyNameAndID, row.Cells[0].Value.ToString(), row.Cells[3].Value.ToString());
+                }
+            }
+            // Import the settings catalog
+            await ImportWindowsQualityUpdatePolicy();
+        }
+
+        private async Task SearchAndAddWindowsQualityUpdatePolicies()
+        {
+            // Search for windows quality update policies
+            var result = await SearchForWindowsQualityUpdatePolicies(sourceGraphServiceClient, tbSearch.Text.ToString());
+            AddWindowsQualityUpdatePoliciesToDTG(result, dtgImportContent);
+        }
+
+        private async Task AddAllWindowsQualityUpdatePoliciesToDTG()
+        {
+            // Add all windows quality update policies to the datagridview
+            var result = await GetAllWindowsQualityUpdatePolicies(sourceGraphServiceClient); // Updated method to retrieve policies
+            AddWindowsQualityUpdatePoliciesToDTG(result, dtgImportContent); // Updated to add policies to DTG
+        }
+
+        private async Task ImportWindowsQualityUpdatePolicy()
+        {
+            // Import the selected windows quality update policies // Updated to match the new terminology
+            // Get the selected policies
+            var policies = GetWindowsQualityUpdatePoliciesFromDTG(dtgImportContent);
+            // Get the selected groups
+            var groupIDs = GetAllGroupIDsFromDTG(dtgGroups);
+            // Import the policies
+            await ImportMultipleWindowsQualityUpdatePolicies(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
+        }
 
 
         // Other methods //
