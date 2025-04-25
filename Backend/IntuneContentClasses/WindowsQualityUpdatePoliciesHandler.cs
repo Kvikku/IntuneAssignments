@@ -15,7 +15,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 {
     public class WindowsQualityUpdatePoliciesHandler
     {
-        // Adapted from WindowsFeatureUpdateProfileHandler.cs
+        // For Windows Quality Updates (Not expedite policy)
 
         public static async Task<List<WindowsQualityUpdatePolicy>> SearchForWindowsQualityUpdatePolicies(GraphServiceClient graphServiceClient, string searchQuery)
         {
@@ -223,12 +223,11 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     {
                         // Log the specific policy ID that failed
                         HandleException(ex, $"Error importing Windows Quality Update policy with ID {policyId}", false);
-                        // Consider if the licensing message is still relevant for Quality Updates
-                        // HandleException(ex, "This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active", false);
+                        HandleException(ex, "This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active", false);
                         rtb.AppendText($"Failed to import Windows Quality Update policy ID {policyId}: {ex.Message}\n");
-                        // rtb.AppendText($"This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active\n");
+                        rtb.AppendText($"This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active\n");
                         WriteToImportStatusFile($"Failed to import Windows Quality Update policy ID {policyId}: {ex.Message}");
-                        // WriteToImportStatusFile("This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active");
+                        WriteToImportStatusFile("This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active");
                     }
                 }
                 rtb.AppendText("Windows Quality Update policy import process finished.\n");
