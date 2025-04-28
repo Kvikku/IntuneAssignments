@@ -167,12 +167,12 @@ namespace IntuneAssignments.Presentation.Import
 
         private void clbContentTypes_MouseEnter(object sender, EventArgs e)
         {
-            clbContentTypes.Height = ExpandedHeight;
+            //clbContentTypes.Height = ExpandedHeight;
         }
 
         private void clbContentTypes_MouseLeave(object sender, EventArgs e)
         {
-            clbContentTypes.Height = CollapsedHeight;
+            //clbContentTypes.Height = CollapsedHeight;
         }
 
         private async void btnListAll_Click(object sender, EventArgs e)
@@ -456,6 +456,9 @@ namespace IntuneAssignments.Presentation.Import
             }
 
 
+            // Clear all dictionaries for the next import
+
+            ClearAllDictionaries();
 
 
 

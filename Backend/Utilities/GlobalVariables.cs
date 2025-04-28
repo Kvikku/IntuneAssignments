@@ -95,6 +95,20 @@ namespace IntuneAssignments.Backend.Utilities
         public static Dictionary<string, string> WindowsQualityUpdatePolicyNameAndID = new Dictionary<string, string>();
         public static Dictionary<string, string> WindowsQualityUpdateProfileNameAndID = new Dictionary<string, string>();
 
+        public static void ClearAllDictionaries()
+        {
+            settingsCatalogNameAndID.Clear();
+            deviceComplianceNameAndID.Clear();
+            deviceConfigurationNameAndID.Clear();
+            ADMXtemplateNameAndID.Clear();
+            proactiveRemediationNameAndID.Clear();
+            powerShellScriptsNameAndID.Clear();
+            autopilotProfilesNameAndID.Clear();
+            macOSShellScriptsNameAndID.Clear();
+            WindowsFeatureUpdateProfileNameAndID.Clear();
+            WindowsQualityUpdatePolicyNameAndID.Clear();
+            WindowsQualityUpdateProfileNameAndID.Clear();
+        }
 
         public static string? AssignmentFilterID = null;
         public static DeviceAndAppManagementAssignmentFilterType AssignmentFilterType = DeviceAndAppManagementAssignmentFilterType.None;
@@ -103,6 +117,7 @@ namespace IntuneAssignments.Backend.Utilities
         {
             get { return graphAssembly; }
         }
+
 
 
         
