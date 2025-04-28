@@ -242,6 +242,10 @@ namespace IntuneAssignments.Presentation.Import
             {
                 await AddAllAssignmentFiltersToDTG();
             }
+            if (categories.Contains("Groups"))
+            {
+                await AddAllGroupsToDTG();
+            }
 
 
             // Hide the progress bar
@@ -311,6 +315,10 @@ namespace IntuneAssignments.Presentation.Import
             if (categories.Contains("Assignment Filters"))
             {
                 await SearchAndAddAssignmentFilters();
+            }
+            if (categories.Contains("Groups"))
+            {
+                await SearchAndAddGroups();
             }
 
 
@@ -481,6 +489,11 @@ namespace IntuneAssignments.Presentation.Import
             {
                 // Assignment filters section
                 await AssignmentFiltersOrchestrator();
+            }
+            if (contentTypes.Contains("Static group") || contentTypes.Contains("Dynamic group"))
+            {
+                // Groups section
+                await GroupsOrchestrator();
             }
 
 
@@ -1177,6 +1190,53 @@ namespace IntuneAssignments.Presentation.Import
             // Import the policies
             await ImportMultipleAssignmentFilters(sourceGraphServiceClient, destinationGraphServiceClient, rtbDeploymentSummary, policies);
         }
+
+        // Groups
+
+        // Groups orchestrator
+
+        private async Task GroupsOrchestrator()
+        {
+            // Orchestrates the groups import process
+            // Clear the dictionary
+            GroupsNameAndID.Clear();
+            // Populate the settings catalog dictionary
+            foreach (DataGridViewRow row in dtgImportContent.Rows)
+            {
+                if (row.Cells[1].Value == "Group")
+                {
+                    AddItemsToDictionary(GroupsNameAndID, row.Cells[0].Value.ToString(), row.Cells[3].Value.ToString());
+                }
+            }
+            // Import the settings catalog
+            await ImportGroups();
+        }
+
+        private async Task SearchAndAddGroups()
+        {
+            // Search for groups
+            var result = await SearchForGroups(sourceGraphServiceClient, tbSearch.Text.ToString());
+            AddGroupsToDTG(result, dtgImportContent);
+        }
+
+        private async Task AddAllGroupsToDTG()
+        {
+            // Add all groups to the datagridview
+            var result = await GetAllGroups(sourceGraphServiceClient);
+            AddGroupsToDTG(result, dtgImportContent);
+        }
+
+        private async Task ImportGroups()
+        {
+            // Import the selected groups
+            // Get the selected policies
+            var policies = GetGroupsFromDTG(dtgImportContent);
+            // Get the selected groups
+            var groupIDs = GetAllGroupIDsFromDTG(dtgGroups);
+            // Import the policies
+            await ImportMultipleGroups(sourceGraphServiceClient, destinationGraphServiceClient, rtbDeploymentSummary, policies);
+        }
+
 
 
 
