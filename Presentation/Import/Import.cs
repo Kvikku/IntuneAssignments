@@ -26,6 +26,7 @@ using static IntuneAssignments.Backend.IntuneContentClasses.WindowsFeatureUpdate
 using static IntuneAssignments.Backend.IntuneContentClasses.WindowsQualityUpdatePoliciesHandler;
 using static IntuneAssignments.Backend.IntuneContentClasses.WindowsQualityUpdateProfileHandler;
 using static IntuneAssignments.Backend.IntuneContentClasses.AppleBYODEnrollmentHandler;
+using static IntuneAssignments.Backend.IntuneContentClasses.FilterHandler;
 using Microsoft.Graph.Beta.NetworkAccess.Reports.MicrosoftGraphNetworkaccessGetDiscoveredApplicationSegmentReportWithStartDateTimeWithEndDateTimeuserIdUserId;
 using Microsoft.Graph.Beta.Security.ThreatIntelligence.WhoisRecords.Item;
 using Windows.Graphics.Printing.PrintSupport;
@@ -237,6 +238,10 @@ namespace IntuneAssignments.Presentation.Import
             {
                 await AddAllAppleBYODEnrollmentProfilesToDTG();
             }
+            if(categories.Contains("Assignment Filters"))
+            {
+                await AddAllAssignmentFiltersToDTG();
+            }
 
 
             // Hide the progress bar
@@ -302,6 +307,10 @@ namespace IntuneAssignments.Presentation.Import
             if (categories.Contains("Apple BYOD Enrollment Profiles"))
             {
                 await SearchAndAddAppleBYODEnrollmentProfiles();
+            }
+            if (categories.Contains("Assignment Filters"))
+            {
+                await SearchAndAddAssignmentFilters();
             }
 
 
@@ -467,6 +476,11 @@ namespace IntuneAssignments.Presentation.Import
             {
                 // Apple BYOD enrollment profiles section
                 await AppleBYODEnrollmentProfilesOrchestrator();
+            }
+            if (contentTypes.Contains("Assignment Filter"))
+            {
+                // Assignment filters section
+                await AssignmentFiltersOrchestrator();
             }
 
 
@@ -900,7 +914,7 @@ namespace IntuneAssignments.Presentation.Import
         }
 
         // macOS shell scripts
-        
+
         private async Task MacOSShellScriptsOrchestrator()
         {
             // Orchestrates the macOS shell scripts import process
@@ -1120,6 +1134,68 @@ namespace IntuneAssignments.Presentation.Import
             await ImportMultipleAppleBYODEnrollmentProfiles(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
         }
 
+        // Assignment filters
+
+        private async Task AssignmentFiltersOrchestrator()
+        {
+            // Orchestrates the assignment filters import process
+            // Clear the dictionary
+            AssignmentFiltersNameAndID.Clear();
+            // Populate the settings catalog dictionary
+            foreach (DataGridViewRow row in dtgImportContent.Rows)
+            {
+                if (row.Cells[1].Value == "Assignment Filter")
+                {
+                    AddItemsToDictionary(AssignmentFiltersNameAndID, row.Cells[0].Value.ToString(), row.Cells[3].Value.ToString());
+                }
+            }
+            // Import the settings catalog
+            await ImportAssignmentFilters();
+        }
+
+        private async Task SearchAndAddAssignmentFilters()
+        {
+            // Search for assignment filters
+            var result = await SearchForAssignmentFilters(sourceGraphServiceClient, tbSearch.Text.ToString());
+            AddAssignmentFiltersToDTG(result, dtgImportContent);
+        }
+
+        private async Task AddAllAssignmentFiltersToDTG()
+        {
+            // Add all assignment filters to the datagridview
+            var result = await FilterHandler.GetAllAssignmentFilters(sourceGraphServiceClient);
+            AddAssignmentFiltersToDTG(result, dtgImportContent);
+        }
+
+        private async Task ImportAssignmentFilters()
+        {
+            // Import the selected assignment filters
+            // Get the selected policies
+            var policies = GetAssignmentFiltersFromDTG(dtgImportContent);
+            // Get the selected groups
+            var groupIDs = GetAllGroupIDsFromDTG(dtgGroups);
+            // Import the policies
+            await ImportMultipleAssignmentFilters(sourceGraphServiceClient, destinationGraphServiceClient, rtbDeploymentSummary, policies);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // Other methods //
         private void btnClearSelectedFromGroupDTG_Click(object sender, EventArgs e)
@@ -1143,7 +1219,7 @@ namespace IntuneAssignments.Presentation.Import
         {
             // Add filters to the datagridview
             // Get the filters
-            var filters = await GetAllAssignmentFilters(graphServiceClient);
+            var filters = await FilterHandler.GetAllAssignmentFilters(graphServiceClient);
 
             // Add the filters to the datagridview
             foreach (var filter in filters)
@@ -1180,6 +1256,11 @@ namespace IntuneAssignments.Presentation.Import
         }
 
         private void pBarLoading_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tbSearch_TextChanged(object sender, EventArgs e)
         {
 
         }
