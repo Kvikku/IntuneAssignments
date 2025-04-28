@@ -8,6 +8,6 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 {
     public  class WindowsUpdateRingsHandler
     {
-
+        // May not be needed - Windows Update rings are handled as device configuration objects
     }
 }

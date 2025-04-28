@@ -94,6 +94,7 @@ namespace IntuneAssignments.Backend.Utilities
         public static Dictionary<string, string> WindowsFeatureUpdateProfileNameAndID = new Dictionary<string, string>();
         public static Dictionary<string, string> WindowsQualityUpdatePolicyNameAndID = new Dictionary<string, string>();
         public static Dictionary<string, string> WindowsQualityUpdateProfileNameAndID = new Dictionary<string, string>();
+        public static Dictionary<string, string> AppleBYODEnrollmentProfiles = new Dictionary<string, string>();
 
         public static void ClearAllDictionaries()
         {
@@ -108,6 +109,7 @@ namespace IntuneAssignments.Backend.Utilities
             WindowsFeatureUpdateProfileNameAndID.Clear();
             WindowsQualityUpdatePolicyNameAndID.Clear();
             WindowsQualityUpdateProfileNameAndID.Clear();
+            AppleBYODEnrollmentProfiles.Clear();
         }
 
         public static string? AssignmentFilterID = null;

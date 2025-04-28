@@ -25,6 +25,7 @@ using static IntuneAssignments.Backend.IntuneContentClasses.ShellScriptmacOS;
 using static IntuneAssignments.Backend.IntuneContentClasses.WindowsFeatureUpdateProfileHandler;
 using static IntuneAssignments.Backend.IntuneContentClasses.WindowsQualityUpdatePoliciesHandler;
 using static IntuneAssignments.Backend.IntuneContentClasses.WindowsQualityUpdateProfileHandler;
+using static IntuneAssignments.Backend.IntuneContentClasses.AppleBYODEnrollmentHandler;
 using Microsoft.Graph.Beta.NetworkAccess.Reports.MicrosoftGraphNetworkaccessGetDiscoveredApplicationSegmentReportWithStartDateTimeWithEndDateTimeuserIdUserId;
 using Microsoft.Graph.Beta.Security.ThreatIntelligence.WhoisRecords.Item;
 using Windows.Graphics.Printing.PrintSupport;
@@ -232,6 +233,10 @@ namespace IntuneAssignments.Presentation.Import
             {
                 await AddAllWindowsQualityUpdateProfilesToDTG();
             }
+            if (categories.Contains("Apple BYOD Enrollment Profiles"))
+            {
+                await AddAllAppleBYODEnrollmentProfilesToDTG();
+            }
 
 
             // Hide the progress bar
@@ -293,6 +298,10 @@ namespace IntuneAssignments.Presentation.Import
             if (categories.Contains("Windows Expedite Policies"))
             {
                 await SearchAndAddWindowsQualityUpdateProfiles();
+            }
+            if (categories.Contains("Apple BYOD Enrollment Profiles"))
+            {
+                await SearchAndAddAppleBYODEnrollmentProfiles();
             }
 
 
@@ -453,6 +462,11 @@ namespace IntuneAssignments.Presentation.Import
             {
                 // Windows quality update profiles section
                 await WindowsQualityUpdateProfilesOrchestrator();
+            }
+            if (contentTypes.Contains("Apple User Initiated Enrollment Profile"))
+            {
+                // Apple BYOD enrollment profiles section
+                await AppleBYODEnrollmentProfilesOrchestrator();
             }
 
 
@@ -1062,6 +1076,49 @@ namespace IntuneAssignments.Presentation.Import
             await ImportMultipleWindowsQualityUpdateProfiles(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
         }
 
+        // Apple BYOD Enrollment Profiles
+
+        private async Task AppleBYODEnrollmentProfilesOrchestrator()
+        {
+            // Orchestrates the apple BYOD enrollment profiles import process
+            // Clear the dictionary
+            autopilotProfilesNameAndID.Clear();
+            // Populate the settings catalog dictionary
+            foreach (DataGridViewRow row in dtgImportContent.Rows)
+            {
+                if (row.Cells[1].Value == "Apple BYOD Enrollment Profiles")
+                {
+                    AddItemsToDictionary(autopilotProfilesNameAndID, row.Cells[0].Value.ToString(), row.Cells[3].Value.ToString());
+                }
+            }
+            // Import the settings catalog
+            await ImportAppleBYODEnrollmentProfiles();
+        }
+
+        private async Task SearchAndAddAppleBYODEnrollmentProfiles()
+        {
+            // Search for apple byod enrollment profiles
+            var result = await SearchForAppleBYODEnrollmentProfiles(sourceGraphServiceClient, tbSearch.Text.ToString());
+            AddAppleBYODEnrollmentProfilesToDTG(result, dtgImportContent);
+        }
+
+        private async Task AddAllAppleBYODEnrollmentProfilesToDTG()
+        {
+            // Add all apple byod enrollment profiles to the datagridview
+            var result = await GetAllAppleBYODEnrollmentProfiles(sourceGraphServiceClient);
+            AddAppleBYODEnrollmentProfilesToDTG(result, dtgImportContent);
+        }
+
+        private async Task ImportAppleBYODEnrollmentProfiles()
+        {
+            // Import the selected apple byod enrollment profiles
+            // Get the selected policies
+            var policies = GetAppleBYODEnrollmentProfilesFromDTG(dtgImportContent);
+            // Get the selected groups
+            var groupIDs = GetAllGroupIDsFromDTG(dtgGroups);
+            // Import the policies
+            await ImportMultipleAppleBYODEnrollmentProfiles(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
+        }
 
 
         // Other methods //

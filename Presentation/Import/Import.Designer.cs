@@ -546,7 +546,7 @@
             clbContentTypes.BorderStyle = BorderStyle.None;
             clbContentTypes.ForeColor = Color.Salmon;
             clbContentTypes.FormattingEnabled = true;
-            clbContentTypes.Items.AddRange(new object[] { "Settings Catalog", "Device Compliance", "Device Configuration", "PowerShell script", "Proactive Remediations", "Windows Autopilot", "Windows Feature Update Profiles", "Windows Quality Update Policies", "Windows Expedite Policies", "macOS script", "Application", "Group Policy Configuration" });
+            clbContentTypes.Items.AddRange(new object[] { "Settings Catalog", "Device Compliance", "Device Configuration", "PowerShell script", "Proactive Remediations", "Windows Autopilot", "Windows Feature Update Profiles", "Windows Quality Update Policies", "Windows Expedite Policies", "Apple BYOD Enrollment Profiles", "macOS script", "Application", "Group Policy Configuration" });
             clbContentTypes.Location = new Point(448, 4);
             clbContentTypes.Name = "clbContentTypes";
             clbContentTypes.ScrollAlwaysVisible = true;
