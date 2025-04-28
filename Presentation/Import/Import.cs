@@ -70,11 +70,8 @@ namespace IntuneAssignments.Presentation.Import
             pBarImportStatus.Hide();
             pnlGroups.Hide();
             CheckConnection();
-
             CheckForAuthentication.Start();
-
         }
-
 
         public void CheckConnection()
         {

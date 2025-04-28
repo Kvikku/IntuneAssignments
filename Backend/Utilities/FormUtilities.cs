@@ -98,15 +98,22 @@ namespace IntuneAssignments.Backend.Utilities
             sw.Close();
         }
 
-        public static void WriteToImportStatusFile(string data)
+        public enum LogType
+        {
+            Info,
+            Warning,
+            Error
+        }
+
+        public static void WriteToImportStatusFile(string data, LogType logType = LogType.Info)
         {
             try
             {
                 // Use the using statement to ensure proper disposal of StreamWriter
                 using (StreamWriter sw = new StreamWriter(importStatusFile, true))
                 {
-                    // Write the data to the import status file
-                    sw.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - {data}");
+                    // Write the data to the import status file with log type
+                    sw.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} [{logType}] - {data}");
                 }
                 // StreamWriter is automatically closed and disposed of when leaving the using block
             }
@@ -150,9 +157,6 @@ namespace IntuneAssignments.Backend.Utilities
                 // Handle the exception
                 MessageBox.Show($"An error occurred while writing to the log file: {ex.Message}");
             }
-
-            
-
         }
 
         public static void HandleException(Exception ex, string contextMessage, bool showMessageBox = true)
@@ -164,6 +168,16 @@ namespace IntuneAssignments.Backend.Utilities
             {
                 MessageBox.Show(logMessage);
             }
+        }
+
+
+        public static void WriteErrorToRTB(string errorMessage, RichTextBox rtb)
+        {
+            // This method will be used to write an error message to the rich text box with the color red
+
+            rtb.SelectionColor = Color.Red;
+            rtb.AppendText($"{errorMessage}\n");
+            rtb.SelectionColor = rtb.ForeColor; // Reset to default color
         }
 
         public static List<string> ReadLastLines(string filePath, int lineCount)

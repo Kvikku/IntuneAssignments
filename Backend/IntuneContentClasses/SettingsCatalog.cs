@@ -166,6 +166,7 @@ namespace IntuneAssignments.Backend.Intune_content_classes
 
                 foreach (var policy in policies)
                 {
+                    var policyName = "";
                     try
                     {
                         var result = await sourceGraphServiceClient.DeviceManagement.ConfigurationPolicies[policy].GetAsync((requestConfiguration) =>
@@ -184,6 +185,8 @@ namespace IntuneAssignments.Backend.Intune_content_classes
                             Assignments = new List<DeviceManagementConfigurationPolicyAssignment>()
                         };
 
+                        policyName = newPolicy.Name;
+
                         var import = await destinationGraphServiceClient.DeviceManagement.ConfigurationPolicies.PostAsync(newPolicy);
                         rtb.AppendText($"Imported policy: {import.Name}\n");
                         WriteToImportStatusFile($"Imported policy: {import.Name}");
@@ -195,8 +198,11 @@ namespace IntuneAssignments.Backend.Intune_content_classes
                     }
                     catch (Exception ex)
                     {
-                        HandleException(ex, $"Error importing policy {policy}", false);
-                        rtb.AppendText($"Failed to import {ex.Message}");
+                        //HandleException(ex, $"Error importing policy {policy}", false);
+                        //rtb.AppendText($"Failed to import {ex.Message}");
+
+                        WriteToImportStatusFile(policyName + " failed to import: " + ex.Message,LogType.Error);
+                        WriteErrorToRTB($"An error occurred when importing the policy {policyName}. Check the log file for more information", rtb);
                     }
                 }
             }

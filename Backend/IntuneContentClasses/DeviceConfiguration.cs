@@ -164,6 +164,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
                 foreach (var configId in configurationIds)
                 {
+                    var policyName = "";
                     try
                     {
                         var originalConfig = await sourceGraphServiceClient.DeviceManagement.DeviceConfigurations[configId].GetAsync(requestConfiguration =>
@@ -174,8 +175,10 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
                         if (originalConfig.OdataType.Equals("#microsoft.graph.iosDeviceFeaturesConfiguration"))
                         {
-                            MessageBox.Show("iOS Device Feature template is currently bugged in graph SDK. Handle manually until this is resolved");
-                            rtb.AppendText("iOS Device Feature template is currently bugged in graph SDK. Handle manually until this is resolved");
+                            //MessageBox.Show("iOS Device Feature template is currently bugged in graph SDK. Handle manually until this is resolved");
+                            //rtb.AppendText("iOS Device Feature template is currently bugged in graph SDK. Handle manually until this is resolved");
+                            WriteToImportStatusFile(originalConfig.DisplayName + " failed to import. iOS Device Feature template is currently bugged in graph SDK. Handle manually until this is resolved" + LogType.Error);
+                            WriteErrorToRTB($"An error occurred when importing the policy {originalConfig.DisplayName}. Check the log file for more information", rtb);
                             continue;
                         }
 
@@ -227,6 +230,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                             }
                         }
 
+                        policyName = deviceConfiguration.DisplayName;
+
                         var import = await destinationGraphServiceClient.DeviceManagement.DeviceConfigurations.PostAsync(deviceConfiguration);
 
                         rtb.AppendText($"Imported device configuration: {import.DisplayName}\n");
@@ -239,13 +244,12 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     }
                     catch (Exception ex)
                     {
-                        HandleException(ex, $"Error importing device configuration {configId}",false);
-                        
+                        //HandleException(ex, $"Error importing device configuration {configId}",false);
                         // Change color of the error output text to red and then reset it for the next text entry
+                        //rtb.AppendText(ex.Message + Environment.NewLine);
 
-
-
-                        rtb.AppendText(ex.Message + Environment.NewLine);
+                        WriteToImportStatusFile(policyName + " failed to import: " + ex.Message, LogType.Error);
+                        WriteErrorToRTB($"An error occurred when importing the policy {policyName}. Check the log file for more information", rtb);
                     }
                 }
             }
