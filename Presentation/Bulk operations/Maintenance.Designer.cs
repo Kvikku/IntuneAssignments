@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             pBHome = new PictureBox();
             panel1 = new Panel();
             pbDestinationTenantCheck = new PictureBox();
@@ -52,6 +52,10 @@
             clbContentTypes = new CheckedListBox();
             btnBulkDelete = new Button();
             tabPage2 = new TabPage();
+            label1 = new Label();
+            pnlStatusOutput = new Panel();
+            lblStatus = new Label();
+            rtbSummary = new RichTextBox();
             ((System.ComponentModel.ISupportInitialize)pBHome).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbDestinationTenantCheck).BeginInit();
@@ -59,6 +63,8 @@
             ((System.ComponentModel.ISupportInitialize)dtgDeleteContent).BeginInit();
             tabControlMaintenance.SuspendLayout();
             tbBulkDelete.SuspendLayout();
+            tabPage2.SuspendLayout();
+            pnlStatusOutput.SuspendLayout();
             SuspendLayout();
             // 
             // pBHome
@@ -136,24 +142,24 @@
             dtgDeleteContent.BorderStyle = BorderStyle.None;
             dtgDeleteContent.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dtgDeleteContent.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.Salmon;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dtgDeleteContent.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.Salmon;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dtgDeleteContent.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dtgDeleteContent.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgDeleteContent.Columns.AddRange(new DataGridViewColumn[] { colName, colType, colPlatform, colID });
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(46, 51, 73);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = Color.Salmon;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dtgDeleteContent.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(46, 51, 73);
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle4.ForeColor = Color.Salmon;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dtgDeleteContent.DefaultCellStyle = dataGridViewCellStyle4;
             dtgDeleteContent.EnableHeadersVisualStyles = false;
             dtgDeleteContent.GridColor = Color.Salmon;
             dtgDeleteContent.Location = new Point(2, 143);
@@ -161,7 +167,7 @@
             dtgDeleteContent.ReadOnly = true;
             dtgDeleteContent.RowHeadersVisible = false;
             dtgDeleteContent.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtgDeleteContent.Size = new Size(679, 567);
+            dtgDeleteContent.Size = new Size(627, 567);
             dtgDeleteContent.TabIndex = 22;
             // 
             // colName
@@ -224,7 +230,7 @@
             btnSearch.TabIndex = 24;
             btnSearch.Text = "Search";
             btnSearch.UseVisualStyleBackColor = false;
-            btnSearch.Click += this.btnSearch_Click;
+            btnSearch.Click += btnSearch_Click;
             // 
             // btnClearContentDTG
             // 
@@ -266,12 +272,13 @@
             tabControlMaintenance.Location = new Point(104, 12);
             tabControlMaintenance.Name = "tabControlMaintenance";
             tabControlMaintenance.SelectedIndex = 0;
-            tabControlMaintenance.Size = new Size(949, 744);
+            tabControlMaintenance.Size = new Size(1189, 744);
             tabControlMaintenance.TabIndex = 30;
             // 
             // tbBulkDelete
             // 
             tbBulkDelete.BackColor = Color.FromArgb(46, 51, 73);
+            tbBulkDelete.Controls.Add(pnlStatusOutput);
             tbBulkDelete.Controls.Add(clbContentTypes);
             tbBulkDelete.Controls.Add(btnBulkDelete);
             tbBulkDelete.Controls.Add(lblHeader);
@@ -285,7 +292,7 @@
             tbBulkDelete.Location = new Point(4, 24);
             tbBulkDelete.Name = "tbBulkDelete";
             tbBulkDelete.Padding = new Padding(3);
-            tbBulkDelete.Size = new Size(941, 716);
+            tbBulkDelete.Size = new Size(1181, 716);
             tbBulkDelete.TabIndex = 0;
             tbBulkDelete.Text = "Bulk delete";
             // 
@@ -307,29 +314,74 @@
             btnBulkDelete.BackColor = Color.Salmon;
             btnBulkDelete.FlatStyle = FlatStyle.Flat;
             btnBulkDelete.ForeColor = Color.FromArgb(46, 51, 73);
-            btnBulkDelete.Location = new Point(663, 100);
+            btnBulkDelete.Location = new Point(635, 348);
             btnBulkDelete.Name = "btnBulkDelete";
-            btnBulkDelete.Size = new Size(96, 28);
+            btnBulkDelete.Size = new Size(108, 40);
             btnBulkDelete.TabIndex = 30;
             btnBulkDelete.Text = "Delete";
             btnBulkDelete.UseVisualStyleBackColor = false;
+            btnBulkDelete.Click += btnBulkDelete_Click;
             // 
             // tabPage2
             // 
+            tabPage2.BackColor = Color.FromArgb(46, 51, 73);
+            tabPage2.Controls.Add(label1);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
             tabPage2.Size = new Size(941, 716);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Bulk rename";
-            tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.Salmon;
+            label1.Location = new Point(235, 200);
+            label1.Name = "label1";
+            label1.Size = new Size(233, 32);
+            label1.TabIndex = 0;
+            label1.Text = "WORK IN PROGRESS";
+            // 
+            // pnlStatusOutput
+            // 
+            pnlStatusOutput.BorderStyle = BorderStyle.FixedSingle;
+            pnlStatusOutput.Controls.Add(lblStatus);
+            pnlStatusOutput.Controls.Add(rtbSummary);
+            pnlStatusOutput.Location = new Point(749, 10);
+            pnlStatusOutput.Name = "pnlStatusOutput";
+            pnlStatusOutput.Size = new Size(422, 703);
+            pnlStatusOutput.TabIndex = 32;
+            // 
+            // lblStatus
+            // 
+            lblStatus.AutoSize = true;
+            lblStatus.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblStatus.ForeColor = Color.Salmon;
+            lblStatus.Location = new Point(3, 3);
+            lblStatus.Name = "lblStatus";
+            lblStatus.Size = new Size(100, 30);
+            lblStatus.TabIndex = 20;
+            lblStatus.Text = "Summary";
+            // 
+            // rtbSummary
+            // 
+            rtbSummary.BackColor = Color.FromArgb(46, 51, 73);
+            rtbSummary.BorderStyle = BorderStyle.None;
+            rtbSummary.ForeColor = Color.Salmon;
+            rtbSummary.Location = new Point(13, 52);
+            rtbSummary.Name = "rtbSummary";
+            rtbSummary.Size = new Size(406, 646);
+            rtbSummary.TabIndex = 21;
+            rtbSummary.Text = "";
             // 
             // Maintenance
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
-            ClientSize = new Size(1065, 768);
+            ClientSize = new Size(1577, 768);
             Controls.Add(tabControlMaintenance);
             Controls.Add(panel1);
             Name = "Maintenance";
@@ -344,6 +396,10 @@
             tabControlMaintenance.ResumeLayout(false);
             tbBulkDelete.ResumeLayout(false);
             tbBulkDelete.PerformLayout();
+            tabPage2.ResumeLayout(false);
+            tabPage2.PerformLayout();
+            pnlStatusOutput.ResumeLayout(false);
+            pnlStatusOutput.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -371,5 +427,9 @@
         private TabPage tabPage2;
         private Button btnBulkDelete;
         private CheckedListBox clbContentTypes;
+        private Label label1;
+        private Panel pnlStatusOutput;
+        private Label lblStatus;
+        private RichTextBox rtbSummary;
     }
 }

@@ -33,6 +33,7 @@ namespace IntuneAssignments.Presentation.Bulk_operations
 
         private void Maintenance_Load(object sender, EventArgs e)
         {
+            pBarLoading.Hide();
             CheckConnection();
         }
 
@@ -219,6 +220,67 @@ namespace IntuneAssignments.Presentation.Bulk_operations
 
             DestinationTenantSettings destinationTenantSettings = new DestinationTenantSettings();
             destinationTenantSettings.ShowDialog();
+        }
+
+        private async void DeleteOrchestrator(DataGridView dtg)
+        {
+            // Get all the rows from the DataGridView
+
+            // Loop through each row and check the content type (index 1)
+
+            foreach (DataGridViewRow row in dtg.Rows)
+            {
+                // Get the content type from the second column (index 1)
+                string contentType = row.Cells[1].Value.ToString();
+                
+                // Get the ID from the first column (index 3)
+                string id = row.Cells[3].Value.ToString();
+
+                // Get the name from the third column (index 0)
+                string name = row.Cells[0].Value.ToString();
+
+                // Call the appropriate delete method based on the content type
+                if (contentType == "Settings Catalog")
+                {
+                    await DeleteSettingsCatalog(destinationGraphServiceClient, id);
+                }
+                else if (contentType == "Device Compliance")
+                {
+                    //DeleteDeviceCompliance(destinationGraphServiceClient, id);
+                }
+                else if (contentType == "Device Configuration")
+                {
+                    //DeleteDeviceConfiguration(destinationGraphServiceClient, id);
+                }
+                else if (contentType == "Group Policy Configuration")
+                {
+                    //DeleteADMXTemplate(destinationGraphServiceClient, id);
+                }
+                else if (contentType == "Proactive Remediations")
+                {
+                    //DeleteProactiveRemediation(destinationGraphServiceClient, id);
+                }
+                else if (contentType == "PowerShell script")
+                {
+                    //DeletePowerShellScript(destinationGraphServiceClient, id);
+                }
+                else if (contentType == "Windows Autopilot")
+                {
+                    //DeleteWindowsAutopilotProfile(destinationGraphServiceClient, id);
+                }
+                else if (contentType == "macOS script")
+                {
+                    //DeleteMacOSShellScript(destinationGraphServiceClient, id);
+                }
+            }
+        }
+
+        private void btnBulkDelete_Click(object sender, EventArgs e)
+        {
+            ClearAllDictionaries();
+
+
+            DeleteOrchestrator(dtgDeleteContent);
         }
     }
 }

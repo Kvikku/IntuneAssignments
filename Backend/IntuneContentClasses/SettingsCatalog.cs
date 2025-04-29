@@ -145,6 +145,8 @@ namespace IntuneAssignments.Backend.Intune_content_classes
             }
         }
 
+        
+
         public static async Task ImportMultipleSettingsCatalog(GraphServiceClient sourceGraphServiceClient, GraphServiceClient destinationGraphServiceClient, DataGridView dtg, List<string> policies, RichTextBox rtb, bool assignments, bool filter, List<string> groups)
         {
             try
@@ -270,6 +272,27 @@ namespace IntuneAssignments.Backend.Intune_content_classes
             catch (Exception ex)
             {
                 HandleException(ex, "An error occurred while assigning groups to a single settings catalog policy");
+            }
+        }
+
+        public static async Task DeleteSettingsCatalog(GraphServiceClient graphServiceClient, string policyID)
+        {
+            try
+            {
+                if (graphServiceClient == null)
+                {
+                    throw new ArgumentNullException(nameof(graphServiceClient));
+                }
+              
+                if (policyID == null)
+                {
+                    throw new InvalidOperationException("Policy ID cannot be null.");
+                }
+                await graphServiceClient.DeviceManagement.ConfigurationPolicies[policyID].DeleteAsync();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, "An error occurred while deleting settings catalog policies");
             }
         }
     }
