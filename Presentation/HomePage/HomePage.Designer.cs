@@ -39,6 +39,7 @@
             lblConnectionStatus = new Label();
             toolTip1 = new ToolTip(components);
             pBImportExport = new PictureBox();
+            pbGoToMaintenance = new PictureBox();
             lblAdditionalInfo = new Label();
             lblManageApplicationHeader = new Label();
             lblManageProfilesHeader = new Label();
@@ -46,12 +47,14 @@
             lblAboutHeader = new Label();
             pbWhatsNew = new PictureBox();
             lblImportExport = new Label();
+            lblMaintenance = new Label();
             ((System.ComponentModel.ISupportInitialize)pbGoToApplication).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbGoToPolicy).BeginInit();
             ((System.ComponentModel.ISupportInitialize)GoToAbout).BeginInit();
             ((System.ComponentModel.ISupportInitialize)GoToSettings).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pBConnectionStatus).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pBImportExport).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbGoToMaintenance).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbWhatsNew).BeginInit();
             SuspendLayout();
             // 
@@ -145,6 +148,18 @@
             toolTip1.SetToolTip(pBImportExport, "Configure authentication");
             pBImportExport.Click += pBImportExport_Click;
             // 
+            // pbGoToMaintenance
+            // 
+            pbGoToMaintenance.Image = Properties.Resources.maintenance;
+            pbGoToMaintenance.Location = new Point(260, 282);
+            pbGoToMaintenance.Name = "pbGoToMaintenance";
+            pbGoToMaintenance.Size = new Size(64, 64);
+            pbGoToMaintenance.SizeMode = PictureBoxSizeMode.AutoSize;
+            pbGoToMaintenance.TabIndex = 15;
+            pbGoToMaintenance.TabStop = false;
+            toolTip1.SetToolTip(pbGoToMaintenance, "Configure authentication");
+            pbGoToMaintenance.Click += pbGoToMaintenance_Click;
+            // 
             // lblAdditionalInfo
             // 
             lblAdditionalInfo.AutoSize = true;
@@ -221,6 +236,17 @@
             lblImportExport.TabIndex = 14;
             lblImportExport.Text = "Import content";
             // 
+            // lblMaintenance
+            // 
+            lblMaintenance.AutoSize = true;
+            lblMaintenance.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblMaintenance.ForeColor = Color.Salmon;
+            lblMaintenance.Location = new Point(330, 295);
+            lblMaintenance.Name = "lblMaintenance";
+            lblMaintenance.Size = new Size(153, 32);
+            lblMaintenance.TabIndex = 16;
+            lblMaintenance.Text = "Maintenance";
+            // 
             // HomePage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -228,6 +254,8 @@
             AutoSize = true;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(484, 457);
+            Controls.Add(lblMaintenance);
+            Controls.Add(pbGoToMaintenance);
             Controls.Add(lblImportExport);
             Controls.Add(pBImportExport);
             Controls.Add(pbWhatsNew);
@@ -257,6 +285,7 @@
             ((System.ComponentModel.ISupportInitialize)GoToSettings).EndInit();
             ((System.ComponentModel.ISupportInitialize)pBConnectionStatus).EndInit();
             ((System.ComponentModel.ISupportInitialize)pBImportExport).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbGoToMaintenance).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbWhatsNew).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -280,5 +309,7 @@
         private PictureBox pbWhatsNew;
         private Label lblImportExport;
         private PictureBox pBImportExport;
+        private Label lblMaintenance;
+        private PictureBox pbGoToMaintenance;
     }
 }

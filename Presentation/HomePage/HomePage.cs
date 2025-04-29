@@ -5,6 +5,7 @@ using static IntuneAssignments.Backend.Utilities.FormUtilities;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using IntuneAssignments.Backend;
 using IntuneAssignments.Presentation.Import;
+using IntuneAssignments.Presentation.Bulk_operations;
 
 namespace IntuneAssignments
 {
@@ -391,6 +392,15 @@ namespace IntuneAssignments
             this.Hide();
             Import import = new Import();
             import.Show();
+        }
+
+        private void pbGoToMaintenance_Click(object sender, EventArgs e)
+        {
+            // Open the maintenance page
+            WriteToLog("Opening the maintenance page");
+            this.Hide();
+            Maintenance maintenance = new Maintenance();
+            maintenance.Show();
         }
     }
 }
