@@ -243,6 +243,7 @@ namespace IntuneAssignments.Presentation.Bulk_operations
                 if (contentType == "Settings Catalog")
                 {
                     await DeleteSettingsCatalog(destinationGraphServiceClient, id);
+                    WriteErrorToRTB(name + " deleted successfully", rtbSummary);
                 }
                 else if (contentType == "Device Compliance")
                 {
