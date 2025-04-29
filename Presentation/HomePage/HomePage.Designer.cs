@@ -63,7 +63,7 @@
             lblTenantName.AutoSize = true;
             lblTenantName.Font = new Font("Consolas", 12F, FontStyle.Bold);
             lblTenantName.ForeColor = Color.Salmon;
-            lblTenantName.Location = new Point(91, 403);
+            lblTenantName.Location = new Point(91, 477);
             lblTenantName.Name = "lblTenantName";
             lblTenantName.Size = new Size(108, 19);
             lblTenantName.TabIndex = 0;
@@ -96,7 +96,7 @@
             // GoToAbout
             // 
             GoToAbout.Image = (Image)resources.GetObject("GoToAbout.Image");
-            GoToAbout.Location = new Point(12, 314);
+            GoToAbout.Location = new Point(12, 388);
             GoToAbout.Name = "GoToAbout";
             GoToAbout.Size = new Size(64, 64);
             GoToAbout.SizeMode = PictureBoxSizeMode.AutoSize;
@@ -119,7 +119,7 @@
             // 
             // pBConnectionStatus
             // 
-            pBConnectionStatus.Location = new Point(12, 384);
+            pBConnectionStatus.Location = new Point(12, 458);
             pBConnectionStatus.Name = "pBConnectionStatus";
             pBConnectionStatus.Size = new Size(64, 64);
             pBConnectionStatus.TabIndex = 5;
@@ -130,7 +130,7 @@
             lblConnectionStatus.AutoSize = true;
             lblConnectionStatus.Font = new Font("Consolas", 12F, FontStyle.Bold);
             lblConnectionStatus.ForeColor = Color.Salmon;
-            lblConnectionStatus.Location = new Point(91, 384);
+            lblConnectionStatus.Location = new Point(91, 458);
             lblConnectionStatus.Name = "lblConnectionStatus";
             lblConnectionStatus.Size = new Size(162, 19);
             lblConnectionStatus.TabIndex = 6;
@@ -151,7 +151,7 @@
             // pbGoToMaintenance
             // 
             pbGoToMaintenance.Image = Properties.Resources.maintenance;
-            pbGoToMaintenance.Location = new Point(260, 282);
+            pbGoToMaintenance.Location = new Point(12, 286);
             pbGoToMaintenance.Name = "pbGoToMaintenance";
             pbGoToMaintenance.Size = new Size(64, 64);
             pbGoToMaintenance.SizeMode = PictureBoxSizeMode.AutoSize;
@@ -165,7 +165,7 @@
             lblAdditionalInfo.AutoSize = true;
             lblAdditionalInfo.Font = new Font("Consolas", 11.25F);
             lblAdditionalInfo.ForeColor = Color.Salmon;
-            lblAdditionalInfo.Location = new Point(91, 422);
+            lblAdditionalInfo.Location = new Point(91, 496);
             lblAdditionalInfo.Name = "lblAdditionalInfo";
             lblAdditionalInfo.Size = new Size(128, 18);
             lblAdditionalInfo.TabIndex = 7;
@@ -176,7 +176,7 @@
             lblManageApplicationHeader.AutoSize = true;
             lblManageApplicationHeader.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblManageApplicationHeader.ForeColor = Color.Salmon;
-            lblManageApplicationHeader.Location = new Point(82, 29);
+            lblManageApplicationHeader.Location = new Point(82, 44);
             lblManageApplicationHeader.Name = "lblManageApplicationHeader";
             lblManageApplicationHeader.Size = new Size(217, 32);
             lblManageApplicationHeader.TabIndex = 8;
@@ -187,7 +187,7 @@
             lblManageProfilesHeader.AutoSize = true;
             lblManageProfilesHeader.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblManageProfilesHeader.ForeColor = Color.Salmon;
-            lblManageProfilesHeader.Location = new Point(82, 98);
+            lblManageProfilesHeader.Location = new Point(82, 115);
             lblManageProfilesHeader.Name = "lblManageProfilesHeader";
             lblManageProfilesHeader.Size = new Size(169, 32);
             lblManageProfilesHeader.TabIndex = 9;
@@ -198,7 +198,7 @@
             lblManageAppSettingsHeader.AutoSize = true;
             lblManageAppSettingsHeader.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblManageAppSettingsHeader.ForeColor = Color.Salmon;
-            lblManageAppSettingsHeader.Location = new Point(82, 229);
+            lblManageAppSettingsHeader.Location = new Point(82, 248);
             lblManageAppSettingsHeader.Name = "lblManageAppSettingsHeader";
             lblManageAppSettingsHeader.Size = new Size(147, 32);
             lblManageAppSettingsHeader.TabIndex = 10;
@@ -209,7 +209,7 @@
             lblAboutHeader.AutoSize = true;
             lblAboutHeader.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblAboutHeader.ForeColor = Color.Salmon;
-            lblAboutHeader.Location = new Point(91, 329);
+            lblAboutHeader.Location = new Point(91, 403);
             lblAboutHeader.Name = "lblAboutHeader";
             lblAboutHeader.Size = new Size(79, 32);
             lblAboutHeader.TabIndex = 11;
@@ -230,7 +230,7 @@
             lblImportExport.AutoSize = true;
             lblImportExport.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblImportExport.ForeColor = Color.Salmon;
-            lblImportExport.Location = new Point(82, 168);
+            lblImportExport.Location = new Point(82, 178);
             lblImportExport.Name = "lblImportExport";
             lblImportExport.Size = new Size(174, 32);
             lblImportExport.TabIndex = 14;
@@ -241,7 +241,7 @@
             lblMaintenance.AutoSize = true;
             lblMaintenance.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblMaintenance.ForeColor = Color.Salmon;
-            lblMaintenance.Location = new Point(330, 295);
+            lblMaintenance.Location = new Point(82, 318);
             lblMaintenance.Name = "lblMaintenance";
             lblMaintenance.Size = new Size(153, 32);
             lblMaintenance.TabIndex = 16;
@@ -253,7 +253,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             BackColor = Color.FromArgb(46, 51, 73);
-            ClientSize = new Size(484, 457);
+            ClientSize = new Size(484, 534);
             Controls.Add(lblMaintenance);
             Controls.Add(pbGoToMaintenance);
             Controls.Add(lblImportExport);

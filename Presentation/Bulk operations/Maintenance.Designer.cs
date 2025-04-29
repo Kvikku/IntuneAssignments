@@ -224,6 +224,7 @@
             btnSearch.TabIndex = 24;
             btnSearch.Text = "Search";
             btnSearch.UseVisualStyleBackColor = false;
+            btnSearch.Click += this.btnSearch_Click;
             // 
             // btnClearContentDTG
             // 

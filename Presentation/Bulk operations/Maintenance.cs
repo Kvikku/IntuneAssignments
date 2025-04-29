@@ -134,6 +134,85 @@ namespace IntuneAssignments.Presentation.Bulk_operations
 
         }
 
+        private async void btnSearch_Click(object sender, EventArgs e)
+        {
+            var searchQuery = tbSearch.Text.Trim();
+
+            // Show the progress bar
+            pBarLoading.Show();
+
+            ClearDataGridView(dtgDeleteContent);
+
+            // Get the categories the user wants to search for
+            List<string> categories = new();
+            GetCheckedItemsFromCheckedListBox(clbContentTypes, categories);
+
+            if (categories.Contains("Settings Catalog"))
+            {
+                var result = await SearchForSettingsCatalog(destinationGraphServiceClient, searchQuery);
+                AddSettingsCatalogToDTG(result, dtgDeleteContent);
+            }
+            if (categories.Contains("Device Compliance"))
+            {
+
+            }
+            if (categories.Contains("Device Configuration"))
+            {
+
+            }
+            if (categories.Contains("Group Policy Configuration"))
+            {
+                //await SearchAndAddADMXTemplate();
+                // Note - ADMX templates are not supported yet, and they might never be supported because Microsoft is pushing Settings Catalog
+            }
+            if (categories.Contains("Proactive Remediations"))
+            {
+
+            }
+            if (categories.Contains("PowerShell script"))
+            {
+
+            }
+            if (categories.Contains("Windows Autopilot"))
+            {
+
+            }
+            if (categories.Contains("macOS script"))
+            {
+
+            }
+            if (categories.Contains("Windows Feature Update Profiles"))
+            {
+
+            }
+            if (categories.Contains("Windows Quality Update Policies"))
+            {
+
+            }
+            if (categories.Contains("Windows Expedite Policies"))
+            {
+
+            }
+            if (categories.Contains("Apple BYOD Enrollment Profiles"))
+            {
+
+            }
+            if (categories.Contains("Assignment Filters"))
+            {
+
+            }
+            if (categories.Contains("Groups"))
+            {
+
+            }
+
+
+
+
+            // Hide the progress bar
+            pBarLoading.Hide();
+        }
+
         private void pbDestinationTenant_Click(object sender, EventArgs e)
         {
             // Open the destination tenant settings form
@@ -141,7 +220,5 @@ namespace IntuneAssignments.Presentation.Bulk_operations
             DestinationTenantSettings destinationTenantSettings = new DestinationTenantSettings();
             destinationTenantSettings.ShowDialog();
         }
-
-        
     }
 }
