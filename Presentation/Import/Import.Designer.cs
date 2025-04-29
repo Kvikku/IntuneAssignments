@@ -142,6 +142,7 @@
             pbSourceConnectionCheck.SizeMode = PictureBoxSizeMode.StretchImage;
             pbSourceConnectionCheck.TabIndex = 19;
             pbSourceConnectionCheck.TabStop = false;
+            pbSourceConnectionCheck.Click += pbSourceConnectionCheck_Click;
             // 
             // lblDestination
             // 

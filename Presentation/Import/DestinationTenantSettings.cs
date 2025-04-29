@@ -116,8 +116,8 @@ namespace IntuneAssignments.Presentation.Import
 
             await AuthenticateToDestinationTenant();
 
-            Import import = System.Windows.Forms.Application.OpenForms["Import"] as Import;
-            import.CheckConnection();
+            //Import import = System.Windows.Forms.Application.OpenForms["Import"] as Import;
+            //import.CheckConnection();
 
             this.Close();
         }
@@ -148,6 +148,7 @@ namespace IntuneAssignments.Presentation.Import
                 var me = await DestinationTenantGraphClient.destinationGraphServiceClient.Me.GetAsync();
                 WriteToLog("Connected to destination tenant as: " + me.UserPrincipalName);
                 isDestinationTenantConnected = true;
+
             }
             catch (Exception ex)
             {

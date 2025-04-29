@@ -1,4 +1,6 @@
-﻿using System;
+﻿using IntuneAssignments.Presentation.Import;
+using Microsoft.Graph.Beta;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +9,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static IntuneAssignments.Backend.DestinationTenantGraphClient;
+using static IntuneAssignments.Backend.GraphServiceClientCreator;
+using static IntuneAssignments.Backend.Intune_content_classes.SettingsCatalog;
+using static IntuneAssignments.Backend.SourceTenantGraphClient;
+using static IntuneAssignments.Backend.Utilities.FormUtilities;
+using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 
 namespace IntuneAssignments.Presentation.Bulk_operations
 {
@@ -23,6 +31,23 @@ namespace IntuneAssignments.Presentation.Bulk_operations
             this.StartPosition = FormStartPosition.CenterScreen; // Center the form over its parent
         }
 
+        private void Maintenance_Load(object sender, EventArgs e)
+        {
+            CheckConnection();
+        }
+
+        public void CheckConnection()
+        {
+            if (isDestinationTenantConnected)
+            {
+                pbDestinationTenantCheck.Image = Properties.Resources.check;
+            }
+            else
+            {
+                pbDestinationTenantCheck.Image = Properties.Resources.cancel;
+            }
+        }
+
         private void pBHome_Click(object sender, EventArgs e)
         {
             // Go back to the main menu
@@ -30,5 +55,93 @@ namespace IntuneAssignments.Presentation.Bulk_operations
             HomePage mainMenu = new HomePage();
             mainMenu.ShowDialog();
         }
+
+        private async void btnListAll_Click(object sender, EventArgs e)
+        {
+            // Show the progress bar
+            pBarLoading.Show();
+
+            ClearDataGridView(dtgDeleteContent);
+
+
+            // Get the categories the user wants to search for
+            List<string> categories = new();
+            GetCheckedItemsFromCheckedListBox(clbContentTypes, categories);
+
+            if (categories.Contains("Settings Catalog"))
+            {
+                var result = await GetAllSettingsCatalogPolicies(destinationGraphServiceClient);
+                AddSettingsCatalogToDTG(result, dtgDeleteContent);
+
+            }
+            if (categories.Contains("Device Compliance"))
+            {
+                //await AddAllDeviceComplianceToDTG();
+            }
+            if (categories.Contains("Device Configuration"))
+            {
+                //await AddAllDeviceConfigurationToDTG();
+            }
+            if (categories.Contains("Group Policy Configuration"))
+            {
+                //await AddAllADMXTemplateToDTG();
+                // Note - ADMX templates are not supported yet, and they might never be supported because Microsoft is pushing Settings Catalog
+            }
+            if (categories.Contains("Proactive Remediations"))
+            {
+                //await AddAllProactiveRemediationsToDTG();
+            }
+            if (categories.Contains("PowerShell script"))
+            {
+                //await AddAllPowerShellScripts();
+            }
+            if (categories.Contains("Windows Autopilot"))
+            {
+                //await AddAllWindowsAutopilotProfilesToDTG();
+            }
+            if (categories.Contains("macOS script"))
+            {
+                //await AddAllMacOSShellScriptsToDTG();
+            }
+            if (categories.Contains("Windows Feature Update Profiles"))
+            {
+                //await AddAllWindowsFeatureUpdateProfilesToDTG();
+            }
+            if (categories.Contains("Windows Quality Update Policies"))
+            {
+                // await AddAllWindowsQualityUpdatePoliciesToDTG();
+            }
+            if (categories.Contains("Windows Expedite Policies"))
+            {
+                //await AddAllWindowsQualityUpdateProfilesToDTG();
+            }
+            if (categories.Contains("Apple BYOD Enrollment Profiles"))
+            {
+                //await AddAllAppleBYODEnrollmentProfilesToDTG();
+            }
+            if (categories.Contains("Assignment Filters"))
+            {
+                //await AddAllAssignmentFiltersToDTG();
+            }
+            if (categories.Contains("Groups"))
+            {
+                //await AddAllGroupsToDTG();
+            }
+
+
+            // Hide the progress bar
+            pBarLoading.Hide();
+
+        }
+
+        private void pbDestinationTenant_Click(object sender, EventArgs e)
+        {
+            // Open the destination tenant settings form
+
+            DestinationTenantSettings destinationTenantSettings = new DestinationTenantSettings();
+            destinationTenantSettings.ShowDialog();
+        }
+
+        
     }
 }

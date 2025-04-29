@@ -235,7 +235,7 @@ namespace IntuneAssignments.Presentation.Import
             {
                 await AddAllAppleBYODEnrollmentProfilesToDTG();
             }
-            if(categories.Contains("Assignment Filters"))
+            if (categories.Contains("Assignment Filters"))
             {
                 await AddAllAssignmentFiltersToDTG();
             }
@@ -1318,6 +1318,11 @@ namespace IntuneAssignments.Presentation.Import
         }
 
         private void tbSearch_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pbSourceConnectionCheck_Click(object sender, EventArgs e)
         {
 
         }
