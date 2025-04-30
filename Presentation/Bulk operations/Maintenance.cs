@@ -328,23 +328,22 @@ namespace IntuneAssignments.Presentation.Bulk_operations
                     await DeleteMacosShellScript(destinationGraphServiceClient, id);
                     WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
                 }
-                else if (contentType == "Windows Feature Update Profile")
+                else if (contentType == "Windows Feature Update")
                 {
-                    //TO DO - Test in Magnus lab
-                    //await DeleteWindowsFeatureUpdateProfile(destinationGraphServiceClient, id);
-                    //WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
+                    await DeleteWindowsFeatureUpdateProfile(destinationGraphServiceClient, id);
+                    WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
                 }
-                else if (contentType == "Windows Quality Update Policy")
+                else if (contentType == "Windows Quality Update")
                 {
-                    //TO DO - Test in Magnus lab
                     //await DeleteWindowsQualityUpdatePolicy(destinationGraphServiceClient, id);
                     //WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
+
+                    WriteErrorToRTB("Windows Quality Update is not supported yet. Work is in progress", rtbSummary, Color.Salmon);
                 }
-                else if (contentType == "Windows Expedite Policy")
+                else if (contentType == "Windows Expedite Update")
                 {
-                    //TO DO - Test in Magnus lab
-                    //await DeleteWindowsQualityUpdateProfile(destinationGraphServiceClient, id);
-                    //WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
+                    await DeleteWindowsQualityUpdateProfile(destinationGraphServiceClient, id);
+                    WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
                 }
                 else if (contentType == "Apple User Initiated Enrollment Profile")
                 {
