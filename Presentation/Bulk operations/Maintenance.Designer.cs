@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             pBHome = new PictureBox();
             panel1 = new Panel();
             pbDestinationTenantCheck = new PictureBox();
@@ -49,13 +49,13 @@
             pBarLoading = new ProgressBar();
             tabControlMaintenance = new TabControl();
             tbBulkDelete = new TabPage();
+            pnlStatusOutput = new Panel();
+            lblStatus = new Label();
+            rtbSummary = new RichTextBox();
             clbContentTypes = new CheckedListBox();
             btnBulkDelete = new Button();
             tabPage2 = new TabPage();
             label1 = new Label();
-            pnlStatusOutput = new Panel();
-            lblStatus = new Label();
-            rtbSummary = new RichTextBox();
             ((System.ComponentModel.ISupportInitialize)pBHome).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbDestinationTenantCheck).BeginInit();
@@ -63,8 +63,8 @@
             ((System.ComponentModel.ISupportInitialize)dtgDeleteContent).BeginInit();
             tabControlMaintenance.SuspendLayout();
             tbBulkDelete.SuspendLayout();
-            tabPage2.SuspendLayout();
             pnlStatusOutput.SuspendLayout();
+            tabPage2.SuspendLayout();
             SuspendLayout();
             // 
             // pBHome
@@ -138,28 +138,29 @@
             // 
             dtgDeleteContent.AllowUserToAddRows = false;
             dtgDeleteContent.AllowUserToDeleteRows = false;
+            dtgDeleteContent.AllowUserToResizeRows = false;
             dtgDeleteContent.BackgroundColor = Color.FromArgb(46, 51, 73);
             dtgDeleteContent.BorderStyle = BorderStyle.None;
             dtgDeleteContent.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dtgDeleteContent.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.Salmon;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle3.ForeColor = Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dtgDeleteContent.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.Salmon;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dtgDeleteContent.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dtgDeleteContent.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgDeleteContent.Columns.AddRange(new DataGridViewColumn[] { colName, colType, colPlatform, colID });
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(46, 51, 73);
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle4.ForeColor = Color.Salmon;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
-            dtgDeleteContent.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(46, 51, 73);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = Color.Salmon;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dtgDeleteContent.DefaultCellStyle = dataGridViewCellStyle2;
             dtgDeleteContent.EnableHeadersVisualStyles = false;
             dtgDeleteContent.GridColor = Color.Salmon;
             dtgDeleteContent.Location = new Point(2, 143);
@@ -296,6 +297,38 @@
             tbBulkDelete.TabIndex = 0;
             tbBulkDelete.Text = "Bulk delete";
             // 
+            // pnlStatusOutput
+            // 
+            pnlStatusOutput.BorderStyle = BorderStyle.FixedSingle;
+            pnlStatusOutput.Controls.Add(lblStatus);
+            pnlStatusOutput.Controls.Add(rtbSummary);
+            pnlStatusOutput.Location = new Point(749, 10);
+            pnlStatusOutput.Name = "pnlStatusOutput";
+            pnlStatusOutput.Size = new Size(422, 703);
+            pnlStatusOutput.TabIndex = 32;
+            // 
+            // lblStatus
+            // 
+            lblStatus.AutoSize = true;
+            lblStatus.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblStatus.ForeColor = Color.Salmon;
+            lblStatus.Location = new Point(3, 3);
+            lblStatus.Name = "lblStatus";
+            lblStatus.Size = new Size(100, 30);
+            lblStatus.TabIndex = 20;
+            lblStatus.Text = "Summary";
+            // 
+            // rtbSummary
+            // 
+            rtbSummary.BackColor = Color.FromArgb(46, 51, 73);
+            rtbSummary.BorderStyle = BorderStyle.None;
+            rtbSummary.ForeColor = Color.Salmon;
+            rtbSummary.Location = new Point(13, 52);
+            rtbSummary.Name = "rtbSummary";
+            rtbSummary.Size = new Size(406, 646);
+            rtbSummary.TabIndex = 21;
+            rtbSummary.Text = "";
+            // 
             // clbContentTypes
             // 
             clbContentTypes.BackColor = Color.FromArgb(46, 51, 73);
@@ -329,7 +362,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(941, 716);
+            tabPage2.Size = new Size(1181, 716);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Bulk rename";
             // 
@@ -343,38 +376,6 @@
             label1.Size = new Size(233, 32);
             label1.TabIndex = 0;
             label1.Text = "WORK IN PROGRESS";
-            // 
-            // pnlStatusOutput
-            // 
-            pnlStatusOutput.BorderStyle = BorderStyle.FixedSingle;
-            pnlStatusOutput.Controls.Add(lblStatus);
-            pnlStatusOutput.Controls.Add(rtbSummary);
-            pnlStatusOutput.Location = new Point(749, 10);
-            pnlStatusOutput.Name = "pnlStatusOutput";
-            pnlStatusOutput.Size = new Size(422, 703);
-            pnlStatusOutput.TabIndex = 32;
-            // 
-            // lblStatus
-            // 
-            lblStatus.AutoSize = true;
-            lblStatus.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblStatus.ForeColor = Color.Salmon;
-            lblStatus.Location = new Point(3, 3);
-            lblStatus.Name = "lblStatus";
-            lblStatus.Size = new Size(100, 30);
-            lblStatus.TabIndex = 20;
-            lblStatus.Text = "Summary";
-            // 
-            // rtbSummary
-            // 
-            rtbSummary.BackColor = Color.FromArgb(46, 51, 73);
-            rtbSummary.BorderStyle = BorderStyle.None;
-            rtbSummary.ForeColor = Color.Salmon;
-            rtbSummary.Location = new Point(13, 52);
-            rtbSummary.Name = "rtbSummary";
-            rtbSummary.Size = new Size(406, 646);
-            rtbSummary.TabIndex = 21;
-            rtbSummary.Text = "";
             // 
             // Maintenance
             // 
@@ -396,10 +397,10 @@
             tabControlMaintenance.ResumeLayout(false);
             tbBulkDelete.ResumeLayout(false);
             tbBulkDelete.PerformLayout();
-            tabPage2.ResumeLayout(false);
-            tabPage2.PerformLayout();
             pnlStatusOutput.ResumeLayout(false);
             pnlStatusOutput.PerformLayout();
+            tabPage2.ResumeLayout(false);
+            tabPage2.PerformLayout();
             ResumeLayout(false);
         }
 

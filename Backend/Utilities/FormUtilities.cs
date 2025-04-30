@@ -171,11 +171,13 @@ namespace IntuneAssignments.Backend.Utilities
         }
 
 
-        public static void WriteErrorToRTB(string errorMessage, RichTextBox rtb)
+        public static void WriteErrorToRTB(string errorMessage, RichTextBox rtb, Color? color = null)
         {
-            // This method will be used to write an error message to the rich text box with the color red
+            // This method will be used to write an error message to the rich text box with a default color of red,
+            // but allows specifying another color when calling the method.
 
-            rtb.SelectionColor = Color.Red;
+            Color textColor = color ?? Color.Red; // Use the specified color or default to red
+            rtb.SelectionColor = textColor;
             rtb.AppendText($"{errorMessage}\n");
             rtb.SelectionColor = rtb.ForeColor; // Reset to default color
         }

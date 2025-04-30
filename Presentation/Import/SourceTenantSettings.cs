@@ -180,7 +180,7 @@ namespace IntuneAssignments.Presentation.Import
 
         private async void btnLogin_Click(object sender, EventArgs e)
         {
-            saveSourceFile();
+            //saveSourceFile();
 
             // TODO - Authenticate
 
