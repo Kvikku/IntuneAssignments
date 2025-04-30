@@ -93,7 +93,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 return;
             }
             // Clear the data grid view
-            dtg.Rows.Clear();
+            //dtg.Rows.Clear();
             // Add the groups to the data grid view
             foreach (Group group in groups)
             {

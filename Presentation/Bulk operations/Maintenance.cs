@@ -15,6 +15,21 @@ using static IntuneAssignments.Backend.Intune_content_classes.SettingsCatalog;
 using static IntuneAssignments.Backend.SourceTenantGraphClient;
 using static IntuneAssignments.Backend.Utilities.FormUtilities;
 using static IntuneAssignments.Backend.Utilities.GlobalVariables;
+using static IntuneAssignments.Backend.IntuneContentClasses.DeviceConfiguration;
+using static IntuneAssignments.Backend.IntuneContentClasses.DeviceCompliance;
+using static IntuneAssignments.Backend.IntuneContentClasses.ADMXtemplates;
+using static IntuneAssignments.Backend.IntuneContentClasses.Groups;
+using static IntuneAssignments.Backend.IntuneContentClasses.Filters;
+using static IntuneAssignments.Backend.IntuneContentClasses.ProactiveRemediations;
+using static IntuneAssignments.Backend.IntuneContentClasses.PowerShellScripts;
+using static IntuneAssignments.Backend.IntuneContentClasses.WindowsAutoPilotProfiles;
+using static IntuneAssignments.Backend.IntuneContentClasses.ShellScriptmacOS;
+using static IntuneAssignments.Backend.IntuneContentClasses.WindowsFeatureUpdateProfileHandler;
+using static IntuneAssignments.Backend.IntuneContentClasses.WindowsQualityUpdatePoliciesHandler;
+using static IntuneAssignments.Backend.IntuneContentClasses.WindowsQualityUpdateProfileHandler;
+using static IntuneAssignments.Backend.IntuneContentClasses.AppleBYODEnrollmentHandler;
+using static IntuneAssignments.Backend.IntuneContentClasses.FilterHandler;
+using IntuneAssignments.Backend.IntuneContentClasses;
 
 namespace IntuneAssignments.Presentation.Bulk_operations
 {
@@ -64,7 +79,6 @@ namespace IntuneAssignments.Presentation.Bulk_operations
 
             ClearDataGridView(dtgDeleteContent);
 
-
             // Get the categories the user wants to search for
             List<string> categories = new();
             GetCheckedItemsFromCheckedListBox(clbContentTypes, categories);
@@ -73,66 +87,74 @@ namespace IntuneAssignments.Presentation.Bulk_operations
             {
                 var result = await GetAllSettingsCatalogPolicies(destinationGraphServiceClient);
                 AddSettingsCatalogToDTG(result, dtgDeleteContent);
-
             }
             if (categories.Contains("Device Compliance"))
             {
-                //await AddAllDeviceComplianceToDTG();
+                var result = await GetAllDeviceCompliancePolicies(destinationGraphServiceClient);
+                AddDeviceComplianceToDTG(result, dtgDeleteContent);                                                             
             }
             if (categories.Contains("Device Configuration"))
             {
-                //await AddAllDeviceConfigurationToDTG();
+                var result = await GetAllDeviceConfigurations(destinationGraphServiceClient);
+                AddDeviceConfigurationsToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("Group Policy Configuration"))
             {
-                //await AddAllADMXTemplateToDTG();
-                // Note - ADMX templates are not supported yet, and they might never be supported because Microsoft is pushing Settings Catalog
+                // ADMX templates are not supported yet
             }
             if (categories.Contains("Proactive Remediations"))
             {
-                //await AddAllProactiveRemediationsToDTG();
+                var result = await GetAllProactiveRemediations(destinationGraphServiceClient);
+                AddProactiveRemediationsToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("PowerShell script"))
             {
-                //await AddAllPowerShellScripts();
+                var result = await GetAllPowerShellScripts(destinationGraphServiceClient);
+                AddPowerShellScriptsToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("Windows Autopilot"))
             {
-                //await AddAllWindowsAutopilotProfilesToDTG();
+                var result = await GetAllWindowsAutoPilotProfiles(destinationGraphServiceClient);
+                AddWindowsAutoPilotProfilesToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("macOS script"))
             {
-                //await AddAllMacOSShellScriptsToDTG();
+                var result = await GetAllShellScriptmacOS(destinationGraphServiceClient);
+                AddShellScriptmacOSToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("Windows Feature Update Profiles"))
             {
-                //await AddAllWindowsFeatureUpdateProfilesToDTG();
+                var result = await GetAllWindowsFeatureUpdateProfiles(destinationGraphServiceClient);
+                AddWindowsFeatureUpdateProfilesToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("Windows Quality Update Policies"))
             {
-                // await AddAllWindowsQualityUpdatePoliciesToDTG();
+                var result = await GetAllWindowsQualityUpdatePolicies(destinationGraphServiceClient);
+                AddWindowsQualityUpdatePoliciesToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("Windows Expedite Policies"))
             {
-                //await AddAllWindowsQualityUpdateProfilesToDTG();
+                var result = await GetAllWindowsQualityUpdateProfiles(destinationGraphServiceClient);
+                AddWindowsQualityUpdateProfilesToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("Apple BYOD Enrollment Profiles"))
             {
-                //await AddAllAppleBYODEnrollmentProfilesToDTG();
+                var result = await GetAllAppleBYODEnrollmentProfiles(destinationGraphServiceClient);
+                AddAppleBYODEnrollmentProfilesToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("Assignment Filters"))
             {
-                //await AddAllAssignmentFiltersToDTG();
+                var result = await FilterHandler.GetAllAssignmentFilters(destinationGraphServiceClient);
+                AddAssignmentFiltersToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("Groups"))
             {
-                //await AddAllGroupsToDTG();
+                var result = await GetAllGroups(destinationGraphServiceClient);
+                AddGroupsToDTG(result, dtgDeleteContent);
             }
-
 
             // Hide the progress bar
             pBarLoading.Hide();
-
         }
 
         private async void btnSearch_Click(object sender, EventArgs e)
@@ -155,60 +177,68 @@ namespace IntuneAssignments.Presentation.Bulk_operations
             }
             if (categories.Contains("Device Compliance"))
             {
-
+                var result = await SearchForDeviceCompliancePolicies(destinationGraphServiceClient, searchQuery);
+                AddDeviceComplianceToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("Device Configuration"))
             {
-
+                var result = await SearchForDeviceConfigurations(destinationGraphServiceClient, searchQuery);
+                AddDeviceConfigurationsToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("Group Policy Configuration"))
             {
-                //await SearchAndAddADMXTemplate();
-                // Note - ADMX templates are not supported yet, and they might never be supported because Microsoft is pushing Settings Catalog
+                // ADMX templates are not supported yet
             }
             if (categories.Contains("Proactive Remediations"))
             {
-
+                var result = await SearchForProactiveRemediations(destinationGraphServiceClient, searchQuery);
+                AddProactiveRemediationsToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("PowerShell script"))
             {
-
+                var result = await SearchForPowerShellScripts(destinationGraphServiceClient, searchQuery);
+                AddPowerShellScriptsToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("Windows Autopilot"))
             {
-
+                var result = await SearchForWindowsAutoPilotProfiles(destinationGraphServiceClient, searchQuery);
+                AddWindowsAutoPilotProfilesToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("macOS script"))
             {
-
+                var result = await SearchForShellScriptmacOS(destinationGraphServiceClient, searchQuery);
+                AddShellScriptmacOSToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("Windows Feature Update Profiles"))
             {
-
+                var result = await SearchForWindowsFeatureUpdateProfiles(destinationGraphServiceClient, searchQuery);
+                AddWindowsFeatureUpdateProfilesToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("Windows Quality Update Policies"))
             {
-
+                var result = await SearchForWindowsQualityUpdatePolicies(destinationGraphServiceClient, searchQuery);
+                AddWindowsQualityUpdatePoliciesToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("Windows Expedite Policies"))
             {
-
+                var result = await SearchForWindowsQualityUpdateProfiles(destinationGraphServiceClient, searchQuery);
+                AddWindowsQualityUpdateProfilesToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("Apple BYOD Enrollment Profiles"))
             {
-
+                var result = await SearchForAppleBYODEnrollmentProfiles(destinationGraphServiceClient, searchQuery);
+                AddAppleBYODEnrollmentProfilesToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("Assignment Filters"))
             {
-
+                var result = await FilterHandler.SearchForAssignmentFilters(destinationGraphServiceClient, searchQuery);
+                AddAssignmentFiltersToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("Groups"))
             {
-
+                var result = await SearchForGroups(destinationGraphServiceClient, searchQuery);
+                AddGroupsToDTG(result, dtgDeleteContent);
             }
-
-
-
 
             // Hide the progress bar
             pBarLoading.Hide();
