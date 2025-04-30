@@ -262,7 +262,7 @@ namespace IntuneAssignments.Presentation.Bulk_operations
             {
                 // Get the content type from the second column (index 1)
                 string contentType = row.Cells[1].Value.ToString();
-                
+
                 // Get the ID from the first column (index 3)
                 string id = row.Cells[3].Value.ToString();
 
@@ -325,6 +325,39 @@ namespace IntuneAssignments.Presentation.Bulk_operations
                 else if (contentType == "macOS Shell Script")
                 {
                     await DeleteMacosShellScript(destinationGraphServiceClient, id);
+                    WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
+                }
+                else if (contentType == "Windows Feature Update Profile")
+                {
+                    //TO DO - Test in Magnus lab
+                    //await DeleteWindowsFeatureUpdateProfile(destinationGraphServiceClient, id);
+                    //WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
+                }
+                else if (contentType == "Windows Quality Update Policy")
+                {
+                    //TO DO - Test in Magnus lab
+                    //await DeleteWindowsQualityUpdatePolicy(destinationGraphServiceClient, id);
+                    //WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
+                }
+                else if (contentType == "Windows Expedite Policy")
+                {
+                    //TO DO - Test in Magnus lab
+                    //await DeleteWindowsQualityUpdateProfile(destinationGraphServiceClient, id);
+                    //WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
+                }
+                else if (contentType == "Apple User Initiated Enrollment Profile")
+                {
+                    await DeleteAppleBYODEnrollmentProfile(destinationGraphServiceClient, id);
+                    WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
+                }
+                else if (contentType == "Assignment Filter")
+                {
+                    //await DeleteAssignmentFilter(destinationGraphServiceClient, id);
+                    WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
+                }
+                else if (contentType == "Group")
+                {
+                    //await DeleteGroup(destinationGraphServiceClient, id);
                     WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
                 }
             }
