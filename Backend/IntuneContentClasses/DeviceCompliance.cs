@@ -378,5 +378,25 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
             return platform;
         }
 
+        public static async Task DeleteDeviceCompliancePolicy(GraphServiceClient graphServiceClient, string policyID)
+        {
+            try
+            {
+                if (graphServiceClient == null)
+                {
+                    throw new ArgumentNullException(nameof(graphServiceClient));
+                }
+              
+                if (policyID == null)
+                {
+                    throw new InvalidOperationException("Policy ID cannot be null.");
+                }
+                await graphServiceClient.DeviceManagement.DeviceCompliancePolicies[policyID].DeleteAsync();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, "An error occurred while deleting settings catalog policies");
+            }
+        }
     }
 }

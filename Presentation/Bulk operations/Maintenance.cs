@@ -273,15 +273,17 @@ namespace IntuneAssignments.Presentation.Bulk_operations
                 if (contentType == "Settings Catalog")
                 {
                     await DeleteSettingsCatalog(destinationGraphServiceClient, id);
-                    WriteErrorToRTB(name + " deleted successfully", rtbSummary,Color.Salmon);
+                    WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
                 }
                 else if (contentType == "Device Compliance")
                 {
-                    //DeleteDeviceCompliance(destinationGraphServiceClient, id);
+                    await DeleteDeviceCompliancePolicy(destinationGraphServiceClient, id);
+                    WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
                 }
                 else if (contentType == "Device Configuration")
                 {
-                    //DeleteDeviceConfiguration(destinationGraphServiceClient, id);
+                    await DeleteDeviceConfigurationPolicy(destinationGraphServiceClient, id);
+                    WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
                 }
                 else if (contentType == "Group Policy Configuration")
                 {
