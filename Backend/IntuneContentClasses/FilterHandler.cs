@@ -251,7 +251,56 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
             }
         }
 
-        // Assignment logic specific to Apple BYOD profiles is removed as it doesn't apply directly to filters.
-        // Filters are applied when assigning other resources (apps, policies, etc.).
+        public static async Task CheckIfAssignmentFilterHasAssignments(GraphServiceClient graphServiceClient, string filterID, RichTextBox rtb)
+        {
+            try
+            {
+                if (graphServiceClient == null)
+                {
+                    throw new ArgumentNullException(nameof(graphServiceClient));
+                }
+                if (filterID == null)
+                {
+                    throw new InvalidOperationException("Filter ID cannot be null.");
+                }
+                var filter = await graphServiceClient.DeviceManagement.AssignmentFilters[filterID].GetAsync();
+                
+                // There is currently no built in functionality to check this. 
+
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, "An error occurred while checking assignment filters", false);
+            }
+        }
+
+        public static async Task<bool> DeleteAssignmentFilter(GraphServiceClient graphServiceClient, string filterID)
+        {
+            try
+            {
+                if (graphServiceClient == null)
+                {
+                    throw new ArgumentNullException(nameof(graphServiceClient));
+                }
+
+                if (filterID == null)
+                {
+                    throw new InvalidOperationException("Filter ID cannot be null.");
+                }
+
+                var result = await graphServiceClient.DeviceManagement.AssignmentFilters[filterID].GetAsync();
+
+                await graphServiceClient.DeviceManagement.AssignmentFilters[filterID].DeleteAsync();
+                return true;
+            }
+            catch (ODataError odataError)
+            {
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

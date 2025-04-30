@@ -30,6 +30,7 @@ using static IntuneAssignments.Backend.IntuneContentClasses.WindowsQualityUpdate
 using static IntuneAssignments.Backend.IntuneContentClasses.AppleBYODEnrollmentHandler;
 using static IntuneAssignments.Backend.IntuneContentClasses.FilterHandler;
 using IntuneAssignments.Backend.IntuneContentClasses;
+using Microsoft.Graph.Beta.Models.ODataErrors;
 
 namespace IntuneAssignments.Presentation.Bulk_operations
 {
@@ -352,8 +353,32 @@ namespace IntuneAssignments.Presentation.Bulk_operations
                 }
                 else if (contentType == "Assignment Filter")
                 {
-                    //await DeleteAssignmentFilter(destinationGraphServiceClient, id);
-                    WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
+                    try
+                    {
+                        var result = await DeleteAssignmentFilter(destinationGraphServiceClient, id);
+
+                        if (result)
+                        {
+                            WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
+                        }
+                        else
+                        {
+                            WriteErrorToRTB(name + " could not be deleted. Check if the filter has assignment. Deleting a filter with assignment(s) is not supported", rtbSummary, Color.Salmon);
+                            WriteToImportStatusFile(name + " could not be deleted. Check if the filter has assignment. Deleting a filter with assignment(s) is not supported");
+                        }
+
+                        //WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
+                    }
+                    catch (ODataError error) 
+                    {
+                        WriteErrorToRTB(name + " could not be deleted. Check if the filter has assignment. Deleting a filter with assignment(s) is not supported", rtbSummary, Color.Salmon);
+                        WriteToImportStatusFile(name + " could not be deleted. Check if the filter has assignment. Deleting a filter with assignment(s) is not supported");
+                    }
+                    catch (Exception ex)
+                    {
+                        WriteErrorToRTB(name + " could not be deleted due to an unexpected error: " + ex.Message, rtbSummary, Color.Salmon);
+                        WriteToImportStatusFile(name + " could not be deleted due to an unexpected error: " + ex.Message);
+                    }
                 }
                 else if (contentType == "Group")
                 {
