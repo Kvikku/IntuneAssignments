@@ -254,5 +254,26 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 HandleException(ex, "An error occurred while assigning groups to a single PowerShell script");
             }
         }
+
+        public static async Task DeletePowerShellScript(GraphServiceClient graphServiceClient, string scriptID)
+        {
+            try
+            {
+                if (graphServiceClient == null)
+                {
+                    throw new ArgumentNullException(nameof(graphServiceClient));
+                }
+
+                if (scriptID == null)
+                {
+                    throw new InvalidOperationException("Script ID cannot be null.");
+                }
+                await graphServiceClient.DeviceManagement.DeviceManagementScripts[scriptID].DeleteAsync();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, "An error occurred while deleting PowerShell scripts");
+            }
+        }
     }
 }

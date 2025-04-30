@@ -9,6 +9,7 @@ using Microsoft.Graph.Beta.Models;
 using static IntuneAssignments.Backend.Utilities.FormUtilities;
 using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 using static IntuneAssignments.Backend.IntuneContentClasses.Filters;
+using Microsoft.Graph.Beta.Models.ODataErrors;
 
 namespace IntuneAssignments.Backend.IntuneContentClasses
 {
@@ -299,6 +300,115 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
             catch (Exception ex)
             {
                 HandleException(ex, "An error occurred while assigning groups to a single Windows AutoPilot profile");
+            }
+        }
+
+        public static async Task<bool> CheckIfAutoPilotProfileHasAssignments(GraphServiceClient graphServiceClient, string profileID)
+        {
+            try
+            {
+                // Check if the GraphServiceClient and profileID are not null
+                if (graphServiceClient == null)
+                {
+                    throw new ArgumentNullException(nameof(graphServiceClient));
+                }
+
+                if (profileID == null)
+                {
+                    throw new InvalidOperationException("Profile ID cannot be null.");
+                }
+
+                // Get the assignments for the profile
+                var result = await graphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles[profileID].Assignments.GetAsync((requestConfiguration) =>
+                {
+                    requestConfiguration.QueryParameters.Top = 1000;
+                });
+
+                // If the result is not null and has assignments, return true
+                if (result != null && result.Value != null && result.Value.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (ODataError error)
+            {
+                MessageBox.Show("Error checking assignments: " + error.Error.Message);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, "An error occurred while checking if the AutoPilot profile has assignments");
+                return false;
+            }
+        }
+
+        public static async Task DeleteWindowsAutoPilotProfileAssignments(GraphServiceClient graphServiceClient, string profileID)
+        {
+            try
+            {
+                if (graphServiceClient == null)
+                {
+                    throw new ArgumentNullException(nameof(graphServiceClient));
+                }
+
+                if (profileID == null)
+                {
+                    throw new InvalidOperationException("Profile ID cannot be null.");
+                }
+
+                // Get the assignments for the profile
+
+                var result = await graphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles[profileID].Assignments.GetAsync((requestConfiguration) =>
+                {
+                    requestConfiguration.QueryParameters.Top = 1000;
+                });
+
+                // If the result is not null and has assignments, delete them
+
+                if (result != null && result.Value != null && result.Value.Count > 0)
+                {
+                    foreach (var assignment in result.Value)
+                    {
+                        await graphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles[profileID].Assignments[assignment.Id].DeleteAsync();
+                    }
+                }
+
+            }
+            catch (ODataError error)
+            {
+                MessageBox.Show("Error deleting assignments: " + error.Error.Message);
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, "An error occurred while attempting to delete Autopilot profile assignments");
+            }
+        }
+
+        public static async Task DeleteWindowsAutopilotProfile(GraphServiceClient graphServiceClient, string profileID)
+        {
+            try
+            {
+                if (graphServiceClient == null)
+                {
+                    throw new ArgumentNullException(nameof(graphServiceClient));
+                }
+
+                if (profileID == null)
+                {
+                    throw new InvalidOperationException("Profile ID cannot be null.");
+                }
+
+                
+
+                await graphServiceClient.DeviceManagement.WindowsAutopilotDeploymentProfiles[profileID].DeleteAsync();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, "An error occurred while deleting Windows Autopilot profiles");
             }
         }
     }

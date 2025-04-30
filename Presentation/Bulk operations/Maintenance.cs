@@ -296,11 +296,31 @@ namespace IntuneAssignments.Presentation.Bulk_operations
                 }
                 else if (contentType == "PowerShell script")
                 {
-                    //DeletePowerShellScript(destinationGraphServiceClient, id);
+                    await DeletePowerShellScript(destinationGraphServiceClient, id);
+                    WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
                 }
-                else if (contentType == "Windows Autopilot")
+                else if (contentType == "Windows AutoPilot Profile")
                 {
-                    //DeleteWindowsAutopilotProfile(destinationGraphServiceClient, id);
+                    // Check if the profile has assignments
+                    var assignments = await CheckIfAutoPilotProfileHasAssignments(destinationGraphServiceClient, id);
+
+                    if (assignments)
+                    {
+                        // If it has assignments, delete them first and then delete the profile
+                        WriteErrorToRTB(name + " has assignments, deleting them first...", rtbSummary, Color.Salmon);
+                        await DeleteWindowsAutoPilotProfileAssignments(destinationGraphServiceClient, id);
+                        WriteErrorToRTB(name + " assignments deleted successfully", rtbSummary, Color.Salmon);
+
+                        await DeleteWindowsAutopilotProfile(destinationGraphServiceClient, id);
+                        WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
+                    }
+                    else
+                    {
+                        // If it doesn't have assignments, delete the profile directly
+                        await DeleteWindowsAutopilotProfile(destinationGraphServiceClient, id);
+                        WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
+                    }
+
                 }
                 else if (contentType == "macOS script")
                 {
