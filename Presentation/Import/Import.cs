@@ -27,6 +27,7 @@ using static IntuneAssignments.Backend.IntuneContentClasses.WindowsQualityUpdate
 using static IntuneAssignments.Backend.IntuneContentClasses.WindowsQualityUpdateProfileHandler;
 using static IntuneAssignments.Backend.IntuneContentClasses.AppleBYODEnrollmentHandler;
 using static IntuneAssignments.Backend.IntuneContentClasses.FilterHandler;
+using static IntuneAssignments.Backend.IntuneContentClasses.WindowsDriverUpdateProfilerHandler;
 using Microsoft.Graph.Beta.NetworkAccess.Reports.MicrosoftGraphNetworkaccessGetDiscoveredApplicationSegmentReportWithStartDateTimeWithEndDateTimeuserIdUserId;
 using Microsoft.Graph.Beta.Security.ThreatIntelligence.WhoisRecords.Item;
 using Windows.Graphics.Printing.PrintSupport;
@@ -243,6 +244,10 @@ namespace IntuneAssignments.Presentation.Import
             {
                 await AddAllGroupsToDTG();
             }
+            if (categories.Contains("Windows Driver Update Profiles"))
+            {
+                await AddAllWindowsDriverUpdateProfilesToDTG();
+            }
 
 
             // Hide the progress bar
@@ -316,6 +321,10 @@ namespace IntuneAssignments.Presentation.Import
             if (categories.Contains("Groups"))
             {
                 await SearchAndAddGroups();
+            }
+            if (categories.Contains("Windows Driver Update Profiles"))
+            {
+                await SearchAndAddWindowsDriverUpdateProfiles();
             }
 
 
@@ -491,6 +500,10 @@ namespace IntuneAssignments.Presentation.Import
             {
                 // Groups section
                 await GroupsOrchestrator();
+            }
+            if (contentTypes.Contains("Windows Driver Update Profile"))
+            {
+                await WindowsDriverUpdateProfilesOrchestrator();
             }
 
 
@@ -1232,6 +1245,50 @@ namespace IntuneAssignments.Presentation.Import
             var groupIDs = GetAllGroupIDsFromDTG(dtgGroups);
             // Import the policies
             await ImportMultipleGroups(sourceGraphServiceClient, destinationGraphServiceClient, rtbDeploymentSummary, policies);
+        }
+
+        // Windows Driver Update Profiles
+
+        private async Task WindowsDriverUpdateProfilesOrchestrator()
+        {
+            // Orchestrates the windows driver update profiles import process
+            // Clear the dictionary
+            WindowsDriverUpdateProfileNameAndID.Clear();
+            // Populate the settings catalog dictionary
+            foreach (DataGridViewRow row in dtgImportContent.Rows)
+            {
+                if (row.Cells[1].Value == "Windows Driver Update Profiles")
+                {
+                    AddItemsToDictionary(WindowsDriverUpdateProfileNameAndID, row.Cells[0].Value.ToString(), row.Cells[3].Value.ToString());
+                }
+            }
+            // Import the settings catalog
+            await ImportWindowsDriverUpdateProfiles();
+        }
+
+        private async Task SearchAndAddWindowsDriverUpdateProfiles()
+        {
+            // Search for windows driver update profiles
+            var result = await SearchForDriverProfiles(sourceGraphServiceClient, tbSearch.Text.ToString());
+            AddDriverProfilesToDTG(result, dtgImportContent);
+        }
+
+        private async Task AddAllWindowsDriverUpdateProfilesToDTG()
+        {
+            // Add all windows driver update profiles to the datagridview
+            var result = await GetAllDriverProfiles(sourceGraphServiceClient);
+            AddDriverProfilesToDTG(result, dtgImportContent);
+        }
+
+        private async Task ImportWindowsDriverUpdateProfiles()
+        {
+            // Import the selected windows driver update profiles
+            // Get the selected policies
+            var policies = GetDriverProfilesFromDTG(dtgImportContent);
+            // Get the selected groups
+            var groupIDs = GetAllGroupIDsFromDTG(dtgGroups);
+            // Import the policies
+            await ImportMultipleDriverProfiles(sourceGraphServiceClient, destinationGraphServiceClient, dtgImportContent, policies, rtbDeploymentSummary, assignments, filter, groupIDs);
         }
 
 

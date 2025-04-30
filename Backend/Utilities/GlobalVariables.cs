@@ -97,6 +97,7 @@ namespace IntuneAssignments.Backend.Utilities
         public static Dictionary<string, string> AppleBYODEnrollmentProfilesNameAndID = new Dictionary<string, string>();
         public static Dictionary<string, string> AssignmentFiltersNameAndID = new Dictionary<string, string>();
         public static Dictionary<string, string> GroupsNameAndID = new Dictionary<string, string>();
+        public static Dictionary<string, string> WindowsDriverUpdateProfileNameAndID = new Dictionary<string, string>();
 
         public static void ClearAllDictionaries()
         {
@@ -114,6 +115,7 @@ namespace IntuneAssignments.Backend.Utilities
             AppleBYODEnrollmentProfilesNameAndID.Clear();
             AssignmentFiltersNameAndID.Clear();
             GroupsNameAndID.Clear();
+            WindowsDriverUpdateProfileNameAndID.Clear();
         }
 
         public static string? AssignmentFilterID = null;
