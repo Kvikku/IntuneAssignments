@@ -38,6 +38,8 @@
             tBTenantID = new TextBox();
             lblClientID = new Label();
             lblTenantID = new Label();
+            lblSelectedTenant = new Label();
+            cBTenant = new ComboBox();
             SuspendLayout();
             // 
             // lblHeader
@@ -45,7 +47,7 @@
             lblHeader.AutoSize = true;
             lblHeader.Font = new Font("Consolas", 12F, FontStyle.Bold);
             lblHeader.ForeColor = Color.Salmon;
-            lblHeader.Location = new Point(12, 34);
+            lblHeader.Location = new Point(12, 19);
             lblHeader.Name = "lblHeader";
             lblHeader.Size = new Size(207, 19);
             lblHeader.TabIndex = 39;
@@ -159,12 +161,37 @@
             lblTenantID.TabIndex = 30;
             lblTenantID.Text = "Tenant ID";
             // 
+            // lblSelectedTenant
+            // 
+            lblSelectedTenant.AutoSize = true;
+            lblSelectedTenant.Font = new Font("Consolas", 9.75F);
+            lblSelectedTenant.ForeColor = Color.Salmon;
+            lblSelectedTenant.Location = new Point(12, 53);
+            lblSelectedTenant.Name = "lblSelectedTenant";
+            lblSelectedTenant.Size = new Size(98, 15);
+            lblSelectedTenant.TabIndex = 41;
+            lblSelectedTenant.Text = "Select tenant";
+            // 
+            // cBTenant
+            // 
+            cBTenant.BackColor = Color.FromArgb(46, 51, 73);
+            cBTenant.DropDownStyle = ComboBoxStyle.DropDownList;
+            cBTenant.FlatStyle = FlatStyle.Flat;
+            cBTenant.ForeColor = Color.Salmon;
+            cBTenant.FormattingEnabled = true;
+            cBTenant.Location = new Point(116, 50);
+            cBTenant.Name = "cBTenant";
+            cBTenant.Size = new Size(121, 23);
+            cBTenant.TabIndex = 40;
+            // 
             // SourceTenantSettings
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(492, 399);
+            Controls.Add(lblSelectedTenant);
+            Controls.Add(cBTenant);
             Controls.Add(lblHeader);
             Controls.Add(btnCheckPermissions);
             Controls.Add(btnOpenFolder);
@@ -194,5 +221,7 @@
         private TextBox tBTenantID;
         private Label lblClientID;
         private Label lblTenantID;
+        private Label lblSelectedTenant;
+        private ComboBox cBTenant;
     }
 }

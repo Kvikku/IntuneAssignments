@@ -1,5 +1,7 @@
 ﻿using IntuneAssignments.Backend;
+using IntuneAssignments.Backend.Utilities;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,18 +11,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static IntuneAssignments.Backend.DestinationTenantGraphClient;
+using static IntuneAssignments.Backend.GraphServiceClientCreator;
+using static IntuneAssignments.Backend.TokenProvider;
 using static IntuneAssignments.Backend.Utilities.FormUtilities;
 using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 using static IntuneAssignments.Backend.Utilities.TenantSettings;
-using static IntuneAssignments.Backend.GraphServiceClientCreator;
-using static IntuneAssignments.Backend.TokenProvider;
-using static IntuneAssignments.Backend.DestinationTenantGraphClient;
-using IntuneAssignments.Backend.Utilities;
 
 namespace IntuneAssignments.Presentation.Import
 {
     public partial class DestinationTenantSettings : Form
     {
+        private JObject json;
         public DestinationTenantSettings()
         {
             this.FormBorderStyle = FormBorderStyle.FixedDialog; // Makes the form not resizable and the parent form not clickable
@@ -46,9 +48,14 @@ namespace IntuneAssignments.Presentation.Import
                 using (StreamWriter sw = File.CreateText(destinationTenantSettingsFile))
                 {
                     sw.WriteLine("{");
-                    sw.WriteLine("  \"TenantName\": \"\",");
-                    sw.WriteLine("  \"TenantID\": \"\",");
-                    sw.WriteLine("  \"ClientID\": \"\"");
+                    sw.WriteLine("  \"Lab 1\": {");
+                    sw.WriteLine("    \"TenantID\": \"\",");
+                    sw.WriteLine("    \"ClientID\": \"\"");
+                    sw.WriteLine("  },");
+                    sw.WriteLine("  \"Lab 2\": {");
+                    sw.WriteLine("    \"TenantID\": \"\",");
+                    sw.WriteLine("    \"ClientID\": \"\"");
+                    sw.WriteLine("  }");
                     sw.WriteLine("}");
                 }
             }
@@ -59,25 +66,42 @@ namespace IntuneAssignments.Presentation.Import
             // Read the destination tenant settings file
             if (File.Exists(destinationTenantSettingsFile))
             {
-                // Read the JSON file and populate the textboxes
+                // Read the JSON file
                 string json = File.ReadAllText(destinationTenantSettingsFile);
-                var destinationTenantSettings = JsonConvert.DeserializeObject<TenantSettings>(json);
+                var tenants = JsonConvert.DeserializeObject<Dictionary<string, TenantSettings>>(json);
 
-                // Access the properties through the destinationTenantSettings object
-                string tenantName = destinationTenantSettings.TenantName;
-                string tenantID = destinationTenantSettings.TenantID;
-                string clientID = destinationTenantSettings.ClientID;
+                if (tenants != null && tenants.Count > 0)
+                {
+                    // Populate the combo box with tenant names
+                    cBTenant.Items.Clear(); // Clear any existing items
+                    foreach (var tenant in tenants)
+                    {
+                        cBTenant.Items.Add(tenant.Key);
+                        WriteToLog($"Added tenant: {tenant.Key}");
+                    }
 
-                // Populate the textboxes
-                tBTenantName.Text = tenantName;
-                tBTenantID.Text = tenantID;
-                tBClientID.Text = clientID;
+                    // Select the first tenant by default
+                    cBTenant.SelectedIndex = 0;
 
-                // save to global variables
-                destinationClientID = clientID;
-                destinationTenantID = tenantID;
+                    // Get the first tenant entry
+                    var firstTenant = tenants.First();
+                    string tenantName = firstTenant.Key;
+                    TenantSettings tenantSettings = firstTenant.Value;
+
+                    // Update tenant details
+                    UpdateTenantDetails(tenantName, tenantSettings);
+                }
+                else
+                {
+                    MessageBox.Show("No tenants found in the settings file.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Destination tenant settings file not found.");
             }
         }
+
         private void pbDestinationTenant_Click(object sender, EventArgs e)
         {
             // Open the destination tenant settings form
@@ -107,10 +131,6 @@ namespace IntuneAssignments.Presentation.Import
         private async void btnLogin_Click(object sender, EventArgs e)
         {
             saveDestinationFile();
-
-
-            
-
 
             // TODO - Authenticate
 
@@ -176,13 +196,44 @@ namespace IntuneAssignments.Presentation.Import
                 return;
             }
 
-
             // Define the file path for the JSON file
             string filePath = destinationTenantSettingsFile;
 
             SaveSettings(tenantName, tenantID, clientID, filePath);
         }
 
-        
+        private void cBTenant_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cBTenant.SelectedIndex != -1)
+            {
+                // Get the selected tenant name
+                string selectedTenant = cBTenant.SelectedItem.ToString();
+
+                // Read the JSON file
+                string json = File.ReadAllText(destinationTenantSettingsFile);
+                var tenants = JsonConvert.DeserializeObject<Dictionary<string, TenantSettings>>(json);
+
+                // Update the UI with the selected tenant's details
+                if (tenants.ContainsKey(selectedTenant))
+                {
+                    UpdateTenantDetails(selectedTenant, tenants[selectedTenant]);
+                }
+            }
+        }
+
+        private void UpdateTenantDetails(string tenantName, TenantSettings tenantSettings)
+        {
+            // Populate the textboxes
+            tBTenantName.Text = tenantName;
+            tBTenantID.Text = tenantSettings.TenantID;
+            tBClientID.Text = tenantSettings.ClientID;
+
+            // Save to global variables
+            destinationClientID = tenantSettings.ClientID;
+            destinationTenantID = tenantSettings.TenantID;
+
+            // Log the selected tenant
+            WriteToLog($"Selected tenant: {tenantName}, TenantID: {tenantSettings.TenantID}, ClientID: {tenantSettings.ClientID}");
+        }
     }
 }

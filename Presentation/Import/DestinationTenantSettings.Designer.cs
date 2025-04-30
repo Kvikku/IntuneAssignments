@@ -38,6 +38,8 @@
             btnOpenFolder = new Button();
             btnLogin = new Button();
             lblHeader = new Label();
+            lblSelectedTenant = new Label();
+            cBTenant = new ComboBox();
             SuspendLayout();
             // 
             // tBTenantName
@@ -46,7 +48,7 @@
             tBTenantName.BorderStyle = BorderStyle.FixedSingle;
             tBTenantName.Font = new Font("Consolas", 9.75F);
             tBTenantName.ForeColor = Color.Salmon;
-            tBTenantName.Location = new Point(112, 79);
+            tBTenantName.Location = new Point(112, 124);
             tBTenantName.Name = "tBTenantName";
             tBTenantName.Size = new Size(297, 23);
             tBTenantName.TabIndex = 25;
@@ -56,7 +58,7 @@
             lblTenantFriendlyName.AutoSize = true;
             lblTenantFriendlyName.Font = new Font("Consolas", 9.75F);
             lblTenantFriendlyName.ForeColor = Color.Salmon;
-            lblTenantFriendlyName.Location = new Point(22, 79);
+            lblTenantFriendlyName.Location = new Point(22, 124);
             lblTenantFriendlyName.Name = "lblTenantFriendlyName";
             lblTenantFriendlyName.Size = new Size(84, 15);
             lblTenantFriendlyName.TabIndex = 24;
@@ -68,7 +70,7 @@
             tBClientID.BorderStyle = BorderStyle.FixedSingle;
             tBClientID.Font = new Font("Consolas", 9.75F);
             tBClientID.ForeColor = Color.Salmon;
-            tBClientID.Location = new Point(112, 134);
+            tBClientID.Location = new Point(112, 179);
             tBClientID.Name = "tBClientID";
             tBClientID.Size = new Size(297, 23);
             tBClientID.TabIndex = 23;
@@ -79,7 +81,7 @@
             tBTenantID.BorderStyle = BorderStyle.FixedSingle;
             tBTenantID.Font = new Font("Consolas", 9.75F);
             tBTenantID.ForeColor = Color.Salmon;
-            tBTenantID.Location = new Point(112, 105);
+            tBTenantID.Location = new Point(112, 150);
             tBTenantID.Name = "tBTenantID";
             tBTenantID.Size = new Size(297, 23);
             tBTenantID.TabIndex = 22;
@@ -89,7 +91,7 @@
             lblClientID.AutoSize = true;
             lblClientID.Font = new Font("Consolas", 9.75F);
             lblClientID.ForeColor = Color.Salmon;
-            lblClientID.Location = new Point(22, 134);
+            lblClientID.Location = new Point(22, 179);
             lblClientID.Name = "lblClientID";
             lblClientID.Size = new Size(70, 15);
             lblClientID.TabIndex = 21;
@@ -100,7 +102,7 @@
             lblTenantID.AutoSize = true;
             lblTenantID.Font = new Font("Consolas", 9.75F);
             lblTenantID.ForeColor = Color.Salmon;
-            lblTenantID.Location = new Point(22, 105);
+            lblTenantID.Location = new Point(22, 150);
             lblTenantID.Name = "lblTenantID";
             lblTenantID.Size = new Size(70, 15);
             lblTenantID.TabIndex = 20;
@@ -112,7 +114,7 @@
             btnCheckPermissions.FlatStyle = FlatStyle.Popup;
             btnCheckPermissions.Font = new Font("Consolas", 12F);
             btnCheckPermissions.ForeColor = Color.FromArgb(46, 51, 73);
-            btnCheckPermissions.Location = new Point(12, 163);
+            btnCheckPermissions.Location = new Point(12, 208);
             btnCheckPermissions.Name = "btnCheckPermissions";
             btnCheckPermissions.Size = new Size(172, 32);
             btnCheckPermissions.TabIndex = 28;
@@ -126,7 +128,7 @@
             btnOpenFolder.FlatStyle = FlatStyle.Popup;
             btnOpenFolder.Font = new Font("Consolas", 12F);
             btnOpenFolder.ForeColor = Color.FromArgb(46, 51, 73);
-            btnOpenFolder.Location = new Point(191, 163);
+            btnOpenFolder.Location = new Point(191, 208);
             btnOpenFolder.Name = "btnOpenFolder";
             btnOpenFolder.Size = new Size(127, 32);
             btnOpenFolder.TabIndex = 27;
@@ -140,7 +142,7 @@
             btnLogin.FlatStyle = FlatStyle.Popup;
             btnLogin.Font = new Font("Consolas", 12F);
             btnLogin.ForeColor = Color.FromArgb(46, 51, 73);
-            btnLogin.Location = new Point(324, 163);
+            btnLogin.Location = new Point(324, 208);
             btnLogin.Name = "btnLogin";
             btnLogin.Size = new Size(149, 32);
             btnLogin.TabIndex = 26;
@@ -159,12 +161,38 @@
             lblHeader.TabIndex = 29;
             lblHeader.Text = "Destination tenant settings";
             // 
+            // lblSelectedTenant
+            // 
+            lblSelectedTenant.AutoSize = true;
+            lblSelectedTenant.Font = new Font("Consolas", 9.75F);
+            lblSelectedTenant.ForeColor = Color.Salmon;
+            lblSelectedTenant.Location = new Point(22, 78);
+            lblSelectedTenant.Name = "lblSelectedTenant";
+            lblSelectedTenant.Size = new Size(98, 15);
+            lblSelectedTenant.TabIndex = 31;
+            lblSelectedTenant.Text = "Select tenant";
+            // 
+            // cBTenant
+            // 
+            cBTenant.BackColor = Color.FromArgb(46, 51, 73);
+            cBTenant.DropDownStyle = ComboBoxStyle.DropDownList;
+            cBTenant.FlatStyle = FlatStyle.Flat;
+            cBTenant.ForeColor = Color.Salmon;
+            cBTenant.FormattingEnabled = true;
+            cBTenant.Location = new Point(126, 75);
+            cBTenant.Name = "cBTenant";
+            cBTenant.Size = new Size(121, 23);
+            cBTenant.TabIndex = 30;
+            cBTenant.SelectedIndexChanged += cBTenant_SelectedIndexChanged;
+            // 
             // DestinationTenantSettings
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(492, 399);
+            Controls.Add(lblSelectedTenant);
+            Controls.Add(cBTenant);
             Controls.Add(lblHeader);
             Controls.Add(btnCheckPermissions);
             Controls.Add(btnOpenFolder);
@@ -194,5 +222,7 @@
         private Button btnOpenFolder;
         private Button btnLogin;
         private Label lblHeader;
+        private Label lblSelectedTenant;
+        private ComboBox cBTenant;
     }
 }
