@@ -322,9 +322,10 @@ namespace IntuneAssignments.Presentation.Bulk_operations
                     }
 
                 }
-                else if (contentType == "macOS script")
+                else if (contentType == "macOS Shell Script")
                 {
-                    //DeleteMacOSShellScript(destinationGraphServiceClient, id);
+                    await DeleteMacosShellScript(destinationGraphServiceClient, id);
+                    WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
                 }
             }
         }

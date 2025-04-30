@@ -330,5 +330,29 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
             }
         }
 
+        public static async Task DeleteMacosShellScript(GraphServiceClient graphServiceClient, string profileID)
+        {
+            try
+            {
+                if (graphServiceClient == null)
+                {
+                    throw new ArgumentNullException(nameof(graphServiceClient));
+                }
+
+                if (profileID == null)
+                {
+                    throw new InvalidOperationException("Profile ID cannot be null.");
+                }
+
+
+
+                await graphServiceClient.DeviceManagement.DeviceShellScripts[profileID].DeleteAsync();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, "An error occurred while deleting macOS shell script");
+            }
+        }
+
     }
 }
