@@ -133,6 +133,7 @@
             btnClearSelectedPoliciesFromDTG.TabIndex = 29;
             btnClearSelectedPoliciesFromDTG.Text = "Clear selected";
             btnClearSelectedPoliciesFromDTG.UseVisualStyleBackColor = false;
+            btnClearSelectedPoliciesFromDTG.Click += btnClearSelectedPoliciesFromDTG_Click;
             // 
             // dtgDeleteContent
             // 
@@ -244,6 +245,7 @@
             btnClearContentDTG.TabIndex = 27;
             btnClearContentDTG.Text = "Clear all";
             btnClearContentDTG.UseVisualStyleBackColor = false;
+            btnClearContentDTG.Click += btnClearContentDTG_Click;
             // 
             // btnListAll
             // 

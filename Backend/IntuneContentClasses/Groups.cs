@@ -297,6 +297,31 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
             }
             return $"{itemType} ID {groupId}";
         }
+
+        public static async Task DeleteSecurityGroup(GraphServiceClient graphServiceClient, string groupId)
+        {
+            try
+            {
+                if (graphServiceClient == null)
+                {
+                    throw new ArgumentNullException(nameof(graphServiceClient));
+                }
+
+                if (groupId == null)
+                {
+                    throw new InvalidOperationException("Group ID cannot be null.");
+                }
+
+
+
+                await graphServiceClient.Groups[groupId].DeleteAsync();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, "An error occurred while deleting a security group");
+            }
+        }
+
     }
 
 }

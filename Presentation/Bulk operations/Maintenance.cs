@@ -92,7 +92,7 @@ namespace IntuneAssignments.Presentation.Bulk_operations
             if (categories.Contains("Device Compliance"))
             {
                 var result = await GetAllDeviceCompliancePolicies(destinationGraphServiceClient);
-                AddDeviceComplianceToDTG(result, dtgDeleteContent);                                                             
+                AddDeviceComplianceToDTG(result, dtgDeleteContent);
             }
             if (categories.Contains("Device Configuration"))
             {
@@ -369,7 +369,7 @@ namespace IntuneAssignments.Presentation.Bulk_operations
 
                         //WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
                     }
-                    catch (ODataError error) 
+                    catch (ODataError error)
                     {
                         WriteErrorToRTB(name + " could not be deleted. Check if the filter has assignment. Deleting a filter with assignment(s) is not supported", rtbSummary, Color.Salmon);
                         WriteToImportStatusFile(name + " could not be deleted. Check if the filter has assignment. Deleting a filter with assignment(s) is not supported");
@@ -380,10 +380,26 @@ namespace IntuneAssignments.Presentation.Bulk_operations
                         WriteToImportStatusFile(name + " could not be deleted due to an unexpected error: " + ex.Message);
                     }
                 }
-                else if (contentType == "Group")
+                else if (contentType.Contains("group", StringComparison.OrdinalIgnoreCase))
                 {
-                    //await DeleteGroup(destinationGraphServiceClient, id);
-                    WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
+                    // Show a warning message box about the danger of deleting a group
+                    var result = MessageBox.Show(
+                        "Warning: Deleting a group is irreversible and cannot be recovered. Are you sure you want to proceed?",
+                        "Delete Group Confirmation",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning,
+                        MessageBoxDefaultButton.Button2 // Default to "No"
+                    );
+
+                    if (result == DialogResult.Yes)
+                    {
+                        await DeleteSecurityGroup(destinationGraphServiceClient, id);
+                        WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
+                    }
+                    else
+                    {
+                        WriteErrorToRTB(name + " deletion canceled by user", rtbSummary, Color.Salmon);
+                    }
                 }
             }
         }
@@ -394,6 +410,18 @@ namespace IntuneAssignments.Presentation.Bulk_operations
 
 
             DeleteOrchestrator(dtgDeleteContent);
+        }
+
+        private void btnClearContentDTG_Click(object sender, EventArgs e)
+        {
+            // Clear the content datagridview
+            ClearDataGridView(dtgDeleteContent);
+        }
+
+        private void btnClearSelectedPoliciesFromDTG_Click(object sender, EventArgs e)
+        {
+            // Clear the selected groups datagridview
+            ClearSelectedDataGridViewRow(dtgDeleteContent);
         }
     }
 }
