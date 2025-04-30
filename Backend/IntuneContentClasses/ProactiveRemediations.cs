@@ -261,5 +261,27 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 HandleException(ex, "An error occurred while assigning groups to a single proactive remediation script");
             }
         }
+
+        public static async Task DeleteProactiveRemediationScript(GraphServiceClient graphServiceClient, string policyID)
+        {
+            try
+            {
+                if (graphServiceClient == null)
+                {
+                    throw new ArgumentNullException(nameof(graphServiceClient));
+                }
+
+                if (policyID == null)
+                {
+                    throw new InvalidOperationException("Policy ID cannot be null.");
+                }
+                await graphServiceClient.DeviceManagement.DeviceHealthScripts[policyID].DeleteAsync();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, "An error occurred while deleting proactive remediation scripts");
+            }
+        }
+
     }
 }

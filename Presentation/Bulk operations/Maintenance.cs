@@ -291,7 +291,8 @@ namespace IntuneAssignments.Presentation.Bulk_operations
                 }
                 else if (contentType == "Proactive Remediations")
                 {
-                    //DeleteProactiveRemediation(destinationGraphServiceClient, id);
+                    await DeleteProactiveRemediationScript(destinationGraphServiceClient, id);
+                    WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
                 }
                 else if (contentType == "PowerShell script")
                 {
