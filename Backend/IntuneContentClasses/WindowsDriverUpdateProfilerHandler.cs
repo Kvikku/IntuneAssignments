@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Microsoft.Graph;
+using Microsoft.Graph.Beta;
+using Microsoft.Graph.Beta.Models;
+using Microsoft.Kiota.Abstractions; // Added for RequestInformation
+using Microsoft.Kiota.Abstractions.Serialization; // Added for ParsableFactory
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Graph;
-using Microsoft.Graph.Beta;
-using Microsoft.Graph.Beta.Models;
+using System.Windows.Forms; // Added for DataGridView and RichTextBox
+using static IntuneAssignments.Backend.IntuneContentClasses.Filters; // Assuming Filters are needed
 using static IntuneAssignments.Backend.Utilities.FormUtilities;
 using static IntuneAssignments.Backend.Utilities.GlobalVariables;
-using static IntuneAssignments.Backend.IntuneContentClasses.Filters; // Assuming Filters are needed
-using System.Windows.Forms; // Added for DataGridView and RichTextBox
-using Microsoft.Kiota.Abstractions; // Added for RequestInformation
-using Microsoft.Kiota.Abstractions.Serialization; // Added for ParsableFactory
 
 namespace IntuneAssignments.Backend.IntuneContentClasses
 {
@@ -221,8 +221,13 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     }
                     catch (Exception ex)
                     {
-                        WriteToImportStatusFile($"Profile '{profileName}' (ID: {profileId}) failed to import: {ex.Message}"); // Removed LogType
-                        WriteErrorToRTB($"An error occurred when importing the profile '{profileName}'. Check the log file for more information.", rtb);
+                        // Log the specific policy ID that failed
+                        HandleException(ex, $"Error importing Windows Driver Update policy with ID {profileId}", false);
+                        HandleException(ex, "This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active", false);
+                        rtb.AppendText($"Failed to import Windows Driver Update policy ID {profileId}: {ex.Message}\n");
+                        rtb.AppendText($"This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active\n");
+                        WriteToImportStatusFile($"Failed to import Windows Driver Update policy ID {profileId}: {ex.Message}");
+                        WriteToImportStatusFile("This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active");
                     }
                 }
             }

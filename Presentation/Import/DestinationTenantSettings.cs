@@ -1,5 +1,6 @@
 ﻿using IntuneAssignments.Backend;
 using IntuneAssignments.Backend.Utilities;
+using IntuneAssignments.Presentation.Bulk_operations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -136,8 +137,16 @@ namespace IntuneAssignments.Presentation.Import
 
             await AuthenticateToDestinationTenant();
 
-            //Import import = System.Windows.Forms.Application.OpenForms["Import"] as Import;
-            //import.CheckConnection();
+            if (lastFormName == "Import")
+            {
+               Import import = System.Windows.Forms.Application.OpenForms["Import"] as Import;
+               import.CheckConnection();
+            }
+            if (lastFormName == "Maintenance")
+            {
+                Maintenance maintenance = System.Windows.Forms.Application.OpenForms["Maintenance"] as Maintenance;
+                maintenance.CheckConnection();
+            }
 
             this.Close();
         }

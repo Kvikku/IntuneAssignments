@@ -51,18 +51,25 @@ namespace IntuneAssignments.Presentation.Bulk_operations
         {
             pBarLoading.Hide();
             CheckConnection();
+            CheckForAuthentication.Start();
         }
 
         public void CheckConnection()
         {
-            if (isDestinationTenantConnected)
+            if (lastFormName == "Maintenance")
             {
                 pbDestinationTenantCheck.Image = Properties.Resources.check;
+
             }
             else
             {
                 pbDestinationTenantCheck.Image = Properties.Resources.cancel;
             }
+        }
+
+        private void CheckForAuthentication_Tick(object sender, EventArgs e)
+        {
+
         }
 
         private void pBHome_Click(object sender, EventArgs e)
@@ -249,6 +256,8 @@ namespace IntuneAssignments.Presentation.Bulk_operations
         {
             // Open the destination tenant settings form
 
+            lastFormName = "Maintenance";
+
             DestinationTenantSettings destinationTenantSettings = new DestinationTenantSettings();
             destinationTenantSettings.ShowDialog();
         }
@@ -422,5 +431,7 @@ namespace IntuneAssignments.Presentation.Bulk_operations
             // Clear the selected groups datagridview
             ClearSelectedDataGridViewRow(dtgDeleteContent);
         }
+
+        
     }
 }

@@ -15,7 +15,7 @@
     <Content Include="ApplicationIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Graph.Beta" Version="5.105.0-preview" />
+    <PackageReference Include="Microsoft.Graph.Beta" Version="5.107.0-preview" />
     <PackageReference Include="Microsoft.Identity.Client" Version="4.71.2-preview" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.0-preview.3.25171.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0-preview.3.25171.5" />

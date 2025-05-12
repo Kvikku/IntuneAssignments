@@ -132,6 +132,8 @@ namespace IntuneAssignments.Presentation.Import
         {
             // Open the destination tenant settings form
 
+            lastFormName = "Import";
+
             DestinationTenantSettings destinationTenantSettings = new DestinationTenantSettings();
             destinationTenantSettings.ShowDialog();
 

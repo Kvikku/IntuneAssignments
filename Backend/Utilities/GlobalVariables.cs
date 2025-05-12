@@ -126,9 +126,10 @@ namespace IntuneAssignments.Backend.Utilities
             get { return graphAssembly; }
         }
 
+        // This variable is used to store the name of the last form that was opened
+        public static string lastFormName = string.Empty;
 
 
-        
 
 
 
