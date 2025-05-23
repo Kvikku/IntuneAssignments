@@ -154,17 +154,7 @@ namespace IntuneAssignments.Backend.Intune_content_classes
                 rtb.AppendText($"Importing {policies.Count} settings catalog policies.\n");
                 WriteToImportStatusFile($"Importing {policies.Count} settings catalog policies.");
 
-                if (assignments)
-                {
-                    rtb.AppendText("Group assignments will be added.\n");
-                    WriteToImportStatusFile("Group assignments will be added.");
-                }
 
-                if (filter)
-                {
-                    rtb.AppendText("Filters will be added.\n");
-                    WriteToImportStatusFile("Filters will be added.");
-                }
 
                 foreach (var policy in policies)
                 {

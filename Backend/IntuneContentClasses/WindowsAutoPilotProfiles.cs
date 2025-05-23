@@ -142,18 +142,6 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 rtb.AppendText($"Importing {profiles.Count} Windows AutoPilot profiles.\n");
                 WriteToImportStatusFile($"Importing {profiles.Count} Windows AutoPilot profiles.");
 
-                if (assignments)
-                {
-                    rtb.AppendText("Group assignments will be added.\n");
-                    WriteToImportStatusFile("Group assignments will be added.");
-                }
-
-                if (filter)
-                {
-                    rtb.AppendText("Filters will be added.\n");
-                    WriteToImportStatusFile("Filters will be added.");
-                }
-
                 foreach (var profile in profiles)
                 {
                     try

@@ -140,17 +140,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 rtb.AppendText($"Importing {profileIDs.Count} Windows Quality Update profiles.\n");
                 WriteToImportStatusFile($"Importing {profileIDs.Count} Windows Quality Update profiles.");
 
-                if (assignments)
-                {
-                    rtb.AppendText("Group assignments will be added.\n");
-                    WriteToImportStatusFile("Group assignments will be added.");
-                }
-
-                if (filter)
-                {
-                    rtb.AppendText("Filters will be added (if applicable).\n");
-                    WriteToImportStatusFile("Filters will be added (if applicable).");
-                }
+                
 
                 string profileName = "";
 

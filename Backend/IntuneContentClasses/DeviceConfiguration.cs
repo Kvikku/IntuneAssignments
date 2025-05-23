@@ -150,17 +150,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 rtb.AppendText($"Importing {configurationIds.Count} device configuration policies.\n");
                 WriteToImportStatusFile($"Importing {configurationIds.Count} device configuration policies.");
 
-                if (assignments)
-                {
-                    rtb.AppendText("Group assignments will be added.\n");
-                    WriteToImportStatusFile("Group assignments will be added.");
-                }
 
-                if (filter)
-                {
-                    rtb.AppendText("Filters will be added.\n");
-                    WriteToImportStatusFile("Filters will be added.");
-                }
 
                 foreach (var configId in configurationIds)
                 {

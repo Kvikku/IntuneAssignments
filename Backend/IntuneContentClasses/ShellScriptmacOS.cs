@@ -162,19 +162,6 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 rtb.AppendText($"Importing {scriptIDs.Count} macOS shell scripts.\n");
                 WriteToImportStatusFile($"Importing {scriptIDs.Count} macOS shell scripts.");
 
-                if (assignments)
-                {
-                    rtb.AppendText("Group assignments will be added.\n");
-                    WriteToImportStatusFile("Group assignments will be added.");
-                }
-
-                // Note: Filters might not be applicable to Shell Scripts in the same way.
-                // The 'filter' parameter usage might need reconsideration for shell scripts.
-                if (filter)
-                {
-                    rtb.AppendText("Filters will be added (Note: Filter application might differ for shell scripts).\n");
-                    WriteToImportStatusFile("Filters will be added (Note: Filter application might differ for shell scripts).");
-                }
 
                 foreach (var scriptId in scriptIDs)
                 {

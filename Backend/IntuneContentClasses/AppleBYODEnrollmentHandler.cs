@@ -157,16 +157,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 rtb.AppendText($"Importing {profileIds.Count} {PolicyType} policies.\n");
                 WriteToImportStatusFile($"Importing {profileIds.Count} {PolicyType} policies.");
 
-                if (assignments)
-                {
-                    rtb.AppendText("Group assignments will be added.\n");
-                    WriteToImportStatusFile("Group assignments will be added.");
-                }
-                if (filter)
-                {
-                    rtb.AppendText("Filters will be added (if applicable to assignments).\n");
-                    WriteToImportStatusFile("Filters will be added (if applicable to assignments).");
-                }
+
 
                 foreach (var profileId in profileIds)
                 {
@@ -211,7 +202,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
                         if (importedProfile != null && !string.IsNullOrEmpty(importedProfile.Id))
                         {
-                            rtb.AppendText($"Imported profile: {importedProfile.DisplayName} (ID: {importedProfile.Id})\n");
+                            rtb.AppendText($"Imported profile: {importedProfile.DisplayName}\n");
                             WriteToImportStatusFile($"Imported profile: {importedProfile.DisplayName} (ID: {importedProfile.Id})");
 
                             if (assignments && groups != null && groups.Any())

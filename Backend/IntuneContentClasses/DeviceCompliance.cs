@@ -180,17 +180,6 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 rtb.AppendText($"Importing {policies.Count} device compliance policies.\n");
                 WriteToLog($"Importing {policies.Count} device compliance policies.");
 
-                if (assignments)
-                {
-                    rtb.AppendText("Group assignments will be added.\n");
-                    WriteToLog("Group assignments will be added.");
-                }
-
-                if (filter)
-                {
-                    rtb.AppendText("Filters will be added.\n");
-                    WriteToLog("Filters will be added.");
-                }
 
                 foreach (var policy in policies)
                 {

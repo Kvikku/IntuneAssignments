@@ -165,21 +165,6 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 rtb.AppendText($"Importing {profileIds.Count} Windows Driver Update Profiles.\n"); // Corrected newline
                 WriteToImportStatusFile($"Importing {profileIds.Count} Windows Driver Update Profiles.");
 
-                if (assignments)
-                {
-                    rtb.AppendText("Group assignments will be added.\n"); // Corrected newline
-                    WriteToImportStatusFile("Group assignments will be added.");
-                }
-
-                // Note: Filters might not directly apply to Driver Update Profiles in the same way as Settings Catalog.
-                // Review if filter logic is needed or how it applies here.
-                if (filter)
-                {
-                    rtb.AppendText("Filters will be added (if applicable).\n"); // Corrected newline
-                    WriteToImportStatusFile("Filters will be added (if applicable).");
-                }
-
-
 
                 foreach (var profileId in profileIds)
                 {

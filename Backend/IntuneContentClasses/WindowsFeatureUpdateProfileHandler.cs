@@ -151,11 +151,6 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 rtb.AppendText($"Importing {profileIDs.Count} Windows Feature Update profiles.\n");
                 WriteToImportStatusFile($"Importing {profileIDs.Count} Windows Feature Update profiles.");
 
-                if (assignments)
-                {
-                    rtb.AppendText("Group assignments will be added.\n");
-                    WriteToImportStatusFile("Group assignments will be added.");
-                }
 
                 // Note: Filters are not supported for feature updates yet
                 //if (filter)

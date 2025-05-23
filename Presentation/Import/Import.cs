@@ -443,6 +443,46 @@ namespace IntuneAssignments.Presentation.Import
             }
             WriteToImportStatusFile("=====================================");
 
+
+
+            // Display short overview to the user
+            rtbDeploymentSummary.AppendText("==========================\n");
+            rtbDeploymentSummary.AppendText("Import overview\n");
+            rtbDeploymentSummary.AppendText("Start time: " + System.DateTime.Now.ToString() + "\n");
+            rtbDeploymentSummary.AppendText(Environment.NewLine); 
+            rtbDeploymentSummary.AppendText($"The following content types will be imported:\n");
+            foreach (var content in contentTypes)
+            {
+                rtbDeploymentSummary.AppendText($"{content}\n");
+            }
+
+            // Check if there is assignments
+
+            if (assignments)
+            {
+                rtbDeploymentSummary.AppendText(Environment.NewLine);
+                rtbDeploymentSummary.AppendText($"The following groups will be added as the assignment:\n");
+                foreach (DataGridViewRow row in dtgGroups.Rows)
+                {
+                    rtbDeploymentSummary.AppendText($"{row.Cells[0].Value.ToString()}\n");
+                }
+            }
+
+            // Check if there is a filter
+
+            if (filter)
+            {
+                rtbDeploymentSummary.AppendText(Environment.NewLine);
+                rtbDeploymentSummary.AppendText($"The following filter will be added as the assignment:\n");
+                rtbDeploymentSummary.AppendText($"{SelectedFilterName}\n");
+            }
+
+            // New line before the import process starts
+            rtbDeploymentSummary.AppendText(Environment.NewLine);
+            rtbDeploymentSummary.AppendText("Import process initiated\n");
+            rtbDeploymentSummary.AppendText("==========================\n");
+            rtbDeploymentSummary.AppendText(Environment.NewLine);
+
             if (contentTypes.Contains("Settings Catalog"))
             {
                 // Settings catalog section
@@ -519,6 +559,11 @@ namespace IntuneAssignments.Presentation.Import
                 await WindowsDriverUpdateProfilesOrchestrator();
             }
 
+            // End of import process
+            rtbDeploymentSummary.AppendText(Environment.NewLine);
+            rtbDeploymentSummary.AppendText("Import process completed.\n");
+            rtbDeploymentSummary.AppendText("End time: " + System.DateTime.Now.ToString() + "\n");
+            rtbDeploymentSummary.AppendText("==========================\n");
 
             // Clear all dictionaries for the next import
 
