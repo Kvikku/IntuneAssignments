@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
+using System.Linq;  
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -353,7 +353,7 @@ namespace IntuneAssignments.Presentation.Import
             {
                 return;
             }
-            
+
 
             // Check what type of content is selected
 
@@ -1394,6 +1394,34 @@ namespace IntuneAssignments.Presentation.Import
         private void pbSourceConnectionCheck_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnSelectAllCheckboxes_Click(object sender, EventArgs e)
+        {
+            bool allChecked = AreAllItemsChecked(clbContentTypes);
+
+            for (int i = 0; i < clbContentTypes.Items.Count; i++)
+            {
+                clbContentTypes.SetItemChecked(i, !allChecked);
+            }
+        }
+        
+
+        private bool AreAllItemsChecked(CheckedListBox clb)
+        {
+            if (clb.Items.Count == 0)
+            {
+                return false; // Or true, depending on how you want to handle an empty list
+            }
+
+            for (int i = 0; i < clb.Items.Count; i++)
+            {
+                if (!clb.GetItemChecked(i))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

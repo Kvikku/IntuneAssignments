@@ -64,6 +64,7 @@
             rbFilterInclude = new RadioButton();
             lblFilterHeader = new Label();
             pnlImportContent = new Panel();
+            btnSelectAllCheckboxes = new Button();
             btnClearSelectedPoliciesFromDTG = new Button();
             lblHeader = new Label();
             tbSearch = new TextBox();
@@ -451,6 +452,7 @@
             // pnlImportContent
             // 
             pnlImportContent.BorderStyle = BorderStyle.FixedSingle;
+            pnlImportContent.Controls.Add(btnSelectAllCheckboxes);
             pnlImportContent.Controls.Add(btnClearSelectedPoliciesFromDTG);
             pnlImportContent.Controls.Add(dtgImportContent);
             pnlImportContent.Controls.Add(lblHeader);
@@ -464,6 +466,20 @@
             pnlImportContent.Name = "pnlImportContent";
             pnlImportContent.Size = new Size(666, 606);
             pnlImportContent.TabIndex = 19;
+            // 
+            // btnSelectAllCheckboxes
+            // 
+            btnSelectAllCheckboxes.BackColor = Color.Salmon;
+            btnSelectAllCheckboxes.FlatStyle = FlatStyle.Flat;
+            btnSelectAllCheckboxes.ForeColor = Color.FromArgb(46, 51, 73);
+            btnSelectAllCheckboxes.Location = new Point(327, 4);
+            btnSelectAllCheckboxes.Name = "btnSelectAllCheckboxes";
+            btnSelectAllCheckboxes.Size = new Size(78, 30);
+            btnSelectAllCheckboxes.TabIndex = 22;
+            btnSelectAllCheckboxes.Text = "Toggle";
+            ToolTipImport.SetToolTip(btnSelectAllCheckboxes, "Toggles the selected items in the list");
+            btnSelectAllCheckboxes.UseVisualStyleBackColor = false;
+            btnSelectAllCheckboxes.Click += btnSelectAllCheckboxes_Click;
             // 
             // btnClearSelectedPoliciesFromDTG
             // 
@@ -549,7 +565,7 @@
             clbContentTypes.ForeColor = Color.Salmon;
             clbContentTypes.FormattingEnabled = true;
             clbContentTypes.Items.AddRange(new object[] { "Groups", "Assignment Filters", "Settings Catalog", "Device Compliance", "Device Configuration", "PowerShell script", "Proactive Remediations", "Windows Autopilot", "Windows Feature Update Profiles", "Windows Quality Update Policies", "Windows Expedite Policies", "Windows Driver Update Profiles", "Apple BYOD Enrollment Profiles", "macOS script", "Application", "Group Policy Configuration" });
-            clbContentTypes.Location = new Point(448, 4);
+            clbContentTypes.Location = new Point(411, 4);
             clbContentTypes.Name = "clbContentTypes";
             clbContentTypes.ScrollAlwaysVisible = true;
             clbContentTypes.Size = new Size(215, 126);
@@ -857,5 +873,6 @@
         private Button btnClearSelectedPoliciesFromDTG;
         private Panel pnlImportControls;
         private System.Windows.Forms.Timer CheckForAuthentication;
+        private Button btnSelectAllCheckboxes;
     }
 }
