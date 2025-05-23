@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntuneAssignments", "IntuneAssignments.csproj", "{2416D879-25B6-4DDD-89FE-DAA40B0963C0}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "IntuneAssignmentsInstaller", "..\IntuneAssignmentsInstaller\IntuneAssignmentsInstaller.vdproj", "{CE1BE561-4A55-C028-14F9-6975C2D57C67}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{2416D879-25B6-4DDD-89FE-DAA40B0963C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2416D879-25B6-4DDD-89FE-DAA40B0963C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2416D879-25B6-4DDD-89FE-DAA40B0963C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE1BE561-4A55-C028-14F9-6975C2D57C67}.Debug|Any CPU.ActiveCfg = Debug
+		{CE1BE561-4A55-C028-14F9-6975C2D57C67}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

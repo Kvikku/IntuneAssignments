@@ -345,6 +345,16 @@ namespace IntuneAssignments.Presentation.Import
                 return;
             }
 
+            int numberOfRows = dtgImportContent.Rows.Count;
+
+            // Ask the user if they are sure they want to start the import process
+            DialogResult dialogResult = MessageBox.Show($"There are currently {numberOfRows} objects about to be imported. Are you sure you want to start the import process?", "Confirm Import", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+            if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+            
+
             // Check what type of content is selected
 
 
