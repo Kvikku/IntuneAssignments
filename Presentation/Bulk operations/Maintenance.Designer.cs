@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             pBHome = new PictureBox();
             panel1 = new Panel();
             pbDestinationTenantCheck = new PictureBox();
@@ -58,6 +58,7 @@
             tabPage2 = new TabPage();
             label1 = new Label();
             CheckForAuthentication = new System.Windows.Forms.Timer(components);
+            btnSelectAllCheckboxes = new Button();
             ((System.ComponentModel.ISupportInitialize)pBHome).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbDestinationTenantCheck).BeginInit();
@@ -146,24 +147,24 @@
             dtgDeleteContent.BorderStyle = BorderStyle.None;
             dtgDeleteContent.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dtgDeleteContent.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = Color.Salmon;
-            dataGridViewCellStyle7.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle7.ForeColor = Color.Black;
-            dataGridViewCellStyle7.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            dtgDeleteContent.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.Salmon;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dtgDeleteContent.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dtgDeleteContent.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgDeleteContent.Columns.AddRange(new DataGridViewColumn[] { colName, colType, colPlatform, colID });
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = Color.FromArgb(46, 51, 73);
-            dataGridViewCellStyle8.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle8.ForeColor = Color.Salmon;
-            dataGridViewCellStyle8.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
-            dtgDeleteContent.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(46, 51, 73);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = Color.Salmon;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dtgDeleteContent.DefaultCellStyle = dataGridViewCellStyle2;
             dtgDeleteContent.EnableHeadersVisualStyles = false;
             dtgDeleteContent.GridColor = Color.Salmon;
             dtgDeleteContent.Location = new Point(2, 143);
@@ -283,6 +284,7 @@
             // tbBulkDelete
             // 
             tbBulkDelete.BackColor = Color.FromArgb(46, 51, 73);
+            tbBulkDelete.Controls.Add(btnSelectAllCheckboxes);
             tbBulkDelete.Controls.Add(pnlStatusOutput);
             tbBulkDelete.Controls.Add(clbContentTypes);
             tbBulkDelete.Controls.Add(btnBulkDelete);
@@ -387,6 +389,19 @@
             CheckForAuthentication.Interval = 1000;
             CheckForAuthentication.Tick += CheckForAuthentication_Tick;
             // 
+            // btnSelectAllCheckboxes
+            // 
+            btnSelectAllCheckboxes.BackColor = Color.Salmon;
+            btnSelectAllCheckboxes.FlatStyle = FlatStyle.Flat;
+            btnSelectAllCheckboxes.ForeColor = Color.FromArgb(46, 51, 73);
+            btnSelectAllCheckboxes.Location = new Point(330, 3);
+            btnSelectAllCheckboxes.Name = "btnSelectAllCheckboxes";
+            btnSelectAllCheckboxes.Size = new Size(78, 30);
+            btnSelectAllCheckboxes.TabIndex = 33;
+            btnSelectAllCheckboxes.Text = "Toggle";
+            btnSelectAllCheckboxes.UseVisualStyleBackColor = false;
+            btnSelectAllCheckboxes.Click += btnSelectAllCheckboxes_Click;
+            // 
             // Maintenance
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -443,5 +458,6 @@
         private Label lblStatus;
         private RichTextBox rtbSummary;
         private System.Windows.Forms.Timer CheckForAuthentication;
+        private Button btnSelectAllCheckboxes;
     }
 }

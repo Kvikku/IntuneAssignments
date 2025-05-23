@@ -1536,5 +1536,38 @@ namespace IntuneAssignments.Backend.Utilities
                 checkedItems.Add(item.ToString());
             }
         }
+
+        public static bool AreAllItemsInCLBChecked(CheckedListBox clb)
+        {
+            if (clb.Items.Count == 0)
+            {
+                return false; // Or true, depending on how you want to handle an empty list
+            }
+
+            for (int i = 0; i < clb.Items.Count; i++)
+            {
+                if (!clb.GetItemChecked(i))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public static bool AreAllItemsInDTGChecked(DataGridView dtg)
+        {
+            if (dtg.Rows.Count == 0)
+            {
+                return false; // Or true, depending on how you want to handle an empty list
+            }
+            for (int i = 0; i < dtg.Rows.Count; i++)
+            {
+                if (!Convert.ToBoolean(dtg.Rows[i].Cells[0].Value))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

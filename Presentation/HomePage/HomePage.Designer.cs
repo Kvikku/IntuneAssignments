@@ -243,9 +243,9 @@
             lblMaintenance.ForeColor = Color.Salmon;
             lblMaintenance.Location = new Point(82, 318);
             lblMaintenance.Name = "lblMaintenance";
-            lblMaintenance.Size = new Size(153, 32);
+            lblMaintenance.Size = new Size(228, 32);
             lblMaintenance.TabIndex = 16;
-            lblMaintenance.Text = "Maintenance";
+            lblMaintenance.Text = "Intune maintenance";
             // 
             // HomePage
             // 

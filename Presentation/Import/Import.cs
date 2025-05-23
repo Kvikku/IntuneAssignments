@@ -34,6 +34,7 @@ using Windows.Graphics.Printing.PrintSupport;
 using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
 using IntuneAssignments.Backend.IntuneContentClasses;
+using IntuneAssignments.Backend.Utilities;
 
 
 namespace IntuneAssignments.Presentation.Import
@@ -1393,12 +1394,12 @@ namespace IntuneAssignments.Presentation.Import
 
         private void pbSourceConnectionCheck_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void btnSelectAllCheckboxes_Click(object sender, EventArgs e)
         {
-            bool allChecked = AreAllItemsChecked(clbContentTypes);
+            bool allChecked = FormUtilities.AreAllItemsInCLBChecked(clbContentTypes);
 
             for (int i = 0; i < clbContentTypes.Items.Count; i++)
             {
@@ -1406,22 +1407,5 @@ namespace IntuneAssignments.Presentation.Import
             }
         }
         
-
-        private bool AreAllItemsChecked(CheckedListBox clb)
-        {
-            if (clb.Items.Count == 0)
-            {
-                return false; // Or true, depending on how you want to handle an empty list
-            }
-
-            for (int i = 0; i < clb.Items.Count; i++)
-            {
-                if (!clb.GetItemChecked(i))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
     }
 }

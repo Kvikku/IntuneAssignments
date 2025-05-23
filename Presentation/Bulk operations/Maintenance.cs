@@ -1,5 +1,8 @@
-﻿using IntuneAssignments.Presentation.Import;
+﻿using IntuneAssignments.Backend.IntuneContentClasses;
+using IntuneAssignments.Backend.Utilities;
+using IntuneAssignments.Presentation.Import;
 using Microsoft.Graph.Beta;
+using Microsoft.Graph.Beta.Models.ODataErrors;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,25 +15,23 @@ using System.Windows.Forms;
 using static IntuneAssignments.Backend.DestinationTenantGraphClient;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using static IntuneAssignments.Backend.Intune_content_classes.SettingsCatalog;
-using static IntuneAssignments.Backend.SourceTenantGraphClient;
-using static IntuneAssignments.Backend.Utilities.FormUtilities;
-using static IntuneAssignments.Backend.Utilities.GlobalVariables;
-using static IntuneAssignments.Backend.IntuneContentClasses.DeviceConfiguration;
-using static IntuneAssignments.Backend.IntuneContentClasses.DeviceCompliance;
 using static IntuneAssignments.Backend.IntuneContentClasses.ADMXtemplates;
-using static IntuneAssignments.Backend.IntuneContentClasses.Groups;
+using static IntuneAssignments.Backend.IntuneContentClasses.AppleBYODEnrollmentHandler;
+using static IntuneAssignments.Backend.IntuneContentClasses.DeviceCompliance;
+using static IntuneAssignments.Backend.IntuneContentClasses.DeviceConfiguration;
+using static IntuneAssignments.Backend.IntuneContentClasses.FilterHandler;
 using static IntuneAssignments.Backend.IntuneContentClasses.Filters;
-using static IntuneAssignments.Backend.IntuneContentClasses.ProactiveRemediations;
+using static IntuneAssignments.Backend.IntuneContentClasses.Groups;
 using static IntuneAssignments.Backend.IntuneContentClasses.PowerShellScripts;
-using static IntuneAssignments.Backend.IntuneContentClasses.WindowsAutoPilotProfiles;
+using static IntuneAssignments.Backend.IntuneContentClasses.ProactiveRemediations;
 using static IntuneAssignments.Backend.IntuneContentClasses.ShellScriptmacOS;
+using static IntuneAssignments.Backend.IntuneContentClasses.WindowsAutoPilotProfiles;
 using static IntuneAssignments.Backend.IntuneContentClasses.WindowsFeatureUpdateProfileHandler;
 using static IntuneAssignments.Backend.IntuneContentClasses.WindowsQualityUpdatePoliciesHandler;
 using static IntuneAssignments.Backend.IntuneContentClasses.WindowsQualityUpdateProfileHandler;
-using static IntuneAssignments.Backend.IntuneContentClasses.AppleBYODEnrollmentHandler;
-using static IntuneAssignments.Backend.IntuneContentClasses.FilterHandler;
-using IntuneAssignments.Backend.IntuneContentClasses;
-using Microsoft.Graph.Beta.Models.ODataErrors;
+using static IntuneAssignments.Backend.SourceTenantGraphClient;
+using static IntuneAssignments.Backend.Utilities.FormUtilities;
+using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 
 namespace IntuneAssignments.Presentation.Bulk_operations
 {
@@ -416,6 +417,25 @@ namespace IntuneAssignments.Presentation.Bulk_operations
         {
             ClearAllDictionaries();
 
+            int numberOfObjects = dtgDeleteContent.Rows.Count;
+
+            // Check if there are any objects to delete
+            if (numberOfObjects == 0)
+            {
+                MessageBox.Show("There are no objects to delete. Please search for objects first.", "No Objects Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (numberOfObjects > 0)
+            {
+                // Ask the user if they are sure they want to delete all objects
+                DialogResult dialogResult = MessageBox.Show($"There are currently {numberOfObjects} objects about to be deleted. Are you sure you want to delete all of them?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                if (dialogResult == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
 
             DeleteOrchestrator(dtgDeleteContent);
         }
@@ -432,6 +452,16 @@ namespace IntuneAssignments.Presentation.Bulk_operations
             ClearSelectedDataGridViewRow(dtgDeleteContent);
         }
 
-        
+        private void btnSelectAllCheckboxes_Click(object sender, EventArgs e)
+        {
+            // This method toggles the checkboxes in the DataGridView
+
+            bool allChecked = FormUtilities.AreAllItemsInCLBChecked(clbContentTypes);
+
+            for (int i = 0; i < clbContentTypes.Items.Count; i++)
+            {
+                clbContentTypes.SetItemChecked(i, !allChecked);
+            }
+        }
     }
 }
