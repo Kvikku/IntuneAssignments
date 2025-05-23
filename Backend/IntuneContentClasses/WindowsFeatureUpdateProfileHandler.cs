@@ -164,6 +164,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 //    WriteToImportStatusFile("Filters will be added (if applicable).");
                 //}
 
+                string profileName = "";
+
                 foreach (var profileId in profileIDs)
                 {
                     try
@@ -177,6 +179,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                             WriteToImportStatusFile($"Skipping profile ID {profileId}: Not found in source tenant.");
                             continue;
                         }
+
+                        profileName = sourceProfile.DisplayName ?? "Unnamed Profile";
 
                         // Create the new profile object for the destination tenant
                         var newProfile = new WindowsFeatureUpdateProfile
@@ -220,11 +224,11 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     catch (Exception ex)
                     {
                         // Log the specific profile ID that failed
-                        HandleException(ex, $"Error importing Windows Feature Update profile with ID {profileId}", false);
+                        HandleException(ex, $"Error importing Windows Feature Update profile  {profileName}", false);
                         HandleException(ex, "This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active", false);
-                        rtb.AppendText($"Failed to import Windows Feature Update profile ID {profileId}: {ex.Message}\n");
-                        rtb.AppendText($"This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active\n");
-                        WriteToImportStatusFile($"Failed to import Windows Feature Update profile ID {profileId}: {ex.Message}");
+                        rtb.AppendText($"Failed to import Windows Feature Update profile {profileName}\n");
+                        //rtb.AppendText($"This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active\n");
+                        WriteToImportStatusFile($"Failed to import Windows Feature Update profile {profileName}: {ex.Message}");
                         WriteToImportStatusFile("This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active");
                     }
                 }

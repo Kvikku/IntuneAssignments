@@ -152,10 +152,13 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     WriteToImportStatusFile("Filters will be added (if applicable).");
                 }
 
+                string profileName = "";
+
                 foreach (var profileId in profileIDs)
                 {
                     try
                     {
+                        
                         var sourceProfile = await sourceGraphServiceClient.DeviceManagement.WindowsQualityUpdateProfiles[profileId].GetAsync();
 
                         if (sourceProfile == null)
@@ -164,6 +167,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                             WriteToImportStatusFile($"Skipping profile ID {profileId}: Not found in source tenant.");
                             continue;
                         }
+
+                        profileName = sourceProfile.DisplayName ?? "ERROR GETTING NAME";
 
                         var newPolicy = new WindowsQualityUpdateProfile
                         {
@@ -207,9 +212,9 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     }
                     catch (Exception ex)
                     {
-                        HandleException(ex, $"Error importing Windows Quality Update profile with ID {profileId}", false);
-                        rtb.AppendText($"Error importing profile {profileId}: {ex.Message}\n");
-                        WriteToImportStatusFile($"Error importing profile {profileId}: {ex.Message}");
+                        HandleException(ex, $"Error importing Windows Quality Update profile {profileName}", false);
+                        rtb.AppendText($"Error importing profile {profileName}\n");
+                        WriteToImportStatusFile($"Error importing profile {profileName}: {ex.Message}");
                     }
                 }
                 rtb.AppendText("Windows Quality Update profile import process finished.\n");

@@ -179,6 +179,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     WriteToImportStatusFile("Filters will be added (if applicable).");
                 }
 
+
+
                 foreach (var profileId in profileIds)
                 {
                     var profileName = "";
@@ -222,11 +224,11 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     catch (Exception ex)
                     {
                         // Log the specific policy ID that failed
-                        HandleException(ex, $"Error importing Windows Driver Update policy with ID {profileId}", false);
+                        HandleException(ex, $"Error importing Windows Driver Update policy {profileName}", false);
                         HandleException(ex, "This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active", false);
-                        rtb.AppendText($"Failed to import Windows Driver Update policy ID {profileId}: {ex.Message}\n");
-                        rtb.AppendText($"This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active\n");
-                        WriteToImportStatusFile($"Failed to import Windows Driver Update policy ID {profileId}: {ex.Message}");
+                        rtb.AppendText($"Failed to import Windows Driver Update policy {profileName}\n");
+                        //rtb.AppendText($"This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active\n");
+                        WriteToImportStatusFile($"Failed to import Windows Driver Update policy {profileName}: {ex.Message}");
                         WriteToImportStatusFile("This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active");
                     }
                 }

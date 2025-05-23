@@ -160,6 +160,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     WriteToImportStatusFile("Filters will be added (if applicable).");
                 }
 
+                string profileName = "";
+
                 foreach (var policyId in policyIDs)
                 {
                     try
@@ -173,6 +175,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                             WriteToImportStatusFile($"Skipping policy ID {policyId}: Not found in source tenant.");
                             continue;
                         }
+
+                        profileName = sourcePolicy.DisplayName ?? "ERROR GETTING NAME";
 
                         // Create the new policy object for the destination tenant
                         var newPolicy = new WindowsQualityUpdatePolicy
@@ -222,11 +226,11 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     catch (Exception ex)
                     {
                         // Log the specific policy ID that failed
-                        HandleException(ex, $"Error importing Windows Quality Update policy with ID {policyId}", false);
+                        HandleException(ex, $"Error importing Windows Quality Update policy {profileName}", false);
                         HandleException(ex, "This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active", false);
-                        rtb.AppendText($"Failed to import Windows Quality Update policy ID {policyId}: {ex.Message}\n");
-                        rtb.AppendText($"This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active\n");
-                        WriteToImportStatusFile($"Failed to import Windows Quality Update policy ID {policyId}: {ex.Message}");
+                        rtb.AppendText($"Failed to import Windows Quality Update policy {profileName}\n");
+                        //rtb.AppendText($"This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active\n");
+                        WriteToImportStatusFile($"Failed to import Windows Quality Update policy {profileName}: {ex.Message}");
                         WriteToImportStatusFile("This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active");
                     }
                 }

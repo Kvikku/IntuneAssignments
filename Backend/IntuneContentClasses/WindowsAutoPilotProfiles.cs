@@ -170,8 +170,13 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                         {
                             // NOTE - This currently does not work
 
-                            MessageBox.Show("Hybrid Autopilot profiles are currently bugged in Graph API/C# SDK. Please handle manually for now.");
+                            //MessageBox.Show("Hybrid Autopilot profiles are currently bugged in Graph API/C# SDK. Please handle manually for now.");
+                            // NOTE - This currently does not work
+
+                            //MessageBox.Show("Hybrid Autopilot profiles are currently bugged in Graph API/C# SDK. Please handle manually for now.");
+                            rtb.SelectionColor = System.Drawing.Color.Red;
                             rtb.AppendText($"Hybrid Autopilot profiles are currently bugged in Graph API/C# SDK. Please handle manually for now.\n");
+                            rtb.SelectionColor = rtb.ForeColor; // Reset to default color
                             WriteToImportStatusFile($"Hybrid Autopilot profiles are currently bugged in Graph API/C# SDK. Please handle manually for now.");
 
                             //var requestBody = new ActiveDirectoryWindowsAutopilotDeploymentProfile()

@@ -108,7 +108,7 @@
             // GoToSettings
             // 
             GoToSettings.Image = (Image)resources.GetObject("GoToSettings.Image");
-            GoToSettings.Location = new Point(12, 216);
+            GoToSettings.Location = new Point(12, 286);
             GoToSettings.Name = "GoToSettings";
             GoToSettings.Size = new Size(64, 64);
             GoToSettings.SizeMode = PictureBoxSizeMode.AutoSize;
@@ -139,7 +139,7 @@
             // pBImportExport
             // 
             pBImportExport.Image = Properties.Resources.cloud_storage;
-            pBImportExport.Location = new Point(12, 153);
+            pBImportExport.Location = new Point(12, 223);
             pBImportExport.Name = "pBImportExport";
             pBImportExport.Size = new Size(64, 57);
             pBImportExport.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -151,7 +151,7 @@
             // pbGoToMaintenance
             // 
             pbGoToMaintenance.Image = Properties.Resources.maintenance;
-            pbGoToMaintenance.Location = new Point(12, 286);
+            pbGoToMaintenance.Location = new Point(12, 153);
             pbGoToMaintenance.Name = "pbGoToMaintenance";
             pbGoToMaintenance.Size = new Size(64, 64);
             pbGoToMaintenance.SizeMode = PictureBoxSizeMode.AutoSize;
@@ -198,7 +198,7 @@
             lblManageAppSettingsHeader.AutoSize = true;
             lblManageAppSettingsHeader.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblManageAppSettingsHeader.ForeColor = Color.Salmon;
-            lblManageAppSettingsHeader.Location = new Point(82, 248);
+            lblManageAppSettingsHeader.Location = new Point(82, 318);
             lblManageAppSettingsHeader.Name = "lblManageAppSettingsHeader";
             lblManageAppSettingsHeader.Size = new Size(147, 32);
             lblManageAppSettingsHeader.TabIndex = 10;
@@ -230,7 +230,7 @@
             lblImportExport.AutoSize = true;
             lblImportExport.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblImportExport.ForeColor = Color.Salmon;
-            lblImportExport.Location = new Point(82, 178);
+            lblImportExport.Location = new Point(82, 248);
             lblImportExport.Name = "lblImportExport";
             lblImportExport.Size = new Size(174, 32);
             lblImportExport.TabIndex = 14;
@@ -241,7 +241,7 @@
             lblMaintenance.AutoSize = true;
             lblMaintenance.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblMaintenance.ForeColor = Color.Salmon;
-            lblMaintenance.Location = new Point(82, 318);
+            lblMaintenance.Location = new Point(82, 185);
             lblMaintenance.Name = "lblMaintenance";
             lblMaintenance.Size = new Size(228, 32);
             lblMaintenance.TabIndex = 16;
