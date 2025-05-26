@@ -338,6 +338,12 @@ namespace IntuneAssignments.Presentation.Bulk_operations
                     await DeleteMacosShellScript(destinationGraphServiceClient, id);
                     WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
                 }
+
+                else if (contentType == "PowerShell Script")
+                {
+                    await DeletePowerShellScript(destinationGraphServiceClient, id);
+                    WriteErrorToRTB(name + " deleted successfully", rtbSummary, Color.Salmon);
+                }
                 else if (contentType == "Windows Feature Update")
                 {
                     await DeleteWindowsFeatureUpdateProfile(destinationGraphServiceClient, id);
