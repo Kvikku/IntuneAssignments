@@ -78,7 +78,7 @@
             pbGoToApplication.SizeMode = PictureBoxSizeMode.AutoSize;
             pbGoToApplication.TabIndex = 1;
             pbGoToApplication.TabStop = false;
-            toolTip1.SetToolTip(pbGoToApplication, "View and deploy applications");
+            toolTip1.SetToolTip(pbGoToApplication, "Manage assignments for applications");
             pbGoToApplication.Click += pbGoToApplication_Click;
             // 
             // pbGoToPolicy
@@ -90,7 +90,7 @@
             pbGoToPolicy.SizeMode = PictureBoxSizeMode.AutoSize;
             pbGoToPolicy.TabIndex = 2;
             pbGoToPolicy.TabStop = false;
-            toolTip1.SetToolTip(pbGoToPolicy, "View and deploy policies");
+            toolTip1.SetToolTip(pbGoToPolicy, "Manage assignments for policies and profiles");
             pbGoToPolicy.Click += pbGoToPolicy_Click;
             // 
             // GoToAbout
@@ -145,7 +145,7 @@
             pBImportExport.SizeMode = PictureBoxSizeMode.StretchImage;
             pBImportExport.TabIndex = 13;
             pBImportExport.TabStop = false;
-            toolTip1.SetToolTip(pBImportExport, "Configure authentication");
+            toolTip1.SetToolTip(pBImportExport, "Import content from one tenant to another");
             pBImportExport.Click += pBImportExport_Click;
             // 
             // pbGoToMaintenance
@@ -157,7 +157,7 @@
             pbGoToMaintenance.SizeMode = PictureBoxSizeMode.AutoSize;
             pbGoToMaintenance.TabIndex = 15;
             pbGoToMaintenance.TabStop = false;
-            toolTip1.SetToolTip(pbGoToMaintenance, "Configure authentication");
+            toolTip1.SetToolTip(pbGoToMaintenance, "Manage miscellaneous Intune tasks in bulk");
             pbGoToMaintenance.Click += pbGoToMaintenance_Click;
             // 
             // lblAdditionalInfo
@@ -178,20 +178,22 @@
             lblManageApplicationHeader.ForeColor = Color.Salmon;
             lblManageApplicationHeader.Location = new Point(82, 44);
             lblManageApplicationHeader.Name = "lblManageApplicationHeader";
-            lblManageApplicationHeader.Size = new Size(217, 32);
+            lblManageApplicationHeader.Size = new Size(220, 32);
             lblManageApplicationHeader.TabIndex = 8;
-            lblManageApplicationHeader.Text = "Intune applications";
+            lblManageApplicationHeader.Text = "Intune Applications";
+            toolTip1.SetToolTip(lblManageApplicationHeader, "Manage assignments for applications");
             // 
             // lblManageProfilesHeader
             // 
             lblManageProfilesHeader.AutoSize = true;
             lblManageProfilesHeader.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblManageProfilesHeader.ForeColor = Color.Salmon;
-            lblManageProfilesHeader.Location = new Point(82, 115);
+            lblManageProfilesHeader.Location = new Point(82, 118);
             lblManageProfilesHeader.Name = "lblManageProfilesHeader";
-            lblManageProfilesHeader.Size = new Size(169, 32);
+            lblManageProfilesHeader.Size = new Size(168, 32);
             lblManageProfilesHeader.TabIndex = 9;
-            lblManageProfilesHeader.Text = "Intune profiles";
+            lblManageProfilesHeader.Text = "Intune Policies";
+            toolTip1.SetToolTip(lblManageProfilesHeader, "Manage assignments for policies and profiles");
             // 
             // lblManageAppSettingsHeader
             // 
@@ -200,16 +202,16 @@
             lblManageAppSettingsHeader.ForeColor = Color.Salmon;
             lblManageAppSettingsHeader.Location = new Point(82, 318);
             lblManageAppSettingsHeader.Name = "lblManageAppSettingsHeader";
-            lblManageAppSettingsHeader.Size = new Size(147, 32);
+            lblManageAppSettingsHeader.Size = new Size(171, 32);
             lblManageAppSettingsHeader.TabIndex = 10;
-            lblManageAppSettingsHeader.Text = "App settings";
+            lblManageAppSettingsHeader.Text = "Authentication";
             // 
             // lblAboutHeader
             // 
             lblAboutHeader.AutoSize = true;
             lblAboutHeader.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblAboutHeader.ForeColor = Color.Salmon;
-            lblAboutHeader.Location = new Point(91, 403);
+            lblAboutHeader.Location = new Point(91, 420);
             lblAboutHeader.Name = "lblAboutHeader";
             lblAboutHeader.Size = new Size(79, 32);
             lblAboutHeader.TabIndex = 11;
@@ -223,6 +225,7 @@
             pbWhatsNew.Size = new Size(71, 70);
             pbWhatsNew.TabIndex = 12;
             pbWhatsNew.TabStop = false;
+            toolTip1.SetToolTip(pbWhatsNew, "Learn about new features in the app");
             pbWhatsNew.Click += pbWhatsNew_Click;
             // 
             // lblImportExport
@@ -232,9 +235,10 @@
             lblImportExport.ForeColor = Color.Salmon;
             lblImportExport.Location = new Point(82, 248);
             lblImportExport.Name = "lblImportExport";
-            lblImportExport.Size = new Size(174, 32);
+            lblImportExport.Size = new Size(238, 32);
             lblImportExport.TabIndex = 14;
-            lblImportExport.Text = "Import content";
+            lblImportExport.Text = "Intune Import-Export";
+            toolTip1.SetToolTip(lblImportExport, "Import content from one tenant to another");
             // 
             // lblMaintenance
             // 
@@ -243,9 +247,10 @@
             lblMaintenance.ForeColor = Color.Salmon;
             lblMaintenance.Location = new Point(82, 185);
             lblMaintenance.Name = "lblMaintenance";
-            lblMaintenance.Size = new Size(228, 32);
+            lblMaintenance.Size = new Size(233, 32);
             lblMaintenance.TabIndex = 16;
-            lblMaintenance.Text = "Intune maintenance";
+            lblMaintenance.Text = "Intune Management";
+            toolTip1.SetToolTip(lblMaintenance, "Manage miscellaneous Intune tasks in bulk");
             // 
             // HomePage
             // 
