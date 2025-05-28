@@ -28,12 +28,3 @@ __NOTE - This application is a work in progress. Errors, crashes and unexpected 
 Please read the Wiki (https://github.com/Kvikku/IntuneAssignments/wiki) for help with the pre-reqs and how to use the app!
 
 An installer is now provided to help install all necessary dependencies and the application itself. 
-
-
-# New releases!
-
-The ability to copy content from a template tenant to a destination tenant is coming in the next release!
-
-Filters have been added as an assignment option!
-
-Since version 0.2.0-beta, user based authentication is now the standard, and client secret authentication has been removed. If you are coming from an earlier version of the app you must adjust to this change :)
