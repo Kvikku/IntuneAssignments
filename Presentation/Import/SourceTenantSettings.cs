@@ -145,6 +145,7 @@ namespace IntuneAssignments.Presentation.Import
                 var me = await SourceTenantGraphClient.sourceGraphServiceClient.Me.GetAsync();
                 WriteToLog("Connected to source tenant as: " + me.DisplayName);
                 isSourceTenantConnected = true;
+                sourceTenantName = (me.Identities.FirstOrDefault()?.Issuer ?? "Unknown").Split('.')[0].ToUpper();
             }
             catch (Exception ex)
             {
@@ -182,12 +183,16 @@ namespace IntuneAssignments.Presentation.Import
         {
             //saveSourceFile();
 
-            // TODO - Authenticate
+            // Authenticate and log in to the source tenant
 
             await AuthenticateToSourceTenant();
 
             Import import = System.Windows.Forms.Application.OpenForms["Import"] as Import;
             import.CheckConnection();
+            import.UpdateTenantDisplayNames();
+
+
+            WriteToLog($"Source Tenant '{sourceTenantName}' authenticated successfully.");
 
             this.Close();
         }

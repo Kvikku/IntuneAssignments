@@ -31,8 +31,8 @@ namespace IntuneAssignments.Backend.Utilities
         public static bool isSourceTenantConnected = false;
         public static bool isDestinationTenantConnected = false;
 
-        public static string sourceTenantName { get; set; }
-        public static string destinationTenantName { get; set; }
+        public static string sourceTenantName { get; set; } = "Source";
+        public static string destinationTenantName { get; set; } = "Destination";
 
         //public static string? sourceClientID { get; set; }
         //public static string? sourceTenantID { get; set; }
@@ -44,7 +44,6 @@ namespace IntuneAssignments.Backend.Utilities
         public static List<string> permissionsToCheck = new List<string> { "Read and write Microsoft Intune apps", "Read Microsoft Intune device configuration and policies",
         "Read and write Microsoft Intune device configuration and policies","Read and write Microsoft Intune devices","Read and write Microsoft Intune configuration",
         "Read directory data"};
-
 
 
         // new variable for permissions

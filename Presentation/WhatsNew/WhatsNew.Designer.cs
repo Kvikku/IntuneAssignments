@@ -46,7 +46,7 @@
             rtbWhatsNew.ReadOnly = true;
             rtbWhatsNew.Size = new Size(464, 165);
             rtbWhatsNew.TabIndex = 13;
-            rtbWhatsNew.Text = "Added filter support for the following types: Device configuration, ADMX template, Applications";
+            rtbWhatsNew.Text = "New major feature - Tenant to Tenant migration! Read more on GitHub";
             // 
             // lblWhatsNew
             // 
@@ -81,7 +81,7 @@
             lblNewestVersion.Name = "lblNewestVersion";
             lblNewestVersion.Size = new Size(133, 15);
             lblNewestVersion.TabIndex = 16;
-            lblNewestVersion.Text = "Version 0.2.7-beta";
+            lblNewestVersion.Text = "Version 0.2.8-beta";
             // 
             // btnOk
             // 

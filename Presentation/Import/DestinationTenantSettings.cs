@@ -137,10 +137,13 @@ namespace IntuneAssignments.Presentation.Import
 
             await AuthenticateToDestinationTenant();
 
+            // This check is a band aid solution
             if (lastFormName == "Import")
             {
                Import import = System.Windows.Forms.Application.OpenForms["Import"] as Import;
                import.CheckConnection();
+               import.UpdateTenantDisplayNames();
+                
             }
             if (lastFormName == "Maintenance")
             {
@@ -177,7 +180,9 @@ namespace IntuneAssignments.Presentation.Import
                 var me = await DestinationTenantGraphClient.destinationGraphServiceClient.Me.GetAsync();
                 WriteToLog("Connected to destination tenant as: " + me.UserPrincipalName);
                 isDestinationTenantConnected = true;
+                destinationTenantName = (me.Identities.FirstOrDefault()?.Issuer ?? "Unknown").Split('.')[0].ToUpper();
 
+                WriteToLog("Authenticated as: " + destinationTenantName);
             }
             catch (Exception ex)
             {

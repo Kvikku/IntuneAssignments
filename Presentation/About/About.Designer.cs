@@ -124,7 +124,7 @@
             label7.Name = "label7";
             label7.Size = new Size(245, 14);
             label7.TabIndex = 9;
-            label7.Text = "You are running version 0.2.7-beta";
+            label7.Text = "You are running version 0.2.8-beta";
             // 
             // label8
             // 

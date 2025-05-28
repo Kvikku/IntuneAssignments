@@ -58,7 +58,12 @@ namespace IntuneAssignments.Presentation.Import
 
         }
 
-
+        public void UpdateTenantDisplayNames()
+        {
+            // Updates the display names of the source and destination tenants in the UI
+            lblSourceTenant.Text = sourceTenantName;
+            lblDestination.Text = destinationTenantName;
+        }
 
         private void Import_Load(object sender, EventArgs e)
         {
