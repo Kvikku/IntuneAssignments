@@ -827,6 +827,7 @@
             rbFilterInclude.TabStop = true;
             rbFilterInclude.Text = "Include";
             rbFilterInclude.UseVisualStyleBackColor = true;
+            rbFilterInclude.CheckedChanged += rbFilterInclude_CheckedChanged;
             // 
             // pbFilterWarning
             // 

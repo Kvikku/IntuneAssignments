@@ -7,18 +7,18 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <SupportedOSPlatformVersion>10.0.22621.0</SupportedOSPlatformVersion>
-    <ApplicationIcon>ApplicationIcon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Icons\V3\IBA_V3_PaleYellow.ico</ApplicationIcon>
     <StartupObject>
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="ApplicationIcon.ico" />
+    <Content Include="Resources\Icons\V3\IBA_V3_PaleYellow.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Graph.Beta" Version="5.78.0-preview" />
-    <PackageReference Include="Microsoft.Identity.Client" Version="4.61.3" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Graph.Beta" Version="5.108.0-preview" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.72.1-preview" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.0-preview.4.25258.110" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0-preview.4.25258.110" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>

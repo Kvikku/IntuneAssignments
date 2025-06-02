@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Graph.Beta.Models;
-using static IntuneAssignments.Backend.GlobalVariables;
-using static IntuneAssignments.Backend.FormUtilities;
+using static IntuneAssignments.Backend.Utilities.GlobalVariables;
+using static IntuneAssignments.Backend.Utilities.FormUtilities;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using IntuneAssignments.Backend;
+using IntuneAssignments.Presentation.Import;
+using IntuneAssignments.Presentation.Bulk_operations;
 
 namespace IntuneAssignments
 {
@@ -18,7 +20,7 @@ namespace IntuneAssignments
         {
             InitializeComponent();
 
-            
+
 
             this.StartPosition = FormStartPosition.CenterScreen;
         }
@@ -381,6 +383,24 @@ namespace IntuneAssignments
             WriteToLog("Opening the what's new page");
             WhatsNew whatsNew = new WhatsNew();
             whatsNew.ShowDialog();
+        }
+
+        private void pBImportExport_Click(object sender, EventArgs e)
+        {
+            // Open the import page
+            WriteToLog("Opening the import/export page");
+            this.Hide();
+            Import import = new Import();
+            import.Show();
+        }
+
+        private void pbGoToMaintenance_Click(object sender, EventArgs e)
+        {
+            // Open the maintenance page
+            WriteToLog("Opening the maintenance page");
+            this.Hide();
+            Maintenance maintenance = new Maintenance();
+            maintenance.Show();
         }
     }
 }

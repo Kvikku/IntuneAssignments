@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using static IntuneAssignments.Backend.FormUtilities;
+using static IntuneAssignments.Backend.Utilities.FormUtilities;
 
 namespace IntuneAssignments
 {

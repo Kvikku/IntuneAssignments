@@ -2,14 +2,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Graph.Beta.Models;
 using Microsoft.Identity.Client;
 using System.Reflection;
-using static IntuneAssignments.Backend.GlobalVariables;
+using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
-using static IntuneAssignments.Backend.FormUtilities;
+using static IntuneAssignments.Backend.Utilities.FormUtilities;
 using System.Windows.Forms;
 using IntuneAssignments.Backend;
 using IntuneAssignments.Presentation.Application.App_protection;
 using Newtonsoft.Json;
 using Microsoft.Graph;
+using IntuneAssignments.Backend.Utilities;
 
 
 namespace IntuneAssignments
@@ -1549,13 +1550,47 @@ namespace IntuneAssignments
 
                     target.DeviceAndAppManagementAssignmentFilterId = AssignmentFilterID;
                     target.DeviceAndAppManagementAssignmentFilterType = AssignmentFilterType;
-                    
 
                     var newAssignment = new MobileAppAssignment
                     {
                         Target = target,
                         Intent = intent,
                     };
+
+
+                    // iOS specific settings
+
+                    // TO DO - Continue
+                    // Isremovable is only valid for required intent
+
+                    //// Check if the app is an iOS app
+                    var appType = await graphClient.DeviceAppManagement.MobileApps[mobileAppID].GetAsync();
+
+
+                    if (appType.OdataType == "#microsoft.graph.iosVppApp")
+                    {
+                        var settings = new IosVppAppAssignmentSettings
+                        {
+                            OdataType = "#microsoft.graph.iosVppAppAssignmentSettings",
+                            UseDeviceLicensing = true,
+                            VpnConfigurationId = null,
+                            UninstallOnDeviceRemoval = true,
+                            PreventManagedAppBackup = true,
+                            PreventAutoAppUpdate = false
+                        };
+
+                        if (newAssignment.Intent == InstallIntent.Required)
+                        {
+                            settings.IsRemovable = false;
+                        }
+                        else
+                        {
+
+                        }
+
+                        newAssignment.Settings = settings;
+                    }
+
 
                     try
                     {
@@ -2541,6 +2576,11 @@ namespace IntuneAssignments
                 rbFilterExclude.Hide();
                 rbFilterInclude.Hide();
             }
+        }
+
+        private void rbFilterInclude_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using Microsoft.Graph.Beta.Models;
 using System.Reflection;
-using static IntuneAssignments.Backend.GlobalVariables;
+using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
-using static IntuneAssignments.Backend.FormUtilities;
+using static IntuneAssignments.Backend.Utilities.FormUtilities;
 using Microsoft.Graph.Beta.Models.Networkaccess;
-using IntuneAssignments.Backend;
 using System.Windows.Forms;
 using Microsoft.Graph.Beta.DeviceManagement.Intents.Item.Assign;
+using IntuneAssignments.Backend.Utilities;
 
 namespace IntuneAssignments
 {

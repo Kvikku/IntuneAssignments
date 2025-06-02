@@ -1,5 +1,4 @@
-﻿using IntuneAssignments.Backend;
-using Microsoft.Graph;
+﻿using Microsoft.Graph;
 using Microsoft.Graph.Beta.DeviceAppManagement.IosLobAppProvisioningConfigurations.Item.Assign;
 using Microsoft.Graph.Beta.DeviceManagement.Templates.Item.CreateInstance;
 
@@ -7,9 +6,10 @@ using Microsoft.Graph.Beta.DeviceManagement.Templates.Item.CreateInstance;
 using Microsoft.Graph.Beta.Models;
 using Microsoft.Kiota.Abstractions;
 using System.Reflection;
-using static IntuneAssignments.Backend.FormUtilities;
-using static IntuneAssignments.Backend.GlobalVariables;
+using static IntuneAssignments.Backend.Utilities.FormUtilities;
+using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
+using IntuneAssignments.Backend.Utilities;
 
 
 namespace IntuneAssignments

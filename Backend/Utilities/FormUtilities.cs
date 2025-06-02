@@ -1,18 +1,19 @@
-﻿using Microsoft.Graph;
-using Microsoft.Graph.Beta.Models;
-using static IntuneAssignments.Backend.GraphServiceClientCreator;
-using static IntuneAssignments.Backend.GlobalVariables;
-using Microsoft.Kiota.Abstractions;
-using Windows.ApplicationModel.Activation;
-using System.Linq;
+﻿using IntuneAssignments.Presentation.Import;
+using Microsoft.Graph;
 using Microsoft.Graph.Beta;
-using Microsoft.Graph.Beta.DeviceManagement.Intents.Item.Assign;
-using Microsoft.Graph.Beta.DeviceManagement.DeviceCompliancePolicies.Item.Assign;
 using Microsoft.Graph.Beta.DeviceManagement.ConfigurationPolicies.Item.Assign;
+using Microsoft.Graph.Beta.DeviceManagement.DeviceCompliancePolicies.Item.Assign;
+using Microsoft.Graph.Beta.DeviceManagement.Intents.Item.Assign;
+using Microsoft.Graph.Beta.Models;
+using Microsoft.Kiota.Abstractions;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
+using Windows.ApplicationModel.Activation;
+using static IntuneAssignments.Backend.GraphServiceClientCreator;
+using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 
-namespace IntuneAssignments.Backend
+namespace IntuneAssignments.Backend.Utilities
 {
     public class FormUtilities
     {
@@ -30,6 +31,14 @@ namespace IntuneAssignments.Backend
         public static void ClearDataGridView(DataGridView dataGridView)
         {
             dataGridView.Rows.Clear();
+        }
+
+        public static void ClearSelectedDataGridViewRow(DataGridView dataGridView)
+        {
+            foreach (DataGridViewRow row in dataGridView.SelectedRows)
+            {
+                dataGridView.Rows.RemoveAt(row.Index);
+            }
         }
 
         public static void ClearCheckedListBox(CheckedListBox checkedListBox)
@@ -89,6 +98,33 @@ namespace IntuneAssignments.Backend
             sw.Close();
         }
 
+        public enum LogType
+        {
+            Info,
+            Warning,
+            Error
+        }
+
+        public static void WriteToImportStatusFile(string data, LogType logType = LogType.Info)
+        {
+            try
+            {
+                // Use the using statement to ensure proper disposal of StreamWriter
+                using (StreamWriter sw = new StreamWriter(importStatusFile, true))
+                {
+                    // Write the data to the import status file with log type
+                    sw.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} [{logType}] - {data}");
+                }
+                // StreamWriter is automatically closed and disposed of when leaving the using block
+            }
+            catch (IOException ex)
+            {
+                // Handle the exception
+                MessageBox.Show($"An error occurred while writing to the import status file: {ex.Message}");
+            }
+        }
+
+
         public static void WriteToLog(string data)
         {
 
@@ -116,17 +152,35 @@ namespace IntuneAssignments.Backend
                 }
                 // StreamWriter is automatically closed and disposed of when leaving the using block
             }
-            catch (System.IO.IOException ex)
+            catch (IOException ex)
             {
                 // Handle the exception
                 MessageBox.Show($"An error occurred while writing to the log file: {ex.Message}");
             }
+        }
 
-            
+        public static void HandleException(Exception ex, string contextMessage, bool showMessageBox = true)
+        {
+            string logMessage = $"{contextMessage}: {ex.Message}";
+            WriteToLog(logMessage);
 
+            if (showMessageBox)
+            {
+                MessageBox.Show(logMessage);
+            }
         }
 
 
+        public static void WriteErrorToRTB(string errorMessage, RichTextBox rtb, Color? color = null)
+        {
+            // This method will be used to write an error message to the rich text box with a default color of red,
+            // but allows specifying another color when calling the method.
+
+            Color textColor = color ?? Color.Red; // Use the specified color or default to red
+            rtb.SelectionColor = textColor;
+            rtb.AppendText($"{errorMessage}\n");
+            rtb.SelectionColor = rtb.ForeColor; // Reset to default color
+        }
 
         public static List<string> ReadLastLines(string filePath, int lineCount)
         {
@@ -153,6 +207,7 @@ namespace IntuneAssignments.Backend
         }
 
 
+        
 
 
         public static async Task<int> countGroupMembers(string groupID)
@@ -357,8 +412,9 @@ namespace IntuneAssignments.Backend
 
             var result = await graphClient.Groups.GetAsync((requestConfiguration) =>
             {
+                requestConfiguration.QueryParameters.Count = true;
+                requestConfiguration.QueryParameters.Filter = "not(groupTypes/any(g:g eq 'Unified'))";
                 requestConfiguration.Headers.Add("ConsistencyLevel", "eventual");
-                // requestConfiguration.QueryParameters.Select = new string[] { "id", "memberShipRule", "displayName", "members" };
             });
 
 
@@ -1461,6 +1517,57 @@ namespace IntuneAssignments.Backend
             }
 
             
+        }
+
+        public static void AddItemsToDictionary(Dictionary<string, string> dictionary, string name, string id)
+        {
+            // Add the items to the dictionary
+            dictionary.Add(name, id);
+        }
+
+        public static void GetCheckedItemsFromCheckedListBox(CheckedListBox checkedListBox, List<string> checkedItems)
+        {
+            // Clear the list
+            checkedItems.Clear();
+            // Loop through the checked items
+            foreach (var item in checkedListBox.CheckedItems)
+            {
+                // Add the checked items to the list
+                checkedItems.Add(item.ToString());
+            }
+        }
+
+        public static bool AreAllItemsInCLBChecked(CheckedListBox clb)
+        {
+            if (clb.Items.Count == 0)
+            {
+                return false; // Or true, depending on how you want to handle an empty list
+            }
+
+            for (int i = 0; i < clb.Items.Count; i++)
+            {
+                if (!clb.GetItemChecked(i))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public static bool AreAllItemsInDTGChecked(DataGridView dtg)
+        {
+            if (dtg.Rows.Count == 0)
+            {
+                return false; // Or true, depending on how you want to handle an empty list
+            }
+            for (int i = 0; i < dtg.Rows.Count; i++)
+            {
+                if (!Convert.ToBoolean(dtg.Rows[i].Cells[0].Value))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
