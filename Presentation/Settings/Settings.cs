@@ -365,14 +365,27 @@ namespace IntuneAssignments
             }
             else if ((CheckTokenLifetime(tokenExpirationTime)) == false)
             {
+                try
+                {
+                    // Token has expired. Must acquire new token.
 
-                // Token has expired. Must acquire new token.
+                    // Create a Graph client 
+                    var graphClient = CreateGraphServiceClient();
 
-                // Create a Graph client 
-                var graphClient = CreateGraphServiceClient();
+                    // Get the signed-in user's profile
+                    var user = await graphClient.Me.GetAsync();
 
-                // Get the signed-in user's profile
-                var user = await graphClient.Me.GetAsync();
+                    legacyAuthenticationStatus = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("There was an error authenticating to the tenant. Please double check tenant ID, client ID and API permissions");
+                    MessageBox.Show(ex.Message);
+                    legacyAuthenticationStatus = false; ;
+                    
+                }
+                
+                
 
             }
 

@@ -12,6 +12,7 @@ using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using IntuneAssignments.Backend.Utilities;
 
 
+
 namespace IntuneAssignments
 {
     public partial class Policy : Form
@@ -2785,6 +2786,7 @@ namespace IntuneAssignments
              * This method prepares the deployment of policies to groups
              * 
              */
+
 
             WriteToLog("User clicked the Prepare Deployment button");
 

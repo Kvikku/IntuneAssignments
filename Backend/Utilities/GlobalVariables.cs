@@ -30,6 +30,7 @@ namespace IntuneAssignments.Backend.Utilities
 
         public static bool isSourceTenantConnected = false;
         public static bool isDestinationTenantConnected = false;
+        public static bool legacyAuthenticationStatus = false;
 
         public static string sourceTenantName { get; set; } = "Source";
         public static string destinationTenantName { get; set; } = "Destination";

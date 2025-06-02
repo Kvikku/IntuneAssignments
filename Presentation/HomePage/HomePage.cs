@@ -326,25 +326,38 @@ namespace IntuneAssignments
 
         private void pbGoToApplication_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            Application form1 = new Application();
-            form1.Show();
+            // Check if the user has authenticated
 
-            WriteToLog("Opening the application page");
+            if (legacyAuthenticationStatus)
+            {
+                this.Hide();
+                Application form1 = new Application();
+                form1.Show();
 
-
+                WriteToLog("Opening the application page");
+            }
+            else 
+            {
+                MessageBox.Show("Please open the Authentication menu and authenticate to your tenant");
+            }
         }
 
         private void pbGoToPolicy_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            Policy policy = new Policy();
-            policy.Show();
+            // Check if the user has authenticated
 
-            WriteToLog("Opening the policy page");
+            if (legacyAuthenticationStatus)
+            {
+                this.Hide();
+                Policy policy = new Policy();
+                policy.Show();
 
-
-
+                WriteToLog("Opening the policy page");
+            }
+            else 
+            {
+                MessageBox.Show("Please open the Authentication menu and authenticate to your tenant");
+            }
         }
 
         private void GoToAbout_Click(object sender, EventArgs e)

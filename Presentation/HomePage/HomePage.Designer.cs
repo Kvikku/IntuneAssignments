@@ -40,14 +40,14 @@
             toolTip1 = new ToolTip(components);
             pBImportExport = new PictureBox();
             pbGoToMaintenance = new PictureBox();
-            lblAdditionalInfo = new Label();
             lblManageApplicationHeader = new Label();
             lblManageProfilesHeader = new Label();
-            lblManageAppSettingsHeader = new Label();
-            lblAboutHeader = new Label();
             pbWhatsNew = new PictureBox();
             lblImportExport = new Label();
             lblMaintenance = new Label();
+            lblAdditionalInfo = new Label();
+            lblManageAppSettingsHeader = new Label();
+            lblAboutHeader = new Label();
             ((System.ComponentModel.ISupportInitialize)pbGoToApplication).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbGoToPolicy).BeginInit();
             ((System.ComponentModel.ISupportInitialize)GoToAbout).BeginInit();
@@ -160,17 +160,6 @@
             toolTip1.SetToolTip(pbGoToMaintenance, "Manage miscellaneous Intune tasks in bulk");
             pbGoToMaintenance.Click += pbGoToMaintenance_Click;
             // 
-            // lblAdditionalInfo
-            // 
-            lblAdditionalInfo.AutoSize = true;
-            lblAdditionalInfo.Font = new Font("Consolas", 11.25F);
-            lblAdditionalInfo.ForeColor = Color.Salmon;
-            lblAdditionalInfo.Location = new Point(91, 496);
-            lblAdditionalInfo.Name = "lblAdditionalInfo";
-            lblAdditionalInfo.Size = new Size(128, 18);
-            lblAdditionalInfo.TabIndex = 7;
-            lblAdditionalInfo.Text = "Additional info";
-            // 
             // lblManageApplicationHeader
             // 
             lblManageApplicationHeader.AutoSize = true;
@@ -194,28 +183,6 @@
             lblManageProfilesHeader.TabIndex = 9;
             lblManageProfilesHeader.Text = "Intune Policies";
             toolTip1.SetToolTip(lblManageProfilesHeader, "Manage assignments for policies and profiles");
-            // 
-            // lblManageAppSettingsHeader
-            // 
-            lblManageAppSettingsHeader.AutoSize = true;
-            lblManageAppSettingsHeader.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblManageAppSettingsHeader.ForeColor = Color.Salmon;
-            lblManageAppSettingsHeader.Location = new Point(82, 318);
-            lblManageAppSettingsHeader.Name = "lblManageAppSettingsHeader";
-            lblManageAppSettingsHeader.Size = new Size(171, 32);
-            lblManageAppSettingsHeader.TabIndex = 10;
-            lblManageAppSettingsHeader.Text = "Authentication";
-            // 
-            // lblAboutHeader
-            // 
-            lblAboutHeader.AutoSize = true;
-            lblAboutHeader.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblAboutHeader.ForeColor = Color.Salmon;
-            lblAboutHeader.Location = new Point(91, 420);
-            lblAboutHeader.Name = "lblAboutHeader";
-            lblAboutHeader.Size = new Size(79, 32);
-            lblAboutHeader.TabIndex = 11;
-            lblAboutHeader.Text = "About";
             // 
             // pbWhatsNew
             // 
@@ -251,6 +218,39 @@
             lblMaintenance.TabIndex = 16;
             lblMaintenance.Text = "Intune Management";
             toolTip1.SetToolTip(lblMaintenance, "Manage miscellaneous Intune tasks in bulk");
+            // 
+            // lblAdditionalInfo
+            // 
+            lblAdditionalInfo.AutoSize = true;
+            lblAdditionalInfo.Font = new Font("Consolas", 11.25F);
+            lblAdditionalInfo.ForeColor = Color.Salmon;
+            lblAdditionalInfo.Location = new Point(91, 496);
+            lblAdditionalInfo.Name = "lblAdditionalInfo";
+            lblAdditionalInfo.Size = new Size(128, 18);
+            lblAdditionalInfo.TabIndex = 7;
+            lblAdditionalInfo.Text = "Additional info";
+            // 
+            // lblManageAppSettingsHeader
+            // 
+            lblManageAppSettingsHeader.AutoSize = true;
+            lblManageAppSettingsHeader.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblManageAppSettingsHeader.ForeColor = Color.Salmon;
+            lblManageAppSettingsHeader.Location = new Point(82, 318);
+            lblManageAppSettingsHeader.Name = "lblManageAppSettingsHeader";
+            lblManageAppSettingsHeader.Size = new Size(171, 32);
+            lblManageAppSettingsHeader.TabIndex = 10;
+            lblManageAppSettingsHeader.Text = "Authentication";
+            // 
+            // lblAboutHeader
+            // 
+            lblAboutHeader.AutoSize = true;
+            lblAboutHeader.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblAboutHeader.ForeColor = Color.Salmon;
+            lblAboutHeader.Location = new Point(91, 420);
+            lblAboutHeader.Name = "lblAboutHeader";
+            lblAboutHeader.Size = new Size(79, 32);
+            lblAboutHeader.TabIndex = 11;
+            lblAboutHeader.Text = "About";
             // 
             // HomePage
             // 
