@@ -238,6 +238,7 @@
             dtgImportContent.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dtgImportContent.Size = new Size(679, 459);
             dtgImportContent.TabIndex = 1;
+            ToolTipImport.SetToolTip(dtgImportContent, "The content that will be imported. Clear the rows you do not want to import");
             // 
             // colName
             // 
@@ -285,7 +286,7 @@
             pnlImportControls.Controls.Add(pBarImportStatus);
             pnlImportControls.Location = new Point(3, 623);
             pnlImportControls.Name = "pnlImportControls";
-            pnlImportControls.Size = new Size(361, 208);
+            pnlImportControls.Size = new Size(361, 118);
             pnlImportControls.TabIndex = 22;
             // 
             // btnImportContet
@@ -713,6 +714,7 @@
             dtgGroups.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dtgGroups.Size = new Size(658, 459);
             dtgGroups.TabIndex = 11;
+            ToolTipImport.SetToolTip(dtgGroups, "The groups that will be added as assignment. Clear the rows you dont want to include");
             // 
             // dataGridViewTextBoxColumn1
             // 

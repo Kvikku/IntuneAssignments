@@ -67,9 +67,9 @@ namespace IntuneAssignments.Presentation.Import
 
         private void Import_Load(object sender, EventArgs e)
         {
-            //pnlImportControls.Hide();
+            pnlImportControls.Hide();
             pnlStatusOutput.Hide();
-            //pnlImportContent.Hide();
+            pnlImportContent.Hide();
             cbAddFilter.Hide();
             pnlAddFilter.Hide();
             pBarLoading.Hide();

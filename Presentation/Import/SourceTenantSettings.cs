@@ -158,6 +158,8 @@ namespace IntuneAssignments.Presentation.Import
 
         private void saveSourceFile()
         {
+            // Is this now redundant? Delete later?
+            
             // Get the values from the text boxes
             string tenantName = tBTenantName.Text;
             string tenantID = tBTenantID.Text;
