@@ -145,7 +145,9 @@ namespace IntuneAssignments.Presentation.Import
                 var me = await SourceTenantGraphClient.sourceGraphServiceClient.Me.GetAsync();
                 WriteToLog("Connected to source tenant as: " + me.DisplayName);
                 isSourceTenantConnected = true;
-                sourceTenantName = (me.Identities.FirstOrDefault()?.Issuer ?? "Unknown").Split('.')[0].ToUpper();
+                sourceTenantName = await GetAzureTenantName(sourceGraphServiceClient);
+
+                WriteToLog("Source Tenant Name: " + sourceTenantName);
             }
             catch (Exception ex)
             {

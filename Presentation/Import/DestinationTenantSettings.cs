@@ -180,9 +180,9 @@ namespace IntuneAssignments.Presentation.Import
                 var me = await DestinationTenantGraphClient.destinationGraphServiceClient.Me.GetAsync();
                 WriteToLog("Connected to destination tenant as: " + me.UserPrincipalName);
                 isDestinationTenantConnected = true;
-                destinationTenantName = (me.Identities.FirstOrDefault()?.Issuer ?? "Unknown").Split('.')[0].ToUpper();
+                destinationTenantName = await GetAzureTenantName(destinationGraphServiceClient);
 
-                WriteToLog("Authenticated as: " + destinationTenantName);
+                WriteToLog("Destination tenant name: " + destinationTenantName);
             }
             catch (Exception ex)
             {

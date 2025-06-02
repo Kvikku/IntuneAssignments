@@ -947,6 +947,29 @@ namespace IntuneAssignments.Backend.Utilities
 
         }
 
+
+        public static async Task<string?> GetAzureTenantName(GraphServiceClient graphServiceClient)
+        {
+            // Method to get the Azure tenant name
+            try
+            {
+                var tenantInfo = await graphServiceClient.Organization.GetAsync((requestConfiguration) =>
+                {
+                    requestConfiguration.QueryParameters.Select = new string[] { "displayName" };
+                });
+
+                WriteToLog("Tenant name retrieved: " + tenantInfo.Value[0].DisplayName);
+
+                return tenantInfo.Value[0].DisplayName;
+            }
+            catch (Exception ex)
+            {
+                WriteToLog("An error occurred while retrieving the tenant name: " + ex.Message);
+                return "UNKNOWN"; // Return "UNKNOWN" if the tenant name cannot be retrieved
+            }
+            
+        }
+
         public static async Task<List<string>> GetAppPermissions()
         {
 
