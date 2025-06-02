@@ -12,6 +12,10 @@ using System.Windows.Forms;
 using Windows.ApplicationModel.Activation;
 using static IntuneAssignments.Backend.GraphServiceClientCreator;
 using static IntuneAssignments.Backend.Utilities.GlobalVariables;
+using System.IO; // Added for file operations
+using Newtonsoft.Json; // Added for JSON operations
+using Newtonsoft.Json.Linq; // Added for JObject
+using System; // Added for StringComparison
 
 namespace IntuneAssignments.Backend.Utilities
 {
@@ -970,6 +974,9 @@ namespace IntuneAssignments.Backend.Utilities
             
         }
 
+
+
+
         public static async Task<List<string>> GetAppPermissions()
         {
 
@@ -1591,6 +1598,106 @@ namespace IntuneAssignments.Backend.Utilities
                 }
             }
             return true;
+        }
+
+        
+        /// <summary>
+        /// Saves tenant configuration details (Tenant Friendly Name, Tenant ID, Client ID) to a specified JSON file.
+        /// If the tenant friendly name already exists (case-insensitive), it updates the existing entry.
+        /// Otherwise, it adds a new entry for the tenant.
+        /// The method avoids writing to the file if the existing TenantID and ClientID are the same as the provided ones.
+        /// </summary>
+        /// <param name="tenantFriendlyName">The friendly name for the tenant.</param>
+        /// <param name="tenantId">The Tenant ID (Directory ID).</param>
+        /// <param name="clientId">The Client ID (Application ID).</param>
+        /// <param name="filePath">The full path to the JSON file where the configuration will be saved.</param>
+        public static void SaveTenantConfigurationToJson(string tenantFriendlyName, string tenantId, string clientId, string filePath)
+        {
+            try
+            {
+                JObject tenantsJson;
+                bool requiresWrite = false;
+
+                // Check if the directory exists, if not, create it
+                string directoryPath = Path.GetDirectoryName(filePath);
+                if (!string.IsNullOrEmpty(directoryPath) && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                    WriteToLog($"Created directory: {directoryPath}");
+                }
+
+                if (File.Exists(filePath))
+                {
+                    string existingJson = File.ReadAllText(filePath);
+                    if (string.IsNullOrWhiteSpace(existingJson))
+                    {
+                        tenantsJson = new JObject();
+                    }
+                    else
+                    {
+                        try
+                        {
+                            tenantsJson = JObject.Parse(existingJson);
+                        }
+                        catch (JsonReaderException ex)
+                        {
+                            WriteToLog($"Error parsing existing JSON file at {filePath}: {ex.Message}. Initializing a new JObject.");
+                            tenantsJson = new JObject(); // Initialize new if parsing fails
+                        }
+                    }
+                }
+                else
+                {
+                    tenantsJson = new JObject();
+                }
+
+                // Find existing tenant (case-insensitive)
+                var existingTenantProperty = tenantsJson.Properties()
+                    .FirstOrDefault(p => p.Name.Equals(tenantFriendlyName, StringComparison.OrdinalIgnoreCase));
+
+                if (existingTenantProperty != null)
+                {
+                    // Update existing tenant
+                    JObject tenantDetails = (JObject)existingTenantProperty.Value;
+                    string? existingTenantId = tenantDetails["TenantID"]?.ToString();
+                    string? existingClientId = tenantDetails["ClientID"]?.ToString();
+
+                    if (!string.Equals(existingTenantId, tenantId, StringComparison.OrdinalIgnoreCase) || 
+                        !string.Equals(existingClientId, clientId, StringComparison.OrdinalIgnoreCase))
+                    {
+                        tenantDetails["TenantID"] = tenantId;
+                        tenantDetails["ClientID"] = clientId;
+                        WriteToLog($"Updated configuration for tenant '{existingTenantProperty.Name}' in {filePath}");
+                        requiresWrite = true;
+                    }
+                    else
+                    {
+                        WriteToLog($"Configuration for tenant '{existingTenantProperty.Name}' in {filePath} is already up-to-date. No changes made.");
+                    }
+                }
+                else
+                {
+                    // Add new tenant
+                    JObject tenantDetails = new JObject
+                    {
+                        { "TenantID", tenantId },
+                        { "ClientID", clientId }
+                    };
+                    tenantsJson[tenantFriendlyName] = tenantDetails;
+                    WriteToLog($"Saved new configuration for tenant '{tenantFriendlyName}' to {filePath}");
+                    requiresWrite = true;
+                }
+
+                if (requiresWrite)
+                {
+                    File.WriteAllText(filePath, tenantsJson.ToString(Formatting.Indented));
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex, $"Error saving tenant configuration for '{tenantFriendlyName}' to JSON file {filePath}");
+                // Optionally rethrow or handle more gracefully depending on application needs
+            }
         }
     }
 }

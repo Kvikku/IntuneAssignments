@@ -183,7 +183,12 @@ namespace IntuneAssignments.Presentation.Import
 
         private async void btnLogin_Click(object sender, EventArgs e)
         {
-            //saveSourceFile();
+            // Save settings to json file
+            var tenantName = tBTenantName.Text;
+            var tenantID = tBTenantID.Text;
+            var clientID = tBClientID.Text;
+
+            SaveTenantConfigurationToJson(tenantName, tenantID, clientID, sourceTenantSettingsFile);
 
             // Authenticate and log in to the source tenant
 
@@ -195,6 +200,8 @@ namespace IntuneAssignments.Presentation.Import
 
 
             WriteToLog($"Source Tenant '{sourceTenantName}' authenticated successfully.");
+
+
 
             this.Close();
         }

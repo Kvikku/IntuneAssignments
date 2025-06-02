@@ -131,10 +131,14 @@ namespace IntuneAssignments.Presentation.Import
 
         private async void btnLogin_Click(object sender, EventArgs e)
         {
-            //saveDestinationFile();
+            // Save settings to json file
+            var tenantName = tBTenantName.Text;
+            var tenantID = tBTenantID.Text;
+            var clientID = tBClientID.Text;
 
-            // TODO - Authenticate
+            SaveTenantConfigurationToJson(tenantName, tenantID, clientID, destinationTenantSettingsFile);
 
+            // Authenticate
             await AuthenticateToDestinationTenant();
 
             // This check is a band aid solution
