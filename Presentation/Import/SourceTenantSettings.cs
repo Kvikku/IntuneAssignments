@@ -202,7 +202,7 @@ namespace IntuneAssignments.Presentation.Import
         private void btnOpenFolder_Click(object sender, EventArgs e)
         {
             // Open the folder where the source tenant settings file is stored
-            System.Diagnostics.Process.Start("explorer.exe", sourceTenantSettingsFile);
+            System.Diagnostics.Process.Start("explorer.exe", appDataFolder);
         }
 
         private void btnCheckPermissions_Click(object sender, EventArgs e)
