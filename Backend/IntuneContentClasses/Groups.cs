@@ -178,13 +178,14 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                 foreach (var groupId in groupIds)
                 {
                     Group? sourceGroup = null;
+                    var groupName = ""; // Initialize group name for logging
                     try
                     {
                         // Get the group from the source tenant
                         // Select specific properties to potentially reduce payload size and avoid issues with read-only properties
                         sourceGroup = await sourceGraphServiceClient.Groups[groupId].GetAsync();
                        
-
+                        groupName = sourceGroup.DisplayName ?? "Unnamed Group"; // Use DisplayName or default to "Unnamed Group"
 
                         if (sourceGroup == null)
                         {
@@ -203,7 +204,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
                         if (existingGroups?.Value?.Count > 0)
                         {
-                            rtb.AppendText($"Skipping {ItemType} '{sourceGroup.DisplayName}' (ID: {groupId}): A group with this name already exists in the destination tenant.{Environment.NewLine}");
+                            rtb.AppendText($"Skipping {ItemType} '{sourceGroup.DisplayName}' : A group with this name already exists in the destination tenant.{Environment.NewLine}");
                             WriteToLog($"Skipping {ItemType} '{sourceGroup.DisplayName}' (ID: {groupId}): Name conflict in destination.");
                             continue;
                         }
@@ -228,7 +229,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                         {
                             if (string.IsNullOrWhiteSpace(sourceGroup.MembershipRule))
                             {
-                                rtb.AppendText($"Skipping Dynamic {ItemType} '{sourceGroup.DisplayName}' (ID: {groupId}): Membership rule is missing or empty in source.{Environment.NewLine}");
+                                rtb.AppendText($"Skipping Dynamic {ItemType} '{sourceGroup.DisplayName}': Membership rule is missing or empty in source.{Environment.NewLine}");
                                 WriteToLog($"Skipping Dynamic {ItemType} '{sourceGroup.DisplayName}' (ID: {groupId}): Missing membership rule.");
                                 continue; // Cannot create dynamic group without a rule
                             }
@@ -248,7 +249,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
                         if (importedGroup != null && !string.IsNullOrEmpty(importedGroup.Id))
                         {
-                            rtb.AppendText($"Successfully imported {ItemType}: {importedGroup.DisplayName} (ID: {importedGroup.Id}){Environment.NewLine}");
+                            rtb.AppendText($"Successfully imported {ItemType}: {importedGroup.DisplayName} {Environment.NewLine}");
                             WriteToLog($"Successfully imported {ItemType}: {importedGroup.DisplayName} (ID: {importedGroup.Id})");
 
                             // Post-import actions (e.g., adding owners/members) could go here.
@@ -256,7 +257,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                         }
                         else
                         {
-                            rtb.AppendText($"Failed to import {ItemType}: {sourceGroup.DisplayName} (ID: {groupId}). The creation process returned null or an empty ID.{Environment.NewLine}");
+                            rtb.AppendText($"Failed to import {ItemType}: {sourceGroup.DisplayName}. The creation process returned null or an empty ID.{Environment.NewLine}");
                             WriteToLog($"Failed to import {ItemType}: {sourceGroup.DisplayName} (ID: {groupId}). Creation returned null/empty ID.");
                         }
                     }

@@ -14,17 +14,6 @@ namespace IntuneAssignments.Backend.Intune_content_classes
 {
     public class SettingsCatalog
     {
-
-        /*
-         * TODO
-         * Search
-         * List all 
-         * Add to dtg
-         * Import content
-         * Assignment
-         * Filter
-         */
-
         public static async Task<List<DeviceManagementConfigurationPolicy>> SearchForSettingsCatalog(GraphServiceClient graphServiceClient, string searchQuery)
         {
             try
