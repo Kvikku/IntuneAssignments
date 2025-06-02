@@ -148,6 +148,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
         {
             try
             {
+                rtb.AppendText(Environment.NewLine);
                 rtb.AppendText($"Importing {profileIDs.Count} Windows Feature Update profiles.\n");
                 WriteToImportStatusFile($"Importing {profileIDs.Count} Windows Feature Update profiles.");
 
@@ -221,13 +222,14 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                         // Log the specific profile ID that failed
                         HandleException(ex, $"Error importing Windows Feature Update profile  {profileName}", false);
                         HandleException(ex, "This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active", false);
-                        rtb.AppendText($"Failed to import Windows Feature Update profile {profileName}\n");
+                        WriteErrorToRTB($"Failed to import Windows Feature Update profile {profileName}\n", rtb);
                         //rtb.AppendText($"This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active\n");
                         WriteToImportStatusFile($"Failed to import Windows Feature Update profile {profileName}: {ex.Message}");
                         WriteToImportStatusFile("This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active");
                     }
                 }
                 rtb.AppendText("Windows Feature Update profile import process finished.\n");
+                rtb.AppendText(Environment.NewLine);
                 WriteToImportStatusFile("Windows Feature Update profile import process finished.");
             }
             catch (Exception ex)

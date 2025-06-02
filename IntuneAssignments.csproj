@@ -15,8 +15,8 @@
     <Content Include="Resources\Icons\V3\IBA_V3_PaleYellow.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Graph.Beta" Version="5.108.0-preview" />
-    <PackageReference Include="Microsoft.Identity.Client" Version="4.72.1-preview" />
+    <PackageReference Include="Microsoft.Graph.Beta" Version="5.109.0-preview" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.73.0-preview" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.0-preview.4.25258.110" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0-preview.4.25258.110" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

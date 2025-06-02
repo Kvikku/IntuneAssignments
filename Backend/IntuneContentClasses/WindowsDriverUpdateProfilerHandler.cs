@@ -162,6 +162,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
         {
             try
             {
+                rtb.AppendText(Environment.NewLine);
                 rtb.AppendText($"Importing {profileIds.Count} Windows Driver Update Profiles.\n"); // Corrected newline
                 WriteToImportStatusFile($"Importing {profileIds.Count} Windows Driver Update Profiles.");
 
@@ -211,13 +212,17 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                         // Log the specific policy ID that failed
                         HandleException(ex, $"Error importing Windows Driver Update policy {profileName}", false);
                         HandleException(ex, "This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active", false);
-                        rtb.AppendText($"Failed to import Windows Driver Update policy {profileName}\n");
+                        WriteErrorToRTB($"Failed to import Windows Driver Update policy {profileName}\n",rtb);
                         //rtb.AppendText($"This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active\n");
                         WriteToImportStatusFile($"Failed to import Windows Driver Update policy {profileName}: {ex.Message}");
                         WriteToImportStatusFile("This is most likely due to the feature not being licensed in the destination tenant. Please check that you have a Windows E3 or higher license active");
                     }
                 }
+                rtb.AppendText("Windows Driver Update policy import process finished.\n");
+                rtb.AppendText(Environment.NewLine);
+                WriteToImportStatusFile("Windows Driver Update policy import process finished.");
             }
+           
             catch (Exception ex)
             {
                 HandleException(ex, "An error occurred during the driver profile import process");

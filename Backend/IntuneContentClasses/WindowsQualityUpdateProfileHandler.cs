@@ -137,6 +137,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
         {
             try
             {
+                rtb.AppendText(Environment.NewLine);
                 rtb.AppendText($"Importing {profileIDs.Count} Windows Quality Update profiles.\n");
                 WriteToImportStatusFile($"Importing {profileIDs.Count} Windows Quality Update profiles.");
 
@@ -203,11 +204,12 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     catch (Exception ex)
                     {
                         HandleException(ex, $"Error importing Windows Quality Update profile {profileName}", false);
-                        rtb.AppendText($"Error importing profile {profileName}\n");
+                        WriteErrorToRTB($"Error importing profile {profileName}\n",rtb);
                         WriteToImportStatusFile($"Error importing profile {profileName}: {ex.Message}");
                     }
                 }
                 rtb.AppendText("Windows Quality Update profile import process finished.\n");
+                rtb.AppendText(Environment.NewLine);
                 WriteToImportStatusFile("Windows Quality Update profile import process finished.");
             }
             catch (Exception ex)
