@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             lblHeader = new Label();
             btnCheckPermissions = new Button();
             btnOpenFolder = new Button();
@@ -40,6 +41,7 @@
             lblTenantID = new Label();
             lblSelectedTenant = new Label();
             cBTenant = new ComboBox();
+            toolTip1 = new ToolTip(components);
             SuspendLayout();
             // 
             // lblHeader
@@ -59,7 +61,7 @@
             btnCheckPermissions.FlatStyle = FlatStyle.Popup;
             btnCheckPermissions.Font = new Font("Consolas", 12F);
             btnCheckPermissions.ForeColor = Color.FromArgb(46, 51, 73);
-            btnCheckPermissions.Location = new Point(2, 169);
+            btnCheckPermissions.Location = new Point(2, 183);
             btnCheckPermissions.Name = "btnCheckPermissions";
             btnCheckPermissions.Size = new Size(172, 32);
             btnCheckPermissions.TabIndex = 38;
@@ -73,11 +75,12 @@
             btnOpenFolder.FlatStyle = FlatStyle.Popup;
             btnOpenFolder.Font = new Font("Consolas", 12F);
             btnOpenFolder.ForeColor = Color.FromArgb(46, 51, 73);
-            btnOpenFolder.Location = new Point(181, 169);
+            btnOpenFolder.Location = new Point(181, 183);
             btnOpenFolder.Name = "btnOpenFolder";
             btnOpenFolder.Size = new Size(127, 32);
             btnOpenFolder.TabIndex = 37;
             btnOpenFolder.Text = "Open folder";
+            toolTip1.SetToolTip(btnOpenFolder, "Opens the folder to the application settings");
             btnOpenFolder.UseVisualStyleBackColor = false;
             btnOpenFolder.Click += btnOpenFolder_Click;
             // 
@@ -87,11 +90,12 @@
             btnLogin.FlatStyle = FlatStyle.Popup;
             btnLogin.Font = new Font("Consolas", 12F);
             btnLogin.ForeColor = Color.FromArgb(46, 51, 73);
-            btnLogin.Location = new Point(314, 169);
+            btnLogin.Location = new Point(314, 183);
             btnLogin.Name = "btnLogin";
             btnLogin.Size = new Size(149, 32);
             btnLogin.TabIndex = 36;
             btnLogin.Text = "Login";
+            toolTip1.SetToolTip(btnLogin, "The login button will save the tenant values to the configuration file");
             btnLogin.UseVisualStyleBackColor = false;
             btnLogin.Click += btnLogin_Click;
             // 
@@ -101,7 +105,7 @@
             tBTenantName.BorderStyle = BorderStyle.FixedSingle;
             tBTenantName.Font = new Font("Consolas", 9.75F);
             tBTenantName.ForeColor = Color.Salmon;
-            tBTenantName.Location = new Point(102, 85);
+            tBTenantName.Location = new Point(102, 93);
             tBTenantName.Name = "tBTenantName";
             tBTenantName.Size = new Size(297, 23);
             tBTenantName.TabIndex = 35;
@@ -111,7 +115,7 @@
             lblTenantFriendlyName.AutoSize = true;
             lblTenantFriendlyName.Font = new Font("Consolas", 9.75F);
             lblTenantFriendlyName.ForeColor = Color.Salmon;
-            lblTenantFriendlyName.Location = new Point(12, 85);
+            lblTenantFriendlyName.Location = new Point(12, 93);
             lblTenantFriendlyName.Name = "lblTenantFriendlyName";
             lblTenantFriendlyName.Size = new Size(84, 15);
             lblTenantFriendlyName.TabIndex = 34;
@@ -123,7 +127,7 @@
             tBClientID.BorderStyle = BorderStyle.FixedSingle;
             tBClientID.Font = new Font("Consolas", 9.75F);
             tBClientID.ForeColor = Color.Salmon;
-            tBClientID.Location = new Point(102, 140);
+            tBClientID.Location = new Point(102, 148);
             tBClientID.Name = "tBClientID";
             tBClientID.Size = new Size(297, 23);
             tBClientID.TabIndex = 33;
@@ -134,7 +138,7 @@
             tBTenantID.BorderStyle = BorderStyle.FixedSingle;
             tBTenantID.Font = new Font("Consolas", 9.75F);
             tBTenantID.ForeColor = Color.Salmon;
-            tBTenantID.Location = new Point(102, 111);
+            tBTenantID.Location = new Point(102, 119);
             tBTenantID.Name = "tBTenantID";
             tBTenantID.Size = new Size(297, 23);
             tBTenantID.TabIndex = 32;
@@ -144,7 +148,7 @@
             lblClientID.AutoSize = true;
             lblClientID.Font = new Font("Consolas", 9.75F);
             lblClientID.ForeColor = Color.Salmon;
-            lblClientID.Location = new Point(12, 140);
+            lblClientID.Location = new Point(12, 148);
             lblClientID.Name = "lblClientID";
             lblClientID.Size = new Size(70, 15);
             lblClientID.TabIndex = 31;
@@ -155,7 +159,7 @@
             lblTenantID.AutoSize = true;
             lblTenantID.Font = new Font("Consolas", 9.75F);
             lblTenantID.ForeColor = Color.Salmon;
-            lblTenantID.Location = new Point(12, 111);
+            lblTenantID.Location = new Point(12, 119);
             lblTenantID.Name = "lblTenantID";
             lblTenantID.Size = new Size(70, 15);
             lblTenantID.TabIndex = 30;
@@ -223,5 +227,6 @@
         private Label lblTenantID;
         private Label lblSelectedTenant;
         private ComboBox cBTenant;
+        private ToolTip toolTip1;
     }
 }

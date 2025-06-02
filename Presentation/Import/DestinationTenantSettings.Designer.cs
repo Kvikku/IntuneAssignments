@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             tBTenantName = new TextBox();
             lblTenantFriendlyName = new Label();
             tBClientID = new TextBox();
@@ -40,6 +41,7 @@
             lblHeader = new Label();
             lblSelectedTenant = new Label();
             cBTenant = new ComboBox();
+            toolTip1 = new ToolTip(components);
             SuspendLayout();
             // 
             // tBTenantName
@@ -147,6 +149,7 @@
             btnLogin.Size = new Size(149, 32);
             btnLogin.TabIndex = 26;
             btnLogin.Text = "Login";
+            toolTip1.SetToolTip(btnLogin, "The login button will save the tenant values to the configuration file");
             btnLogin.UseVisualStyleBackColor = false;
             btnLogin.Click += btnLogin_Click;
             // 
@@ -224,5 +227,6 @@
         private Label lblHeader;
         private Label lblSelectedTenant;
         private ComboBox cBTenant;
+        private ToolTip toolTip1;
     }
 }
