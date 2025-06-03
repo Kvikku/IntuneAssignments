@@ -154,15 +154,17 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
         {
             try
             {
-                rtb.AppendText($"Importing {profileIds.Count} {PolicyType} policies.\n");
-                WriteToImportStatusFile($"Importing {profileIds.Count} {PolicyType} policies.");
-
-
+                rtb.AppendText(Environment.NewLine);
+                rtb.AppendText($"{DateTime.Now.ToString()} - Importing {profileIds.Count} {PolicyType}(s).\n");
+                WriteToImportStatusFile(" ");
+                WriteToImportStatusFile($"{DateTime.Now.ToString()} - Importing {profileIds.Count} {PolicyType}(s).");
 
                 foreach (var profileId in profileIds)
                 {
                     // FIX: Declare sourceProfile outside the try block to be accessible in catch
                     AppleUserInitiatedEnrollmentProfile? sourceProfile = null;
+                    var profileName = string.Empty;
+
                     try
                     {
                         sourceProfile = await sourceGraphServiceClient.DeviceManagement.AppleUserInitiatedEnrollmentProfiles[profileId].GetAsync();
@@ -173,6 +175,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                              WriteToImportStatusFile($"Skipping profile ID {profileId}: Not found in source tenant.");
                              continue;
                         }
+
+                        profileName = sourceProfile.DisplayName ?? "Unknown Profile";
 
                         var newProfile = new AppleUserInitiatedEnrollmentProfile
                         {
@@ -200,45 +204,48 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
                         var importedProfile = await destinationGraphServiceClient.DeviceManagement.AppleUserInitiatedEnrollmentProfiles.PostAsync(newProfile);
 
-                        if (importedProfile != null && !string.IsNullOrEmpty(importedProfile.Id))
-                        {
-                            rtb.AppendText($"Imported profile: {importedProfile.DisplayName}\n");
-                            WriteToImportStatusFile($"Imported profile: {importedProfile.DisplayName} (ID: {importedProfile.Id})");
+                        rtb.AppendText($"Successfully imported {importedProfile.DisplayName}\n");
+                        WriteToImportStatusFile($"Successfully imported {importedProfile.DisplayName}");
 
-                            if (assignments && groups != null && groups.Any())
-                            {
-                                await AssignGroupsToSingleAppleBYODEnrollmentProfile(importedProfile.Id, groups, destinationGraphServiceClient, filter);
-                            }
-                        }
-                        else
+                        if (assignments && groups != null && groups.Any())
                         {
-                             rtb.AppendText($"Failed to import profile: {sourceProfile.DisplayName} (ID: {profileId}). Result or ID was null.\n");
-                             WriteToImportStatusFile($"Failed to import profile: {sourceProfile.DisplayName} (ID: {profileId}). Result or ID was null.");
+                            await AssignGroupsToSingleAppleBYODEnrollmentProfile(importedProfile.Id, groups, destinationGraphServiceClient, filter);
                         }
+
+                        // TODO - delete this code block if not needed
+
+                        //if (importedProfile != null && !string.IsNullOrEmpty(importedProfile.Id))
+                        //{
+                        //    rtb.AppendText($"Successfully imported {importedProfile.DisplayName}\n");
+                        //    WriteToImportStatusFile($"Successfully imported {importedProfile.DisplayName}");
+
+                        //    if (assignments && groups != null && groups.Any())
+                        //    {
+                        //        await AssignGroupsToSingleAppleBYODEnrollmentProfile(importedProfile.Id, groups, destinationGraphServiceClient, filter);
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //     rtb.AppendText($"Error importing {sourceProfile.DisplayName}\n");
+                        //     WriteToImportStatusFile($"Error importing {sourceProfile.DisplayName} (ID: {profileId}).");
+                        //}
                     }
                     catch (Exception ex)
                     {
-                        string profileIdentifier = $"profile ID {profileId}";
-                        // FIX: Use the sourceProfile variable declared outside the try block
-                        if (sourceProfile != null && !string.IsNullOrEmpty(sourceProfile.DisplayName))
-                        {
-                            profileIdentifier = $"profile '{sourceProfile.DisplayName}' (ID: {profileId})";
-                        }
-                        // Removed redundant GetAsync call inside catch block
-
-                        HandleException(ex, $"Error importing {profileIdentifier}", false);
-                        rtb.AppendText($"Failed to import {profileIdentifier}: {ex.Message}\n");
-                        WriteToImportStatusFile($"Failed to import {profileIdentifier}: {ex.Message}");
+                        WriteErrorToRTB($"Failed to import {profileName}\n",rtb);
+                        WriteToImportStatusFile($"Failed to import {profileName}: {ex.Message}",LogType.Error);
                     }
                 }
-                 rtb.AppendText($"Finished importing {PolicyType} policies.\n");
-                 WriteToImportStatusFile($"Finished importing {PolicyType} policies.");
             }
             catch (Exception ex)
             {
-                HandleException(ex, $"An error occurred during the {PolicyType} import process");
-                 rtb.AppendText($"An error occurred during the {PolicyType} import process: {ex.Message}\n");
-                 WriteToImportStatusFile($"An error occurred during the {PolicyType} import process: {ex.Message}");
+                WriteErrorToRTB($"An unexpected error occurred during the import process: {ex.Message}", rtb);
+                WriteToImportStatusFile($"An unexpected error occurred during the import process: {ex.Message}", LogType.Error);
+            }
+            finally
+            {
+                rtb.AppendText($"{DateTime.Now.ToString()} - Import process for {PolicyType} completed.\n");
+                WriteToImportStatusFile($" {DateTime.Now.ToString()} - Import process {PolicyType} completed.");
             }
         }
 

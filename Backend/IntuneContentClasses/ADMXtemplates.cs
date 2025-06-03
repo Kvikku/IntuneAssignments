@@ -9,6 +9,7 @@ using Microsoft.Graph.Beta.Models;
 using static IntuneAssignments.Backend.Utilities.FormUtilities;
 using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 using static IntuneAssignments.Backend.IntuneContentClasses.Filters;
+using Windows.Security.Isolation;
 
 namespace IntuneAssignments.Backend.IntuneContentClasses
 {
@@ -142,16 +143,21 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
             }
         }
 
+        
+
         public static async Task ImportMultipleGroupPolicyConfigurations(GraphServiceClient sourceGraphServiceClient, GraphServiceClient destinationGraphServiceClient, DataGridView dtg, List<string> configurationIds, RichTextBox rtb, bool assignments, bool filter, List<string> groups)
         {
             try
             {
-                rtb.AppendText($"Importing {configurationIds.Count} group policy configurations.\n");
-                WriteToImportStatusFile($"Importing {configurationIds.Count} group policy configurations.");
+                rtb.AppendText(Environment.NewLine);
+                rtb.AppendText($"{DateTime.Now.ToString()} - Importing {configurationIds.Count} group policy configurations.\n");
+                WriteToImportStatusFile(" ");
+                WriteToImportStatusFile($"{DateTime.Now.ToString()} - Importing {configurationIds.Count} group policy configurations.");
 
 
                 foreach (var configId in configurationIds)
                 {
+                    var policyName = string.Empty;
                     try
                     {
                         var originalConfig = await sourceGraphServiceClient.DeviceManagement.GroupPolicyConfigurations[configId].GetAsync(requestConfiguration =>
@@ -159,6 +165,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                                 // Expand settings if needed
                                 //requestConfiguration.QueryParameters.Expand = new[] { "settings" };
                             });
+
+                        policyName = originalConfig.DisplayName ?? "Unnamed Policy";
 
                         // get the type of the policy object
                         var typeOfPolicy = originalConfig.GetType();
@@ -191,8 +199,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
                         var import = await destinationGraphServiceClient.DeviceManagement.GroupPolicyConfigurations.PostAsync(groupPolicyConfiguration);
 
-                        rtb.AppendText($"Imported group policy configuration: {import.DisplayName}\n");
-                        WriteToImportStatusFile($"Imported group policy configuration: {import.DisplayName}");
+                        rtb.AppendText($"Successfully imported: {import.DisplayName}\n");
+                        WriteToImportStatusFile($"Successfully imported: {import.DisplayName}");
 
                         if (assignments)
                         {
@@ -201,17 +209,22 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     }
                     catch (Exception ex)
                     {
-                        HandleException(ex, $"Error importing group policy configuration {configId}", false);
-
-                        // Change color of the error output text to red and then reset it for the next text entry
-
-                        rtb.AppendText(ex.Message + Environment.NewLine);
+                        WriteErrorToRTB($"Error importing {policyName}\n",rtb);
+                        WriteToImportStatusFile($"Error importing {policyName}",LogType.Error);
                     }
                 }
             }
             catch (Exception ex)
             {
-                HandleException(ex, "An error occurred during the import process", false);
+                WriteErrorToRTB($"An unexpected error occurred during the import process: {ex.Message}", rtb);
+                WriteToImportStatusFile($"An unexpected error occurred during the import process: {ex.Message}", LogType.Error);
+            }
+            finally
+            {
+                rtb.AppendText(Environment.NewLine);
+                rtb.AppendText($"{DateTime.Now.ToString()} - Import process for Group Policy Configurations has completed.\n");
+                WriteToImportStatusFile(" ");
+                WriteToImportStatusFile($" {DateTime.Now.ToString()} - Import process has completed for Group Policy Configurations.");
             }
         }
 

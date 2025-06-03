@@ -177,12 +177,14 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
         {
             try
             {
-                rtb.AppendText($"Importing {policies.Count} device compliance policies.\n");
-                WriteToLog($"Importing {policies.Count} device compliance policies.");
-
+                rtb.AppendText(Environment.NewLine);
+                rtb.AppendText($"{DateTime.Now.ToString()} - Importing {policies.Count} Device Compliance policies.\n");
+                WriteToImportStatusFile(" ");
+                WriteToImportStatusFile($"{DateTime.Now.ToString()} - Importing {policies.Count} Device Compliance policies.");
 
                 foreach (var policy in policies)
                 {
+                    var policyName = string.Empty;
                     try
                     {
                         var result = await sourceGraphServiceClient.DeviceManagement.DeviceCompliancePolicies[policy].GetAsync((requestConfiguration) =>
@@ -191,6 +193,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                         });
 
                         //var rules = await sourceGraphServiceClient.DeviceManagement.DeviceCompliancePolicies[policy].ScheduledActionsForRule.GetAsync();
+
+                        policyName = result.DisplayName;
 
                         // Get the type of the policy with reflection
                         var type = result.GetType();
@@ -261,8 +265,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
 
                         var import = await destinationGraphServiceClient.DeviceManagement.DeviceCompliancePolicies.PostAsync(deviceCompliancePolicy);
-                        rtb.AppendText($"Imported policy: {import.DisplayName}\n");
-                        WriteToLog($"Imported policy: {import.DisplayName}");
+                        rtb.AppendText($"Successfully imported {import.DisplayName}\n");
+                        WriteToLog($"Successfully imported {import.DisplayName}");
 
                         if (assignments)
                         {
@@ -271,15 +275,20 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                     }
                     catch (Exception ex)
                     {
-                        HandleException(ex, "An unexpected error occurred",false);
-                        rtb.AppendText($"Error importing policy {policy}: {ex.Message}\n");
+                        WriteErrorToRTB($"Failed to import {policyName}\n",rtb);
+                        WriteToImportStatusFile($"Failed to import {policyName}: {ex.Message}", LogType.Error);
                     }
                 }
             }
             catch (Exception ex)
             {
-                HandleException(ex, "An unexpected error occurred",false);
-                rtb.AppendText($"An unexpected error occurred: {ex.Message}\n");
+                WriteToImportStatusFile($"An unexpected error occurred during the import process: {ex.Message}", LogType.Error);
+                WriteErrorToRTB($"An unexpected error occurred during the import process. Please check the log file for more information.",rtb);
+            }
+            finally
+            {
+                rtb.AppendText($"{DateTime.Now.ToString()} - Finished importing Device Compliance policies.\n");
+                WriteToImportStatusFile($"{DateTime.Now.ToString()} - Finished importing Device Compliance policies.");
             }
         }
 

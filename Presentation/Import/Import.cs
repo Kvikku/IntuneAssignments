@@ -574,7 +574,8 @@ namespace IntuneAssignments.Presentation.Import
 
             // End of import process
             rtbDeploymentSummary.AppendText(Environment.NewLine);
-            rtbDeploymentSummary.AppendText("Import process completed.\n");
+            rtbDeploymentSummary.AppendText("The Import process has completed.\n");
+            rtbDeploymentSummary.AppendText("Check the Import log for more details.\n");
             rtbDeploymentSummary.AppendText("End time: " + System.DateTime.Now.ToString() + "\n");
             rtbDeploymentSummary.AppendText("==========================\n");
 
