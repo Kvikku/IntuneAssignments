@@ -2,6 +2,7 @@
 using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
 using Microsoft.Graph.Beta.Models.ODataErrors; // Added for ODataError
+using Microsoft.Graph.Beta.Models.Security;
 using Microsoft.Kiota.Abstractions; // Added for RequestInformation
 using System;
 using System.Collections.Generic;
@@ -178,13 +179,16 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
         {
             try
             {
-                rtb.AppendText($"Importing {filterIds.Count} {PolicyType} policies.{Environment.NewLine}");
-                WriteToImportStatusFile($"Importing {filterIds.Count} {PolicyType} policies.");
+                rtb.AppendText(Environment.NewLine);
+                rtb.AppendText($"{DateTime.Now.ToString()} - Importing {filterIds.Count} Assignment filters.\n");
+                WriteToImportStatusFile(" ");
+                WriteToImportStatusFile($"{DateTime.Now.ToString()} - Importing {filterIds.Count} Assignment filters.");
 
 
                 foreach (var filterId in filterIds)
                 {
                     DeviceAndAppManagementAssignmentFilter? sourceFilter = null;
+                    var filterName = string.Empty;
                     try
                     {
                         sourceFilter = await sourceGraphServiceClient.DeviceManagement.AssignmentFilters[filterId].GetAsync();
@@ -195,6 +199,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                              WriteToImportStatusFile($"Skipping filter ID {filterId}: Not found in source tenant.");
                              continue;
                         }
+
+                        filterName = sourceFilter.DisplayName ?? "Unnamed Filter";
 
                         // Create the new filter object based on the source
                         var newFilter = new DeviceAndAppManagementAssignmentFilter
@@ -213,41 +219,25 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
                         var importedFilter = await destinationGraphServiceClient.DeviceManagement.AssignmentFilters.PostAsync(newFilter);
 
-                        if (importedFilter != null && !string.IsNullOrEmpty(importedFilter.Id))
-                        {
-                            rtb.AppendText($"Imported filter: {importedFilter.DisplayName} (ID: {importedFilter.Id}){Environment.NewLine}");
-                            WriteToImportStatusFile($"Imported filter: {importedFilter.DisplayName} (ID: {importedFilter.Id})");
-
-                            // Assignment logic is not applicable here as filters are used *in* assignments, not assigned *to* groups directly.
-                            // If RoleScopeTags need to be copied, that logic would go here.
-                        }
-                        else
-                        {
-                             rtb.AppendText($"Failed to import filter: {sourceFilter.DisplayName} (ID: {filterId}). Result or ID was null.{Environment.NewLine}");
-                             WriteToImportStatusFile($"Failed to import filter: {sourceFilter.DisplayName} (ID: {filterId}). Result or ID was null.");
-                        }
+                        rtb.AppendText($"Successfully imported {importedFilter.DisplayName}\n");
+                        WriteToImportStatusFile($"Successfully imported {importedFilter.DisplayName}\n");
                     }
                     catch (Exception ex)
                     {
-                        string filterIdentifier = $"filter ID {filterId}";
-                        if (sourceFilter != null && !string.IsNullOrEmpty(sourceFilter.DisplayName))
-                        {
-                            filterIdentifier = $"filter '{sourceFilter.DisplayName}' (ID: {filterId})";
-                        }
-
-                        HandleException(ex, $"Error importing {filterIdentifier}", false); // Log without showing message box for each failure in loop
-                        rtb.AppendText($"Failed to import {filterIdentifier}: {ex.Message}{Environment.NewLine}");
-                        WriteToImportStatusFile($"Failed to import {filterIdentifier}: {ex.Message}");
+                        WriteToImportStatusFile($"Failed to import {filterName}\n", LogType.Error);
+                        WriteErrorToRTB($"Failed to import {filterName}\n", rtb);
                     }
                 }
-                 rtb.AppendText($"Finished importing {PolicyType} policies.{Environment.NewLine}");
-                 WriteToImportStatusFile($"Finished importing {PolicyType} policies.");
             }
             catch (Exception ex)
             {
-                HandleException(ex, $"An error occurred during the {PolicyType} import process");
-                 rtb.AppendText($"An error occurred during the {PolicyType} import process: {ex.Message}{Environment.NewLine}");
-                 WriteToImportStatusFile($"An error occurred during the {PolicyType} import process: {ex.Message}");
+                WriteToImportStatusFile($"An unexpected error occurred during the import process: {ex.Message}", LogType.Error);
+                WriteErrorToRTB($"An unexpected error occurred during the import process. Please check the log file for more information.", rtb);
+            }
+            finally
+            {
+                rtb.AppendText($"{DateTime.Now.ToString()} - Finished importing {filterIds.Count} Assignment filters.{Environment.NewLine}");
+                WriteToImportStatusFile($"{DateTime.Now.ToString()} - Finished importing {filterIds.Count} Assignment filters.");
             }
         }
 
