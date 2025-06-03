@@ -1,11 +1,13 @@
-﻿using System;
+﻿using IntuneAssignments.Presentation.Import;
+using Microsoft.Graph;
+using Microsoft.Graph.Beta;
+using Microsoft.Graph.Beta.Models;
+using Microsoft.Graph.Beta.Models.Security;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Graph;
-using Microsoft.Graph.Beta;
-using Microsoft.Graph.Beta.Models;
 using static IntuneAssignments.Backend.Utilities.FormUtilities;
 using static IntuneAssignments.Backend.Utilities.GlobalVariables;
 
@@ -171,8 +173,10 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
             try
             {
-                rtb.AppendText($"Starting import of {groupIds.Count} {ItemType}(s).{Environment.NewLine}");
-                WriteToLog($"Starting import of {groupIds.Count} {ItemType}(s).");
+                rtb.AppendText(Environment.NewLine);
+                rtb.AppendText($"{DateTime.Now.ToString()} - Importing {groupIds.Count} Security groups.\n");
+                WriteToImportStatusFile(" ");
+                WriteToImportStatusFile($"{DateTime.Now.ToString()} - Importing {groupIds.Count} Security groups.");
 
 
                 foreach (var groupId in groupIds)
@@ -184,7 +188,7 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                         // Get the group from the source tenant
                         // Select specific properties to potentially reduce payload size and avoid issues with read-only properties
                         sourceGroup = await sourceGraphServiceClient.Groups[groupId].GetAsync();
-                       
+
                         groupName = sourceGroup.DisplayName ?? "Unnamed Group"; // Use DisplayName or default to "Unnamed Group"
 
                         if (sourceGroup == null)
@@ -195,7 +199,8 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
                         }
 
                         // Optional: Check if a group with the same name already exists in the destination tenant
-                        var existingGroups = await destinationGraphServiceClient.Groups.GetAsync(q => {
+                        var existingGroups = await destinationGraphServiceClient.Groups.GetAsync(q =>
+                        {
                             q.QueryParameters.Filter = $"displayName eq '{sourceGroup.DisplayName?.Replace("'", "''")}'"; // Handle potential apostrophes in name
                             q.QueryParameters.Select = new string[] { "id", "displayName" }; // Only need ID and name for check
                             q.Headers.Add("ConsistencyLevel", "eventual"); // Required for advanced filters like displayName
@@ -246,46 +251,26 @@ namespace IntuneAssignments.Backend.IntuneContentClasses
 
                         // Create the group in the destination tenant
                         var importedGroup = await destinationGraphServiceClient.Groups.PostAsync(newGroup);
+                        rtb.AppendText($"Successfully imported {groupName}\n");
+                        WriteToLog($"Successfully imported {groupName}");
 
-                        if (importedGroup != null && !string.IsNullOrEmpty(importedGroup.Id))
-                        {
-                            rtb.AppendText($"Successfully imported {ItemType}: {importedGroup.DisplayName} {Environment.NewLine}");
-                            WriteToLog($"Successfully imported {ItemType}: {importedGroup.DisplayName} (ID: {importedGroup.Id})");
-
-                            // Post-import actions (e.g., adding owners/members) could go here.
-                            // Be mindful of throttling if adding many members.
-                        }
-                        else
-                        {
-                            rtb.AppendText($"Failed to import {ItemType}: {sourceGroup.DisplayName}. The creation process returned null or an empty ID.{Environment.NewLine}");
-                            WriteToLog($"Failed to import {ItemType}: {sourceGroup.DisplayName} (ID: {groupId}). Creation returned null/empty ID.");
-                        }
-                    }
-                    catch (Microsoft.Graph.Beta.Models.ODataErrors.ODataError odataError)
-                    {
-                        // More specific error handling for Graph API errors
-                        string groupIdentifier = GetGroupIdentifier(sourceGroup, groupId, ItemType);
-                        string errorMessage = odataError.Error?.Message ?? "Unknown OData error";
-                        WriteToLog($"ODataError importing {groupIdentifier}: {errorMessage} (Code: {odataError.Error?.Code})");
-                        rtb.AppendText($"Failed to import {groupIdentifier}: {errorMessage}{Environment.NewLine}");
                     }
                     catch (Exception ex)
                     {
-                        string groupIdentifier = GetGroupIdentifier(sourceGroup, groupId, ItemType);
-                        // Log without showing message box for each failure in loop
-                        WriteToLog($"Error importing {groupIdentifier}: {ex.Message}");
-                        rtb.AppendText($"Failed to import {groupIdentifier}: {ex.ToString()}{Environment.NewLine}"); // Include full exception details in RTB for debugging
+                        WriteErrorToRTB($"Failed to import {groupName}\n", rtb);
+                        WriteToImportStatusFile($"Failed to import {groupName}: {ex.Message}", LogType.Error);
                     }
                 }
-                rtb.AppendText($"Finished importing {ItemType}(s).{Environment.NewLine}");
-                WriteToLog($"Finished importing {ItemType}(s).");
             }
             catch (Exception ex)
             {
-                // Handle overall process error
-                WriteToLog($"An critical error occurred during the {ItemType} import process: {ex.Message}");
-                MessageBox.Show($"An critical error occurred during the {ItemType} import process: {ex.Message}", "Import Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                rtb.AppendText($"An critical error occurred during the {ItemType} import process: {ex.ToString()}{Environment.NewLine}");
+                WriteToImportStatusFile($"An unexpected error occurred during the import process: {ex.Message}", LogType.Error);
+                WriteErrorToRTB($"An unexpected error occurred during the import process. Please check the log file for more information.", rtb);
+            }
+            finally
+            {
+                rtb.AppendText($"{DateTime.Now.ToString()} - Finished importing Security groups.\n");
+                WriteToImportStatusFile($"{DateTime.Now.ToString()} - Finished importing Security groups.");
             }
         }
 
