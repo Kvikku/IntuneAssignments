@@ -4,6 +4,8 @@
 
 I am currently working on migrating this application to a modern, WinUI 3 version. See this repo - https://github.com/Kvikku/IntuneTools
 
+This version right here will not be updated or improved, so I encourage you to check out my new version at the link above!
+
 # Overview
 
 This application aims to solve one big issue I've had with Microsoft Intune for a long time - how to efficiently deploy a large amount of applications and profiles/policies to one or more groups with just a few clicks.
